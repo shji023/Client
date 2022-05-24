@@ -5,12 +5,10 @@ function Input({ id, inputLabel, handlePoCondition, inputValue, lov }) {
     <div>
       <label htmlFor={id}>{inputLabel}</label>
       <select id={id} onChange={(e) => handlePoCondition(id, e.target.value)}>
+      <option value="">선택</option>
         {lov.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-          >
-            {option.name}
+          <option key={option} value={option}>
+            {option}
           </option>
         ))}
       </select>
