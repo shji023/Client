@@ -5,7 +5,7 @@ import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import DataGrid from "react-data-grid";
 import styled from "styled-components";
-
+import { colors } from "assets/styles/color";
 function SelectPoList() {
   const columns = [
     { key: "id", name: "ID" },
@@ -68,35 +68,33 @@ function SelectPoList() {
   return (
     <StyledRoot>
       <section>
-        <div>
-          <button onClick={selectPoList}>조회</button>
-        </div>
+        <ButtonWrapper onClick={selectPoList}>조회</ButtonWrapper>
         <InputContainer>
           <InputWrapper>
             <InputInfo
-                id="RFQ_DESCRIPTION"
-                inputLabel="계약명"
-                handlePoCondition={handlePoCondition}
-                inputValue={poCondition.RFQ_DESCRIPTION}
-              />
-              <InputSearch
-                id="VENDOR_ID"
-                inputLabel="공급사"
-                handlePoCondition={handlePoCondition}
-                inputValue={poCondition.VENDOR_ID}
-              />
-              <InputSelect
-                id="ATTRIBUTE_CATEGORY"
-                inputLabel="계약구분"
-                handlePoCondition={handlePoCondition}
-                lov={poCategoryLov}
-              />
-              <InputSelect
-                id="AUTHORIZATION_STATUS"
-                inputLabel="PO 승인"
-                handlePoCondition={handlePoCondition}
-                lov={poApproveLov}
-              />
+              id="RFQ_DESCRIPTION"
+              inputLabel="계약명"
+              handlePoCondition={handlePoCondition}
+              inputValue={poCondition.RFQ_DESCRIPTION}
+            />
+            <InputSearch
+              id="VENDOR_ID"
+              inputLabel="공급사"
+              handlePoCondition={handlePoCondition}
+              inputValue={poCondition.VENDOR_ID}
+            />
+            <InputSelect
+              id="ATTRIBUTE_CATEGORY"
+              inputLabel="계약구분"
+              handlePoCondition={handlePoCondition}
+              lov={poCategoryLov}
+            />
+            <InputSelect
+              id="AUTHORIZATION_STATUS"
+              inputLabel="PO 승인"
+              handlePoCondition={handlePoCondition}
+              lov={poApproveLov}
+            />
           </InputWrapper>
           <InputWrapper>
             <InputInfo
@@ -150,7 +148,6 @@ function SelectPoList() {
               lov={poTypeLov}
             />
           </InputWrapper>
-          
         </InputContainer>
       </section>
       <section>
@@ -174,4 +171,20 @@ const InputContainer = styled.div`
 `;
 
 const InputWrapper = styled.div`
+  display: flex;
+  margin-bottom: 1rem;
+`;
+
+const ButtonWrapper = styled.button`
+  width: 10rem;
+  height: 4rem;
+  background-color: ${colors.mainBlue};
+  color: white;
+  font-size: 1.6rem;
+  font-family: "Pretendard-Regular";
+  border-radius: 0.7rem;
+  :hover {
+    cursor: pointer;
+  }
+  margin-bottom: 2rem;
 `;

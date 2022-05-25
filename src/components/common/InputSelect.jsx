@@ -1,19 +1,37 @@
 import React from "react";
+import { Select } from 'antd';
+import styled from "styled-components";
 
-function Input({ id, inputLabel, handlePoCondition, lov }) {
+function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
   return (
-    <div>
-      <label htmlFor={id}>{inputLabel}</label>
-      <select id={id} onChange={(e) => handlePoCondition(id, e.target.value)}>
-      <option value="">선택</option>
+    <StyledRoot>
+      <Label htmlFor={id}>{inputLabel}</Label>
+      <Select 
+        defaultValue="선택" 
+        id={id} 
+        onChange={(e) => handlePoCondition(id, e.target.value)}
+      >
+      {/* <option value="">선택</option> */}
         {lov.map((option) => (
-          <option key={option} value={option}>
+          <Select.Option key={option} value={option}>
             {option}
-          </option>
+          </Select.Option>
         ))}
-      </select>
-    </div>
+      </Select>
+    </StyledRoot>
   );
 }
 
-export default Input;
+export default InputSelect;
+
+const StyledRoot = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Label = styled.label`
+  font-size: 1.6rem;
+  width: 10rem;
+  text-align: center;
+`;

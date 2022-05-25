@@ -1,11 +1,9 @@
 import "assets/fonts/font.css";
-
 import { GlobalStyle } from "assets/styles/GlobalStyles";
 import Home from "pages/Home";
 import SelectPoList from "pages/SelectPoList";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import styled from "styled-components";
 import 'antd/dist/antd.min.css';
 import {
   MenuFoldOutlined,
@@ -15,13 +13,16 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-const { Header, Sider, Content } = Layout;
+import styled from 'styled-components';
+
+
 function App() {
+  const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   return (
     <>
       <GlobalStyle />
-      <Layout>
+      <StyledRoot>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu
@@ -76,9 +77,13 @@ function App() {
         </BrowserRouter>
         </Content>
       </Layout>
-    </Layout>
+    </StyledRoot>
     </>
   );
 }
 
 export default App;
+
+const StyledRoot = styled(Layout)`
+  height: 100vh;
+`;

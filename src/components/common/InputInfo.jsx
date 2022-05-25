@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from 'antd';
 import styled from "styled-components";
+
 function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
   return (
     <StyledRoot>

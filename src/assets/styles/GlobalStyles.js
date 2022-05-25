@@ -8,11 +8,11 @@ export const GlobalStyle = createGlobalStyle`
   }
   html {
     font-size: 62.5%;
-    height: 100%;
+    height: 100vh;
   }
   body{
     font-family: "Pretendard-Regular", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    height: 100%;
+    height: 100vh;
   }
   a {
     color: inherit;
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   input, button {
     background-color: transparent;
-    // border: none;
+    border: none;
     // outline: none;
   }
   h1, h2, h3, h4, h5, h6{
