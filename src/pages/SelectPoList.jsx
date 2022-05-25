@@ -4,8 +4,8 @@ import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import DataGrid from "react-data-grid";
+import styled from "styled-components";
 function SelectPoList() {
-
   const columns = [
     { key: "id", name: "ID" },
     { key: "title", name: "Title" },
@@ -65,7 +65,7 @@ function SelectPoList() {
   }, []);
 
   return (
-    <>
+    <StyledRoot>
       <section>
         <div>
           <button onClick={selectPoList}>조회</button>
@@ -89,8 +89,8 @@ function SelectPoList() {
             handlePoCondition={handlePoCondition}
             lov={poCategoryLov}
           />
-          <InputSelect 
-            id="AUTHORIZATION_STATUS" 
+          <InputSelect
+            id="AUTHORIZATION_STATUS"
             inputLabel="PO 승인"
             handlePoCondition={handlePoCondition}
             lov={poApproveLov}
@@ -119,8 +119,8 @@ function SelectPoList() {
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.RFQ_NO}
           />
-          <InputSelect 
-            id="ORGANIZATION_CODE" 
+          <InputSelect
+            id="ORGANIZATION_CODE"
             inputLabel="사소"
             handlePoCondition={handlePoCondition}
             lov={sasoLov}
@@ -137,8 +137,8 @@ function SelectPoList() {
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.BUYER_ID}
           />
-          <InputSelect 
-            id="TYPE_LOOKUP_CODE" 
+          <InputSelect
+            id="TYPE_LOOKUP_CODE"
             inputLabel="Type"
             handlePoCondition={handlePoCondition}
             lov={poTypeLov}
@@ -148,8 +148,15 @@ function SelectPoList() {
       <section>
         <DataGrid columns={columns} rows={rows} onRowsChange={setRows} />
       </section>
-    </>
+    </StyledRoot>
   );
 }
 
 export default SelectPoList;
+
+const StyledRoot = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;

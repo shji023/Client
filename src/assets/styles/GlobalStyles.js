@@ -14,7 +14,6 @@ export const GlobalStyle = createGlobalStyle`
   body{
     font-family: "Pretendard-Regular", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     height: 100%;
-
   }
   a {
     color: inherit;
