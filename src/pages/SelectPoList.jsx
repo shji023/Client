@@ -1,10 +1,11 @@
-import { getPoList, getPoLov, getSearchPoList } from "apis/po.api";
+import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import Input from "components/common/Input";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import DataGrid from "react-data-grid";
 function SelectPoList() {
+
   const columns = [
     { key: "id", name: "ID" },
     { key: "title", name: "Title" },
@@ -14,38 +15,49 @@ function SelectPoList() {
     { id: 0, title: "Example" },
     { id: 1, title: "Demo" },
   ];
+
   const [rows, setRows] = useState(initialRows);
   const [poCondition, setPoCondition] = useState({
-    contractName: "",
-    suplier: "",
-    poGroup: "",
-    poNum: "",
-    item: "",
-    prNum: "",
-    rfqNum: "",
-    prRequestor: "",
-    buyer: "",
+    RFQ_DESCRIPTION: "",
+    VENDOR_ID: "",
+    ATTRIBUTE_CATEGORY: "",
+    AUTHORIZATION_STATUS: "",
+    PO_NUM: "",
+    ITEM_ID: "",
+    PO_HEADER_ID: "",
+    RFQ_NO: "",
+    ORGANIZATION_CODE: "",
+    REQUEST_PERSON_ID: "",
+    BUYER_ID: "",
+    TYPE_LOOKUP_CODE: "",
   });
-  const [poGroupLov, setPoGroupLov] = useState([]);
-  const [poApprove, setPoApprove] = useState([]);
-  const [saso, setSaso] = useState([]);
-  const [poType, setPoType] = useState([]);
+  const [poCategoryLov, setPoCategoryLov] = useState([]);
+  const [poApproveLov, setPoApproveLov] = useState([]);
+  const [sasoLov, setSasoLov] = useState([]);
+  const [poTypeLov, setPoTypeLov] = useState([]);
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
-
     tempPoCondition[key] = value;
     setPoCondition(tempPoCondition);
   };
+
   const selectPoList = async () => {
     console.log(poCondition);
-
     const poListData = await getSearchPoList(poCondition);
     console.log(poListData);
   };
+
   const getLov = async () => {
-    const data = await getPoLov();
-    data && setPoGroupLov(data);
+    const poCategory = await getPoLov();
+    const poApprove = await getPoApproveLov();
+    const saso = await getSasoLov();
+    const poType = await getPoApproveLov();
+
+    poCategory && setPoCategoryLov(poCategory);
+    poApprove && setPoApproveLov(poApprove);
+    saso && setSasoLov(saso);
+    poType && setPoTypeLov(poType);
   };
 
   useEffect(() => {
@@ -60,63 +72,77 @@ function SelectPoList() {
         </div>
         <div>
           <Input
-            id="contractName"
+            id="RFQ_DESCRIPTION"
             inputLabel="계약명"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.contractName}
+            inputValue={poCondition.RFQ_DESCRIPTION}
           />
           <InputSearch
-            id="suplier"
+            id="VENDOR_ID"
             inputLabel="공급사"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.suplier}
+            inputValue={poCondition.VENDOR_ID}
           />
           <InputSelect
-            id="poGroup"
+            id="ATTRIBUTE_CATEGORY"
             inputLabel="계약구분"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.poGroup}
-            lov={poGroupLov}
+            lov={poCategoryLov}
           />
-          {/* <InputSelect id="poApprove" inputLabel="PO 승인" />*/}
+          <InputSelect 
+            id="AUTHORIZATION_STATUS" 
+            inputLabel="PO 승인"
+            handlePoCondition={handlePoCondition}
+            lov={poApproveLov}
+          />
           <Input
-            id="poNum"
+            id="PO_NUM"
             inputLabel="PO 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.poNum}
+            inputValue={poCondition.PO_NUM}
           />
           <InputSearch
-            id="item"
+            id="ITEM_ID"
             inputLabel="Item"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.item}
+            inputValue={poCondition.ITEM_ID}
           />
           <Input
-            id="prNum"
+            id="PO_HEADER_ID"
             inputLabel="PR 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.prNum}
+            inputValue={poCondition.PO_HEADER_ID}
           />
           <Input
-            id="rfqNum"
+            id="RFQ_NO"
             inputLabel="RFQ번호"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.rfqNum}
+            inputValue={poCondition.RFQ_NO}
           />
-          {/* <InputSelect id="saso" inputLabel="사소" /> */}
+          <InputSelect 
+            id="ORGANIZATION_CODE" 
+            inputLabel="사소"
+            handlePoCondition={handlePoCondition}
+            lov={sasoLov}
+          />
           <InputSearch
-            id="prRequestor"
+            id="REQUEST_PERSON_ID"
             inputLabel="PR 신청자"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.prRequestor}
+            inputValue={poCondition.REQUEST_PERSON_ID}
           />
           <InputSearch
-            id="buyer"
+            id="BUYER_ID"
             inputLabel="Buyer"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.buyer}
+            inputValue={poCondition.BUYER_ID}
           />
-          {/* <InputSelect id="poType" inputLabel="Type" /> */}
+          <InputSelect 
+            id="TYPE_LOOKUP_CODE" 
+            inputLabel="Type"
+            handlePoCondition={handlePoCondition}
+            lov={poTypeLov}
+          />
         </div>
       </section>
       <section>

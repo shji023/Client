@@ -2,6 +2,7 @@ import { serverAxios } from "apis/axios";
 
 const PREFIX_URL = "/po";
 
+// 전체 불러오기 사용x
 export const getPoList = async () => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/po1List`);
@@ -28,7 +29,7 @@ export const getPoList = async () => {
     // };
     return data;
   } catch (err) {
-    throw new Error("Failed to load custom process result");
+    throw new Error("Failed to load");
   }
 };
 
@@ -38,15 +39,43 @@ export const getSearchPoList = async (test) => {
     const { data } = await serverAxios.post(`${PREFIX_URL}/poSearch`,test);
     return data;
   } catch (err) {
-    throw new Error("Failed to load custom process result");
+    throw new Error("Failed to load");
   }
 };
 
 export const getPoLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/poCdv`);
+    const { data } = await serverAxios.get(`${PREFIX_URL}/poCategory`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load custom process result");
+    throw new Error("Failed to load");
   }
 };
+
+export const getPoApproveLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/poApproved`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+export const getSasoLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/poSaso`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+export const getPoTypeLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/poType`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input({ id, inputLabel, handlePoCondition, inputValue, lov }) {
+function Input({ id, inputLabel, handlePoCondition, lov }) {
   return (
     <div>
       <label htmlFor={id}>{inputLabel}</label>
