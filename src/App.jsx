@@ -33,17 +33,27 @@ function App() {
             {
               key: '1',
               icon: <UserOutlined />,
-              label: 'nav 1',
+              label: '구매신청등록',
             },
             {
               key: '2',
               icon: <VideoCameraOutlined />,
-              label: 'nav 2',
+              label: '구매신청조회',
             },
             {
               key: '3',
               icon: <UploadOutlined />,
-              label: 'nav 3',
+              label: 'RFQ조회',
+            },
+            {
+              key: '4',
+              icon: <UploadOutlined />,
+              label: '입찰진행현황조회',
+            },
+            {
+              key: '5',
+              icon: <UploadOutlined />,
+              label: '구메계약대상조회',
             },
           ]}
         />
@@ -85,5 +95,5 @@ function App() {
 export default App;
 
 const StyledRoot = styled(Layout)`
-  height: 100vh;
+  height: 100%;
 `;

@@ -9,7 +9,7 @@ function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
       <Select 
         defaultValue="선택" 
         id={id} 
-        onChange={(e) => handlePoCondition(id, e.target.value)}
+        onChange={(e) => {handlePoCondition(id, e)}}
         style={{ width: 220 }}
       >
       {/* <option value="">선택</option> */}

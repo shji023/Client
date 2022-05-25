@@ -3,21 +3,10 @@ import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
-import DataGrid from "react-data-grid";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
+import DataGridDemo from "components/common/DataGridDemo";
 function SelectPoList() {
-  const columns = [
-    { key: "id", name: "ID" },
-    { key: "title", name: "Title" },
-  ];
-
-  const initialRows = [
-    { id: 0, title: "Example" },
-    { id: 1, title: "Demo" },
-  ];
-
-  const [rows, setRows] = useState(initialRows);
   const [poCondition, setPoCondition] = useState({
     RFQ_DESCRIPTION: "",
     VENDOR_ID: "",
@@ -36,6 +25,7 @@ function SelectPoList() {
   const [poApproveLov, setPoApproveLov] = useState([]);
   const [sasoLov, setSasoLov] = useState([]);
   const [poTypeLov, setPoTypeLov] = useState([]);
+  const [poListData, setPoListData] = useState([]);
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
@@ -44,9 +34,8 @@ function SelectPoList() {
   };
 
   const selectPoList = async () => {
-    console.log(poCondition);
-    const poListData = await getSearchPoList(poCondition);
-    console.log(poListData);
+    const data = await getSearchPoList(poCondition);
+    setPoListData(data);
   };
 
   const getLov = async () => {
@@ -67,8 +56,13 @@ function SelectPoList() {
 
   return (
     <StyledRoot>
+      <Title>
+        PO 목록조회
+      </Title>
       <section>
-        <ButtonWrapper onClick={selectPoList}>조회</ButtonWrapper>
+        <ButtonWrapper>
+          <Button onClick={selectPoList}>조회</Button>
+        </ButtonWrapper>
         <InputContainer>
           <InputWrapper>
             <InputInfo
@@ -150,8 +144,11 @@ function SelectPoList() {
           </InputWrapper>
         </InputContainer>
       </section>
+      <ListCount>
+        건수: 2,164
+      </ListCount>
       <section>
-        <DataGrid columns={columns} rows={rows} onRowsChange={setRows} />
+        <DataGridDemo poListData = { poListData }/>
       </section>
     </StyledRoot>
   );
@@ -176,7 +173,7 @@ const InputWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-const ButtonWrapper = styled.button`
+const Button = styled.button`
   width: 10rem;
   height: 4rem;
   background-color: ${colors.mainBlue};
@@ -188,4 +185,21 @@ const ButtonWrapper = styled.button`
     cursor: pointer;
   }
   margin-bottom: 2rem;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const ListCount = styled.p`
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+`;
+
+const Title = styled.p`
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
 `;
