@@ -10,6 +10,7 @@ function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
         defaultValue="선택" 
         id={id} 
         onChange={(e) => handlePoCondition(id, e.target.value)}
+        style={{ width: 220 }}
       >
       {/* <option value="">선택</option> */}
         {lov.map((option) => (
@@ -32,6 +33,6 @@ const StyledRoot = styled.div`
 
 const Label = styled.label`
   font-size: 1.6rem;
-  width: 10rem;
+  width: 7rem;
   text-align: center;
 `;

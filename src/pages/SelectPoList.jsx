@@ -168,6 +168,7 @@ const StyledRoot = styled.main`
 const InputContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 const InputWrapper = styled.div`
