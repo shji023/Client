@@ -26,7 +26,4 @@ const Label = styled.label`
   font-size: 1.6rem;
   width: 10rem;
   text-align: center;
-  :hover {
-    
-  }
 `;
