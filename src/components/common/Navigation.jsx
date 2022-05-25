@@ -1,6 +1,6 @@
 import { MailOutlined, SettingOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-
+import styled from "styled-components";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -35,7 +35,7 @@ function Navigation () {
   };
 
   return (
-    <Menu
+      <Menu
       onClick={onClick}
       style={{
         width: 256,

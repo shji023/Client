@@ -32,5 +32,5 @@ export default App;
 
 const Main = styled.div`
   display: flex;
-  height: 100%;
+  height: calc(100vh - 10rem);
 `;
