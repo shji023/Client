@@ -164,12 +164,14 @@ const StyledRoot = styled.main`
 `;
 const InputContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  
 `;
 
 const InputWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 

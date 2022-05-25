@@ -8,11 +8,11 @@ export const GlobalStyle = createGlobalStyle`
   }
   html {
     font-size: 62.5%;
-    height: 100vh;
+    height: 100%;
   }
   body{
     font-family: "Pretendard-Regular", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    height: 100vh;
+    height: 100%;
   }
   a {
     color: inherit;

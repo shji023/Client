@@ -10,7 +10,9 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
         type="text" 
         id={id} 
         value={inputValue} 
-        onChange={(e) => handlePoCondition(id, e.target.value)}/>
+        onChange={(e) => handlePoCondition(id, e.target.value)}
+        style={{ width: 200 }}
+      />
     </StyledRoot>
   );
 }
@@ -25,6 +27,6 @@ const StyledRoot = styled.div`
 
 const Label = styled.label`
   font-size: 1.6rem;
-  width: 10rem;
+  width: 8rem;
   text-align: center;
 `;
