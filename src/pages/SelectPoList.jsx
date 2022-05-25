@@ -166,7 +166,11 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   /* flex-wrap: wrap; */
-  
+  border: 1px solid rgb(225 225 225 / 87%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  padding-top: 2rem;
+  padding-right: 2rem;
 `;
 
 const InputWrapper = styled.div`
