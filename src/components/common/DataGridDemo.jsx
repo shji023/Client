@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
-// 참고용
+// 참고용1
 const columns1 = [
   { field: "id", headerName: "ID", width: 90 },
   {
