@@ -13,7 +13,7 @@ function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
         }}
         style={{ width: 200 }}
       >
-        {/* <option value="">선택</option> */}
+        <Select.Option value="">선택</Select.Option>
         {lov.map((option) => (
           <Select.Option key={option} value={option}>
             {option}
