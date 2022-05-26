@@ -64,7 +64,6 @@ function SelectPoList() {
           <Button onClick={selectPoList}>조회</Button>
         </ButtonWrapper>
         <InputContainer>
-          <InputWrapper>
             <InputInfo
               id="RFQ_DESCRIPTION"
               inputLabel="계약명"
@@ -89,8 +88,6 @@ function SelectPoList() {
               handlePoCondition={handlePoCondition}
               lov={poApproveLov}
             />
-          </InputWrapper>
-          <InputWrapper>
             <InputInfo
               id="PO_NUM"
               inputLabel="PO 번호"
@@ -115,8 +112,6 @@ function SelectPoList() {
               handlePoCondition={handlePoCondition}
               inputValue={poCondition.RFQ_NO}
             />
-          </InputWrapper>
-          <InputWrapper>
             <InputSelect
               id="ORGANIZATION_CODE"
               inputLabel="사소"
@@ -141,7 +136,6 @@ function SelectPoList() {
               handlePoCondition={handlePoCondition}
               lov={poTypeLov}
             />
-          </InputWrapper>
         </InputContainer>
       </section>
       <ListCount>
@@ -163,20 +157,12 @@ const StyledRoot = styled.main`
   height: 100%;
 `;
 const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
-  padding: 1rem;
-  padding-top: 2rem;
-  padding-right: 2rem;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 2rem 0.5rem;
+  gap: 1rem;
 `;
 
 const Button = styled.button`
