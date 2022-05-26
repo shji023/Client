@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
-import './DataGridDemo.css';
+
 // 참고용
 const columns1 = [
   { field: "id", headerName: "ID", width: 90 },
@@ -120,5 +120,14 @@ const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 뒷 배경 설정*/
   & ::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
+  }
+
+  .MuiDataGrid-row:nth-child(even){
+    background-color: aliceblue;
+  }
+
+  .MuiDataGrid-columnHeaders{
+    background-color: #005386;
+    color:white;
   }
 `;
