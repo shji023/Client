@@ -1,18 +1,18 @@
+import { Input } from "antd";
 import React from "react";
-import { Input } from 'antd';
 import styled from "styled-components";
 
 function InputSearch({ id, inputLabel, handlePoCondition, inputValue }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-        <Input.Search
-          allowClear
-          type="text" 
-          id={id} 
-          value={inputValue} 
-          onChange={(e) => handlePoCondition(id, e.target.value)}
-          style={{ width: 200 }}
+      <Input.Search
+        allowClear
+        type="text"
+        id={id}
+        value={inputValue}
+        onChange={(e) => handlePoCondition(id, e.target.value)}
+        style={{ width: 200 }}
       />
     </StyledRoot>
   );

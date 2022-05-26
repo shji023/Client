@@ -1,15 +1,15 @@
+import { Input } from "antd";
 import React from "react";
-import { Input } from 'antd';
 import styled from "styled-components";
 
 function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <Input 
-        type="text" 
-        id={id} 
-        value={inputValue} 
+      <Input
+        type="text"
+        id={id}
+        value={inputValue}
         onChange={(e) => handlePoCondition(id, e.target.value)}
         style={{ width: 200 }}
       />

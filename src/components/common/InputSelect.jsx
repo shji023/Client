@@ -1,18 +1,19 @@
+import { Select } from "antd";
 import React from "react";
-import { Select } from 'antd';
 import styled from "styled-components";
-
 function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <Select 
-        defaultValue="선택" 
-        id={id} 
-        onChange={(e) => {handlePoCondition(id, e)}}
+      <Select
+        defaultValue="선택"
+        id={id}
+        onChange={(e) => {
+          handlePoCondition(id, e);
+        }}
         style={{ width: 200 }}
       >
-      {/* <option value="">선택</option> */}
+        {/* <option value="">선택</option> */}
         {lov.map((option) => (
           <Select.Option key={option} value={option}>
             {option}
@@ -22,7 +23,6 @@ function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
     </StyledRoot>
   );
 }
-
 export default InputSelect;
 
 const StyledRoot = styled.div`

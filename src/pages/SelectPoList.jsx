@@ -1,11 +1,11 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
+import { colors } from "assets/styles/color";
+import DataGridDemo from "components/common/DataGridDemo";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { colors } from "assets/styles/color";
-import DataGridDemo from "components/common/DataGridDemo";
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
     RFQ_DESCRIPTION: "",
@@ -29,12 +29,14 @@ function SelectPoList() {
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
+
     tempPoCondition[key] = value;
     setPoCondition(tempPoCondition);
   };
 
   const selectPoList = async () => {
     const data = await getSearchPoList(poCondition);
+
     setPoListData(data);
   };
 
@@ -56,93 +58,89 @@ function SelectPoList() {
 
   return (
     <StyledRoot>
-      <Title>
-        PO 목록조회
-      </Title>
+      <Title>PO 목록조회</Title>
       <section>
         <ButtonWrapper>
           <Button onClick={selectPoList}>조회</Button>
         </ButtonWrapper>
         <InputContainer>
-            <InputInfo
-              id="RFQ_DESCRIPTION"
-              inputLabel="계약명"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.RFQ_DESCRIPTION}
-            />
-            <InputSearch
-              id="VENDOR_ID"
-              inputLabel="공급사"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.VENDOR_ID}
-            />
-            <InputSelect
-              id="ATTRIBUTE_CATEGORY"
-              inputLabel="계약구분"
-              handlePoCondition={handlePoCondition}
-              lov={poCategoryLov}
-            />
-            <InputSelect
-              id="AUTHORIZATION_STATUS"
-              inputLabel="PO 승인"
-              handlePoCondition={handlePoCondition}
-              lov={poApproveLov}
-            />
-            <InputInfo
-              id="PO_NUM"
-              inputLabel="PO 번호"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.PO_NUM}
-            />
-            <InputSearch
-              id="ITEM_ID"
-              inputLabel="Item"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.ITEM_ID}
-            />
-            <InputInfo
-              id="PO_HEADER_ID"
-              inputLabel="PR 번호"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.PO_HEADER_ID}
-            />
-            <InputInfo
-              id="RFQ_NO"
-              inputLabel="RFQ번호"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.RFQ_NO}
-            />
-            <InputSelect
-              id="ORGANIZATION_CODE"
-              inputLabel="사소"
-              handlePoCondition={handlePoCondition}
-              lov={sasoLov}
-            />
-            <InputSearch
-              id="REQUEST_PERSON_ID"
-              inputLabel="PR 신청자"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.REQUEST_PERSON_ID}
-            />
-            <InputSearch
-              id="BUYER_ID"
-              inputLabel="Buyer"
-              handlePoCondition={handlePoCondition}
-              inputValue={poCondition.BUYER_ID}
-            />
-            <InputSelect
-              id="TYPE_LOOKUP_CODE"
-              inputLabel="Type"
-              handlePoCondition={handlePoCondition}
-              lov={poTypeLov}
-            />
+          <InputInfo
+            id="RFQ_DESCRIPTION"
+            inputLabel="계약명"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.RFQ_DESCRIPTION}
+          />
+          <InputSearch
+            id="VENDOR_ID"
+            inputLabel="공급사"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.VENDOR_ID}
+          />
+          <InputSelect
+            id="ATTRIBUTE_CATEGORY"
+            inputLabel="계약구분"
+            handlePoCondition={handlePoCondition}
+            lov={poCategoryLov}
+          />
+          <InputSelect
+            id="AUTHORIZATION_STATUS"
+            inputLabel="PO 승인"
+            handlePoCondition={handlePoCondition}
+            lov={poApproveLov}
+          />
+          <InputInfo
+            id="PO_NUM"
+            inputLabel="PO 번호"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.PO_NUM}
+          />
+          <InputSearch
+            id="ITEM_ID"
+            inputLabel="Item"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.ITEM_ID}
+          />
+          <InputInfo
+            id="PO_HEADER_ID"
+            inputLabel="PR 번호"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.PO_HEADER_ID}
+          />
+          <InputInfo
+            id="RFQ_NO"
+            inputLabel="RFQ번호"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.RFQ_NO}
+          />
+          <InputSelect
+            id="ORGANIZATION_CODE"
+            inputLabel="사소"
+            handlePoCondition={handlePoCondition}
+            lov={sasoLov}
+          />
+          <InputSearch
+            id="REQUEST_PERSON_ID"
+            inputLabel="PR 신청자"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.REQUEST_PERSON_ID}
+          />
+          <InputSearch
+            id="BUYER_ID"
+            inputLabel="Buyer"
+            handlePoCondition={handlePoCondition}
+            inputValue={poCondition.BUYER_ID}
+          />
+          <InputSelect
+            id="TYPE_LOOKUP_CODE"
+            inputLabel="Type"
+            handlePoCondition={handlePoCondition}
+            lov={poTypeLov}
+          />
         </InputContainer>
       </section>
-      <ListCount>
-        건수: 2,164
-      </ListCount>
+      <ListCount>건수: 2,164</ListCount>
       <section>
-        <DataGridDemo poListData = { poListData }/>
+        <DataGridDemo poListData={poListData} />
       </section>
     </StyledRoot>
   );
