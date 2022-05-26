@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import styled from 'styled-components';
 
 // 참고용
 const columns1 = [
@@ -68,8 +69,7 @@ const colData = [
   
 ];
 
-
-export default function DataGridDemo({ poListData }) {
+function DataGridDemo({ poListData }) {
 
   const colsData = colData;
   const rowsData = poListData;
@@ -83,7 +83,7 @@ export default function DataGridDemo({ poListData }) {
 
   return (
     <div style={{ height: 650, width: '100%' }}>
-      <DataGrid
+      <StyleDatagrid
         // rows={rows1}
         // columns={columns1}
         rows = {rowsData}
@@ -100,3 +100,28 @@ export default function DataGridDemo({ poListData }) {
     </div>
   );
 }
+
+export default DataGridDemo;
+
+const StyleDatagrid = styled(DataGrid)`
+/* 스크롤바 설정*/
+  & ::-webkit-scrollbar{
+	/*  스크롤바 막대 너비 설정 */
+    width: 6px;
+    height: 6px;
+  }
+
+/* 스크롤바 막대 설정*/
+  & ::-webkit-scrollbar-thumb{
+	 /* 스크롤바 막대 높이 설정    */
+    height: 1em;
+    background-color: rgb(225 225 225 / 87%);
+    /* 스크롤바 둥글게 설정    */
+    border-radius: 10px;    
+  }
+
+/* 스크롤바 뒷 배경 설정*/
+  & ::-webkit-scrollbar-track{
+    background-color: rgba(0,0,0,0);
+  }
+`;
