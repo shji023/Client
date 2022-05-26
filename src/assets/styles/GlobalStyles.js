@@ -26,4 +26,18 @@ export const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6{
     font-family:'Maven Pro', sans-serif;
   }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  // scrollbar 막대
+  *::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(225 225 225 / 87%);
+  }
+  // scrollbar 빈칸
+  *::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
 `;
