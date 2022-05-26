@@ -1,0 +1,10 @@
+
+
+.MuiDataGrid-row:nth-child(even){
+    background-color: aliceblue;
+  }
+
+.MuiDataGrid-columnHeaders{
+    background-color: #005386;
+    color:white;
+  }
