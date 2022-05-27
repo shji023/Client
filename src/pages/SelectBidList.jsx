@@ -1,4 +1,4 @@
-import { getBidList } from "apis/bid.api";
+import { getBidList, getCategoryLov, getStatusLov } from "apis/bid.api";
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
 import DataGridDemo from "components/common/DataGridDemo";
@@ -35,17 +35,17 @@ function SelectBidList() {
     setBidListData(data);
   };
 
-  // const getLov = async () => {
-  //   const bidSearchType = await getPoLov();
-  //   const bidCategory = await getPoApproveLov();
+  const getLov = async () => {
+    const bidSearchType = await getStatusLov();
+    const bidCategory = await getCategoryLov();
 
-  //   bidSearchType && setBidSeacrhTypeLov(bidSearchType);
-  //   bidSearchType && setBidCategoryLov(bidCategory);
-  // };
+    bidSearchType && setBidSeacrhTypeLov(bidSearchType);
+    bidCategory && setBidCategoryLov(bidCategory);
+  };
 
-  // useEffect(() => {
-  //   getLov();
-  // }, []);
+  useEffect(() => {
+    getLov();
+  }, []);
 
   return (
     <StyledRoot>

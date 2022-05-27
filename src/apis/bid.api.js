@@ -32,3 +32,23 @@ export const getBidList = async () => {
     throw new Error("Failed to load");
   }
 };
+
+export const getStatusLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/statusLov`);
+
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+export const getCategoryLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/categoryLov`);
+
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
