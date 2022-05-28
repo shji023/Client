@@ -12,6 +12,7 @@ import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
 import Home from "pages/Home";
 import SelectPoList from "pages/SelectPoList";
+import SelectPrList from "pages/SelectPrList";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
@@ -83,6 +84,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
+                <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>
