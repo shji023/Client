@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, DatePicker } from "antd";
 import React from "react";
 import styled from "styled-components";
 
@@ -6,11 +6,10 @@ function InputDate({ id, inputLabel, handlePoCondition, inputValue }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <Input
-        type="text"
+      <DatePicker
+        showTime
         id={id}
-        value={inputValue}
-        onChange={(e) => handlePoCondition(id, e.target.value)}
+        onChange={(date) => handlePoCondition(id, date.format('YYYY/MM/DD HH:mm:ss'))}
         style={{ width: 200 }}
       />
     </StyledRoot>

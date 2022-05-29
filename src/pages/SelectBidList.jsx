@@ -2,6 +2,7 @@ import { getBidList, getCategoryLov, getStatusLov } from "apis/bid.api";
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
 import DataGridDemo from "components/common/DataGridDemo";
+import InputDate from "components/common/InputDate";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -23,16 +24,17 @@ function SelectBidList() {
   const [bidListData, setBidListData] = useState([]);
 
   const handlePoCondition = (key, value) => {
-    const tempPoCondition = { ...bidCondition };
+    const tempBidCondition = { ...bidCondition };
 
-    tempPoCondition[key] = value;
-    setBidCondition(tempPoCondition);
+    tempBidCondition[key] = value;
+    setBidCondition(tempBidCondition);
   };
 
   const selectBidList = async () => {
     const data = await getBidList();
     console.log(data);
     setBidListData(data);
+    
   };
 
   const getLov = async () => {
@@ -79,13 +81,13 @@ function SelectBidList() {
             handlePoCondition={handlePoCondition}
             inputValue={bidCondition.RFQ_DESCRIPTION}
           />
-          <InputSearch
+          <InputDate
             id="BIDDING_START_DATE"
             inputLabel="요청일"
             handlePoCondition={handlePoCondition}
             inputValue={bidCondition.BIDDING_START_DATE}
           />
-          <InputInfo
+          <InputDate
             id="BIDDING_END_DATE"
             inputLabel="마감일"
             handlePoCondition={handlePoCondition}
