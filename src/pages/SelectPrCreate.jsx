@@ -20,13 +20,9 @@ function selectPrList() {
     BUYER_ID           : "",
     CATEGORY_ID        : "",
   });
-
   // TODO: 변수명 Po -> Pr 로 변경하기
   const [poListData, setPoListData]   = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState(0);
-
-  const [selectionModel, setSelectionModel] = React.useState([]);
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...prCondition };
@@ -37,23 +33,8 @@ function selectPrList() {
   const selectPrList = async () => {
     // !: axios 비동기
     const data = await getSearchPrList(prCondition);
-    console.log("getSearchPrList called : ", data);
+    console.log("selectPrList", data);
     setPoListData(data);
-    // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
-    setDataGridCnt(data.length);
-  };
-
-  // TODO: RFQ 생성 페이지로 데이터 전달하기
-  const cerateRfq = async () => {
-
-    // TODO: Datagrid에서 선택한 값 읽어오기
-    console.log(selectionModel);
-    selectionModel.forEach((value)=>{
-      console.log(poListData[value]);
-    })
-
-    // TODO: RFQ 페이지로 데이터 전달하기 (MobX)
-
   };
 
   const getLov = async () => {
@@ -61,21 +42,18 @@ function selectPrList() {
     statusLov && setPrStatusLov(statusLov);
   };
 
-  // 
-  const getDataGridCheckedId = (newSelectionModel) => {
-    setSelectionModel(newSelectionModel);
-  }
-
   useEffect(() => {
     getLov();
   }, []);
 
   return (
     <StyledRoot>
-      <Title>구매신청조회</Title>
+      <Title>구매신청</Title>
       <section>
         <ButtonWrapper>
-          <Button onClick={selectPrList}>조회</Button>
+          <Button onClick={selectPrList}>저장</Button>
+
+          {/* <Button onClick={selectPrList}>삭제</Button> */}
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
@@ -85,62 +63,47 @@ function selectPrList() {
             inputValue={prCondition.REQUISITION_NUMBER}
           />
           <InputInfo
-            id="DESCRIPTION"
-            inputLabel="건명"
+            id="PREPARER_ID"
+            inputLabel="Preparer"
             handlePoCondition={handlePoCondition}
             inputValue={prCondition.DESCRIPTION}
           />
           <InputSearch
             id="PREPARER_ID"
-            inputLabel="Requester"
+            inputLabel="PR 승인일"
             handlePoCondition={handlePoCondition}
             inputValue={prCondition.PREPARER_ID}
           />
-          <InputSearch
-            id="ITEM_ID"
-            inputLabel="Item"
+          <InputInfo
+            id="DESCRIPTION"
+            inputLabel="PR 명"
             handlePoCondition={handlePoCondition}
             inputValue={prCondition.ITEM_ID}
           />
           <InputInfo
             id="ITEM_DESCRIPTION"
-            inputLabel="사양"
+            inputLabel="금액"
             handlePoCondition={handlePoCondition}
             inputValue={prCondition.ITEM_DESCRIPTION}
           />
           <InputSelect
             id="LINE_STATUS"
-            inputLabel="진행상태"
+            inputLabel="수의사유"
             handlePoCondition={handlePoCondition}
             lov={prStatusLov}
-          />
-          <InputSearch
-            id="BUYER_ID"
-            inputLabel="Buyer"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.BUYER_ID}
-          />
-          <InputInfo
-            id="CATEGORY_ID"
-            inputLabel="Category"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.CATEGORY_ID}
           />
         </InputContainer>
       </section>
       <section>
         <ButtonWrapper>
-          <Button onClick={cerateRfq}>RFQ 생성</Button>
+          <Button onClick={selectPrList}>Line 추가</Button>
+          <Button onClick={selectPrList}>행 복사</Button>
+          <Button onClick={selectPrList}>행 삭제</Button>
         </ButtonWrapper>
-        <ListCount>건수: {dataGridCnt}</ListCount>
       </section>
       <section>
         {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPR 
-          poListData={poListData}
-          onSelectionModelChange={getDataGridCheckedId}
-          selectionModel={selectionModel}
-        />
+        <DataGridPR poListData={poListData} />
       </section>
     </StyledRoot>
   );

@@ -13,6 +13,7 @@ import { GlobalStyle } from "assets/styles/GlobalStyles";
 import Home from "pages/Home";
 import SelectPoList from "pages/SelectPoList";
 import SelectPrList from "pages/SelectPrList";
+import SelectPrCreate from "pages/SelectPrCreate";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
@@ -85,6 +86,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
+                <Route path="/selectPrCreate" element={<SelectPrCreate />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>

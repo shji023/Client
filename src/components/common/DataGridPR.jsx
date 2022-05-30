@@ -49,32 +49,50 @@ const rows1 = [
 
 //TODO: 각 페이지에서 props로 받기
 const colData = [
+  // { field: "id",                headerName: "id",      width: 90, headerAlign: "center" },
   { field: "num",                headerName: "순번",      width: 90, headerAlign: "center" },
   { field: "line_STATUS",        headerName: "Status",    width: 90, headerAlign: "center" },
   { field: "po_NUM",             headerName: "RFQ번호",   width: 90, headerAlign: "center" },
-  { field: "now()-need_BY_DATE", headerName: "경과일",    width: 90, headerAlign: "center" },
+  { field: "dateInterval",       headerName: "경과일",    width: 90, headerAlign: "center",
+    cellClassName: (params) => {
+      if (params.value == null) {
+        return '';
+      }
+
+      // TODO: 사용자가 설정에서 바꿀 수 있도록 하기
+      const limitDay = 100;
+      if(params.value >= limitDay) {
+        return 'DateInterval-warning';
+      }
+      
+    }    
+  },
   { field: "category_ID",        headerName: "Category", width: 90, headerAlign: "center" },
   { field: "requisition_NUMBER", headerName: "PR번호",    width: 90, headerAlign: "center" },
   { field: "description",        headerName: "건명",      width: 90, headerAlign: "center" },
-  { field: "unit_PRICE",         headerName: "금액",      width: 90, headerAlign: "center" },
+  { field: "unit_PRICE",         headerName: "금액",      width: 90, headerAlign: "center",
+    // * 값 출력 형식 변경
+    valueFormatter: ({ value }) => `${value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`
+  },
   { field: "currency_CODE",      headerName: "단위",      width: 90, headerAlign: "center" },
   { field: "need_BY_DATE",       headerName: "요청납기일", width: 90, headerAlign: "center" },
   { field: "preparer_ID",        headerName: "Requester", width: 90, headerAlign: "center" },
   { field: "organization_CODE",  headerName: "사용부서",   width: 90, headerAlign: "center" },
 ];
 
-function DataGridPR({ poListData }) {
+function DataGridPR({ poListData, onSelectionModelChange }) {
 
   const colsData = colData;
   const rowsData = poListData;
 
   // row data에 id 필드 추가
-  let cnt = 1;
+  let cnt = 0;
 
   rowsData.forEach((element) => {
-    element.id = cnt++;
+    element.id = cnt++
+    element.num = cnt;
   });
-  // console.log("result", rowsData);
+  console.log("result", rowsData);
 
   return (
     <div style={{ height: 650, width: "100%" }}>
@@ -88,6 +106,8 @@ function DataGridPR({ poListData }) {
         checkboxSelection
         disableSelectionOnClick
         // loading={loading}
+        onSelectionModelChange={onSelectionModelChange}
+
         components={{ Toolbar: GridToolbar }}
         style={{ fontSize: 15 }}
       />
@@ -127,4 +147,14 @@ const StyleDatagrid = styled(DataGrid)`
     background-color: #005386;
     color:white;
   }
+
+  // DataGrid 헤더 체크박스
+  .MuiDataGrid-columnHeaderTitleContainerContent .MuiCheckbox-root{
+    color: white;
+  }
+
+  .DateInterval-warning {
+    background-color: #ff8080;
+  }
+  
 `;
