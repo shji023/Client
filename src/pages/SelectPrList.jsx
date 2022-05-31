@@ -4,6 +4,7 @@ import DataGridPR from "components/common/DataGridPR";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
+import { getNumberFormat } from "hooks/CommonFunction";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -24,7 +25,7 @@ function selectPrList() {
   // TODO: 변수명 Po -> Pr 로 변경하기
   const [poListData, setPoListData]   = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState(0);
+  const [dataGridCnt, setDataGridCnt] = useState("");
 
   const [selectionModel, setSelectionModel] = React.useState([]);
 
@@ -40,7 +41,7 @@ function selectPrList() {
     console.log("getSearchPrList called : ", data);
     setPoListData(data);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
-    setDataGridCnt(data.length);
+    setDataGridCnt(getNumberFormat(data.length));
   };
 
   // TODO: RFQ 생성 페이지로 데이터 전달하기

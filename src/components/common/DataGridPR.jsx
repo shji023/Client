@@ -1,6 +1,7 @@
 import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
+import { getNumberFormat } from 'hooks/CommonFunction';
 
 // 참고용1
 const columns1 = [
@@ -8,12 +9,6 @@ const columns1 = [
   {
     field: "firstName",
     headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
     width: 150,
     editable: true,
   },
@@ -47,36 +42,38 @@ const rows1 = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
-//TODO: 각 페이지에서 props로 받기
+// TODO: 각 페이지에서 props로 받기
+// TODO: 특정 row 데이터 가운데 정렬하기
 const colData = [
   // { field: "id",                headerName: "id",      width: 90, headerAlign: "center" },
   { field: "num",                headerName: "순번",      width: 90, headerAlign: "center" },
   { field: "line_STATUS",        headerName: "Status",    width: 90, headerAlign: "center" },
-  { field: "po_NUM",             headerName: "RFQ번호",   width: 90, headerAlign: "center" },
+  { field: "po_NUM",             headerName: "RFQ번호",   width: 90, headerAlign: "center",
+    valueFormatter: (params) => {  if (!params.value) return '-';  }
+  },
   { field: "dateInterval",       headerName: "경과일",    width: 90, headerAlign: "center",
+    valueFormatter: (params) => {  
+      if (params.value < 0) params.value = 0;  
+      return params.value + "일";
+    },
     cellClassName: (params) => {
-      if (params.value == null) {
-        return '';
-      }
+      if (params.value == null) return '';
 
       // TODO: 사용자가 설정에서 바꿀 수 있도록 하기
       const limitDay = 100;
-      if(params.value >= limitDay) {
-        return 'DateInterval-warning';
-      }
+      if(params.value >= limitDay)  return 'DateInterval-warning';
       
     }    
   },
   { field: "category_ID",        headerName: "Category", width: 90, headerAlign: "center" },
   { field: "requisition_NUMBER", headerName: "PR번호",    width: 90, headerAlign: "center" },
   { field: "description",        headerName: "건명",      width: 90, headerAlign: "center" },
-  { field: "unit_PRICE",         headerName: "금액",      width: 90, headerAlign: "center",
-    // * 값 출력 형식 변경
-    valueFormatter: ({ value }) => `${value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`
+  { field: "unit_PRICE",         headerName: "금액",      width: 90, type: "number", headerAlign: "center",
+    valueFormatter: ({ value }) => `${getNumberFormat(value)}`
   },
   { field: "currency_CODE",      headerName: "단위",      width: 90, headerAlign: "center" },
   { field: "need_BY_DATE",       headerName: "요청납기일", width: 90, headerAlign: "center" },
-  { field: "preparer_ID",        headerName: "Requester", width: 90, headerAlign: "center" },
+  { field: "preparer_ID",        headerName: "Requester", width: 90,  headerAlign: "center" },
   { field: "organization_CODE",  headerName: "사용부서",   width: 90, headerAlign: "center" },
 ];
 
@@ -97,8 +94,6 @@ function DataGridPR({ poListData, onSelectionModelChange }) {
   return (
     <div style={{ height: 650, width: "100%" }}>
       <StyleDatagrid
-        // rows={rows1}
-        // columns={columns1}
         rows={rowsData}
         columns={colsData}
         pageSize={10}
