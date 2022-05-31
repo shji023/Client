@@ -22,7 +22,7 @@ function SelectRfqList() {
     BUYER_ID: "",
     TYPE_LOOKUP_CODE: "",
     QUOTE_EFFECTIVE_START_DATE: "",
-    QUOTE_EFFECTIVE_END_DATE: "",
+    // QUOTE_EFFECTIVE_END_DATE: "",
   });
 
   // Buyer id 검색창 추가시 사용하기
@@ -80,7 +80,7 @@ function SelectRfqList() {
             lov={rfqStatusLov}
           />
           <InputSelect
-            id="CATEGORY_SEGMENT1"
+            id="CATEGORY_ID"
             inputLabel="Category"
             handlePoCondition={handleRFQCondition}
             lov={rfqCategoryLov}
@@ -97,12 +97,12 @@ function SelectRfqList() {
             handlePoCondition={handleRFQCondition}
             inputValue={rfqCondition.QUOTE_EFFECTIVE_START_DATE}
           />
-          <InputSearch
+          {/* <InputSearch
             id="QUOTE_EFFECTIVE_END_DATE"
             inputLabel="종료일자"
             handlePoCondition={handleRFQCondition}
             inputValue={rfqCondition.QUOTE_EFFECTIVE_END_DATE}
-          />
+          /> */}
         </InputContainer>
       </section>
       {/* TO-DO : select count 로 변경 */}
