@@ -37,7 +37,7 @@ export const getSearchPoList = async (test) => {
   try {
     // TODO: GET 시도해보기
     const { data } = await serverAxios.post(`${PREFIX_URL}/poSearch`, test);
-
+    console.log("data", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
