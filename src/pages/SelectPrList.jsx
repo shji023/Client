@@ -1,6 +1,6 @@
 import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import DataGridPR from "components/common/DataGridPR";
+import DataGridPr from "components/common/DataGridPr";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -137,7 +137,7 @@ function selectPrList() {
       </section>
       <section>
         {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPR 
+        <DataGridPr 
           poListData={poListData}
           onSelectionModelChange={getDataGridCheckedId}
           selectionModel={selectionModel}

@@ -1,6 +1,6 @@
 import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import DataGridPR from "components/common/DataGridPR";
+import DataGridPrLine from "components/common/DataGridPrLine";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -12,17 +12,19 @@ function selectPrList() {
   // 조회 데이터
   const [prCondition, setPrCondition] = useState({
     REQUISITION_NUMBER : "",
-    DESCRIPTION        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
-    PREPARER_ID        : "",
-    ITEM_ID            : "",
-    ITEM_DESCRIPTION   : "",
-    LINE_STATUS        : "",
-    BUYER_ID           : "",
-    CATEGORY_ID        : "",
   });
+
+  // * DataGrid Row 데이터
   // TODO: 변수명 Po -> Pr 로 변경하기
-  const [poListData, setPoListData]   = useState([]);
+  const [poListData, setPoListData]   = useState([
+    { /* id: 0, */ line_NUM: "이동현"},
+    { /* id: 1, */ line_NUM: "임지연"},
+    { /* id: 2, */ line_NUM: "현지영"},
+    { /* id: 3, */ line_NUM: "장정우"},
+    { /* id: 4, */ line_NUM: "이윤성"}
+  ]);
   const [prStatusLov, setPrStatusLov] = useState([]);
+  const [selectionModel, setSelectionModel] = useState([]);
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...prCondition };
@@ -30,17 +32,90 @@ function selectPrList() {
     setPrCondition(tempPoCondition);
   };
 
-  const selectPrList = async () => {
+  const savePr = async () => {
+    console.log("savePr called");
+
     // !: axios 비동기
-    const data = await getSearchPrList(prCondition);
-    console.log("selectPrList", data);
-    setPoListData(data);
+    // const data = await getSearchPrList(prCondition);
+    // console.log("savePr Data", data);
+    // setPoListData(data);
   };
+
+  const removePr = () => {
+    console.log("removePr called");
+  }
 
   const getLov = async () => {
     const statusLov = await getPrSatusLov();
     statusLov && setPrStatusLov(statusLov);
   };
+
+  const createRow = () => {
+    console.log("createRow called" );
+    return { id: selectionModel.length, line_NUM: "123123"};
+  };
+
+  const handleAddRow = () => {
+    setPoListData((prevRows) => {
+      console.log("prevRows", prevRows);
+      return [...prevRows, createRow()]
+    });
+  };
+  
+  const copyRow = () => {
+    console.log("copyRow called" );
+    let temp = [...poListData];
+
+    // 선택된 row index 값
+    console.log("selectionModel", selectionModel); 
+  
+    const arr = [];
+
+    // TODO: 반복횟수 줄이기
+    poListData.forEach((element, idx) => {
+      // console.log("element", element);
+      arr.push(element);
+
+      selectionModel.forEach(id => {
+        if(id === idx) {
+          element = { ...poListData[idx] };
+          arr.push(element);
+        }
+      })
+      
+    })
+    // console.log("arr", arr);
+    
+    setPoListData(arr);
+
+    const tempModel = selectionModel; // [1, 3, 4]
+    tempModel.sort();
+    tempModel.forEach((value, index) => {
+      tempModel[index] = value + index;
+      tempModel.sort();
+    })
+    tempModel.sort();
+    console.log("tempModel", tempModel);
+    setSelectionModel([...tempModel]);
+    
+  }
+  
+  const deleteRow = () => {
+    console.log("deleteRow called" );
+    let temp = [...poListData];
+    selectionModel.reverse().forEach(element => {
+      const row = temp.splice(element, 1);
+      console.log("deleted row", row);
+    });
+    
+    setPoListData(temp);
+    // getDataGridCheckedId([]);
+    setSelectionModel([]);
+  }
+
+  const getDataGridCheckedId = (newSelectionModel) => {
+    setSelectionModel(newSelectionModel);
+  }
 
   useEffect(() => {
     getLov();
@@ -51,9 +126,8 @@ function selectPrList() {
       <Title>구매신청</Title>
       <section>
         <ButtonWrapper>
-          <Button onClick={selectPrList}>저장</Button>
-
-          {/* <Button onClick={selectPrList}>삭제</Button> */}
+          <Button onClick={savePr}>저장</Button>
+          {/* <Button onClick={removePr}>삭제</Button> */}
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
@@ -96,14 +170,18 @@ function selectPrList() {
       </section>
       <section>
         <ButtonWrapper>
-          <Button onClick={selectPrList}>Line 추가</Button>
-          <Button onClick={selectPrList}>행 복사</Button>
-          <Button onClick={selectPrList}>행 삭제</Button>
+          <Button onClick={handleAddRow}>Line 추가</Button>
+          <Button onClick={copyRow}>행 복사</Button>
+          <Button onClick={deleteRow}>행 삭제</Button>
         </ButtonWrapper>
       </section>
       <section>
         {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPR poListData={poListData} />
+        <DataGridPrLine 
+          poListData={poListData} 
+          onSelectionModelChange={getDataGridCheckedId}
+          selectionModel={selectionModel}
+        />
       </section>
     </StyledRoot>
   );

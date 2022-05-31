@@ -45,39 +45,29 @@ const rows1 = [
 // TODO: 각 페이지에서 props로 받기
 // TODO: 특정 row 데이터 가운데 정렬하기
 const colData = [
-  // { field: "id",                headerName: "id",      width: 90, headerAlign: "center" },
-  { field: "num",                headerName: "순번",      width: 90, headerAlign: "center" },
-  { field: "line_STATUS",        headerName: "Status",    width: 90, headerAlign: "center" },
-  { field: "po_NUM",             headerName: "RFQ번호",   width: 90, headerAlign: "center",
-    valueFormatter: (params) => {  if (!params.value) return '-';  }
-  },
-  { field: "dateInterval",       headerName: "경과일",    width: 90, headerAlign: "center",
-    valueFormatter: (params) => {  
-      if (params.value < 0) params.value = 0;  
-      return params.value + "일";
-    },
-    cellClassName: (params) => {
-      if (params.value == null) return '';
-
-      // TODO: 사용자가 설정에서 바꿀 수 있도록 하기
-      const limitDay = 100;
-      if(params.value >= limitDay)  return 'DateInterval-warning';
-      
-    }    
-  },
-  { field: "category_ID",        headerName: "Category", width: 90, headerAlign: "center" },
-  { field: "requisition_NUMBER", headerName: "PR번호",    width: 90, headerAlign: "center" },
-  { field: "description",        headerName: "건명",      width: 90, headerAlign: "center" },
-  { field: "unit_PRICE",         headerName: "금액",      width: 90, type: "number", headerAlign: "center",
-    valueFormatter: ({ value }) => `${getNumberFormat(value)}`
-  },
-  { field: "currency_CODE",      headerName: "단위",      width: 90, headerAlign: "center" },
-  { field: "need_BY_DATE",       headerName: "요청납기일", width: 90, headerAlign: "center" },
-  { field: "preparer_ID",        headerName: "Requester", width: 90,  headerAlign: "center" },
-  { field: "organization_CODE",  headerName: "사용부서",   width: 90, headerAlign: "center" },
+  { field: "id",        headerName: "id",      width: 90, headerAlign: "center" },
+  { field: "line_NUM",  headerName: "Line",      width: 90, headerAlign: "center" },
+  { field: "item_NAME", headerName: "Item",      width: 90, headerAlign: "center" },
+  { field: "category", headerName: "Category",      width: 90, headerAlign: "center" },
+  { field: "spec", headerName: "사양",      width: 90, headerAlign: "center" },
+  { field: "unit", headerName: "단위",      width: 90, headerAlign: "center" },
+  { field: "num123", headerName: "수량",      width: 90, headerAlign: "center" },
+  { field: "amount", headerName: "단가",      width: 90, headerAlign: "center" },
+  { field: "sum(amount)", headerName: "금액",      width: 90, headerAlign: "center" },
+  { field: "tax_CODE", headerName: "Tax Code",      width: 90, headerAlign: "center" },
+  { field: "buyer_ID", headerName: "Buyer",      width: 90, headerAlign: "center" },
+  { field: "note_TO_BUYER", headerName: "Note to Buyer",      width: 90, headerAlign: "center" },
+  { field: "requester", headerName: "Requester",      width: 90, headerAlign: "center" },
+  { field: "need_TO_DATE", headerName: "요청 납기일",      width: 90, headerAlign: "center" },
+  { field: "destination_TYPE", headerName: "DestinationType",      width: 90, headerAlign: "center" },
+  { field: "organization", headerName: "Organization",      width: 90, headerAlign: "center" },
+  { field: "location", headerName: "Location",      width: 90, headerAlign: "center" },
+  { field: "chango", headerName: "창고",      width: 90, headerAlign: "center" },
+  { field: "dist_NUM", headerName: "Dist Num",      width: 90, headerAlign: "center" },
+  { field: "charge_ACCOUNT", headerName: "Charge Account",      width: 90, headerAlign: "center" }
 ];
 
-function DataGridPr({ poListData, onSelectionModelChange }) {
+function DataGridPR({ poListData, selectionModel, onSelectionModelChange }) {
 
   const colsData = colData;
   const rowsData = poListData;
@@ -102,7 +92,7 @@ function DataGridPr({ poListData, onSelectionModelChange }) {
         disableSelectionOnClick
         // loading={loading}
         onSelectionModelChange={onSelectionModelChange}
-
+        selectionModel={selectionModel}
         components={{ Toolbar: GridToolbar }}
         style={{ fontSize: 15 }}
       />
@@ -110,7 +100,7 @@ function DataGridPr({ poListData, onSelectionModelChange }) {
   );
 }
 
-export default DataGridPr;
+export default DataGridPR;
 
 const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 설정*/
