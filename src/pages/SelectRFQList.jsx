@@ -7,6 +7,7 @@ import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({
     RFQ_DESCRIPTION: "",
@@ -25,6 +26,14 @@ function SelectRfqList() {
     // QUOTE_EFFECTIVE_END_DATE: "",
   });
 
+  // const [buyerCondition, setBuyerCondition] = useState({
+  // buyerid를 객체로
+  const [inputValue, setInputValue] = useState({
+    BUYER_ID: "",
+  });
+
+  console.log("inputValue : ", inputValue);
+
   // Buyer id 검색창 추가시 사용하기
   const [rfqBuyerLov, setRfqBuyerLov] = useState([]);
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
@@ -36,6 +45,13 @@ function SelectRfqList() {
 
     tempRfqCondition[key] = value;
     setRfqCondition(tempRfqCondition);
+  };
+
+  const handleVenderCondition = (key, value) => {
+    const tempVenderCondition = { ...venderCondition };
+
+    tempVenderCondition[key] = value;
+    setVenderCondition(tempVenderCondition);
   };
 
   const selectRFQList = async () => {
@@ -71,7 +87,9 @@ function SelectRfqList() {
             id="BUYER_ID"
             inputLabel="Buyer"
             handlePoCondition={handleRFQCondition}
-            lov={rfqBuyerLov}
+            inputValue = {inputValue}
+            // inputValue = {buyerCondition.BUYER_ID}
+            setInputValue={setInputValue}
           />
           <InputSelect
             id="RFQ_STATUS"
@@ -113,8 +131,8 @@ function SelectRfqList() {
     </StyledRoot>
   );
 }
-
 export default SelectRfqList;
+
 
 const StyledRoot = styled.main`
   display: flex;
