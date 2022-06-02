@@ -2,7 +2,7 @@ import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import DataGridPR from "components/common/DataGridPR";
 import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearchBuyer";
+import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
