@@ -2,7 +2,7 @@ import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.a
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/AgGridRFQ";
 import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearchBuyer";
+import InputSearch from "components/rfq/InputSearchBuyer";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
@@ -32,7 +32,7 @@ function SelectRfqList() {
     BUYER_ID: "",
   });
 
-  console.log("inputValue : ", inputValue);
+  // console.log("inputValue : ", inputValue);
 
   // Buyer id 검색창 추가시 사용하기
   const [rfqBuyerLov, setRfqBuyerLov] = useState([]);
