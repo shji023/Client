@@ -1,6 +1,6 @@
-import { Input, DatePicker } from "antd";
+import { DatePicker } from "antd";
 import React from "react";
-import moment from 'moment';
+import moment from "moment";
 import styled from "styled-components";
 
 function InputDate({ id, inputLabel, handleCondition }) {
@@ -10,11 +10,13 @@ function InputDate({ id, inputLabel, handleCondition }) {
       <Label htmlFor={id}>{inputLabel}</Label>
       <RangePicker
         id={id}
-        onChange={(date) => handleCondition(id, date.format('YYYY/MM/DD'))}
+        onChange={(date) =>
+          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+        }
         style={{ width: 300 }}
         ranges={{
           Today: [moment(), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
         }}
       />
     </StyledRoot>

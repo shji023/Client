@@ -3,9 +3,9 @@ import { serverAxios } from "apis/axios";
 const PREFIX_URL = "/bid";
 
 // 전체 불러오기 사용x
-export const getBidList = async () => {
+export const getBidList = async (bidCondition) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/tt`);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`,bidCondition);
     // const { lectures, category, skill } = data.data;
 
     // const result = lectures.map((response) => {

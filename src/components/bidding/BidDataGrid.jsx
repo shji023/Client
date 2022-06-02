@@ -1,133 +1,128 @@
-import React from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import styled from 'styled-components';
+// import React, { useEffect } from 'react';
+// import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+// import styled from 'styled-components';
+// import { bidColData } from 'stores/colData';
 
-// 참고용
-const columns1 = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) => `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
+// function BidDataGrid({ bidListData }) {
+//   const colsData = bidColData;
+//   const rowsData = bidListData;
+//   let cnt = 1;
 
-// 참고용
-const rows1 = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+//   rowsData.forEach((element) => {
+//     element.id = cnt++;
+//   });
+//   return (
+//     <div style={{ height: 650, width: "100%" }}>
+//       <StyleDatagrid
+//         rows={rowsData}
+//         columns={colsData}
+//         pageSize={10}
+//         rowsPerPageOptions={[10]}
+//         checkboxSelection
+//         disableSelectionOnClick
+//         components={{ Toolbar: GridToolbar }}
+//         style={{ fontSize: 15 }}
+//       />
+//     </div>
+//   );
+// }
 
-//TODO: 각 페이지에서 props로 받기
-const colData = [
-  { field: "authorization_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "contract_DATE", headerName: "Order Date", width: 90, headerAlign: "center" },
-  { field: "po_NUM", headerName: "PO", width: 90, headerAlign: "center" },
-  { field: "revision_NUM", headerName: "Rev", width: 90, headerAlign: "center" },
-  { field: "attribute_CATEGORY", headerName: "유형", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "Description", width: 90, headerAlign: "center" },
-  { field: "vendor_ID", headerName: "Supplier", width: 90, headerAlign: "center" },
-  { field: "currency_CODE", headerName: "Currency", width: 90, headerAlign: "center" },
-  { field: "blanket_TOTAL_AMOUNT", headerName: "Amount", width: 90, headerAlign: "center" },
-  { field: "type_LOOKUP_CODE", headerName: "Type", width: 90, headerAlign: "center" },
-  { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "closed_CODE", headerName: "Closuer Status", width: 90, headerAlign: "center" },
-  { field: "cancel_FLAG", headerName: "Cancelled", width: 90, headerAlign: "center" },
-  // { field: 'L.ITEM_ID',             headerName: '품목수',             width: 90, headerAlign: 'center', },
-  // { field: 'organization_CODE',     headerName: 'organization_CODE',  width: 90 },
-  // { field: 'po_HEADER_ID',          headerName: 'po_HEADER_ID',       width: 90 },
-];
+// export default BidDataGrid;
 
-function DataGridDemo({ poListData }) {
-  const colsData = colData;
-  const rowsData = poListData;
+// const StyleDatagrid = styled(DataGrid)`
+//   /* 스크롤바 설정*/
+//   & ::-webkit-scrollbar {
+//     /*  스크롤바 막대 너비 설정 */
+//     width: 6px;
+//     height: 6px;
+//   }
 
-  // row data에 id 필드 추가
-  let cnt = 1;
+//   /* 스크롤바 막대 설정*/
+//   & ::-webkit-scrollbar-thumb {
+//     /* 스크롤바 막대 높이 설정    */
+//     height: 1em;
+//     background-color: rgb(225 225 225 / 87%);
+//     /* 스크롤바 둥글게 설정    */
+//     border-radius: 10px;
+//   }
 
-  rowsData.forEach((element) => {
-    element.id = cnt++;
-  });
-  // console.log("result", rowsData);
+//   /* 스크롤바 뒷 배경 설정*/
+//   & ::-webkit-scrollbar-track {
+//     background-color: rgba(0, 0, 0, 0);
+//   }
+
+//   .MuiDataGrid-row:nth-child(even){
+//     background-color: aliceblue;
+//   }
+
+//   .MuiDataGrid-columnHeaders{
+//     background-color: #005386;
+//     color:white;
+//   }
+// `;
+import React, { useState } from "react";
+import { AgGridReact, AgGridColumn } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+// import "./styles.css";
+import Button from "@mui/material/Button";
+import { bidColFields } from "stores/colData";
+
+const BidDataGrid = ({ listData }) => {
 
   return (
-    <div style={{ height: 650, width: "100%" }}>
-      <StyleDatagrid
-        // rows={rows1}
-        // columns={columns1}
-        rows={rowsData}
-        columns={colsData}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
-        disableSelectionOnClick
-        // loading={loading}
-        components={{ Toolbar: GridToolbar }}
-        style={{ fontSize: 15 }}
-      />
-    </div>
+    <>
+      <div style={{ width: "100%", height: "100%" }}>
+        <div
+          id="myGrid"
+          style={{
+            height: "600px",
+            width: "100%",
+          }}
+          className="ag-theme-alpine"
+        >
+          <AgGridReact
+            rowData={listData}
+            columnDefs={bidColFields}
+            rowSelection={"multiple"}
+            suppressRowClickSelection={false}
+            defaultColDef={{
+              editable: true,
+              sortable: true,
+              minWidth: 100,
+              filter: true,
+              resizable: true,
+              floatingFilter: false,
+              flex: 1,
+            }}
+            sideBar={{
+              toolPanels: ["columns", "filters"],
+              defaultToolPanel: "",
+            }}
+          >
+            <AgGridColumn
+              headerName="..HELLO."
+              headerCheckboxSelection={true}
+              checkboxSelection={true}
+              floatingFilter={false}
+              suppressMenu={true}
+              minWidth={50}
+              maxWidth={50}
+              width={50}
+              flex={0}
+              resizable={false}
+              sortable={false}
+              editable={false}
+              filter={false}
+              suppressColumnsToolPanel={true}
+            />
+            <AgGridColumn />
+            {/* {bidColFields.map((data)=><AgGridColumn key={data.colId} field={data.field} />)} */}
+          </AgGridReact>
+        </div>
+      </div>
+    </>
   );
-}
+};
 
-export default DataGridDemo;
-
-const StyleDatagrid = styled(DataGrid)`
-  /* 스크롤바 설정*/
-  & ::-webkit-scrollbar {
-    /*  스크롤바 막대 너비 설정 */
-    width: 6px;
-    height: 6px;
-  }
-
-  /* 스크롤바 막대 설정*/
-  & ::-webkit-scrollbar-thumb {
-    /* 스크롤바 막대 높이 설정    */
-    height: 1em;
-    background-color: rgb(225 225 225 / 87%);
-    /* 스크롤바 둥글게 설정    */
-    border-radius: 10px;
-  }
-
-  /* 스크롤바 뒷 배경 설정*/
-  & ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
-  }
-
-  .MuiDataGrid-row:nth-child(even){
-    background-color: aliceblue;
-  }
-
-  .MuiDataGrid-columnHeaders{
-    background-color: #005386;
-    color:white;
-  }
-`;
+export default BidDataGrid;

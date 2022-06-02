@@ -1,5 +1,6 @@
 import { getBidList, getCategoryLov, getStatusLov } from "apis/bid.api";
 import { colors } from "assets/styles/color";
+import BidDataGrid from "components/bidding/BidDataGrid";
 import BidInputInfo from "components/bidding/BidInputInfo";
 import BidInputSelect from "components/bidding/BidInputSelect";
 import InputDate from "components/common/InputDate";
@@ -28,10 +29,9 @@ function SelectBidList() {
   };
 
   const selectBidList = async () => {
-    const data = await getBidList();
-    console.log(data);
+    const data = await getBidList(bidCondition);
     setBidListData(data);
-    
+    console.log(data);
   };
 
   const getLov = async () => {
@@ -92,9 +92,9 @@ function SelectBidList() {
           />
         </InputContainer>
       </section>
-      {/* <section>
-        <DataGridDemo poListData={poListData} />
-      </section> */}
+      <section>
+        <BidDataGrid listData={bidListData}/>
+      </section>
     </StyledRoot>
   );
 }
