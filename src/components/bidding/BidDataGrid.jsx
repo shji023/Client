@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-// import "./styles.css";
-import Button from "@mui/material/Button";
 import { bidColFields } from "stores/colData";
 
 const BidDataGrid = ({ listData }) => {
@@ -21,7 +19,6 @@ const BidDataGrid = ({ listData }) => {
         >
           <AgGridReact
             rowData={listData}
-            columnDefs={bidColFields}
             rowSelection={"multiple"}
             suppressRowClickSelection={false}
             defaultColDef={{
@@ -54,8 +51,12 @@ const BidDataGrid = ({ listData }) => {
               filter={false}
               suppressColumnsToolPanel={true}
             />
-            <AgGridColumn />
-            {/* {bidColFields.map((data)=><AgGridColumn key={data.colId} field={data.field} />)} */}
+            {bidColFields.map((data)=><AgGridColumn 
+              key={data.colId} 
+              field={data.field} 
+              headerName={data.headerName} 
+              minWidth={data.minWidth} 
+              />)}
           </AgGridReact>
         </div>
       </div>
