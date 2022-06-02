@@ -7,7 +7,7 @@ import DataGridModal from "./DataGridModal";
 
 function ModalSearch({ id, inputLabel, handlePoCondition, inputValue }) {
 
-  console.log("### inputValue2 ", inputValue);
+  // console.log("inputValue2 ", inputValue);
 
   // const [searchData, setSearchData] = useState([]);
 

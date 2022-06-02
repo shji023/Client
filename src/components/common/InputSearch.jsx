@@ -19,7 +19,7 @@ function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputVa
   
   const SelectSearch = async () => {
     const data = await getSearchBuyerList(inputValue);
-    console.log("data : !!!!!",  data);
+    // console.log("data : !!!!!",  data);
 
     setSearchData(data);
   };
