@@ -2,7 +2,8 @@ import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.a
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/AgGridRFQ";
 import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/rfq/InputSearchBuyer";
+import InputSearchBuyer from "components/rfq/InputSearchBuyer";
+import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
@@ -83,7 +84,7 @@ function SelectRfqList() {
       </ButtonWrapper>
       <section>
         <InputContainer>    
-          <InputSearch
+          <InputSearchBuyer
             id="BUYER_ID"
             inputLabel="Buyer"
             handlePoCondition={handleRFQCondition}
