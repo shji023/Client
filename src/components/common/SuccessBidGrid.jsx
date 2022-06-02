@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
-// 참고용1
+// 참고용
 const columns1 = [
   { field: "id", headerName: "ID", width: 90 },
   {
@@ -49,35 +49,28 @@ const rows1 = [
 
 //TODO: 각 페이지에서 props로 받기
 const colData = [
-  { field: "authorization_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "contract_DATE", headerName: "Order Date", width: 90, headerAlign: "center" },
-  { field: "po_NUM", headerName: "PO", width: 90, headerAlign: "center" },
-  { field: "revision_NUM", headerName: "Rev", width: 90, headerAlign: "center" },
-  { field: "attribute_CATEGORY", headerName: "유형", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "Description", width: 90, headerAlign: "center" },
-  { field: "vendor_ID", headerName: "Supplier", width: 90, headerAlign: "center" },
-  { field: "currency_CODE", headerName: "Currency", width: 90, headerAlign: "center" },
-  { field: "blanket_TOTAL_AMOUNT", headerName: "Amount", width: 90, headerAlign: "center" },
-  { field: "type_LOOKUP_CODE", headerName: "Type", width: 90, headerAlign: "center" },
-  { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "closed_CODE", headerName: "Closuer Status", width: 90, headerAlign: "center" },
-  { field: "cancel_FLAG", headerName: "Cancelled", width: 90, headerAlign: "center" },
-  // { field: 'L.ITEM_ID',             headerName: '품목수',             width: 90, headerAlign: 'center', },
-  // { field: 'organization_CODE',     headerName: 'organization_CODE',  width: 90 },
-  // { field: 'po_HEADER_ID',          headerName: 'po_HEADER_ID',       width: 90 },
+  { field: "id", headerName: "순위", width: 90, headerAlign: "center" },
+  { field: "vendor_NAME", headerName: "입찰사/제작사", width: 450, headerAlign: "center" },
+  { field: "main_CURRENCY", headerName: "입력통화", width: 90, headerAlign: "center" },
+  { field: "quotation_TOTAL_PRICE1", headerName: "응찰가격", width: 90, headerAlign: "center" },
+  { field: "quotation_COMMENT", headerName: "공급사의견", width: 270, headerAlign: "center" }
+  // { field: "rfq_NO", headerName: "낙찰공급사", width: 100, headerAlign: "center" },
+  
 ];
 
-function DataGridDemo({ poListData }) {
+function SuccessBidGrid({bidResultData}) {
   const colsData = colData;
-  const rowsData = poListData;
+  const rowsData = bidResultData;
 
+  console.log( bidResultData);
+  
   // row data에 id 필드 추가
   let cnt = 1;
 
   rowsData.forEach((element) => {
     element.id = cnt++;
   });
-  // console.log("result", rowsData);
+  //console.log("result", rowsData);
 
   return (
     <div style={{ height: 650, width: "100%" }}>
@@ -98,7 +91,7 @@ function DataGridDemo({ poListData }) {
   );
 }
 
-export default DataGridDemo;
+export default SuccessBidGrid;
 
 const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 설정*/

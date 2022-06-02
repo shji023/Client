@@ -1,6 +1,7 @@
 import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
+import { getNumberFormat } from 'hooks/CommonFunction';
 
 // 참고용1
 const columns1 = [
@@ -8,12 +9,6 @@ const columns1 = [
   {
     field: "firstName",
     headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
     width: 150,
     editable: true,
   },
@@ -34,7 +29,7 @@ const columns1 = [
   },
 ];
 
-// 참고용
+// 참고용2
 const rows1 = [
   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
@@ -47,43 +42,58 @@ const rows1 = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
-//TODO: 각 페이지에서 props로 받기
+// TODO: 각 페이지에서 props로 받기
+// TODO: 특정 row 데이터 가운데 정렬하기
 const colData = [
-  { field: "authorization_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "contract_DATE", headerName: "Order Date", width: 90, headerAlign: "center" },
-  { field: "po_NUM", headerName: "PO", width: 90, headerAlign: "center" },
-  { field: "revision_NUM", headerName: "Rev", width: 90, headerAlign: "center" },
-  { field: "attribute_CATEGORY", headerName: "유형", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "Description", width: 90, headerAlign: "center" },
-  { field: "vendor_ID", headerName: "Supplier", width: 90, headerAlign: "center" },
-  { field: "currency_CODE", headerName: "Currency", width: 90, headerAlign: "center" },
-  { field: "blanket_TOTAL_AMOUNT", headerName: "Amount", width: 90, headerAlign: "center" },
-  { field: "type_LOOKUP_CODE", headerName: "Type", width: 90, headerAlign: "center" },
-  { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "closed_CODE", headerName: "Closuer Status", width: 90, headerAlign: "center" },
-  { field: "cancel_FLAG", headerName: "Cancelled", width: 90, headerAlign: "center" },
-  // { field: 'L.ITEM_ID',             headerName: '품목수',             width: 90, headerAlign: 'center', },
-  // { field: 'organization_CODE',     headerName: 'organization_CODE',  width: 90 },
-  // { field: 'po_HEADER_ID',          headerName: 'po_HEADER_ID',       width: 90 },
+  // { field: "id",                headerName: "id",      width: 90, headerAlign: "center" },
+  { field: "num",                headerName: "순번",      width: 90, headerAlign: "center" },
+  { field: "line_STATUS",        headerName: "Status",    width: 90, headerAlign: "center" },
+  { field: "po_NUM",             headerName: "RFQ번호",   width: 90, headerAlign: "center",
+    valueFormatter: (params) => {  if (!params.value) return '-';  }
+  },
+  { field: "dateInterval",       headerName: "경과일",    width: 90, headerAlign: "center",
+    valueFormatter: (params) => {  
+      if (params.value < 0) params.value = 0;  
+      return params.value + "일";
+    },
+    cellClassName: (params) => {
+      if (params.value == null) return '';
+
+      // TODO: 사용자가 설정에서 바꿀 수 있도록 하기
+      const limitDay = 100;
+      if(params.value >= limitDay)  return 'DateInterval-warning';
+      
+    }    
+  },
+  { field: "category_ID",        headerName: "Category", width: 90, headerAlign: "center" },
+  { field: "requisition_NUMBER", headerName: "PR번호",    width: 90, headerAlign: "center" },
+  { field: "description",        headerName: "건명",      width: 90, headerAlign: "center" },
+  { field: "unit_PRICE",         headerName: "금액",      width: 90, type: "number", headerAlign: "center",
+    valueFormatter: ({ value }) => `${getNumberFormat(value)}`
+  },
+  { field: "currency_CODE",      headerName: "단위",      width: 90, headerAlign: "center" },
+  { field: "need_BY_DATE",       headerName: "요청납기일", width: 90, headerAlign: "center" },
+  { field: "preparer_ID",        headerName: "Requester", width: 90,  headerAlign: "center" },
+  { field: "organization_CODE",  headerName: "사용부서",   width: 90, headerAlign: "center" },
 ];
 
-function DataGridDemo({ poListData }) {
+function DataGridPR({ poListData, onSelectionModelChange }) {
+
   const colsData = colData;
   const rowsData = poListData;
 
   // row data에 id 필드 추가
-  let cnt = 1;
+  let cnt = 0;
 
   rowsData.forEach((element) => {
-    element.id = cnt++;
+    element.id = cnt++
+    element.num = cnt;
   });
-  // console.log("result", rowsData);
+  console.log("result", rowsData);
 
   return (
     <div style={{ height: 650, width: "100%" }}>
       <StyleDatagrid
-        // rows={rows1}
-        // columns={columns1}
         rows={rowsData}
         columns={colsData}
         pageSize={10}
@@ -91,6 +101,8 @@ function DataGridDemo({ poListData }) {
         checkboxSelection
         disableSelectionOnClick
         // loading={loading}
+        onSelectionModelChange={onSelectionModelChange}
+
         components={{ Toolbar: GridToolbar }}
         style={{ fontSize: 15 }}
       />
@@ -98,7 +110,7 @@ function DataGridDemo({ poListData }) {
   );
 }
 
-export default DataGridDemo;
+export default DataGridPR;
 
 const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 설정*/
@@ -130,4 +142,14 @@ const StyleDatagrid = styled(DataGrid)`
     background-color: #005386;
     color:white;
   }
+
+  // DataGrid 헤더 체크박스
+  .MuiDataGrid-columnHeaderTitleContainerContent .MuiCheckbox-root{
+    color: white;
+  }
+
+  .DateInterval-warning {
+    background-color: #ff8080;
+  }
+  
 `;
