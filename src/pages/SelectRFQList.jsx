@@ -1,11 +1,10 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
 import { colors } from "assets/styles/color";
-import AgGrid from "components/common/AgGrid";
-import DataGridRFQ from "components/common/DataGridRFQ";
+import AgGridRFQ from "components/common/AgGridRFQ";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 
 
@@ -78,11 +77,11 @@ function SelectRfqList() {
 
   return (
     <StyledRoot>
-      <Title>RFQ 목록조회</Title>
+      <ButtonWrapper>   
+        <Title>RFQ 목록조회</Title>
+        <Button onClick={selectRFQList}>조회</Button>
+      </ButtonWrapper>
       <section>
-        <ButtonWrapper>
-          <Button onClick={selectRFQList}>조회</Button>
-        </ButtonWrapper>
         <InputContainer>    
           <InputSearch
             id="BUYER_ID"
@@ -128,7 +127,7 @@ function SelectRfqList() {
       <ListCount>건수: 2,164</ListCount>
       <section>
         {/* <DataGridRFQ poListData={rfqListData} /> */}
-        <AgGrid listData={rfqListData}/>
+        <AgGridRFQ listData={rfqListData}/>
       </section>
     </StyledRoot>
   );
@@ -142,6 +141,8 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
+
+
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -163,11 +164,11 @@ const Button = styled.button`
     cursor: pointer;
   }
   margin-bottom: 2rem;
+  margin-top: 1.5rem;
 `;
 
 const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  display: flex; 
 `;
 
 const ListCount = styled.p`
@@ -180,10 +181,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  width: 90%;
+  height: 100%;
 `;
 
-const Date = styled.p`
-font-size: 2.0rem;
-margin-bottom: 1rem;
-margin-top: 1.5rem;
-`;
