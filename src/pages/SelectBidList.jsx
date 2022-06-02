@@ -82,13 +82,11 @@ function SelectBidList() {
             id="BIDDING_START_DATE"
             inputLabel="요청일"
             handleCondition={handleBidCondition}
-            inputValue={bidCondition.BIDDING_START_DATE}
           />
           <InputDate
             id="BIDDING_END_DATE"
             inputLabel="마감일"
             handleCondition={handleBidCondition}
-            inputValue={bidCondition.BIDDING_END_DATE}
           />
         </InputContainer>
       </section>

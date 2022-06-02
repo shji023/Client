@@ -3,16 +3,16 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { bidColFields } from "stores/colData";
+import styled from "styled-components";
 
 const BidDataGrid = ({ listData }) => {
-
   return (
-    <>
+    <StyledRoot>
       <div style={{ width: "100%", height: "100%" }}>
         <div
           id="myGrid"
           style={{
-            height: "600px",
+            height: "529px",
             width: "100%",
           }}
           className="ag-theme-alpine"
@@ -34,6 +34,8 @@ const BidDataGrid = ({ listData }) => {
               toolPanels: ["columns", "filters"],
               defaultToolPanel: "",
             }}
+            pagination={true}
+            paginationPageSize={10}
           >
             <AgGridColumn
               headerName="..HELLO."
@@ -60,8 +62,12 @@ const BidDataGrid = ({ listData }) => {
           </AgGridReact>
         </div>
       </div>
-    </>
+    </StyledRoot>
   );
 };
 
 export default BidDataGrid;
+
+const StyledRoot = styled.section`
+  margin-top: 3rem;
+`;
