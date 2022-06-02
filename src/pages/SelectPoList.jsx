@@ -1,6 +1,6 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
-import DataGridDemo from "components/common/DataGridDemo";
+import PoListAgGrid from "components/common/PoListAgGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearchBuyer";
 import InputSelect from "components/common/InputSelect";
@@ -140,7 +140,7 @@ function SelectPoList() {
       </section>
       <ListCount>건수: 2,164</ListCount>
       <section>
-        <DataGridDemo poListData={poListData} />
+        <PoListAgGrid poListData={poListData} />
       </section>
     </StyledRoot>
   );
