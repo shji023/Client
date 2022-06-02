@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
 import SuccessBidGrid from "components/common/SuccessBidGrid";
+import AgGrid from "components/common/AgGrid";
 
 
 
@@ -90,8 +91,8 @@ function SuccessBid(props) {
         
         <section>
             
-            <SuccessBidGrid bidResultData={bidResultData}/>
-            
+            {/* <SuccessBidGrid bidResultData={bidResultData}/> */}
+            <AgGrid bidResultData={bidResultData}></AgGrid>
         </section>
 
     </StyledRoot>

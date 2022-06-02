@@ -16,6 +16,7 @@ import SuccessBid from "pages/SuccessBid";
 import SelectPrList from "pages/SelectPrList";
 import CreatePr from "pages/CreatePr";
 import SelectRFQList from "pages/SelectRFQList";
+import SelectBidList from "pages/SelectBidList";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
@@ -91,6 +92,7 @@ function App() {
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
                 <Route path="/selectRFQList" element={<SelectRFQList />} />
+                <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>
