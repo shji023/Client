@@ -1,8 +1,8 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
 import { colors } from "assets/styles/color";
-import AgGridRFQ from "components/common/AgGridRFQ";
+import AgGridRFQ from "components/rfq/AgGridRFQ";
 import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearch";
+import InputSearch from "components/common/InputSearchBuyer";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";

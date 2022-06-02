@@ -2,7 +2,7 @@ import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.
 import { colors } from "assets/styles/color";
 import DataGridDemo from "components/common/DataGridDemo";
 import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearch";
+import InputSearch from "components/common/InputSearchBuyer";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
