@@ -1,5 +1,6 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
 import { colors } from "assets/styles/color";
+import AgGrid from "components/common/AgGrid";
 import DataGridRFQ from "components/common/DataGridRFQ";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
@@ -126,7 +127,8 @@ function SelectRfqList() {
       {/* TO-DO : select count 로 변경 */}
       <ListCount>건수: 2,164</ListCount>
       <section>
-        <DataGridRFQ poListData={rfqListData} />
+        {/* <DataGridRFQ poListData={rfqListData} /> */}
+        <AgGrid listData={rfqListData}/>
       </section>
     </StyledRoot>
   );
