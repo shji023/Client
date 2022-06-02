@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
-// 참고용1
+// 참고용
 const columns1 = [
   { field: "id", headerName: "ID", width: 90 },
   {
@@ -49,25 +49,16 @@ const rows1 = [
 
 //TODO: 각 페이지에서 props로 받기
 const colData = [
-  { field: "authorization_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "contract_DATE", headerName: "Order Date", width: 90, headerAlign: "center" },
-  { field: "po_NUM", headerName: "PO", width: 90, headerAlign: "center" },
-  { field: "revision_NUM", headerName: "Rev", width: 90, headerAlign: "center" },
-  { field: "attribute_CATEGORY", headerName: "유형", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "Description", width: 90, headerAlign: "center" },
-  { field: "vendor_ID", headerName: "Supplier", width: 90, headerAlign: "center" },
-  { field: "currency_CODE", headerName: "Currency", width: 90, headerAlign: "center" },
-  { field: "blanket_TOTAL_AMOUNT", headerName: "Amount", width: 90, headerAlign: "center" },
-  { field: "type_LOOKUP_CODE", headerName: "Type", width: 90, headerAlign: "center" },
+  { field: "rfq_NO", headerName: "RFQ번호", width: 90, headerAlign: "center" },
+  { field: "rfq_DESCRIPTION", headerName: "건 명", width: 400, headerAlign: "center" },
+  { field: "reply_METHOD_LOOKUP_CODE", headerName: "구매 방법", width: 150, headerAlign: "center" },
+  { field: "rfq_SHIP_TO", headerName: "납품 지역", width: 200, headerAlign: "center" },
   { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "closed_CODE", headerName: "Closuer Status", width: 90, headerAlign: "center" },
-  { field: "cancel_FLAG", headerName: "Cancelled", width: 90, headerAlign: "center" },
-  // { field: 'L.ITEM_ID',             headerName: '품목수',             width: 90, headerAlign: 'center', },
-  // { field: 'organization_CODE',     headerName: 'organization_CODE',  width: 90 },
-  // { field: 'po_HEADER_ID',          headerName: 'po_HEADER_ID',       width: 90 },
+  { field: "quote_EFFECTIVE_START_DATE", headerName: "등록일", width: 90, headerAlign: "center" },
+  { field: "rfq_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
 ];
 
-function DataGridDemo({ poListData }) {
+function DataGridRFQ({ poListData }) {
   const colsData = colData;
   const rowsData = poListData;
 
@@ -82,15 +73,12 @@ function DataGridDemo({ poListData }) {
   return (
     <div style={{ height: 650, width: "100%" }}>
       <StyleDatagrid
-        // rows={rows1}
-        // columns={columns1}
         rows={rowsData}
         columns={colsData}
         pageSize={10}
         rowsPerPageOptions={[10]}
         checkboxSelection
         disableSelectionOnClick
-        // loading={loading}
         components={{ Toolbar: GridToolbar }}
         style={{ fontSize: 15 }}
       />
@@ -98,7 +86,7 @@ function DataGridDemo({ poListData }) {
   );
 }
 
-export default DataGridDemo;
+export default DataGridRFQ;
 
 const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 설정*/
