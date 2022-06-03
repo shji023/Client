@@ -1,6 +1,8 @@
 import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import DataGridPrLine from "components/common/DataGridPrLine";
+import AgGrid from "components/common/PrGrid";
+// import DataGridPrLine from "components/common/DataGridPrLine";
+import { prCreateColFields } from "stores/colData"
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -13,20 +15,52 @@ function selectPrList() {
   const [prCondition, setPrCondition] = useState({
     REQUISITION_NUMBER : "",
   });
-
+  
   // * DataGrid Row 데이터
   // TODO: 변수명 Po -> Pr 로 변경하기
-  const [poListData, setPoListData]   = useState([
-    { /* id: 0, */ line_NUM: "이동현"},
-    { /* id: 1, */ line_NUM: "임지연"},
-    { /* id: 2, */ line_NUM: "현지영"},
-    { /* id: 3, */ line_NUM: "장정우"},
-    { /* id: 4, */ line_NUM: "이윤성"}
+  const [listData, setListData]   = useState([
+    // requisition_number : pr 번호
+    // preparer_name : Preparer
+    // description : PR 명
+    // date : PR 승인일
+    // status : 수의사유
+    //  : 금액
+    // currencyCode : 단위
+    
   ]);
-  const [prStatusLov, setPrStatusLov] = useState([]);
-  const [selectionModel, setSelectionModel] = useState([]);
+  
+  const [prData, setPrData] = useState({
+    header: {
+      req_num:  "", preparer_name: "이동현", auth_date: "", description: "", amount: 0, currency_code: "KRW", status: ""
+    },
+    lines: [
+      {
+        line: 1, 
+        item: "Q2065363", 
+        category: "Q.Burnt Chaff_B", 
+        spec: "Thermal Insulation 1400...", 
+        unit: "kilogram", 
+        cnt: 100000, 
+        amount: 0,
+        total_amount: 0,
+        tax_code: "P매입세공제",
+        buyer: "김서정",
+        note_to_buyer: "note_to_buyer",
+        requester: "조학식",
+        need_to_date: "2022-06-30",
+        destination_type: "EXPENSE",
+        organization: "POSCO 포항자재/외주...",
+        location: "PEA000Q",
+        warehouse: "QEJ01",
+        dist_num: "1",
+        charge_account: "01-PEO31-602021-00001",
+      }
+    ]
+  })
 
-  const handlePoCondition = (key, value) => {
+  const [prStatusLov, setPrStatusLov] = useState([]);
+
+  const handlePrCondition = (key, value) => {
     const tempPoCondition = { ...prCondition };
     tempPoCondition[key] = value;
     setPrCondition(tempPoCondition);
@@ -43,6 +77,7 @@ function selectPrList() {
 
   const removePr = () => {
     console.log("removePr called");
+
   }
 
   const getLov = async () => {
@@ -52,69 +87,21 @@ function selectPrList() {
 
   const createRow = () => {
     console.log("createRow called" );
-    return { id: selectionModel.length, line_NUM: "123123"};
+
   };
 
   const handleAddRow = () => {
-    setPoListData((prevRows) => {
-      console.log("prevRows", prevRows);
-      return [...prevRows, createRow()]
-    });
+   
   };
   
   const copyRow = () => {
     console.log("copyRow called" );
-    let temp = [...poListData];
-
-    // 선택된 row index 값
-    console.log("selectionModel", selectionModel); 
-  
-    const arr = [];
-
-    // TODO: 반복횟수 줄이기
-    poListData.forEach((element, idx) => {
-      // console.log("element", element);
-      arr.push(element);
-
-      selectionModel.forEach(id => {
-        if(id === idx) {
-          element = { ...poListData[idx] };
-          arr.push(element);
-        }
-      })
-      
-    })
-    // console.log("arr", arr);
-    
-    setPoListData(arr);
-
-    const tempModel = selectionModel; // [1, 3, 4]
-    tempModel.sort();
-    tempModel.forEach((value, index) => {
-      tempModel[index] = value + index;
-      tempModel.sort();
-    })
-    tempModel.sort();
-    console.log("tempModel", tempModel);
-    setSelectionModel([...tempModel]);
     
   }
   
   const deleteRow = () => {
     console.log("deleteRow called" );
-    let temp = [...poListData];
-    selectionModel.reverse().forEach(element => {
-      const row = temp.splice(element, 1);
-      console.log("deleted row", row);
-    });
-    
-    setPoListData(temp);
-    // getDataGridCheckedId([]);
-    setSelectionModel([]);
-  }
-
-  const getDataGridCheckedId = (newSelectionModel) => {
-    setSelectionModel(newSelectionModel);
+   
   }
 
   useEffect(() => {
@@ -133,37 +120,37 @@ function selectPrList() {
           <InputInfo
             id="REQUISITION_NUMBER"
             inputLabel="PR 번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.REQUISITION_NUMBER}
+            handlePoCondition={handlePrCondition}
+            inputValue={prData.header.req_num}
           />
           <InputInfo
             id="PREPARER_ID"
             inputLabel="Preparer"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.DESCRIPTION}
+            handlePoCondition={handlePrCondition}
+            inputValue={prData.header.preparer_name}
           />
           <InputSearch
             id="PREPARER_ID"
             inputLabel="PR 승인일"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.PREPARER_ID}
+            handlePoCondition={handlePrCondition}
+            inputValue={prData.header.auth_date}
           />
           <InputInfo
             id="DESCRIPTION"
             inputLabel="PR 명"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_ID}
+            handlePoCondition={handlePrCondition}
+            inputValue={prData.header.description}
           />
           <InputInfo
             id="ITEM_DESCRIPTION"
             inputLabel="금액"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_DESCRIPTION}
+            handlePoCondition={handlePrCondition}
+            inputValue={prData.header.amount}
           />
           <InputSelect
             id="LINE_STATUS"
             inputLabel="수의사유"
-            handlePoCondition={handlePoCondition}
+            handlePoCondition={handlePrCondition}
             lov={prStatusLov}
           />
         </InputContainer>
@@ -176,11 +163,9 @@ function selectPrList() {
         </ButtonWrapper>
       </section>
       <section>
-        {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPrLine 
-          poListData={poListData} 
-          onSelectionModelChange={getDataGridCheckedId}
-          selectionModel={selectionModel}
+        <AgGrid 
+          resvRowData    = { prData.lines }
+          resvColumnDefs = { prCreateColFields }
         />
       </section>
     </StyledRoot>

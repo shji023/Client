@@ -4,6 +4,8 @@ const PREFIX_URL = "/pr";
 
 export const getSearchPrList = async (sendData) => {
   try {
+    console.log("sendData : ", sendData);
+
     // !: 비동기
     // TODO: GET 시도해보기
     // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)

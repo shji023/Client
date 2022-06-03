@@ -1,6 +1,6 @@
 import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import DataGridPr from "components/common/DataGridPr";
+import AgGrid from "components/common/PrGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -22,12 +22,9 @@ function selectPrList() {
     CATEGORY_ID        : "",
   });
 
-  // TODO: 변수명 Po -> Pr 로 변경하기
-  const [poListData, setPoListData]   = useState([]);
+  const [selectedData, setSelectedData]   = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState("");
-
-  const [selectionModel, setSelectionModel] = React.useState([]);
+  const [dataGridCnt, setDataGridCnt] = useState("0");
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...prCondition };
@@ -36,10 +33,13 @@ function selectPrList() {
   };
 
   const selectPrList = async () => {
+
+    console.log("prCondition : " , prCondition);
+
     // !: axios 비동기
     const data = await getSearchPrList(prCondition);
     console.log("getSearchPrList called : ", data);
-    setPoListData(data);
+    setSelectedData(data);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
     setDataGridCnt(getNumberFormat(data.length));
   };
@@ -48,10 +48,6 @@ function selectPrList() {
   const cerateRfq = async () => {
 
     // TODO: Datagrid에서 선택한 값 읽어오기
-    console.log(selectionModel);
-    selectionModel.forEach((value)=>{
-      console.log(poListData[value]);
-    })
 
     // TODO: RFQ 페이지로 데이터 전달하기 (MobX)
 
@@ -61,11 +57,6 @@ function selectPrList() {
     const statusLov = await getPrSatusLov();
     statusLov && setPrStatusLov(statusLov);
   };
-
-  // 
-  const getDataGridCheckedId = (newSelectionModel) => {
-    setSelectionModel(newSelectionModel);
-  }
 
   useEffect(() => {
     getLov();
@@ -136,11 +127,8 @@ function selectPrList() {
         <ListCount>건수: {dataGridCnt}</ListCount>
       </section>
       <section>
-        {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPr 
-          poListData={poListData}
-          onSelectionModelChange={getDataGridCheckedId}
-          selectionModel={selectionModel}
+        <AgGrid 
+          resvRowData={selectedData}
         />
       </section>
     </StyledRoot>

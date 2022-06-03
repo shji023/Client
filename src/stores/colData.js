@@ -24,4 +24,43 @@ export const bidColFields =[
   { colId:9, field:"bidding_START_DATE", headerName: "입찰개시일시", minWidth:200},
   { colId:10, field:"bidding_END_DATE", headerName: "입찰마감일시", minWidth:200},
   { colId:11, field:"buyer_ID", headerName: "Buyer", minWidth:100},
-  ]
+  ];
+
+// #region PR
+export const prSelectColFields = [
+  { colId:1,  field:"num",                headerName: "순번",       minWidth:100},
+  { colId:2,  field:"line_STATUS",        headerName: "Status",     minWidth:150},
+  { colId:3,  field:"po_NUM",             headerName: "RFQ번호",    minWidth:150},
+  { colId:4,  field:"dateInterval",       headerName: "경과일",     minWidth:300},
+  { colId:5,  field:"category_ID",        headerName: "Category",   minWidth:100},
+  { colId:6,  field:"requisition_NUMBER", headerName: "PR번호",     minWidth:100},
+  { colId:7,  field:"description",        headerName: "건명",       minWidth:150},
+  { colId:8,  field:"unit_PRICE",         headerName: "금액",       minWidth:150},
+  { colId:9,  field:"currency_CODE",      headerName: "단위",       minWidth:200},
+  { colId:10, field:"need_BY_DATE",       headerName: "요청납기일", minWidth:200},
+  { colId:11, field:"preparer_ID",        headerName: "Requester",  minWidth:100},
+  { colId:12, field:"organization_CODE",  headerName: "사용부서",   minWidth:100},
+  ];
+
+export const prCreateColFields = [
+  { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
+  { field: "item",              headerName:"Item",               minWidth:110, },
+  { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
+  { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
+  { field: "unit",              headerName:"단위",               minWidth:110, },
+  { field: "cnt",               headerName:"수량",               minWidth:110, },
+  { field: "amount",            headerName:"단가",               minWidth:110, },
+  { field: "total_amount",      headerName:"금액",               minWidth:110, },
+  { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
+  { field: "buyer",             headerName:"Buyer",              minWidth:110, },
+  { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, },
+  { field: "requester",         headerName:"Requester",          minWidth:110, },
+  { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
+  { field: "destination_type",  headerName:"Destination Type",   minWidth:110, },
+  { field: "organization",      headerName:"Organization",       minWidth:110, },
+  { field: "location",          headerName:"Location",           minWidth:110, },
+  { field: "warehouse",         headerName:"창고",               minWidth:110, },
+  { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
+  { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
+]
+// #endregion
