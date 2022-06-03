@@ -1,6 +1,6 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
-import PoListAgGrid from "components/common/PoListAgGrid";
+import DataGridDemo from "components/common/DataGridDemo";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -21,11 +21,13 @@ function SelectPoList() {
     BUYER_ID: "",
     TYPE_LOOKUP_CODE: "",
   });
+
   const [poCategoryLov, setPoCategoryLov] = useState([]);
   const [poApproveLov, setPoApproveLov] = useState([]);
   const [sasoLov, setSasoLov] = useState([]);
   const [poTypeLov, setPoTypeLov] = useState([]);
   const [poListData, setPoListData] = useState([]);
+
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
@@ -36,7 +38,7 @@ function SelectPoList() {
 
   const selectPoList = async () => {
     const data = await getSearchPoList(poCondition);
-    
+
     setPoListData(data);
   };
 
@@ -57,16 +59,18 @@ function SelectPoList() {
   }, []);
 
   return (
+
+    
     <StyledRoot>
-      <Title>PO 목록조회</Title>
+      <Title>PO 등록</Title>
       <section>
         <ButtonWrapper>
-          <Button onClick={selectPoList}>조회</Button>
+          <Button onClick={selectPoList}>저장</Button>
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
             id="RFQ_DESCRIPTION"
-            inputLabel="계약명"
+            inputLabel="PO 번호"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.RFQ_DESCRIPTION}
           />
@@ -75,6 +79,7 @@ function SelectPoList() {
             inputLabel="공급사"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.VENDOR_ID}
+            handleShow
           />
           <InputSelect
             id="ATTRIBUTE_CATEGORY"
@@ -140,8 +145,9 @@ function SelectPoList() {
       </section>
       <ListCount>건수: 2,164</ListCount>
       <section>
-        <PoListAgGrid poListData={poListData} />
+        <DataGridDemo poListData={poListData} />
       </section>
+
     </StyledRoot>
   );
 }
