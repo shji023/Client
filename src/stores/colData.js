@@ -1,3 +1,5 @@
+import BidDetail from "pages/BidDetail";
+
 export const bidColData = [
   { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
   { field: "bid_SEARCH_TYPE", headerName: "Status", width: 90, headerAlign: "center" },
@@ -13,8 +15,8 @@ export const bidColData = [
 ];
 
 export const bidColFields =[
-  { colId:1, field:"category_SEGMENT1", headerName: "부문", minWidth:100},
-  { colId:2, field:"rfq_NO", headerName: "RFQ번호", minWidth:150},
+  { colId:1, field:"category_SEGMENT1", headerName: "부문", minWidth:100, },
+  { colId:2, field:"rfq_NO", headerName: "RFQ번호", minWidth:150 },
   { colId:3, field:"bidding_NO", headerName: "입찰번호", minWidth:150},
   { colId:4, field:"rfq_DESCRIPTION", headerName: "건명", minWidth:300},
   { colId:5, field:"simple_QUOTATION_FLAG", headerName: "단계", minWidth:100},
