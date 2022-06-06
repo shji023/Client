@@ -13,27 +13,34 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ resvRowData, resvColumnDefs }) => {
+const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
+    const ref = resvRef;
     const rowData = resvRowData;
     const columnDefs = resvColumnDefs;
+    const defaultColDef = resvDefaultColDef;
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
-    const onSelectionChanged = () => {
-        // const data = gridApi.getSelectedRows();
+    // const onSelectionChanged = () => {
+    //     // const data = gridApi.getSelectedRows();
 
-        if (data.length > 0) {
-            setBtnDisabled(false);
-        } else {
-            setBtnDisabled(true);
-        }
-        setSelectedRows(gridApi.getSelectedRows());
-    };
+    //     if (data.length > 0) {
+    //         setBtnDisabled(false);
+    //     } else {
+    //         setBtnDisabled(true);
+    //     }
+    //     setSelectedRows(gridApi.getSelectedRows());
+    // };
 
     const onCellValueChanged = (e) => {
+        const data = e.data;
         console.log("changed", e.data);
+        const amount = data.cnt * data.unit_price;
+        console.log(amount);
+        data.total_amoun = amount;
+        
     };
     let cnt = 1;
 
@@ -63,22 +70,13 @@ const AgGrid = ({ resvRowData, resvColumnDefs }) => {
                 </Button>
             </div> */}
             <AgGridReact        
-               
-                rowData={rowData}
+                ref={ref}
+                defaultColDef={defaultColDef}
                 columnDefs={columnDefs}
+                rowData={rowData}
                 getRowStyle={getRowStyle}
                 rowSelection={"multiple"}
-                suppressRowClickSelection={false}
-                defaultColDef={{
-                    headerClass: { background: '#EDF2F8' },
-                    editable: true,
-                    sortable: true,
-                    minWidth: 100,
-                    filter: true,
-                    resizable: true,
-                    // floatingFilter: true,
-                    flex: 1,
-                }}
+                suppressRowClickSelection={true}
                 sideBar={{
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",
@@ -86,7 +84,7 @@ const AgGrid = ({ resvRowData, resvColumnDefs }) => {
                 pagination={true}
                 paginationAutoPageSize={true}
                 // onGridReady={onGridReady}
-                onSelectionChanged={onSelectionChanged}
+                // onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}

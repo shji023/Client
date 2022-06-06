@@ -27,6 +27,18 @@ export const bidColFields =[
   ];
 
 // #region PR
+
+export const prSelectColDef = {
+  headerClass: { background: '#EDF2F8' },
+  editable: true,
+  sortable: true,
+  minWidth: 100,
+  filter: true,
+  resizable: true,
+  // floatingFilter: true,
+  flex: 1,
+}
+
 export const prSelectColFields = [
   { colId:1,  field:"num",                headerName: "순번",       minWidth:100},
   { colId:2,  field:"line_STATUS",        headerName: "Status",     minWidth:150},
@@ -42,17 +54,34 @@ export const prSelectColFields = [
   { colId:12, field:"organization_CODE",  headerName: "사용부서",   minWidth:100},
   ];
 
+export const prCreateColDef = {
+  headerClass: { background: '#EDF2F8' },
+  editable: true,
+  sortable: true,
+  minWidth: 100,
+  filter: true,
+  resizable: true,
+  // floatingFilter: true,
+  flex: 1,
+}
+
 export const prCreateColFields = [
+  { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
   { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
   { field: "item",              headerName:"Item",               minWidth:110, },
   { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
   { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
   { field: "unit",              headerName:"단위",               minWidth:110, },
+  // 수정 가능
   { field: "cnt",               headerName:"수량",               minWidth:110, },
-  { field: "amount",            headerName:"단가",               minWidth:110, },
+  // 수정 가능
+  { field: "unit_price",        headerName:"단가",               minWidth:110, },
+  // TODO: cnt * unit_price
   { field: "total_amount",      headerName:"금액",               minWidth:110, },
+  // ?
   { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
   { field: "buyer",             headerName:"Buyer",              minWidth:110, },
+  // 수정 가능
   { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, },
   { field: "requester",         headerName:"Requester",          minWidth:110, },
   { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
@@ -63,4 +92,6 @@ export const prCreateColFields = [
   { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
   { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
 ]
+
+
 // #endregion

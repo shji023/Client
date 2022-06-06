@@ -1,25 +1,26 @@
-import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
+import { getSearchPrList, getPrStatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import AgGrid from "components/common/PrGrid";
+import AgGrid from "components/pr/PrGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import { getNumberFormat } from "hooks/CommonFunction";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { prSelectColDef, prSelectColFields } from "stores/colData"
 
 function selectPrList() {
 
   // 조회 데이터
   const [prCondition, setPrCondition] = useState({
-    REQUISITION_NUMBER : "",
-    DESCRIPTION        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
-    PREPARER_ID        : "",
-    ITEM_ID            : "",
-    ITEM_DESCRIPTION   : "",
-    LINE_STATUS        : "",
-    BUYER_ID           : "",
-    CATEGORY_ID        : "",
+    "requisition_number" : "",
+    "description"        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
+    "preparer_id"        : "",
+    "item_id"            : "",
+    "item_description"   : "",
+    "line_status"        : "",
+    "buyer_id"           : "",
+    "category_id"        : "",
   });
 
   const [selectedData, setSelectedData]   = useState([]);
@@ -54,7 +55,7 @@ function selectPrList() {
   };
 
   const getLov = async () => {
-    const statusLov = await getPrSatusLov();
+    const statusLov = await getPrStatusLov();
     statusLov && setPrStatusLov(statusLov);
   };
 
@@ -71,52 +72,52 @@ function selectPrList() {
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
-            id="REQUISITION_NUMBER"
+            id="requisition_number"
             inputLabel="PR 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.REQUISITION_NUMBER}
+            inputValue={prCondition.requisition_number}
           />
           <InputInfo
-            id="DESCRIPTION"
+            id="description"
             inputLabel="건명"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.DESCRIPTION}
+            inputValue={prCondition.description}
           />
           <InputSearch
-            id="PREPARER_ID"
+            id="preparer_id"
             inputLabel="Requester"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.PREPARER_ID}
+            inputValue={prCondition.preparer_id}
           />
           <InputSearch
-            id="ITEM_ID"
+            id="item_id"
             inputLabel="Item"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_ID}
+            inputValue={prCondition.item_id}
           />
           <InputInfo
-            id="ITEM_DESCRIPTION"
+            id="item_description"
             inputLabel="사양"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_DESCRIPTION}
+            inputValue={prCondition.item_description}
           />
           <InputSelect
-            id="LINE_STATUS"
+            id="line_status"
             inputLabel="진행상태"
             handlePoCondition={handlePoCondition}
             lov={prStatusLov}
           />
           <InputSearch
-            id="BUYER_ID"
+            id="buyer_id"
             inputLabel="Buyer"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.BUYER_ID}
+            inputValue={prCondition.buyer_id}
           />
           <InputInfo
-            id="CATEGORY_ID"
+            id="category_id"
             inputLabel="Category"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.CATEGORY_ID}
+            inputValue={prCondition.category_id}
           />
         </InputContainer>
       </section>
@@ -129,6 +130,8 @@ function selectPrList() {
       <section>
         <AgGrid 
           resvRowData={selectedData}
+          resvDefaultColDef = { prSelectColDef }
+          resvColumnDefs = { prSelectColFields }
         />
       </section>
     </StyledRoot>
