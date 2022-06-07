@@ -2,6 +2,7 @@ import { Select } from "antd";
 import React from "react";
 import styled from "styled-components";
 function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
+  
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
@@ -15,8 +16,8 @@ function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
       >
         <Select.Option value="">선택</Select.Option>
         {lov.map((option) => (
-          <Select.Option key={option} value={option}>
-            {option}
+          <Select.Option key={option[0]} value={option[1]}>
+            {option[1]}
           </Select.Option>
         ))}
       </Select>

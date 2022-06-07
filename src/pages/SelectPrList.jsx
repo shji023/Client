@@ -18,7 +18,7 @@ function selectPrList() {
     "preparer_id"        : "",
     "item_id"            : "",
     "item_description"   : "",
-    "line_status"        : "",
+    "type_lookup_code"   : "",
     "buyer_id"           : "",
     "category_id"        : "",
   });
@@ -102,7 +102,7 @@ function selectPrList() {
             inputValue={prCondition.item_description}
           />
           <InputSelect
-            id="line_status"
+            id="type_lookup_code"
             inputLabel="진행상태"
             handlePoCondition={handlePoCondition}
             lov={prStatusLov}
@@ -129,7 +129,7 @@ function selectPrList() {
       </section>
       <section>
         <AgGrid 
-          resvRowData={selectedData}
+          resvRowData = {selectedData}
           resvDefaultColDef = { prSelectColDef }
           resvColumnDefs = { prSelectColFields }
         />

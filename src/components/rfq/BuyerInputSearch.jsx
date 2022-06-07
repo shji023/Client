@@ -2,7 +2,7 @@ import { Input, Button, Modal } from "antd";
 import React, { useEffect, useState }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
-import DataGridModal from "components/common/DataGridModal";
+import DataGridModal from "components/common/DataGridModal2";
 import { getSearchBuyerList } from "apis/buyer.api";
 import {setRfqCondition} from "pages/SelectRFQList"
 function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputValue }) {

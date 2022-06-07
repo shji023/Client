@@ -1,3 +1,4 @@
+
 export const bidColData = [
   { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
   { field: "bid_SEARCH_TYPE", headerName: "Status", width: 90, headerAlign: "center" },
@@ -68,21 +69,21 @@ export const prCreateColDef = {
 export const prCreateColFields = [
   { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
   { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
-  { field: "item",              headerName:"Item",               minWidth:110, },
+  { field: "item",              headerName:"Item",               minWidth:110, /* cellRenderer: InputSearch */},
   { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
   { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
   { field: "unit",              headerName:"단위",               minWidth:110, },
   // 수정 가능
-  { field: "cnt",               headerName:"수량",               minWidth:110, },
+  { field: "cnt",               headerName:"수량",               minWidth:110, /* cellRenderer: InputInfo */},
   // 수정 가능
-  { field: "unit_price",        headerName:"단가",               minWidth:110, },
+  { field: "unit_price",        headerName:"단가",               minWidth:110, /* cellRenderer: InputInfo */},
   // TODO: cnt * unit_price
   { field: "total_amount",      headerName:"금액",               minWidth:110, },
   // ?
   { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
   { field: "buyer",             headerName:"Buyer",              minWidth:110, },
   // 수정 가능
-  { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, },
+  { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, /* cellRenderer: InputInfo */},
   { field: "requester",         headerName:"Requester",          minWidth:110, },
   { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
   { field: "destination_type",  headerName:"Destination Type",   minWidth:110, },
@@ -94,4 +95,26 @@ export const prCreateColFields = [
 ]
 
 
+
+
+// #endregion
+
+
+// #region 팝업
+export const popUpBuyerColFields = [
+  { colId:1,  field:"num",                headerName: "직번",       minWidth:100},
+  { colId:2,  field:"name",        headerName: "성명",     minWidth:150},
+  { colId:3,  field:"dept",             headerName: "부서",    minWidth:150},
+  ];
+
+export const popUpColDef = {
+  headerClass: { background: '#EDF2F8' },
+  editable: true,
+  sortable: true,
+  minWidth: 100,
+  filter: true,
+  resizable: true,
+  // floatingFilter: true,
+  flex: 1,
+}
 // #endregion

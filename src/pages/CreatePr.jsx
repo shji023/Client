@@ -12,16 +12,36 @@ import styled from "styled-components";
 function selectPrList() {
 
   const [conditions, setConditions] = useState({
-      req_num       : "",       // requisition_number : pr 번호
-      preparer_name : "이동현",  // preparer_name : Preparer
-      preparer_id   : 123123,   // preparer_id : Preparer
-      auth_date     : "",       // date : PR 승인일
-      description   : "",       // date : PR 승인일
-      amount        : 0,        //  : 금액
-      currency_code : "KRW",    // currencyCode : 단위
-      status        : "none",       // status : 수의사유
+      req_num       : "",          // requisition_number : pr 번호
+      preparer_name : "이동현",    // preparer_name : Preparer
+      preparer_id   : 123123,      // preparer_id : Preparer
+      auth_date     : "",          // date : PR 승인일
+      description   : "PR 테스트", // PR명
+      amount        : 0,           // 금액 (Line들의 amount 합)
+      currency_code : "KRW",       // currencyCode : 단위
+      reason        : "none",      // reason : 수의사유
   })
 
+  /** 필요한 항목
+   * Item     item.item
+   * Category item.category
+   * 사양     item.description
+   * 단위     item.unit
+   * 수량     [사용자 입력]
+   * 단가     [사용자 입력]
+   * 금액     [수량 * 단가]
+   * Tax Code ?
+   * Buyer    buyer.id
+   * Note to Buyer
+   * Requester 
+   * 요청납기일
+   * DestinationType
+   * Organization
+   * Location
+   * 창고
+   * Dist Num
+   * Charge Account
+   */
   let testData = [
     {
       line: 1, 
@@ -98,85 +118,10 @@ function selectPrList() {
       dist_num: "1",
       charge_account: "01-PEO31-602021-00001",
     },
-    {
-      line: 1, 
-      item: "Q2065363", 
-      item_id: 333333,
-      category: "Q.Burnt Chaff_B", 
-      category_id: 555555, 
-      spec: "Thermal Insulation 1400...", 
-      unit: "kilogram", 
-      cnt: 100000, 
-      unit_price: 1000,
-      total_amount: 0,
-      tax_code: "P매입세공제",
-      buyer: "김서정4",
-      buyer_id: 17278,
-      note_to_buyer: "note_to_buyer",
-      requester: "조학식",
-      requester_id: 121212,
-      need_to_date: "2022-06-30",
-      destination_type: "EXPENSE",
-      organization: "POSCO 포항자재/외주...",
-      location: "PEA000Q",
-      warehouse: "QEJ01",
-      dist_num: "1",
-      charge_account: "01-PEO31-602021-00001",
-    },
-    {
-      line: 1, 
-      item: "Q2065363", 
-      item_id: 333333,
-      category: "Q.Burnt Chaff_B", 
-      category_id: 555555, 
-      spec: "Thermal Insulation 1400...", 
-      unit: "kilogram", 
-      cnt: 100000, 
-      unit_price: 1000,
-      total_amount: 0,
-      tax_code: "P매입세공제",
-      buyer: "김서정5",
-      buyer_id: 17278,
-      note_to_buyer: "note_to_buyer",
-      requester: "조학식",
-      requester_id: 121212,
-      need_to_date: "2022-06-30",
-      destination_type: "EXPENSE",
-      organization: "POSCO 포항자재/외주...",
-      location: "PEA000Q",
-      warehouse: "QEJ01",
-      dist_num: "1",
-      charge_account: "01-PEO31-602021-00001",
-    },
-    {
-      line: 1, 
-      item: "Q2065363", 
-      item_id: 333333,
-      category: "Q.Burnt Chaff_B", 
-      category_id: 555555, 
-      spec: "Thermal Insulation 1400...", 
-      unit: "kilogram", 
-      cnt: 100000, 
-      unit_price: 1000,
-      total_amount: 0,
-      tax_code: "P매입세공제",
-      buyer: "김서정6",
-      buyer_id: 17278,
-      note_to_buyer: "note_to_buyer",
-      requester: "조학식",
-      requester_id: 121212,
-      need_to_date: "2022-06-30",
-      destination_type: "EXPENSE",
-      organization: "POSCO 포항자재/외주...",
-      location: "PEA000Q",
-      warehouse: "QEJ01",
-      dist_num: "1",
-      charge_account: "01-PEO31-602021-00001",
-    },
   ]
   const [rowData, setRowData] = useState(testData);
 
-  const [prStatusLov, setPrStatusLov] = useState([]);
+  const [prReasonLov, setPrReasonLov] = useState([]);
 
   const gridRef = useRef();
 
@@ -329,15 +274,18 @@ function selectPrList() {
   }, [rowData]);
 
   const getLov = async () => {
-    const statusLov = await getPrReasonLov();
+    const reasonLov = await getPrReasonLov();
+    console.log("reasonLov", reasonLov);
 
-    const temp = [];
-    statusLov.forEach( e => {
-      temp.push(e[0]);
-    });
+    reasonLov && setPrReasonLov(reasonLov);
+    
 
-    statusLov && setPrStatusLov([...temp]);
-    // statusLov && setPrStatusLov(statusLov);
+    // const temp = [];
+    // reasonLov.forEach( e => {
+    //   temp.push(e[0]);
+    // });
+
+    // reasonLov && setPrReasonLov([...temp]);
   };
 
 
@@ -385,10 +333,10 @@ function selectPrList() {
           />
           {/* TODO: key value 따로 할 수 있게 */}
           <InputSelect
-            id="status"
+            id="reason"
             inputLabel="수의사유"
             handlePoCondition={handleCondition}
-            lov={prStatusLov}
+            lov={prReasonLov}
           />
         </InputContainer>
       </section>
