@@ -1,11 +1,13 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
 import { colors } from "assets/styles/color";
-import AgGridRFQ from "components/common/AgGridRFQ";
+import AgGridRFQ from "components/rfq/RFQAgGrid";
 import InputInfo from "components/common/InputInfo";
+import BuyerInputSearch from "components/rfq/BuyerInputSearch";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
+import InputDate from "components/common/InputDate";
 
 
 function SelectRfqList() {
@@ -32,7 +34,7 @@ function SelectRfqList() {
     BUYER_ID: "",
   });
 
-  console.log("inputValue : ", inputValue);
+  // console.log("inputValue : ", inputValue);
 
   // Buyer id 검색창 추가시 사용하기
   const [rfqBuyerLov, setRfqBuyerLov] = useState([]);
@@ -83,7 +85,7 @@ function SelectRfqList() {
       </ButtonWrapper>
       <section>
         <InputContainer>    
-          <InputSearch
+          <BuyerInputSearch
             id="BUYER_ID"
             inputLabel="Buyer"
             handlePoCondition={handleRFQCondition}
@@ -109,18 +111,11 @@ function SelectRfqList() {
             handlePoCondition={handleRFQCondition}
             inputValue={rfqCondition.ATTRIBUTE_CATEGORY}
           />
-          <InputSearch
+          <InputDate
             id="QUOTE_EFFECTIVE_START_DATE"
-            inputLabel="시작일자"
-            handlePoCondition={handleRFQCondition}
-            inputValue={rfqCondition.QUOTE_EFFECTIVE_START_DATE}
+            inputLabel="등록일"
+            handleCondition={handleRFQCondition}
           />
-          {/* <InputSearch
-            id="QUOTE_EFFECTIVE_END_DATE"
-            inputLabel="종료일자"
-            handlePoCondition={handleRFQCondition}
-            inputValue={rfqCondition.QUOTE_EFFECTIVE_END_DATE}
-          /> */}
         </InputContainer>
       </section>
       {/* TO-DO : select count 로 변경 */}
