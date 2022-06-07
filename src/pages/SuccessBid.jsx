@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
-import SuccessBidGrid from "components/common/SuccessBidGrid";
-import AgGrid from "components/common/AgGrid";
+import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 
 
 
@@ -26,13 +25,13 @@ function SuccessBid(props) {
   const [bidResultData, setBidResultData] = useState([]);
   
   const selectSuccessBid = async () => {
-    const data = await getSuccessBid({RFQ_NO: "6455407"});
+    const data = await getSuccessBid({rfq_no: "6455407"});
     
     console.log(data);
     setSuccessBidCondition(data);
   };
   const selectBidResult = async () => {
-    const data = await getBidResult({RFQ_NO: "6455407"});
+    const data = await getBidResult({rfq_no: "6455407"});
     console.log("여기가 찍히는거냐?" );
     console.log(data);
     setBidResultData(data);
@@ -62,27 +61,27 @@ function SuccessBid(props) {
             <LabelInfo
               id="RFQ_DESCRIPTION"
               inputLabel="건명:"
-              inputValue={successBidCondition.rfq_DESCRIPTION}
+              inputValue={successBidCondition.rfq_description}
             />
             <LabelInfo
               id="BIDDING_NO"
               inputLabel="입찰번호:"
-              inputValue={successBidCondition.bidding_NO}
+              inputValue={successBidCondition.bidding_no}
             />
             <LabelInfo
               id="RFQ_NO"
               inputLabel="RFQ번호:"
-              inputValue={successBidCondition.rfq_NO}
+              inputValue={successBidCondition.rfq_no}
             />
             <LabelInfo
               id="BID_TYPE_CODE"
               inputLabel="입찰방법:"
-              inputValue={successBidCondition.bid_TYPE_CODE}
+              inputValue={successBidCondition.bid_type_code}
             />
             <LabelInfo
               id="TARGET_PRICE"
               inputLabel="TargetPrice:"
-              inputValue={successBidCondition.target_PRICE}
+              inputValue={successBidCondition.target_price}
             />
           </InputContainer>
         </section>
@@ -90,9 +89,7 @@ function SuccessBid(props) {
         <SmallTitle>🌐 공급사별 투찰결과</SmallTitle>
         
         <section>
-            
-            {/* <SuccessBidGrid bidResultData={bidResultData}/> */}
-            <AgGrid bidResultData={bidResultData}></AgGrid>
+            <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
         </section>
 
     </StyledRoot>

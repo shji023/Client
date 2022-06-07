@@ -7,7 +7,7 @@ import { getSearchBuyerList } from "apis/buyer.api";
 import {setRfqCondition} from "pages/SelectRFQList"
 function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputValue }) {
 
- 
+
   const [modalListData, setModalListData] = useState([]);
 
   const handleInputValue = (key, value) => {

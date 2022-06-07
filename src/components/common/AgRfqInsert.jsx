@@ -3,24 +3,11 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-
-const getRowStyle  = params => {
-    // if (params.node.rowIndex % 2 === 1) {
-    //     return { background: '#F5F5F5' };
-    // }
-    // EDF2F8
-};
-
-// const headerClass= params => {
-//     // logic to return the correct class
-//     return { background: '#EDF2F8' };
-//   }
-
-const AgGrid = ({ bidResultData }) => {
+const AgVendorSelect = () => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
-    //   const [rowData, setRowData] = useState(null);
-    const rowData = bidResultData;
+    
+    // const rowData = bidResultData; 
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -40,9 +27,9 @@ const AgGrid = ({ bidResultData }) => {
     };
     let cnt = 1;
 
-    rowData.forEach((element) => {
-        element.id = cnt++;
-    });
+    // rowData.forEach((element) => {
+    //     element.id = cnt++;
+    // });
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -67,8 +54,8 @@ const AgGrid = ({ bidResultData }) => {
             </div> */}
             <AgGridReact        
                
-                rowData={rowData}
-                getRowStyle={getRowStyle}
+                // rowData={rowData}
+                // getRowStyle={getRowStyle}
                 rowSelection={"multiple"}
                 suppressRowClickSelection={false}
                 defaultColDef={{
@@ -111,12 +98,11 @@ const AgGrid = ({ bidResultData }) => {
                 suppressColumnsToolPanel={true}
                 />
              
-                <AgGridColumn field="id" headerName="순위" minWidth={10} maxWidth= {80} />
-                <AgGridColumn field="vendor_NAME" headerName="입찰사/제작사" minWidth={300} />
-                <AgGridColumn field="main_CURRENCY" headerName="입력통화" minWidth={10} maxWidth={120}/>
-                <AgGridColumn field="quotation_TOTAL_PRICE1" headerName="응찰가격" minWidth={10} maxWidth={120} />
-                <AgGridColumn field="quotation_COMMENT" headerName="공급사의견" minWidth={110} />
-                
+                <AgGridColumn field="id" headerName="유형" minWidth={10} maxWidth= {80} />
+                <AgGridColumn field="vendor_name" headerName="첨부" minWidth={300} />
+                <AgGridColumn field="main_currency" headerName="첨부파일명" minWidth={10} maxWidth={120}/>
+                <AgGridColumn field="quotation_total_price1" headerName="Size" minWidth={10} maxWidth={120} />                
+                <AgGridColumn field="quotation_total_price1" headerName="등록일" minWidth={10} maxWidth={120} />                
             
             </AgGridReact>
             </div>
@@ -125,7 +111,7 @@ const AgGrid = ({ bidResultData }) => {
     );
 };
 
-export default AgGrid;
+export default AgVendorSelect;
 
 // const AgGridReactStyle = styled.AgGridReact`
 // .ag-theme-alpine {
