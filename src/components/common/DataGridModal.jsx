@@ -49,16 +49,12 @@ const rows1 = [
 
 //TODO: 각 페이지에서 props로 받기
 const colData = [
-  { field: "rfq_NO", headerName: "RFQ번호", width: 90, headerAlign: "center" },
-  { field: "rfq_DESCRIPTION", headerName: "건 명", width: 400, headerAlign: "center" },
-  { field: "reply_METHOD_LOOKUP_CODE", headerName: "구매 방법", width: 150, headerAlign: "center" },
-  { field: "rfq_SHIP_TO", headerName: "납품 지역", width: 200, headerAlign: "center" },
-  { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "quote_EFFECTIVE_START_DATE", headerName: "등록일", width: 90, headerAlign: "center" },
-  { field: "rfq_STATUS", headerName: "Status", width: 90, headerAlign: "center" },
+  { field: "buyer_ID", headerName: "직번", width: 90, headerAlign: "center" },
+  { field: "buyer_DEPT_NAME", headerName: "성명", width: 90, headerAlign: "center" },
+  { field: "buyer_DEPT_CODE", headerName: "부서 번호", width: 90, headerAlign: "center" },
 ];
 
-function DataGridRFQ({ poListData }) {
+function DataGridModal({ poListData }) {
   const colsData = colData;
   const rowsData = poListData;
 
@@ -71,7 +67,7 @@ function DataGridRFQ({ poListData }) {
   // console.log("result", rowsData);
 
   return (
-    <div style={{ height: 650, width: "100%" }}>
+    <div style={{ height: 400, width: "100%" }}>
       <StyleDatagrid
         rows={rowsData}
         columns={colsData}
@@ -86,7 +82,7 @@ function DataGridRFQ({ poListData }) {
   );
 }
 
-export default DataGridRFQ;
+export default DataGridModal;
 
 const StyleDatagrid = styled(DataGrid)`
   /* 스크롤바 설정*/
