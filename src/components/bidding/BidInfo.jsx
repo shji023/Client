@@ -2,9 +2,9 @@ import { Input } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
-import {StyledRoot} from './style'
+
 function BidInfo({ label, value }) {
-  const isLong = label === '건명' || label === '담당자' ? true: false;
+  const isLong = (label === '건명' || label === '담당자') ? true: false;
   console.log(isLong);
   return (
     <StyledRoot isLong={isLong}>
@@ -20,12 +20,14 @@ function BidInfo({ label, value }) {
 
 export default BidInfo;
 
-// const StyledRoot = styled.div<{ isLong: boolean }>`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   grid-column: ${({ isLongg}) => (isLongg ? 'span 2' : '')};
-// `;
+const StyledRoot = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //grid-column:  ${props => (props.isLong ? 'span 2' : '')};
+  grid-column: ${({ isLong }) => (isLong ? 'span 2' : '')};
+`;
+
 const TitleWrapper = styled.div`
   font-size: 1.6rem;
   width: 13rem;
