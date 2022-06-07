@@ -54,7 +54,7 @@ const StyledRoot = styled.main`
 `;
 const RFQInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
