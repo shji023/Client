@@ -1,5 +1,5 @@
 export const bidColFields =[
-  { colId:1, field:"category_SEGMENT1", headerName: "부문", minWidth:100, },
+  { colId:1, field:"category_SEGMENT", headerName: "부문", minWidth:100, },
   { colId:2, field:"rfq_NO", headerName: "RFQ번호", minWidth:150 },
   { colId:3, field:"bidding_NO", headerName: "입찰번호", minWidth:150},
   { colId:4, field:"rfq_DESCRIPTION", headerName: "건명", minWidth:300},
