@@ -49,9 +49,9 @@ const rows1 = [
 
 //TODO: 각 페이지에서 props로 받기
 const colData = [
-  { field: "buyer_ID", headerName: "직번", width: 90, headerAlign: "center" },
-  { field: "buyer_DEPT_NAME", headerName: "성명", width: 90, headerAlign: "center" },
-  { field: "buyer_DEPT_CODE", headerName: "부서 번호", width: 90, headerAlign: "center" },
+  { field: "buyer_id", headerName: "직번", width: 90, headerAlign: "center" },
+  { field: "buyer_dept_name", headerName: "성명", width: 90, headerAlign: "center" },
+  { field: "buyer_dept_code", headerName: "부서 번호", width: 90, headerAlign: "center" },
 ];
 
 function DataGridModal({ poListData }) {

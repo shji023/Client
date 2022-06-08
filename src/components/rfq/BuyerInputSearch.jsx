@@ -61,10 +61,10 @@ function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputVa
         {/* modal 창 안의 내용> */}
         {/* <p>{modalText}</p> */}
         <ModalSearch
-          id="BUYER_ID"
+          id="buyer_id"
           inputLabel="Buyer"
           handlePoCondition={handleInputValue}
-          inputValue={inputValue.BUYER_ID}
+          inputValue={inputValue.buyer_id}
         />
         <br/>
         <Button onClick={SelectSearch}>검색</Button>

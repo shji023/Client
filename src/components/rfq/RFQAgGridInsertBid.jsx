@@ -13,15 +13,6 @@ const AgGridRFQ = ({ listData, colData }) => {
     const [btndisabled, setBtnDisabled] = useState(true);
     const gridRef = useRef();
 
-    // const onSelectionChanged = () => {
-    //     if (data.length > 0) {
-    //         setBtnDisabled(false);
-    //     } else {
-    //         setBtnDisabled(true);
-    //     }
-    //     setSelectedRows(gridApi.getSelectedRows());
-    // };
-
     const onCellValueChanged = (e) => {
         console.log("changed", e.data);
     };
@@ -35,13 +26,10 @@ const AgGridRFQ = ({ listData, colData }) => {
     };
 
     const column = [
-        {header: 'RFQ번호',      key: 'rfq_no', width: 20},
-        {header: '건 명',        key: 'rfq_description', hidden:false, width: 200},
-        {header: '구매 방법',    key: 'reply_method_lookup_code', width: 180},
-        {header: '납품 지역',    key: 'rfq_ship_to', width: 150},
-        {header: 'Buyer',       key: 'buyer_id', hidden:false, width: 110},
-        {header: '구매 등록일',  key: 'quote_effective_start_date', width: 150},
-        {header: 'Status',      key: 'rfq_status', width: 90}
+        {header: '공급사',        key: 'vendor_name', width: 20},
+        // {header: '담당자',        key: 'vendor_', width: 200},
+        // {header: 'e-mail',        key: 'vendor_', width: 180},
+        // {header: '연락처',        key: 'vendor_', width: 150},
     ];
 
     const handleExcel=()=>{
@@ -83,11 +71,8 @@ const AgGridRFQ = ({ listData, colData }) => {
                         toolPanels: ["columns", "filters"],
                         defaultToolPanel: "",
                     }}
-                    pagination={true}
-                    paginationAutoPageSize={true}
-                    onRowClicked={(e) => navigate(`/selectRFQList/${e.data.rfq_no}`)}
-                    // onGridReady={onGridReady}
-                    // onSelectionChanged={onSelectionChanged}
+                    // pagination={true}
+                    // paginationAutoPageSize={true}
                     onCellEditingStopped={(e) => {
                         onCellValueChanged(e);
                     }}>
