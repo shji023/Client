@@ -11,17 +11,15 @@ const getRowStyle  = params => {
 // const headerClass= params => {
 //     // logic to return the correct class
 //     return { background: '#EDF2F8' };
-//   }88
-//TODO: 각 페이지에서 props로 받기
-const colData = [
-  { field: "buyer_id", headerName: "직번", width: 90, headerAlign: "center" },
-  { field: "buyer_dept_name", headerName: "성명", width: 90, headerAlign: "center" },
-  { field: "buyer_dept_code", headerName: "부서 번호", width: 90, headerAlign: "center" },
-];
+//   }
 
-const DataGridModal = ({ gridOptions, gridRef }) => {
+const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
+    const ref = resvRef;
+    const rowData = resvRowData;
+    const columnDefs = resvColumnDefs;
+    const defaultColDef = resvDefaultColDef;
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -36,12 +34,19 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
     //     setSelectedRows(gridApi.getSelectedRows());
     // };
 
+    const onCellValueChanged = (e) => {
+        const data = e.data;
+        console.log("changed", e.data);
+        const amount = data.cnt * data.unit_price;
+        console.log(amount);
+        data.total_amoun = amount;
+        
+    };
     let cnt = 1;
 
-    gridOptions.rowData.forEach((element) => {
+    rowData.forEach((element) => {
         element.id = cnt++;
     });
-    
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -65,22 +70,13 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
                 </Button>
             </div> */}
             <AgGridReact        
-                ref={gridRef}
-                defaultColDef={{
-                    headerClass: { background: '#EDF2F8' },
-                    editable: true,
-                    sortable: true,
-                    minWidth: 100,
-                    filter: true,
-                    resizable: true,
-                    // floatingFilter: true,
-                    flex: 1,
-                  }}
-                columnDefs={gridOptions.columnDefs}
-                rowData={gridOptions.rowData}
+                ref={ref}
+                defaultColDef={defaultColDef}
+                columnDefs={columnDefs}
+                rowData={rowData}
                 getRowStyle={getRowStyle}
-                rowSelection={gridOptions.rowSelection}
-                suppressRowClickSelection={gridOptions.suppressRowClickSelection}
+                rowSelection={"multiple"}
+                suppressRowClickSelection={true}
                 sideBar={{
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",
@@ -90,13 +86,26 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
                 // onGridReady={onGridReady}
                 // onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
-                    const data = e.data;
-                    console.log("changed", e.data);
-                    const amount = data.cnt * data.unit_price;
-                    console.log(amount);
-                    data.total_amoun = amount;
-                  }}
+                    onCellValueChanged(e);
+                }}
             >
+                {/* check box */}
+                <AgGridColumn
+                    headerName="..HELLO."
+                    headerCheckboxSelection={true}
+                    checkboxSelection={true}
+                    floatingFilter={false}
+                    suppressMenu={true}
+                    minWidth={10}
+                    maxWidth={100}
+                    width={50}
+                    flex={0}
+                    resizable={false}
+                    sortable={false}
+                    editable={false}
+                    filter={false}
+                    suppressColumnsToolPanel={true}
+                />
              
             </AgGridReact>
             </div>
@@ -105,7 +114,7 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
     );
 };
 
-export default DataGridModal;
+export default AgGrid;
 
 // const AgGridReactStyle = styled.AgGridReact`
 // .ag-theme-alpine {

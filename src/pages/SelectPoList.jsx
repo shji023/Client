@@ -1,9 +1,9 @@
-import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
+import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList, getPoTypeLov } from "apis/po.api";
 import { colors } from "assets/styles/color";
-import PoListAgGrid from "components/common/PoListAgGrid";
-import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearch";
-import InputSelect from "components/common/InputSelect";
+import PoListAgGrid from "components/po/PoListAgGrid";
+import InputInfo from "components/po/PoInputInfo";
+import InputSearch from "components/po/PoInputSearch";
+import InputSelect from "components/po/PoInputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 function SelectPoList() {
@@ -44,7 +44,7 @@ function SelectPoList() {
     const poCategory = await getPoLov();
     const poApprove = await getPoApproveLov();
     const saso = await getSasoLov();
-    const poType = await getPoApproveLov();
+    const poType = await getPoTypeLov();
 
     poCategory && setPoCategoryLov(poCategory);
     poApprove && setPoApproveLov(poApprove);
@@ -69,6 +69,7 @@ function SelectPoList() {
             inputLabel="계약명"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.RFQ_DESCRIPTION}
+            mySize={200}
           />
           <InputSearch
             id="VENDOR_ID"
@@ -93,6 +94,7 @@ function SelectPoList() {
             inputLabel="PO 번호"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.PO_NUM}
+            mySize={200}
           />
           <InputSearch
             id="ITEM_ID"
@@ -105,12 +107,14 @@ function SelectPoList() {
             inputLabel="PR 번호"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.PO_HEADER_ID}
+            mySize={200}
           />
           <InputInfo
             id="RFQ_NO"
             inputLabel="RFQ번호"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.RFQ_NO}
+            mySize={200}
           />
           <InputSelect
             id="ORGANIZATION_CODE"

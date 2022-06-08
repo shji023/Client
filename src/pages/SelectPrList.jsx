@@ -1,33 +1,31 @@
-import { getSearchPrList, getPrSatusLov } from "apis/pr.api";
+import { getSearchPrList, getPrStatusLov } from "apis/pr.api";
 import { colors } from "assets/styles/color";
-import DataGridPR from "components/common/DataGridPR";
+import AgGrid from "components/pr/PrGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import { getNumberFormat } from "hooks/CommonFunction";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { prSelectColDef, prSelectColFields } from "stores/colData"
 
 function selectPrList() {
 
   // 조회 데이터
   const [prCondition, setPrCondition] = useState({
-    REQUISITION_NUMBER : "",
-    DESCRIPTION        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
-    PREPARER_ID        : "",
-    ITEM_ID            : "",
-    ITEM_DESCRIPTION   : "",
-    LINE_STATUS        : "",
-    BUYER_ID           : "",
-    CATEGORY_ID        : "",
+    "requisition_number" : "",
+    "description"        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
+    "preparer_id"        : "",
+    "item_id"            : "",
+    "item_description"   : "",
+    "type_lookup_code"   : "",
+    "buyer_id"           : "",
+    "category_id"        : "",
   });
 
-  // TODO: 변수명 Po -> Pr 로 변경하기
-  const [poListData, setPoListData]   = useState([]);
+  const [selectedData, setSelectedData]   = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState("");
-
-  const [selectionModel, setSelectionModel] = React.useState([]);
+  const [dataGridCnt, setDataGridCnt] = useState("0");
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...prCondition };
@@ -36,10 +34,13 @@ function selectPrList() {
   };
 
   const selectPrList = async () => {
+
+    console.log("prCondition : " , prCondition);
+
     // !: axios 비동기
     const data = await getSearchPrList(prCondition);
     console.log("getSearchPrList called : ", data);
-    setPoListData(data);
+    setSelectedData(data);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
     setDataGridCnt(getNumberFormat(data.length));
   };
@@ -48,24 +49,15 @@ function selectPrList() {
   const cerateRfq = async () => {
 
     // TODO: Datagrid에서 선택한 값 읽어오기
-    console.log(selectionModel);
-    selectionModel.forEach((value)=>{
-      console.log(poListData[value]);
-    })
 
     // TODO: RFQ 페이지로 데이터 전달하기 (MobX)
 
   };
 
   const getLov = async () => {
-    const statusLov = await getPrSatusLov();
+    const statusLov = await getPrStatusLov();
     statusLov && setPrStatusLov(statusLov);
   };
-
-  // 
-  const getDataGridCheckedId = (newSelectionModel) => {
-    setSelectionModel(newSelectionModel);
-  }
 
   useEffect(() => {
     getLov();
@@ -80,52 +72,52 @@ function selectPrList() {
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
-            id="REQUISITION_NUMBER"
+            id="requisition_number"
             inputLabel="PR 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.REQUISITION_NUMBER}
+            inputValue={prCondition.requisition_number}
           />
           <InputInfo
-            id="DESCRIPTION"
+            id="description"
             inputLabel="건명"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.DESCRIPTION}
+            inputValue={prCondition.description}
           />
           <InputSearch
-            id="PREPARER_ID"
+            id="preparer_id"
             inputLabel="Requester"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.PREPARER_ID}
+            inputValue={prCondition.preparer_id}
           />
           <InputSearch
-            id="ITEM_ID"
+            id="item_id"
             inputLabel="Item"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_ID}
+            inputValue={prCondition.item_id}
           />
           <InputInfo
-            id="ITEM_DESCRIPTION"
+            id="item_description"
             inputLabel="사양"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.ITEM_DESCRIPTION}
+            inputValue={prCondition.item_description}
           />
           <InputSelect
-            id="LINE_STATUS"
+            id="type_lookup_code"
             inputLabel="진행상태"
             handlePoCondition={handlePoCondition}
             lov={prStatusLov}
           />
           <InputSearch
-            id="BUYER_ID"
+            id="buyer_id"
             inputLabel="Buyer"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.BUYER_ID}
+            inputValue={prCondition.buyer_id}
           />
           <InputInfo
-            id="CATEGORY_ID"
+            id="category_id"
             inputLabel="Category"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.CATEGORY_ID}
+            inputValue={prCondition.category_id}
           />
         </InputContainer>
       </section>
@@ -136,11 +128,10 @@ function selectPrList() {
         <ListCount>건수: {dataGridCnt}</ListCount>
       </section>
       <section>
-        {/* // TODO: 변수명 바꾸기 poListData -> ??(팀원상의하기) */}
-        <DataGridPR 
-          poListData={poListData}
-          onSelectionModelChange={getDataGridCheckedId}
-          selectionModel={selectionModel}
+        <AgGrid 
+          resvRowData = {selectedData}
+          resvDefaultColDef = { prSelectColDef }
+          resvColumnDefs = { prSelectColFields }
         />
       </section>
     </StyledRoot>
