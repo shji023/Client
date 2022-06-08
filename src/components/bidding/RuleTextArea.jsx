@@ -1,24 +1,22 @@
-import { Input } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInfo({ label, value }) {
-  const isLong = (label === '건명' || label === '담당자') ? true: false;
-  console.log(isLong);
+function RuleTextArea({ label, value }) {
+  const isTwoCell = (label === '라운드 시작/마감') ? true: false;
   return (
-    <StyledRoot isLong={isLong}>
+    <StyledRoot isTwoCell={isTwoCell}>
       <TitleWrapper>
         <Title>{label}</Title>
       </TitleWrapper>
-      <DataWrapper isLong={isLong}>
+      <DataWrapper isTwoCell={isTwoCell}>
         <Data>{value}</Data>
       </DataWrapper>
     </StyledRoot>
   );
 }
 
-export default BidInfo;
+export default RuleTextArea;
 
 const StyledRoot = styled.div`
   display: flex;
@@ -29,7 +27,7 @@ const StyledRoot = styled.div`
 
 const TitleWrapper = styled.div`
   font-size: 1.6rem;
-  min-width: 14rem;
+  width: 12rem;
   height: 3rem;
   border: 1px solid rgb(225 225 225 / 0%);
   display: flex;
@@ -38,8 +36,8 @@ const TitleWrapper = styled.div`
 `;
 const DataWrapper = styled.div`
   font-size: 1.6rem;
-  width: 100%;
-  height: 3rem;
+  width: 70rem;
+  height: 20rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,10 +46,15 @@ const DataWrapper = styled.div`
 `;
 const Title = styled.p`
   font-size: 1.6rem;
+  //width: 8rem;
   text-align: center;
 `;
-const Data = styled.p`
+const Data = styled.textarea`
   font-size: 1.6rem;
+  //width: 8rem;
   text-align: center;
+  border: none;
+  width: 100%;
+  height: 100%;
 `;
 

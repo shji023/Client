@@ -8,6 +8,25 @@ import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
+import RuleInfo from "components/bidding/RuleInfo";
+import RuleTextArea from "components/bidding/RuleTextArea";
+
+const ruleTextArea = '※ 본 입찰은 사회적 친화기업 구매우대 제도가 적용되는 건으로 \
+사회적 친화기업은 투찰금액의 5% 차감금액을 입찰금액으로 산정하여 낙찰자 평가 예정입니다. \
+(단, 사회적 친화기업의 투찰금액도 Target Price(기준가) 이내여야 낙찰자로 선정되며, 낙찰이후 계약은 실제 투찰금액으로 진행됩니다)\
+○ Compliance(KCS,KFI,RF Certificate) 품목은 납품시 필수검수 항목에 표시된 인증서를 제출하여 주시기 바랍니다.\
+- Compliance(KCS,KFI,RF)를 대체할 수 있는 인증의 경우 관련 서류 첨부\
+○ 베어링이 포함된 Set 구매품은 9대 Maker (NSK, NTN, KOYO, FAG, SKF, INA, IKO, JMC, TIMKEN)를 사용하고, \
+구매사양에 명기된 리테이너 재질, 공차(Clearance),정밀도, Oil Hole 등이 일치하여야 한다. \
+단, 구매사양에 특정Maker 제품을 표기한 경우는 특정Maker 제품 사용한다.(계약내용에 포함됩니다)\
+○ 본 입찰에 참여하는 공급사는 공고시점 기업신용등급 B 등급 이상을 보유하고 있어여 하며, \
+제재중인 공급사는 입찰참여에 제한을 받을 수 있습니다.\
+(신용평가사:한국기업데이터, 한국신용평가, 한국기업평가, 한국신용정보, NICE평가정보, 이크레더블)\
+○ 입찰유의서를 숙지하시고, 계약시 계약보증, 대금지불, 하자보증 등의 계약 이행방법에 대하여 사양서(규격서), \
+구매계약 일반약관 및 특별조건을 참고하시기 바랍니다.\
+○ 최종라운드 유찰시, 최저가 투찰사부터 순차 협상하거나 재공고 입찰을 진행할 수 있습니다.\
+○만약 최종라운드 완료 후에도 유찰된다면, 본건은 최저가 제시 공급사와 협상 또는 신규입찰로 대체될 수 있습니다.'
+
 function BidDetail() {
   const { id } = useParams();
   return (
@@ -33,6 +52,25 @@ function BidDetail() {
       </section>
       <section>
         <SubTitle>RFQ첨부(공급사배포)</SubTitle>
+        <BiddingRuleContainer>
+          <FirstRow>
+            <RuleInfo label='입찰번호' value='Q21104082-3'></RuleInfo>
+            <RuleInfo label='입찰유형' value='경쟁'></RuleInfo>
+            <RuleInfo label='단가입력방식' value='총액제'></RuleInfo>
+            <RuleInfo label='낙찰제도' value='저가제한'></RuleInfo>
+          </FirstRow>
+          <SecondRow>
+            <RuleInfo label='라운드' value='Q21104082-3'></RuleInfo>
+            <RuleInfo label='라운드 시작/마감' value='2021-11-02-14:00(GMT+9:00) - 2022-05-19 10:00 (GMT+9:00)'></RuleInfo>
+            <RuleInfo label='낙찰제도' value='저가제한'></RuleInfo>
+          </SecondRow>
+          <ThirdRow>
+            <RuleInfo label='부가조건' value='TP 105'></RuleInfo>
+          </ThirdRow>
+          <FourthRow>
+            <RuleTextArea label='안내사항' value={ruleTextArea}></RuleTextArea>
+          </FourthRow>
+        </BiddingRuleContainer>
       </section>
       <section>
         <SubTitle>입찰 룰</SubTitle>
@@ -89,7 +127,7 @@ const Title = styled.p`
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-
+8
 const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
@@ -97,3 +135,30 @@ const SubTitle = styled.p`
 `;
 
 
+const BiddingRuleContainer = styled.div`
+  border: 1px solid rgb(225 225 225 / 87%);
+  border-radius: 0.5rem;
+  padding: 2rem 0.5rem;
+`;
+
+const FirstRow = styled.div`
+  display: flex;
+  /* & + & {
+    margin-left: 5rem;
+  } */
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`;
+const SecondRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+`;
+const ThirdRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const FourthRow = styled.div`
+  display: flex;
+
+`;
