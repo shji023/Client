@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 function BidInfo({ label, value }) {
-  const isLong = (label === '건명' || label === '담당자') ? true: false;
+  const isTowCell = (label === '건명' || label === '담당자' || label === '라운드 시작/마감') ? true: false;
+  const isFourCell = (label === '부가조건') ? true: false;
   return (
-    <StyledRoot isLong={isLong}>
+    <StyledRoot isTowCell={isTowCell} isFourCell={isFourCell}>
       <TitleWrapper>
         <Title>{label}</Title>
       </TitleWrapper>
-      <DataWrapper isLong={isLong}>
+      <DataWrapper>
         <Data>{value}</Data>
       </DataWrapper>
     </StyledRoot>
@@ -20,7 +21,7 @@ export default BidInfo;
 const StyledRoot = styled.div`
   display: flex;
   align-items: center;
-  grid-column: ${({ isLong }) => (isLong ? 'span 2' : '')};
+  grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
 `;
 
 const TitleWrapper = styled.div`

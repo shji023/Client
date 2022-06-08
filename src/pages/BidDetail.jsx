@@ -8,7 +8,6 @@ import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
-import RuleInfo from "components/bidding/RuleInfo";
 import RuleTextArea from "components/bidding/RuleTextArea";
 
 const ruleTextArea = '※ 본 입찰은 사회적 친화기업 구매우대 제도가 적용되는 건으로 \
@@ -34,7 +33,7 @@ function BidDetail() {
       <Title>입찰정보조회 {id}</Title>
       <section>
         <SubTitle>RFQ정보</SubTitle>
-          <RFQInfoContainer>
+          <InfoContainer>
             <BidInfo label='RFQ번호' value='6445454'></BidInfo>
             <BidInfo label='단계' value='입찰'></BidInfo>
             <BidInfo label='Status' value='완료'></BidInfo>
@@ -48,32 +47,24 @@ function BidDetail() {
             <BidInfo label='납품지역' value='주식회사 포스코 본사 '></BidInfo>
             <BidInfo label='지불조건' value='전사일반지불'></BidInfo>
             <BidInfo label='인도조건' value='당사지정장소'></BidInfo>
-          </RFQInfoContainer>
+          </InfoContainer>
       </section>
       <section>
         <SubTitle>RFQ첨부(공급사배포)</SubTitle>
-        <BiddingRuleContainer>
-          <FirstRow>
-            <RuleInfo label='입찰번호' value='Q21104082-3'></RuleInfo>
-            <RuleInfo label='입찰유형' value='경쟁'></RuleInfo>
-            <RuleInfo label='단가입력방식' value='총액제'></RuleInfo>
-            <RuleInfo label='낙찰제도' value='저가제한'></RuleInfo>
-          </FirstRow>
-          <SecondRow>
-            <RuleInfo label='라운드' value='Q21104082-3'></RuleInfo>
-            <RuleInfo label='라운드 시작/마감' value='2021-11-02-14:00(GMT+9:00) - 2022-05-19 10:00 (GMT+9:00)'></RuleInfo>
-            <RuleInfo label='낙찰제도' value='저가제한'></RuleInfo>
-          </SecondRow>
-          <ThirdRow>
-            <RuleInfo label='부가조건' value='TP 105'></RuleInfo>
-          </ThirdRow>
-          <FourthRow>
-            <RuleTextArea label='안내사항' value={ruleTextArea}></RuleTextArea>
-          </FourthRow>
-        </BiddingRuleContainer>
       </section>
       <section>
         <SubTitle>입찰 룰</SubTitle>
+        <InfoContainer>
+            <BidInfo label='입찰번호' value='Q21104082-3'></BidInfo>
+            <BidInfo label='입찰유형' value='경쟁'></BidInfo>
+            <BidInfo label='단가입력방식' value='총액제'></BidInfo>
+            <BidInfo label='낙찰제도' value='저가제한'></BidInfo>
+            <BidInfo label='라운드' value='Q21104082-3'></BidInfo>
+            <BidInfo label='라운드 시작/마감' value='2021-11-02-14:00(GMT+9:00) - 2022-05-19 10:00 (GMT+9:00)'></BidInfo>
+            <BidInfo label='통화' value='KRW'></BidInfo>
+            <BidInfo label='부가조건' value='TP 105'></BidInfo>
+            <RuleTextArea label='안내사항' value={ruleTextArea}></RuleTextArea>
+        </InfoContainer>
       </section>
       <section>
         <SubTitle>품목정보</SubTitle>
@@ -90,12 +81,12 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-const RFQInfoContainer = styled.div`
+const InfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
+  padding: 2rem 2rem 2rem 0.5rem;
   gap: 1rem;
 `;
 
@@ -137,16 +128,16 @@ const SubTitle = styled.p`
 
 
 const BiddingRuleContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
+  gap: 1rem;
 `;
 
 const FirstRow = styled.div`
   display: flex;
-  /* & + & {
-    margin-left: 5rem;
-  } */
   justify-content: space-between;
   margin-bottom: 1rem;
 `;
