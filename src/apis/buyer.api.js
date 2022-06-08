@@ -4,12 +4,15 @@ import { serverAxios } from "apis/axios";
 const PREFIX_URL = "/buyer";
 
 // 선택한 조건으로 조회
-export const getSearchBuyerList = async (test) => {
+export const getSearchBuyerList = async (buyer_name) => {
   try {
-    // console.log("test:", test);
+    // console.log("buyerId:", buyerId);
    
     // TODO: GET 시도해보기
-    const { data } = await serverAxios.post(`${PREFIX_URL}/buyerSearch`, test);
+    const sendData = {buyer_name : buyer_name}
+    const { data } = await serverAxios.post(`${PREFIX_URL}/buyerSearch`, sendData);
+
+    console.log("data:!!!!",data);
 
     return data;
   } catch (err) {

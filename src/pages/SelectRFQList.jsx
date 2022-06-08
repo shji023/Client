@@ -1,13 +1,15 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
+import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
 import InputInfo from "components/common/InputInfo";
 import BuyerInputSearch from "components/rfq/BuyerInputSearch";
 import InputSelect from "components/common/InputSelect";
+import InputSearch from "components/common/InputSearch";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import InputDate from "components/common/InputDate";
-import { rfqColumn } from "stores/colData";
+import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 
 
 function SelectRfqList() {
@@ -23,6 +25,7 @@ function SelectRfqList() {
     organization_code: "",
     request_person_id: "",
     buyer_id: "",
+    // buyer_name: "",
     type_lookup_code: "",
     quote_effective_start_date: "",
     // quote_effective_end_date: "",
@@ -36,6 +39,8 @@ function SelectRfqList() {
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
   const [rfqListData, setRfqListData] = useState([]);
+  const [buyerRowData, setBuyerRowData] = useState([]);
+
 
   const handleRFQCondition = (key, value) => {
     const tempRfqCondition = { ...rfqCondition };
@@ -60,6 +65,35 @@ function SelectRfqList() {
 
   };
 
+  // 바이어 검색 버튼 이벤트
+  const onHandleSearch = async (searchWord) => {
+    // console.log("searchWord", searchWord);
+    
+    // TODO: axios로 데이터불러오기
+    const data = await getSearchBuyerList(searchWord);
+
+    // TODO: state에 데이터 저장
+    console.log(data);
+    setBuyerRowData([...data]);
+
+  }
+
+  const onHandleOk = (selectedRows) => {
+    console.log("ok event called!!");
+    console.log("selectedRows", selectedRows);
+    
+
+    // state에 데이터 저장
+    const row = selectedRows[0];
+    
+    const temp = rfqCondition;
+    temp.buyer_id = row.buyer_id;
+    temp.buyer_name = row.buyer_name;
+    setRfqCondition(temp);
+    
+    return row.buyer_name;
+  }
+
   useEffect(() => {
     getLov();
   }, []);
@@ -72,13 +106,27 @@ function SelectRfqList() {
       </ButtonWrapper>
       <section>
         <InputContainer>    
-          <BuyerInputSearch
+          {/* <BuyerInputSearch
             id="buyer_id"
             inputLabel="Buyer"
             handlePoCondition={handleRFQCondition}
             inputValue = {inputValue}
             // inputValue = {buyerCondition.buyer_id}
             setInputValue={setInputValue}
+          /> */}
+          <InputSearch
+            id="buyer_id"
+            title="바이어선택"
+            inputLabel="Buyer"
+            onHandleSearch={onHandleSearch} // 검색 버튼 이벤트
+            onHandleOk={onHandleOk}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpBuyerColFields, // 컬럼
+              rowData : buyerRowData, // 검색 결과 State
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false, // 선택 방지
+            }}
           />
           <InputSelect
             id="rfq_status"
