@@ -115,9 +115,9 @@ export const popUpStaffColFields = [
   ];
 
 export const popUpBuyerColFields = [
-  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
-  { colId:2,  field:"name", headerName: "성명", minWidth:150},
-  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
+  { colId:1,  field:"buyer_id",  headerName: "직번", minWidth:100},
+  { colId:2,  field:"buyer_name", headerName: "성명", minWidth:150},
+  { colId:3,  field:"buyer_dept_code", headerName: "부서", minWidth:150},
   ];
 
 // #endregion
