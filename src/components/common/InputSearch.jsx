@@ -3,7 +3,6 @@ import React, { useState, useRef }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
-import { popUpColDef } from "stores/colData";
 
 /**
  * PopUp 버튼이 추가된 Input 태그
@@ -134,7 +133,6 @@ function InputSearch({
         
         {/* modal 창 안의 내용> */}
         {/* <p>{modalText}</p> */}
-
         <ModalHeader>
           <ModalSearch
             inputLabel={labelTitle}

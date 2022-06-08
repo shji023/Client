@@ -12,6 +12,12 @@ const getRowStyle  = params => {
 //     // logic to return the correct class
 //     return { background: '#EDF2F8' };
 //   }88
+//TODO: 각 페이지에서 props로 받기
+const colData = [
+  { field: "buyer_id", headerName: "직번", width: 90, headerAlign: "center" },
+  { field: "buyer_dept_name", headerName: "성명", width: 90, headerAlign: "center" },
+  { field: "buyer_dept_code", headerName: "부서 번호", width: 90, headerAlign: "center" },
+];
 
 const DataGridModal = ({ gridOptions, gridRef }) => {
     const [gridApi, setGridApi] = useState(null);

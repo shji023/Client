@@ -47,7 +47,6 @@ export const getSearchPoList = async (test) => {
 export const getPoLov = async () => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/poCategory`);
-
     return data;
   } catch (err) {
     throw new Error("Failed to load");

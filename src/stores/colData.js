@@ -6,7 +6,7 @@ export const bidColData = [
   { field: "bidding_END_DATE", headerName: "입찰마감일시", width: 90, headerAlign: "center" },
   { field: "bidding_NO", headerName: "입찰번호", width: 90, headerAlign: "center" },
   { field: "bidding_START_DATE", headerName: "입찰개시일시", width: 90, headerAlign: "center" },
-  { field: "buyer_ID", headerName: "Buyer", width: 90, headerAlign: "center" },
+  { field: "buyer_id", headerName: "Buyer", width: 90, headerAlign: "center" },
   { field: "category_SEGMENT1", headerName: "부문", width: 90, headerAlign: "center" },
   { field: "rfq_DESCRIPTION", headerName: "건명", width: 90, headerAlign: "center" },
   { field: "rfq_NO", headerName: "RFQ번호", width: 90, headerAlign: "center" },
@@ -92,10 +92,17 @@ export const prCreateColFields = [
   { field: "warehouse",         headerName:"창고",               minWidth:110, },
   { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
   { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
+  ]
+
+export const rfqColumn = [
+  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:90},
+  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:200},
+  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:180},
+  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:150},
+  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:110},
+  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:150},
+  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:90}
 ]
-
-
-
 
 // #endregion
 

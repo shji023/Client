@@ -244,14 +244,15 @@ function selectPrList() {
     let cntt = 0;
     gridRef.current.api.forEachNode( (node) => {
       cntt ++;
+
       selectedIds.forEach(selectedId => {
-        console.log("selectedIds forEach!!")
         if(node.data.id === selectedId){
           console.log("same", node.data.id);
           node.setSelected(true);
           return;
         }
       })
+
     })
     console.log("total node", tempData.length, cntt);
   }
@@ -306,7 +307,7 @@ function selectPrList() {
     setPreparerRowData([...resultList]);
     
   }
-  
+
   const onHandleOk = (selectedRows) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
