@@ -6,6 +6,8 @@ import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
 
 const AgGridRFQ = ({ listData, colData }) => {
+    console.log("listData", listData);
+    
     const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
     // const [gridColumnApi, setGridColumnApi] = useState(null);
