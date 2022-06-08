@@ -12,6 +12,7 @@ import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
 import Home from "pages/Home";
 import SelectPoList from "pages/SelectPoList";
+import PoRegist from "pages/PoRegist";
 import SuccessBid from "pages/SuccessBid";
 import SelectPrList from "pages/SelectPrList";
 import SelectPrCreate from "pages/SelectPrCreate";
@@ -88,6 +89,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
+                <Route path="/poRegist" element={<PoRegist />} />
                 <Route path="/successBid" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/selectPrCreate" element={<SelectPrCreate />} />
