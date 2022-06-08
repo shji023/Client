@@ -13,28 +13,28 @@ function InsertBid() {
   const {id} = useParams();
   console.log("id : ", id);
 
-  // const [rfqListData, setRfqListData] = useState({
-  //   rfq_no: "",
-  //   simple_quotation_flag:"",
-  //   rfq_status:"",
-  //   line_type_id :"",
+  const [rfqListData, setRfqListData] = useState({
+    rfq_no: "",
+    simple_quotation_flag:"",
+    rfq_status:"",
+    line_type_id :"",
 
-  //   rfq_description:"",
-  //   buyer_id: "",
+    rfq_description:"",
+    buyer_id: "",
 
-  //   // 정산주기 칼럼명 넣기
-  //   pur_cptz_tp_tp:"",
-  //   start_date:"",
-  //   end_date:"",
-  //   amount_limit:"",
+    // 정산주기 칼럼명 넣기
+    pur_cptz_tp_tp:"",
+    start_date:"",
+    end_date:"",
+    amount_limit:"",
 
-  //   rfq_ship_to:"",
-  //   rfq_payment_terms:"",
-  //   bidding_fob:"",
-  // });
+    rfq_ship_to:"",
+    rfq_payment_terms:"",
+    bidding_fob:"",
+  });
 
   
-  const [rfqListData, setRfqListData] = useState([]);
+  // const [rfqListData, setRfqListData] = useState([]);
 
 
   // Buyer id 검색창 추가시 사용하기
