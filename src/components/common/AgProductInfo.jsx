@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import InputInfo from "./InputInfo";
 
-const AgVendorSelect = () => {
+const AgVendorSelect = ({productInfoData}) => {
+    console.log("productInfoData ::" ,productInfoData);
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     
-    // const rowData = bidResultData; 
+    const rowData = productInfoData; 
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -27,9 +29,9 @@ const AgVendorSelect = () => {
     };
     let cnt = 1;
 
-    // rowData.forEach((element) => {
-    //     element.id = cnt++;
-    // });
+    rowData.forEach((element) => {
+        element.id = cnt++;
+    });
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -54,7 +56,7 @@ const AgVendorSelect = () => {
             </div> */}
             <AgGridReact        
                
-                // rowData={rowData}
+                rowData={rowData}
                 // getRowStyle={getRowStyle}
                 rowSelection={"multiple"}
                 suppressRowClickSelection={false}
@@ -98,17 +100,24 @@ const AgVendorSelect = () => {
                 suppressColumnsToolPanel={true}
                 />
              
-                <AgGridColumn field="id" headerName="Line" minWidth={10} maxWidth= {100} />
-                <AgGridColumn field="vendor_name" headerName="Item" minWidth={10} />
-                <AgGridColumn field="main_currency" headerName="Description" minWidth={10} maxWidth={120}/>
-                <AgGridColumn field="quotation_total_price1" headerName="단위" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="수량" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="납기" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="사용부서" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="그룹사" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="PR번호-Line" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="신청자" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="quotation_total_price1" headerName="연락처" minWidth={10} maxWidth={120} />                
+                <AgGridColumn field="item" headerName="Item" minWidth={10} />
+                <AgGridColumn field="description" headerName="Description" minWidth={10} maxWidth={150}/>
+                <AgGridColumn field="uom" headerName="단위" minWidth={10} maxWidth={80} />                
+                <AgGridColumn field="quantity" headerName="수량" minWidth={10} maxWidth={80} 
+                cellRendererSelector={(params) => {
+                    return {
+                        component: InputInfo,
+                        params: {
+                            id: "fuckyou"
+                        }
+                    };
+                }}/>                
+                <AgGridColumn field="end_date" headerName="납기" minWidth={10} maxWidth={120}  />                
+                <AgGridColumn field="dept_name" headerName="사용부서" minWidth={10} maxWidth={120} />                
+                <AgGridColumn field="group_name" headerName="그룹사" minWidth={10} maxWidth={100} />                
+                <AgGridColumn field="requisition_number" headerName="PR번호-Line" minWidth={10} maxWidth={140} />                
+                <AgGridColumn field="name" headerName="신청자" minWidth={10} maxWidth={100} />                
+                <AgGridColumn field="staff_contact_number" headerName="연락처" minWidth={10} maxWidth={120} />                
             
             </AgGridReact>
             </div>

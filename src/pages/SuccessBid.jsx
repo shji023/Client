@@ -10,11 +10,11 @@ import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 
 function SuccessBid(props) {
   const [successBidCondition, setSuccessBidCondition] = useState({
-    RFQ_DESCRIPTION: "",
-    RFQ_NO: "",
-    BIDDING_NO: "",
-    BID_TYPE_CODE: "",
-    TARGET_PRICE: "",
+    rfq_description: "",
+    rfq_no: "",
+    bidding_no: "",
+    bid_type_code: "",
+    target_price: "",
   });
   // const [bidResultCondition, setBidResultCondition] = useState({
   //   VENDOR_NAME: "",

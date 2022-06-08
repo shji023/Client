@@ -7,25 +7,54 @@ import InputSearch from "components/common/InputSearch";
 import AgVendorSelect from "components/common/AgVendorSelect";
 import AgRfqInsert from "components/common/AgRfqInsert";
 import AgProductInfo from "components/common/AgProductInfo";
-function RfqCreate(props) {
+import BidInfo from "components/common/BidInfo";
+import { getProductInfoList } from "apis/RfqCreate.api";
+function RfqCreate() {
   const [rfqCondition, setRfqCondition] = useState({
-    RFQ_NO: "",
-
+    item: "",
+    description: "",
+    uom: "",
+    group_name: "",
+    requisition_number: "",
+    requisition_line_number: "",
+    dept_name: "",
+    name: "",
+    staff_contact_number: "",
   });  
+  const [productInfoData, setProductInfoData] = useState([]);
 
-  const handleRfqCondition = (key, value) => {
-    const tempPoCondition = { ...rfqCondition };
-
-    tempPoCondition[key] = value;
-    setRfqCondition(tempPoCondition);
+  const selectProductInfo = async () => {
+    console.log("liauwjefoaijwef;oiajwe;ofij");
+    const data = await getProductInfoList();
+    console.log("여기가 찍히는거냐?" );
+    console.log(data);
+    setProductInfoData(data);
   };
+  // const handleRfqCondition = (key, value) => {
+  //   const tempRfqCondition = { ...rfqCondition };
+
+  //   tempRfqCondition[key] = value;
+  //   setRfqCondition(tempRfqCondition);
+  // };
+  // const getLov = async () => {
+  //   const poCategory = await getPoLov();
+  //   const poApprove = await getPoApproveLov();
+  //   const saso = await getSasoLov();
+  //   const poType = await getPoApproveLov();
+
+  //   poCategory && setPoCategoryLov(poCategory);
+  //   poApprove && setPoApproveLov(poApprove);
+  //   saso && setSasoLov(saso);
+  //   poType && setPoTypeLov(poType);
+  // };
   useEffect(() => {
-   
+    // getLov();
+    selectProductInfo();
   }, []);
 
     return (
     <StyledRoot>
-        <Title>비딩룰 조회</Title>
+        <Title>RFQ 생성</Title>
 
         <section>
           <SmallTitle>🌐 RFQ 정보</SmallTitle>
@@ -45,14 +74,13 @@ function RfqCreate(props) {
                 alert("취소 누름")
             }}>저장</Button>
           </ButtonWrapper>
-
+          
           <InputContainer>
-          <InputInfo
-            id="RFQ_NO"
-            inputLabel="RFQ 번호"
-            handleRfqCondition={handleRfqCondition}
-            inputValue={rfqCondition.RFQ_DESCRIPTION}
+          <BidInfo
+            label= "RFQ 번호"
+            value= "123"
           />
+
         </InputContainer>
         </section>
 
@@ -119,7 +147,7 @@ function RfqCreate(props) {
                 alert("취소 누름")
             }}>행 삭제</Button>
           </ButtonWrapper>
-          <AgProductInfo></AgProductInfo>
+          <AgProductInfo productInfoData={productInfoData} ></AgProductInfo>
         </section>
 
     </StyledRoot>
