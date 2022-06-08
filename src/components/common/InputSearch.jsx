@@ -14,9 +14,8 @@ import { popUpColDef } from "stores/colData";
  * @param { onHandleSearch }  onHandleSearch  Button 이벤트 - 검색 버튼
  * @param { onHandleOk }      onHandleOk      Button 이벤트 - Ok 버튼
  * @param { onHandleCancel }  onHandleCancel  Button 이벤트 - Cancel 버튼
- * @param { gridOpitons }     gridOpitons     DataGrid 관련 - DataGrid 옵션
- *                                                            { defaultColDef : popUpColDef,
- *                                                              columnDefs : columnDefs,
+ * @param { gridOptions }     gridOptions     DataGrid 관련 - DataGrid 옵션
+ *                                                            { columnDefs : columnDefs,
  *                                                              rowData : rowData,
  *                                                              rowSelection : "single", "multiple",
  *                                                              suppressRowClickSelection : true, false }
@@ -37,11 +36,11 @@ function InputSearch({
   onHandleCancel,
 
   // DataGrid
-  gridOpitons,
+  gridOptions,
 
 }) {
 
-  title = "선택";
+  !title && (title = "선택");
   labelTitle = "검색어";
   
   !onHandleSearch && (onHandleSearch = (value) => {
@@ -60,27 +59,6 @@ function InputSearch({
     console.log("called onHandleCancel");
 
   })
-
-  const columnDefs = [
-    { colId:1,  field:"num",  headerName: "직번", maxWidth:100},
-    { colId:2,  field:"name", headerName: "성명", maxWidth:120},
-    { colId:3,  field:"dept", headerName: "부서", /* maxWidth:150 */},
-  ];
-
-  const rowData = [
-    {"num" : 1, "name" : "이이이", "dept" : "ERP"},
-    {"num" : 1, "name" : "이이이", "dept" : "ERP"},
-    {"num" : 1, "name" : "이이이", "dept" : "ERP"},
-  ];
-
-   // Grid 옵션
-   gridOpitons = {
-    defaultColDef : popUpColDef,
-    columnDefs : columnDefs,
-    rowData : rowData,
-    rowSelection : "single", // single, multiple
-    suppressRowClickSelection : false,
-  };
 
   // 검색어
   const [searchWord, setSearchWord] = useState("");
@@ -122,7 +100,7 @@ function InputSearch({
 
     // ! 비동기
     // setTimeout(() => {
-    //   setVisible(false);
+      setVisible(false);
     //   setConfirmLoading(false);
     // }, 1000);
 
@@ -170,7 +148,7 @@ function InputSearch({
         <section>
           <DataGridModal 
             gridRef={gridRef}
-            gridOpitons={gridOpitons}
+            gridOptions={gridOptions}
           />
         </section>
       </Modal>

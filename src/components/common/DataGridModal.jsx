@@ -13,7 +13,7 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }88
 
-const DataGridModal = ({ gridOpitons, gridRef }) => {
+const DataGridModal = ({ gridOptions, gridRef }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -32,7 +32,7 @@ const DataGridModal = ({ gridOpitons, gridRef }) => {
 
     let cnt = 1;
 
-    gridOpitons.rowData.forEach((element) => {
+    gridOptions.rowData.forEach((element) => {
         element.id = cnt++;
     });
     
@@ -60,12 +60,21 @@ const DataGridModal = ({ gridOpitons, gridRef }) => {
             </div> */}
             <AgGridReact        
                 ref={gridRef}
-                defaultColDef={gridOpitons.defaultColDef}
-                columnDefs={gridOpitons.columnDefs}
-                rowData={gridOpitons.rowData}
+                defaultColDef={{
+                    headerClass: { background: '#EDF2F8' },
+                    editable: true,
+                    sortable: true,
+                    minWidth: 100,
+                    filter: true,
+                    resizable: true,
+                    // floatingFilter: true,
+                    flex: 1,
+                  }}
+                columnDefs={gridOptions.columnDefs}
+                rowData={gridOptions.rowData}
                 getRowStyle={getRowStyle}
-                rowSelection={gridOpitons.rowSelection}
-                suppressRowClickSelection={gridOpitons.suppressRowClickSelection}
+                rowSelection={gridOptions.rowSelection}
+                suppressRowClickSelection={gridOptions.suppressRowClickSelection}
                 sideBar={{
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",

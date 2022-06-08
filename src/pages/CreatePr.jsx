@@ -2,19 +2,20 @@ import { getPrReasonLov, insertOnePr, deleteOnePr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
 // import DataGridPrLine from "components/common/DataGridPrLine";
-import { prCreateColDef, prCreateColFields } from "stores/colData"
+import { prCreateColDef, prCreateColFields, popUpStaffColFields } from "stores/colData"
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
+import { getStaffList } from "apis/public.api";
 
 function selectPrList() {
 
   const [conditions, setConditions] = useState({
       req_num       : "",          // requisition_number : pr 번호
-      preparer_name : "이동현",    // preparer_name : Preparer
-      preparer_id   : 123123,      // preparer_id : Preparer
+      preparer_name : "",    // preparer_name : Preparer
+      preparer_id   : 0,      // preparer_id : Preparer
       auth_date     : "",          // date : PR 승인일
       description   : "PR 테스트", // PR명
       amount        : 0,           // 금액 (Line들의 amount 합)
@@ -120,6 +121,7 @@ function selectPrList() {
     },
   ]
   const [rowData, setRowData] = useState(testData);
+  const [preparerRowData, setPreparerRowData] = useState([])
 
   const [prReasonLov, setPrReasonLov] = useState([]);
 
@@ -220,9 +222,12 @@ function selectPrList() {
     const tempData = [];
     const selectedIds = [];
     // const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+
     gridRef.current.api.forEachNode(function (node) {
       console.log("node", node);
+
       tempData.push({...node.data, id: id++});
+
       if(node.isSelected()){
         selectedIds.push(id-1);
         tempData.push({...node.data, id: id++});
@@ -231,15 +236,17 @@ function selectPrList() {
     });
 
     console.log("tempData", tempData);
-    console.log("selected", selectedIds);
+    console.log("selectedIds", selectedIds);
     setRowData([...tempData]);
+    gridRef.current.api.setRowData(tempData);
 
     // TODO : selected 적용시켜야 됨
     let cntt = 0;
     gridRef.current.api.forEachNode( (node) => {
       cntt ++;
-      selectedIds.forEach(element => {
-        if(node.data.id === element){
+      selectedIds.forEach(selectedId => {
+        console.log("selectedIds forEach!!")
+        if(node.data.id === selectedId){
           console.log("same", node.data.id);
           node.setSelected(true);
           return;
@@ -270,7 +277,7 @@ function selectPrList() {
   }, []);
 
   useEffect(() => {
-    console.log(123)
+    console.log("rowData useEffect")
   }, [rowData]);
 
   const getLov = async () => {
@@ -287,6 +294,33 @@ function selectPrList() {
 
     // reasonLov && setPrReasonLov([...temp]);
   };
+
+  const onHandleSearch = async (value) => {
+    console.log("value1 : ", value);
+
+    const sendData = {"name" : value};
+    const resultList = await getStaffList(sendData);
+
+    console.log("resultList", resultList);
+
+    setPreparerRowData([...resultList]);
+    
+  }
+  
+  const onHandleOk = (selectedRows) => {
+    console.log("called onHandleOk1");
+    console.log("selectedRows", selectedRows);
+
+    const row = selectedRows[0];
+    
+    const temp = conditions;
+    temp.preparer_id = row.id;
+    temp.preparer_name = row.name;
+    setConditions(temp);
+    
+    return row.name;
+
+  }
 
 
   return (
@@ -306,11 +340,19 @@ function selectPrList() {
             inputValue={conditions.req_num}
           />
           {/* TODO: disabled */}
-          <InputInfo
+          <InputSearch
             id="preparer_name"
+            title="직원선택"
             inputLabel="Preparer"
-            handlePoCondition={handleCondition}
-            inputValue={conditions.preparer_name}
+            onHandleSearch={onHandleSearch}
+            onHandleOk={onHandleOk}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpStaffColFields,
+              rowData : preparerRowData,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputSearch
             id="auth_date"

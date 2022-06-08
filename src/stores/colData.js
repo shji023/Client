@@ -101,20 +101,16 @@ export const prCreateColFields = [
 
 
 // #region 팝업
-export const popUpBuyerColFields = [
-  { colId:1,  field:"num",                headerName: "직번",       minWidth:100},
-  { colId:2,  field:"name",        headerName: "성명",     minWidth:150},
-  { colId:3,  field:"dept",             headerName: "부서",    minWidth:150},
+export const popUpStaffColFields = [
+  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
+  { colId:2,  field:"name", headerName: "성명", minWidth:150},
+  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
   ];
 
-export const popUpColDef = {
-  headerClass: { background: '#EDF2F8' },
-  editable: true,
-  sortable: true,
-  minWidth: 100,
-  filter: true,
-  resizable: true,
-  // floatingFilter: true,
-  flex: 1,
-}
+export const popUpBuyerColFields = [
+  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
+  { colId:2,  field:"name", headerName: "성명", minWidth:150},
+  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
+  ];
+
 // #endregion
