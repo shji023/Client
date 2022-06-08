@@ -36,18 +36,18 @@ function BidDetail() {
         <SubTitle>RFQ정보</SubTitle>
           <RFQInfoContainer>
             <BidInfo label='RFQ번호' value='6445454'></BidInfo>
-            <BidInfo label='단계' value='6445454'></BidInfo>
-            <BidInfo label='Status' value='6445454'></BidInfo>
-            <BidInfo label='Type' value='6445454'></BidInfo>
-            <BidInfo label='건명' value='6445454'></BidInfo>
-            <BidInfo label='담당자' value='6445454'></BidInfo>
-            <BidInfo label='정산주기' value='6445454'></BidInfo>
-            <BidInfo label='협업유형' value='6445454'></BidInfo>
-            <BidInfo label='계약기간(BPA)' value='6445454'></BidInfo>
-            <BidInfo label='Amount Limit' value='6445454'></BidInfo>
-            <BidInfo label='납품지역' value='6445454'></BidInfo>
-            <BidInfo label='지불조건' value='6445454'></BidInfo>
-            <BidInfo label='인도조건' value='6445454'></BidInfo>
+            <BidInfo label='단계' value='입찰'></BidInfo>
+            <BidInfo label='Status' value='완료'></BidInfo>
+            <BidInfo label='Type' value='자재'></BidInfo>
+            <BidInfo label='건명' value='[재입찰](포)제강부-2연주공장 Dummy Bar _ 1 item'></BidInfo>
+            <BidInfo label='담당자' value='배우현(054-220-2514)'></BidInfo>
+            <BidInfo label='정산주기' value=''></BidInfo>
+            <BidInfo label='협업유형' value=''></BidInfo>
+            <BidInfo label='계약기간(BPA)' value=''></BidInfo>
+            <BidInfo label='Amount Limit' value=''></BidInfo>
+            <BidInfo label='납품지역' value='주식회사 포스코 본사 '></BidInfo>
+            <BidInfo label='지불조건' value='전사일반지불'></BidInfo>
+            <BidInfo label='인도조건' value='당사지정장소'></BidInfo>
           </RFQInfoContainer>
       </section>
       <section>
@@ -132,6 +132,7 @@ const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  //font-family: "Pretendard-SemiBold";
 `;
 
 

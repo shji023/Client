@@ -1,11 +1,8 @@
-import { Input } from "antd";
-import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
 function BidInfo({ label, value }) {
   const isLong = (label === '건명' || label === '담당자') ? true: false;
-  console.log(isLong);
   return (
     <StyledRoot isLong={isLong}>
       <TitleWrapper>
@@ -22,7 +19,6 @@ export default BidInfo;
 
 const StyledRoot = styled.div`
   display: flex;
-  //justify-content: center;
   align-items: center;
   grid-column: ${({ isLong }) => (isLong ? 'span 2' : '')};
 `;
@@ -49,6 +45,7 @@ const DataWrapper = styled.div`
 const Title = styled.p`
   font-size: 1.6rem;
   text-align: center;
+  font-family: "Pretendard-SemiBold";
 `;
 const Data = styled.p`
   font-size: 1.6rem;
