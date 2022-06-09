@@ -13,12 +13,11 @@ function BidDetail() {
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(id);
     const rfqInfo = await getRfqInfo(id);
-    setRuleInfoData(ruleInfo[0]);
-    setRfqInfoData(rfqInfo[0]);
-    
+    ruleInfo && setRuleInfoData(ruleInfo[0]);
+    rfqInfo && setRfqInfoData(rfqInfo[0]);
   };
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
-  const stage = rfqInfoData.simple_quotation_flag === 'Y'? '단순견적':'입찰';
+  const stage = rfqInfoData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
   useEffect(()=>{
     selectInfo();
   },[]);
