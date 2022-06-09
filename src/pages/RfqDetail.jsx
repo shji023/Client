@@ -39,11 +39,51 @@ function InsertBid() {
   const selectRFQDetail = async (id) => {
     const data = await getRfqInfo(id);
     console.log("data~~~~",data);
-    // handleBidCondition(data);
 
     setRfqListData(data[0]);
-
   };
+
+
+  // 파일 업로드
+  const pageSize = 10;
+  const initMetaDataPaged = {
+      content: [],
+      totalSize: 0,
+      page: 0
+  };
+
+  const [fileUplaod, setFileUpload] = useState({
+    file: "",
+    title: "",
+    details: "",
+    error: "",
+    metaDataPaged: initMetaDataPaged,
+    modalMessage: "",
+    modal: false,
+    blocking: false
+  });
+
+  const onUpload = async () => {
+    try {
+        const result = await restClient.uploadFile(this.state.file, this.state.title, this.state.details)
+        if (!result) this.displayTheError('No user found');
+    } catch (e) {
+        await this.toggleErrorAsync(e.message);
+        return;
+    }
+    await this.fetchMetadata(0, pageSize);
+  }
+
+  const handleInputChange = (e) => {
+    const target = e.target;
+    const value = target.type === 'file' ? e.target.files[0] : target.value;
+    const name = target.name;
+    this.setState({
+        [name]: value, error: ""
+    });
+  };
+
+
 
   // const getLov = async () => {
   //   const rfqStatusLov = await getRfqStatusLov();
@@ -124,14 +164,41 @@ function InsertBid() {
         />
         </InputContainer>
       </section>
-      <section>
+     
         <SubTitle>공급사 선정</SubTitle>
         {/* <RFQAgGridInsertBid listData={rfqListData}/> */}
 
         <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
 
-
-        <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
+        <ButtonWrapper>
+          <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
+          <Button
+                  disabled={fileUplaod.title === "" || fileUplaod.file === "" || fileUplaod.details === ""}
+                  onClick={onUpload}>Upload</Button>
+        </ButtonWrapper>
+        <section>
+            <UploadContainer>
+              <Label htmlFor="check">선택</Label>
+              <Label htmlFor="type">유형</Label>
+              <Label htmlFor="file">첨부</Label>
+              <Label htmlFor="title">첨부 파일명</Label>
+              <Label htmlFor="size">Size</Label>
+              <Label htmlFor="createDate">등록일</Label>
+              
+              <p>체크박스 표시</p>
+              <p>유형 선택</p>
+              <InputFile type="file" name="file" id="file"
+                  placeholder="Select a file for upload"
+                  onChange={handleInputChange}
+                  valid={true}/>
+              <InputFile type="text" name="title" id="title"
+                  placeholder="변경할 파일 이름을 입력하세요"
+                  onChange={handleInputChange}
+                  valid={true}/>
+              <p>사이즈 자동으로 등록</p>
+              <p>등록일 자동으로 등록</p>
+          </UploadContainer>  
+     
 
 
       </section>
@@ -157,10 +224,18 @@ const InputContainer = styled.div`
   gap: 1rem;
 `;
 
+const UploadContainer = styled.div`
+  display: grid;
+  grid-template-columns: 0.3fr 0.5fr 1fr 1.5fr 0.5fr 0.5fr;
+  border: 1px solid rgb(225 225 225 / 87%);
+  border-radius: 0.5rem;
+  padding: 0rem 0.5rem;
+  gap: 1rem;
+`;
+
 const StyledBidInfo = styled(BidInfo)`
   grid-column: 2 / span 2;
 `;
-
 
 const Button = styled.button`
   width: 10rem;
@@ -173,8 +248,8 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
-  margin-bottom: 2rem;
-  margin-top: 1.5rem;
+  margin-bottom: 1.0rem;
+  // margin-top: 1.5rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -199,6 +274,22 @@ const SubTitle = styled.p`
   font-size: 1.8rem;
   margin-bottom: 1rem;
   margin-top: 1rem;
+  width: 90%;
+  height: 100%;
+`;
+
+const Label = styled.label`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  width: 90%;
+  height: 100%;
+`;
+
+const InputFile = styled.input`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  // margin-top: 1rem;
   width: 90%;
   height: 100%;
 `;
