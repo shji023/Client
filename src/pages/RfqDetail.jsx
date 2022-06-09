@@ -6,6 +6,8 @@ import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
+import Upload from "./Upload";
+
 
 
 function InsertBid() {
@@ -65,7 +67,8 @@ function InsertBid() {
 
   const onUpload = async () => {
     try {
-        const result = await restClient.uploadFile(this.state.file, this.state.title, this.state.details)
+        const result = await uploadFile(fileUplaod.file, fileUplaod.title, fileUplaod.details)
+        console.log("result : : ", result);
         if (!result) this.displayTheError('No user found');
     } catch (e) {
         await this.toggleErrorAsync(e.message);
@@ -76,15 +79,18 @@ function InsertBid() {
 
   const handleInputChange = (e) => {
     const target = e.target;
+    console.log("target : ", target); // target
+    console.log("type : ", e.target.type); // text
+    // console.log("files : ", e.target.files[0]);
+    console.log("value : ", target.value); // 사용자가 입력한 파일명
+    console.log("name : ", target.name); // title
+
     const value = target.type === 'file' ? e.target.files[0] : target.value;
     const name = target.name;
     this.setState({
         [name]: value, error: ""
     });
   };
-
-
-
   // const getLov = async () => {
   //   const rfqStatusLov = await getRfqStatusLov();
   //   const rfqCategoryLov = await getRfqCategoryLov();
@@ -164,17 +170,15 @@ function InsertBid() {
         />
         </InputContainer>
       </section>
-     
         <SubTitle>공급사 선정</SubTitle>
         {/* <RFQAgGridInsertBid listData={rfqListData}/> */}
-
         <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
-
-        <ButtonWrapper>
+        <Upload/>
+        {/* <ButtonWrapper>
           <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
           <Button
-                  disabled={fileUplaod.title === "" || fileUplaod.file === "" || fileUplaod.details === ""}
-                  onClick={onUpload}>Upload</Button>
+            disabled={fileUplaod.title === "" || fileUplaod.file === "" || fileUplaod.details === ""}
+            onClick={onUpload}>Upload</Button>
         </ButtonWrapper>
         <section>
             <UploadContainer>
@@ -184,7 +188,6 @@ function InsertBid() {
               <Label htmlFor="title">첨부 파일명</Label>
               <Label htmlFor="size">Size</Label>
               <Label htmlFor="createDate">등록일</Label>
-              
               <p>체크박스 표시</p>
               <p>유형 선택</p>
               <InputFile type="file" name="file" id="file"
@@ -198,10 +201,7 @@ function InsertBid() {
               <p>사이즈 자동으로 등록</p>
               <p>등록일 자동으로 등록</p>
           </UploadContainer>  
-     
-
-
-      </section>
+      </section> */}
     </StyledRoot>
   );
 }
@@ -231,10 +231,6 @@ const UploadContainer = styled.div`
   border-radius: 0.5rem;
   padding: 0rem 0.5rem;
   gap: 1rem;
-`;
-
-const StyledBidInfo = styled(BidInfo)`
-  grid-column: 2 / span 2;
 `;
 
 const Button = styled.button`
