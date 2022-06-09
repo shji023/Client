@@ -304,7 +304,7 @@ function selectPrList() {
           gridOptions
         })
   }
-  const [prCreateColFields, setPrCreateColFields] = useState([
+  const prCreateColFields = [
     { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
     { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
     { field: "item",              headerName:"Item",               minWidth:110, 
@@ -321,7 +321,6 @@ function selectPrList() {
     { field: "unit",              headerName:"단위",               minWidth:110, },
     { field: "cnt",               headerName:"수량",               minWidth:110, 
       cellRendererSelector: useCallback((params) => {
-        console.log("수량 cellRendererSelector")
         return {
           component: handleCellInputInfo,
           params: {params, rowData, setRowData}
@@ -347,7 +346,7 @@ function selectPrList() {
     { field: "warehouse",         headerName:"창고",               minWidth:110, },
     { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
     { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
-    ]);
+    ];
 
 
   // Init Page

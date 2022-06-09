@@ -57,14 +57,17 @@ export const prSelectColFields = [
   ];
 
 export const prCreateColDef = {
-  headerClass: { background: '#EDF2F8' },
-  editable: false,
+  editable: true,
   sortable: true,
+  enablePivot: true,
+  enableValue: true,
+  flex: 1,
   minWidth: 100,
   filter: true,
   resizable: true,
+
+  headerClass: { background: '#EDF2F8' },
   // floatingFilter: true,
-  flex: 1,
 }
 
 export const rfqColumn = [
