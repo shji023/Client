@@ -52,3 +52,14 @@ export const getCategoryLov = async () => {
     throw new Error("Failed to load");
   }
 };
+
+export const getRuleInfo = async (bidding_no) => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/ruleInfo/${bidding_no}`);
+
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+

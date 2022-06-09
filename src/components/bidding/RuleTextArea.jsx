@@ -9,7 +9,7 @@ function RuleTextArea({ label, value }) {
         <Title>{label}</Title>
       </TitleWrapper>
       <DataWrapper>
-        <Data>{value}</Data>
+        <Data value={value} readOnly />
       </DataWrapper>
     </StyledRoot>
   );
@@ -35,7 +35,7 @@ const TitleWrapper = styled.div`
 const DataWrapper = styled.div`
   font-size: 1.6rem;
   width: 100%;
-  height: 10rem;
+  height: 15rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@ const Data = styled.textarea`
   border: none;
   width: 100%;
   height: 100%;
-  padding: 1rem;
-  line-height: 2rem;
+  padding: 0 1rem;
+  line-height: 2.3rem;
 `;
 
