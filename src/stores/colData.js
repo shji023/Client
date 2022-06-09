@@ -1,3 +1,4 @@
+import InputInfo from "components/common/InputInfo";
 
 export const bidColData = [
   { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
@@ -57,7 +58,7 @@ export const prSelectColFields = [
 
 export const prCreateColDef = {
   headerClass: { background: '#EDF2F8' },
-  editable: true,
+  editable: false,
   sortable: true,
   minWidth: 100,
   filter: true,
@@ -65,34 +66,6 @@ export const prCreateColDef = {
   // floatingFilter: true,
   flex: 1,
 }
-
-export const prCreateColFields = [
-  { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
-  { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
-  { field: "item",              headerName:"Item",               minWidth:110, /* cellRenderer: InputSearch */},
-  { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
-  { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
-  { field: "unit",              headerName:"단위",               minWidth:110, },
-  // 수정 가능
-  { field: "cnt",               headerName:"수량",               minWidth:110, /* cellRenderer: InputInfo */},
-  // 수정 가능
-  { field: "unit_price",        headerName:"단가",               minWidth:110, /* cellRenderer: InputInfo */},
-  // TODO: cnt * unit_price
-  { field: "total_amount",      headerName:"금액",               minWidth:110, },
-  // ?
-  { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
-  { field: "buyer",             headerName:"Buyer",              minWidth:110, },
-  // 수정 가능
-  { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, /* cellRenderer: InputInfo */},
-  { field: "requester",         headerName:"Requester",          minWidth:110, },
-  { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
-  { field: "destination_type",  headerName:"Destination Type",   minWidth:110, },
-  { field: "organization",      headerName:"Organization",       minWidth:110, },
-  { field: "location",          headerName:"Location",           minWidth:110, },
-  { field: "warehouse",         headerName:"창고",               minWidth:110, },
-  { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
-  { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
-  ]
 
 export const rfqColumn = [
   { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:90},

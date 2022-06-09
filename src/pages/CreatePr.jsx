@@ -2,10 +2,11 @@ import { getPrReasonLov, insertOnePr, deleteOnePr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
 // import DataGridPrLine from "components/common/DataGridPrLine";
-import { prCreateColDef, prCreateColFields, popUpStaffColFields } from "stores/colData"
+import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields } from "stores/colData"
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
+import InputInfoGrid from "components/common/InputInfoGrid";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { getStaffList } from "apis/public.api";
@@ -23,26 +24,11 @@ function selectPrList() {
       reason        : "none",      // reason : 수의사유
   })
 
-  /** 필요한 항목
-   * Item     item.item
-   * Category item.category
-   * 사양     item.description
-   * 단위     item.unit
-   * 수량     [사용자 입력]
-   * 단가     [사용자 입력]
-   * 금액     [수량 * 단가]
-   * Tax Code ?
-   * Buyer    buyer.id
-   * Note to Buyer
-   * Requester 
-   * 요청납기일
-   * DestinationType
-   * Organization
-   * Location
-   * 창고
-   * Dist Num
-   * Charge Account
-   */
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  
+  
+
   let testData = [
     {
       line: 1, 
@@ -126,6 +112,10 @@ function selectPrList() {
   const [prReasonLov, setPrReasonLov] = useState([]);
 
   const gridRef = useRef();
+
+  const handleChange = () => {
+
+  }
 
   const handleCondition = (key, value) => {
     const tempCondition = { ...conditions };
@@ -220,41 +210,26 @@ function selectPrList() {
     console.log("copyRow called" );
     let id = 1;
     const tempData = [];
-    const selectedIds = [];
-    // const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+    const ids = [];
 
     gridRef.current.api.forEachNode(function (node) {
-      console.log("node", node);
-
       tempData.push({...node.data, id: id++});
-
       if(node.isSelected()){
-        selectedIds.push(id-1);
+        ids.push(id-1);
+        // setSelectedIds([...selectedIds, id-1]);
         tempData.push({...node.data, id: id++});
       }
-
     });
 
-    console.log("tempData", tempData);
-    console.log("selectedIds", selectedIds);
     setRowData([...tempData]);
-    gridRef.current.api.setRowData(tempData);
+    setSelectedIds([...ids]);
+    // gridRef.current.api.setRowData(tempData);
+  }
 
-    // TODO : selected 적용시켜야 됨
-    let cntt = 0;
-    gridRef.current.api.forEachNode( (node) => {
-      cntt ++;
-
-      selectedIds.forEach(selectedId => {
-        if(node.data.id === selectedId){
-          console.log("same", node.data.id);
-          node.setSelected(true);
-          return;
-        }
-      })
-
-    })
-    console.log("total node", tempData.length, cntt);
+  const onRowDataChanged = () => {
+    gridRef.current.api.forEachNode( 
+      node => selectedIds.includes(node.data.id) && node.setSelected(true)
+    )
   }
   
 
@@ -272,28 +247,123 @@ function selectPrList() {
    
   } );
 
+
+  const handleCellInputInfo = useCallback(({params, rowData, setRowData}) => {
+    console.log("called!!", params.colDef.field, params.rowIndex, rowData);
+    const id = params.colDef.field;
+    const idx = params.rowIndex;
+    const stateValue = rowData;
+    const setStateValue = setRowData;
+    return InputInfoGrid({ id, idx, stateValue, setStateValue});
+  })
+
+  const onHandleCellSearch = async (value) => {
+    console.log("value1 : ", value);
+
+    const sendData = {"name" : value};
+    const resultList = await getStaffList(sendData);
+
+    console.log("resultList", resultList);
+
+    setPreparerRowData([...resultList]);
+    
+  }
+  const onHandleCellOk = ({selectedRows, idx}) => {
+    console.log("called onHandleOk1");
+    console.log("selectedRows", selectedRows);
+
+    const row = selectedRows[0];
+    
+    const temp = rowData;
+    temp[idx].buyer = row.id;
+    temp[idx].buyer_id = row.name;
+    setRowData([...temp]);
+    
+    return row.name;
+
+  }
+
+  const handleCellInputSearch = (
+    params,
+    title,
+    onHandleSearch,
+    onHandleOk,
+    gridOptions) => {
+      // console.log("gridOptons", gridOptions.columnDefs, gridOptions.rowData)
+
+      const id = params.colDef.field;
+      const idx = params.rowIndex;
+
+      // InputSearch 컴포넌트를 반환한다.
+      return InputSearch({
+          id,
+          idx,
+          title,
+          onHandleSearch,
+          onHandleOk,
+          gridOptions
+        })
+  }
+  const [prCreateColFields, setPrCreateColFields] = useState([
+    { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
+    { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
+    { field: "item",              headerName:"Item",               minWidth:110, 
+      // 컬럼 Render
+      cellRenderer : (params) => handleCellInputSearch(params, "바이어선택", onHandleCellSearch, onHandleCellOk, {
+        columnDefs : popUpBuyerColFields,
+        rowData : preparerRowData,
+        rowSelection : "single",
+        suppressRowClickSelection : false,
+      } )
+    },
+    { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
+    { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
+    { field: "unit",              headerName:"단위",               minWidth:110, },
+    { field: "cnt",               headerName:"수량",               minWidth:110, 
+      cellRendererSelector: useCallback((params) => {
+        console.log("수량 cellRendererSelector")
+        return {
+          component: handleCellInputInfo,
+          params: {params, rowData, setRowData}
+        };
+      })
+    },
+    { field: "unit_price",        headerName:"단가",               minWidth:110,
+      cellRenderer: (params) => handleCellInputInfo({params, rowData, setRowData})
+    },
+    { field: "total_amount",      headerName:"금액",               minWidth:110, 
+      cellRenderer : (param) => (param.data.cnt * param.data.unit_price)
+    },
+    { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
+    { field: "buyer",             headerName:"Buyer",              minWidth:110, },
+    { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, 
+      cellRenderer: (params) => handleCellInputInfo({params, rowData, setRowData})
+    },
+    { field: "requester",         headerName:"Requester",          minWidth:110, },
+    { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
+    { field: "destination_type",  headerName:"Destination Type",   minWidth:110, },
+    { field: "organization",      headerName:"Organization",       minWidth:110, },
+    { field: "location",          headerName:"Location",           minWidth:110, },
+    { field: "warehouse",         headerName:"창고",               minWidth:110, },
+    { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
+    { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
+    ]);
+
+
   // Init Page
   useEffect(() => {
     getLov();
   }, []);
 
-  useEffect(() => {
-    console.log("rowData useEffect")
-  }, [rowData]);
+  // useEffect(() => {
+  //   console.log("rowData useEffect")
+  // }, [rowData]);
 
   const getLov = async () => {
     const reasonLov = await getPrReasonLov();
-    console.log("reasonLov", reasonLov);
 
     reasonLov && setPrReasonLov(reasonLov);
     
-
-    // const temp = [];
-    // reasonLov.forEach( e => {
-    //   temp.push(e[0]);
-    // });
-
-    // reasonLov && setPrReasonLov([...temp]);
   };
 
   const onHandleSearch = async (value) => {
@@ -308,7 +378,7 @@ function selectPrList() {
     
   }
 
-  const onHandleOk = (selectedRows) => {
+  const onHandleOk = ({selectedRows}) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
 
@@ -386,9 +456,9 @@ function selectPrList() {
       <section>
         <ButtonWrapper>
           {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
-          <Button onClick={onInsertOne}>Line 추가</Button>
-          <Button onClick={onCopySelected}>행 복사</Button>
-          <Button onClick={deleteRow}>행 삭제</Button>
+          <Button onClick = { onInsertOne }>Line 추가</Button>
+          <Button onClick = { onCopySelected }>행 복사</Button>
+          <Button onClick = { deleteRow }>행 삭제</Button>
         </ButtonWrapper>
       </section>
       <section>
@@ -397,6 +467,7 @@ function selectPrList() {
           resvRowData       = { rowData }
           resvDefaultColDef = { prCreateColDef }
           resvColumnDefs    = { prCreateColFields }
+          onRowDataChanged  = { onRowDataChanged }
         />
       </section>
     </StyledRoot>

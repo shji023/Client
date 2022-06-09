@@ -13,7 +13,7 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs }) => {
+const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const ref = resvRef;
@@ -88,6 +88,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}
+                onRowDataChanged={ onRowDataChanged }
             >
                 {/* check box */}
                 <AgGridColumn

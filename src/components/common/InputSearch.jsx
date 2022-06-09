@@ -23,6 +23,7 @@ import DataGridModal from "components/common/DataGridModal";
 function InputSearch({ 
   // Input 관련
   id,
+  idx,
   inputLabel,
 
   // PopUp 관련
@@ -95,7 +96,7 @@ function InputSearch({
     const selectedRows = gridRef.current.api.getSelectedRows();
     console.log("selectedRows", selectedRows);
 
-    onHandleOk && setSearchedWord( onHandleOk(selectedRows) );
+    onHandleOk && setSearchedWord( onHandleOk(selectedRows, idx) );
 
     // ! 비동기
     // setTimeout(() => {
@@ -119,6 +120,13 @@ function InputSearch({
 
   const initPopUp = () => {
     setSearchWord("");
+  }
+
+  const InputLabel = (props) => {
+    if(props.inputLabel) {
+      return <Label htmlFor={props.id}>{props.inputLabel}</Label>
+
+    }
   }
 
   return (
@@ -153,7 +161,7 @@ function InputSearch({
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
-        <Label htmlFor={id}>{inputLabel}</Label>
+        <InputLabel id={id} inputLabel={inputLabel} />
         <Input.Search
           allowClear
           type="text"
