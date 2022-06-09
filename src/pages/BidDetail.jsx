@@ -89,7 +89,7 @@ const Title = styled.p`
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-8
+
 const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
