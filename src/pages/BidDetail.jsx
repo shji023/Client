@@ -1,10 +1,6 @@
-import { getBiddingRule, getBidList, getCategoryLov, getRuleInfo, getStatusLov } from "apis/bid.api";
+import { getRuleInfo } from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import BidDataGrid from "components/bidding/BidDataGrid";
-import BidInputInfo from "components/bidding/BidInputInfo";
 import BidInfo from "components/bidding/BidInfo";
-import BidInputSelect from "components/bidding/BidInputSelect";
-import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
@@ -21,7 +17,6 @@ function BidDetail() {
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
   useEffect(()=>{
     selectRuleInfo();
-    //const roundPeriod = ruleInfoData.round_start_date + '-' + ruleInfoData.round_end_date;
   },[]);
   return (
     <StyledRoot>
@@ -85,29 +80,6 @@ const InfoContainer = styled.div`
   gap: 1rem;
 `;
 
-const StyledBidInfo = styled(BidInfo)`
-  grid-column: 2 / span 2;
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
@@ -118,34 +90,4 @@ const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  //font-family: "Pretendard-SemiBold";
-`;
-
-
-const BiddingRuleContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
-`;
-
-const FirstRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-const SecondRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-`;
-const ThirdRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const FourthRow = styled.div`
-  display: flex;
-
 `;
