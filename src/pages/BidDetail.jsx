@@ -1,4 +1,4 @@
-import { getRuleInfo } from "apis/bid.api";
+import { getRfqInfo, getRuleInfo } from "apis/bid.api";
 import { colors } from "assets/styles/color";
 import BidInfo from "components/bidding/BidInfo";
 import React, { useEffect, useState } from "react";
@@ -9,14 +9,18 @@ import RuleTextArea from "components/bidding/RuleTextArea";
 function BidDetail() {
   const { id } = useParams();
   const [ruleInfoData, setRuleInfoData] = useState([]);
-  const selectRuleInfo = async () => {
-    const data = await getRuleInfo(id);
-    setRuleInfoData(data[0]);
-    console.log(roundPeriod);
+  const [rfqInfoData, setRfqInfoData] = useState([]);
+  const selectInfo = async () => {
+    const ruleInfo = await getRuleInfo(id);
+    const rfqInfo = await getRfqInfo(id);
+    setRuleInfoData(ruleInfo[0]);
+    setRfqInfoData(rfqInfo[0]);
+    
   };
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
+  const stage = rfqInfoData.simple_quotation_flag === 'Y'? '단순견적':'입찰';
   useEffect(()=>{
-    selectRuleInfo();
+    selectInfo();
   },[]);
   return (
     <StyledRoot>
@@ -24,19 +28,19 @@ function BidDetail() {
       <section>
         <SubTitle>RFQ정보</SubTitle>
           <InfoContainer>
-            <BidInfo label='RFQ번호' value={'6445454'}></BidInfo>
-            <BidInfo label='단계' value='입찰'></BidInfo>
-            <BidInfo label='Status' value='완료'></BidInfo>
-            <BidInfo label='Type' value='자재'></BidInfo>
-            <BidInfo label='건명' value='[재입찰](포)제강부-2연주공장 Dummy Bar _ 1 item'></BidInfo>
-            <BidInfo label='담당자' value='배우현(054-220-2514)'></BidInfo>
-            <BidInfo label='정산주기' value=''></BidInfo>
-            <BidInfo label='협업유형' value=''></BidInfo>
-            <BidInfo label='계약기간(BPA)' value=''></BidInfo>
-            <BidInfo label='Amount Limit' value=''></BidInfo>
-            <BidInfo label='납품지역' value='주식회사 포스코 본사 '></BidInfo>
-            <BidInfo label='지불조건' value='전사일반지불'></BidInfo>
-            <BidInfo label='인도조건' value='당사지정장소'></BidInfo>
+            <BidInfo label='RFQ번호' value={rfqInfoData.rfq_no}></BidInfo>
+            <BidInfo label='단계' value={stage}></BidInfo>
+            <BidInfo label='Status' value={rfqInfoData.cd_v_meaning_status}></BidInfo>
+            <BidInfo label='Type' value={rfqInfoData.cd_v_meaning_type}></BidInfo>
+            <BidInfo label='건명' value={rfqInfoData.rfq_description}></BidInfo>
+            <BidInfo label='담당자' value={rfqInfoData.buyer_name +" / "+rfqInfoData.buyer_dept_name +" / "+rfqInfoData.buyer_contact}></BidInfo>
+            <BidInfo label='정산주기' value={rfqInfoData.po_payment_cycle}></BidInfo>
+            <BidInfo label='협업유형' value={rfqInfoData.po_collabo_type}></BidInfo>
+            <BidInfo label='계약기간(BPA)' value={rfqInfoData.start_date}></BidInfo>
+            <BidInfo label='Amount Limit' value={rfqInfoData.amount_limit}></BidInfo>
+            <BidInfo label='납품지역' value={rfqInfoData.rfq_ship_to}></BidInfo>
+            <BidInfo label='지불조건' value={rfqInfoData.rfq_payment_terms}></BidInfo>
+            <BidInfo label='인도조건' value={rfqInfoData.bidding_fob}></BidInfo>
           </InfoContainer>
       </section>
       <section>
