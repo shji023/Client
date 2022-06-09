@@ -1,64 +1,56 @@
 import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.api";
+import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
 import InputInfo from "components/common/InputInfo";
 import BuyerInputSearch from "components/rfq/BuyerInputSearch";
-import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
+import InputSearch from "components/common/InputSearch";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import InputDate from "components/common/InputDate";
+import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 
 
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({
-    RFQ_DESCRIPTION: "",
-    VENDOR_ID: "",
-    ATTRIBUTE_CATEGORY: "",
-    AUTHORIZATION_STATUS: "",
-    PO_NUM: "",
-    ITEM_ID: "",
-    PO_HEADER_ID: "",
-    RFQ_NO: "",
-    ORGANIZATION_CODE: "",
-    REQUEST_PERSON_ID: "",
-    BUYER_ID: "",
-    TYPE_LOOKUP_CODE: "",
-    QUOTE_EFFECTIVE_START_DATE: "",
-    // QUOTE_EFFECTIVE_END_DATE: "",
+    rfq_description: "",
+    vendor_id: "",
+    attribute_category: "",
+    authorization_status: "",
+    po_num: "",
+    item_id: "",
+    po_header_id: "",
+    rfq_no: "",
+    organization_code: "",
+    request_person_id: "",
+    buyer_id: "",
+    // buyer_name: "",
+    type_lookup_code: "",
+    quote_effective_start_date: "",
+    // quote_effective_end_date: "",
   });
 
-  // const [buyerCondition, setBuyerCondition] = useState({
   // buyerid를 객체로
   const [inputValue, setInputValue] = useState({
-    BUYER_ID: "",
+    buyer_id: "",
   });
 
-  // console.log("inputValue : ", inputValue);
-
-  // Buyer id 검색창 추가시 사용하기
-  const [rfqBuyerLov, setRfqBuyerLov] = useState([]);
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
   const [rfqListData, setRfqListData] = useState([]);
+  const [buyerRowData, setBuyerRowData] = useState([]);
+
 
   const handleRFQCondition = (key, value) => {
     const tempRfqCondition = { ...rfqCondition };
-
     tempRfqCondition[key] = value;
     setRfqCondition(tempRfqCondition);
   };
 
-  const handleVenderCondition = (key, value) => {
-    const tempVenderCondition = { ...venderCondition };
-
-    tempVenderCondition[key] = value;
-    setVenderCondition(tempVenderCondition);
-  };
-
   const selectRFQList = async () => {
     const data = await getSearchRfqList(rfqCondition);
-
+    console.log(data);
     setRfqListData(data);
   };
 
@@ -73,6 +65,35 @@ function SelectRfqList() {
 
   };
 
+  // 바이어 검색 버튼 이벤트
+  const onHandleSearch = async (searchWord) => {
+    // console.log("searchWord", searchWord);
+    
+    // TODO: axios로 데이터불러오기
+    const data = await getSearchBuyerList(searchWord);
+
+    // TODO: state에 데이터 저장
+    console.log(data);
+    setBuyerRowData([...data]);
+
+  }
+
+  const onHandleOk = (selectedRows) => {
+    console.log("ok event called!!");
+    console.log("selectedRows", selectedRows);
+    
+
+    // state에 데이터 저장
+    const row = selectedRows[0];
+    
+    const temp = rfqCondition;
+    temp.buyer_id = row.buyer_id;
+    temp.buyer_name = row.buyer_name;
+    setRfqCondition(temp);
+    
+    return row.buyer_name;
+  }
+
   useEffect(() => {
     getLov();
   }, []);
@@ -85,34 +106,48 @@ function SelectRfqList() {
       </ButtonWrapper>
       <section>
         <InputContainer>    
-          <BuyerInputSearch
-            id="BUYER_ID"
+          {/* <BuyerInputSearch
+            id="buyer_id"
             inputLabel="Buyer"
             handlePoCondition={handleRFQCondition}
             inputValue = {inputValue}
-            // inputValue = {buyerCondition.BUYER_ID}
+            // inputValue = {buyerCondition.buyer_id}
             setInputValue={setInputValue}
+          /> */}
+          <InputSearch
+            id="buyer_id"
+            title="바이어선택"
+            inputLabel="Buyer"
+            onHandleSearch={onHandleSearch} // 검색 버튼 이벤트
+            onHandleOk={onHandleOk}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpBuyerColFields, // 컬럼
+              rowData : buyerRowData, // 검색 결과 State
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false, // 선택 방지
+            }}
           />
           <InputSelect
-            id="RFQ_STATUS"
+            id="rfq_status"
             inputLabel="Status"
             handlePoCondition={handleRFQCondition}
             lov={rfqStatusLov}
           />
           <InputSelect
-            id="CATEGORY_ID"
+            id="category_id"
             inputLabel="Category"
             handlePoCondition={handleRFQCondition}
             lov={rfqCategoryLov}
           />
           <InputInfo
-            id="ATTRIBUTE_CATEGORY"
+            id="attribute_category"
             inputLabel="Item Code"
             handlePoCondition={handleRFQCondition}
-            inputValue={rfqCondition.ATTRIBUTE_CATEGORY}
+            inputValue={rfqCondition.attribute_category}
           />
           <InputDate
-            id="QUOTE_EFFECTIVE_START_DATE"
+            id="quote_effective_start_date"
             inputLabel="등록일"
             handleCondition={handleRFQCondition}
           />
@@ -121,14 +156,12 @@ function SelectRfqList() {
       {/* TO-DO : select count 로 변경 */}
       <ListCount>건수: 2,164</ListCount>
       <section>
-        {/* <DataGridRFQ poListData={rfqListData} /> */}
-        <AgGridRFQ listData={rfqListData}/>
+        <AgGridRFQ listData={rfqListData} colData={rfqColumn}/>
       </section>
     </StyledRoot>
   );
 }
 export default SelectRfqList;
-
 
 const StyledRoot = styled.main`
   display: flex;
@@ -136,7 +169,6 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-
 
 const InputContainer = styled.div`
   display: grid;
@@ -179,4 +211,3 @@ const Title = styled.p`
   width: 90%;
   height: 100%;
 `;
-

@@ -1,13 +1,14 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
-import DataGridDemo from "components/common/DataGridDemo";
-import InputInfo from "components/common/InputInfo";
-import InputSearch from "components/common/InputSearch";
-import InputSelect from "components/common/InputSelect";
+import InputOneDate from "components/common/InputOneDate";
+import InputInfo from "components/po/PoInputInfo";
+import InputSearch from "components/po/PoInputSearch";
+import InputSelect from "components/po/PoInputSelect";
 import React, { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import styled from "styled-components";
-function SelectPoList() {
-  const [poCondition, setPoCondition] = useState({
+function PoRegist() {
+  const [poRegsistCondition, setPoRegsistCondition] = useState({
     RFQ_DESCRIPTION: "",
     VENDOR_ID: "",
     ATTRIBUTE_CATEGORY: "",
@@ -20,6 +21,9 @@ function SelectPoList() {
     REQUEST_PERSON_ID: "",
     BUYER_ID: "",
     TYPE_LOOKUP_CODE: "",
+    VENDOR_SITE:"",
+    BUYER_NAME_SEARCH:"",
+    PO_CONTRACT: "",
   });
 
   const [poCategoryLov, setPoCategoryLov] = useState([]);
@@ -27,17 +31,19 @@ function SelectPoList() {
   const [sasoLov, setSasoLov] = useState([]);
   const [poTypeLov, setPoTypeLov] = useState([]);
   const [poListData, setPoListData] = useState([]);
+  const [poFobLov, setPoFobLov] = useState([]);
+  
 
 
-  const handlePoCondition = (key, value) => {
-    const tempPoCondition = { ...poCondition };
+  const handlePoRegsistCondition = (key, value) => {
+    const tempPoRegsistCondition = { ...poRegsistCondition };
 
-    tempPoCondition[key] = value;
-    setPoCondition(tempPoCondition);
+    tempPoRegsistCondition[key] = value;
+    setPoRegsistCondition(tempPoRegsistCondition);
   };
 
-  const selectPoList = async () => {
-    const data = await getSearchPoList(poCondition);
+  const PoRegist = async () => {
+    const data = await getSearchPoList(poRegsistCondition);
 
     setPoListData(data);
   };
@@ -47,8 +53,10 @@ function SelectPoList() {
     const poApprove = await getPoApproveLov();
     const saso = await getSasoLov();
     const poType = await getPoApproveLov();
+    const poFob = await getPoFobLov();
 
     poCategory && setPoCategoryLov(poCategory);
+    poFobLov && setPoFobLov(poFob);
     poApprove && setPoApproveLov(poApprove);
     saso && setSasoLov(saso);
     poType && setPoTypeLov(poType);
@@ -65,94 +73,191 @@ function SelectPoList() {
       <Title>PO 등록</Title>
       <section>
         <ButtonWrapper>
-          <Button onClick={selectPoList}>저장</Button>
+          <Button onClick={PoRegist}>저장</Button>
         </ButtonWrapper>
         <InputContainer>
+          <Test>
+            <InputInfo
+              id="PO_NUM"
+              inputLabel="PO 번호"
+              handlePoRegsistCondition={handlePoRegsistCondition}
+              inputValue={poRegsistCondition.PO_NUM}
+              mySize={200}
+              isDisabled={true}
+            />
+            <InputInfo
+              id="Rev"
+              inputLabel="Rev."
+              handlePoRegsistCondition={handlePoRegsistCondition}
+              inputValue={poRegsistCondition.REV}
+              mySize={75}
+              isDisabled={true}
+            />
+          </Test>
           <InputInfo
-            id="RFQ_DESCRIPTION"
-            inputLabel="PO 번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.RFQ_DESCRIPTION}
-          />
-          <InputSearch
-            id="VENDOR_ID"
-            inputLabel="공급사"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.VENDOR_ID}
-            handleShow
+            id="TYPE"
+            inputLabel="Type"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.TYPE}
+            mySize={200}
+            isDisabled={true}
           />
           <InputSelect
             id="ATTRIBUTE_CATEGORY"
             inputLabel="계약구분"
-            handlePoCondition={handlePoCondition}
+            handlePoRegsistCondition={handlePoRegsistCondition}
             lov={poCategoryLov}
+
+          />
+          <div></div>
+          <InputInfo
+            id="PO_DISTRIBUTION"
+            inputLabel="계약명"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.PO_DISTRIBUTION}
+            mySize={350}
+            isDisabled={false}
+          />
+          <div></div>
+          <Test>
+            <InputInfo
+            id="VENDOR_NAME"
+            inputLabel="공급사"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.VENDOR_NAME}
+            mySize={300}
+            isDisabled={true}
+            />
+            <InputSearch
+            id="VENDOR_SITE"
+            //inputLabel="Item"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.VENDOR_SITE}
+          />
+          </Test>
+          <div></div>
+          <Test>
+            <InputSearch
+            id="BUYER_NAME_SEARCH"
+            //inputLabel="Item"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.BUYER_NAME_SEARCH}
+          />
+          <InputInfo
+            id="BUYER_ID"
+            //inputLabel="바이어"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.BUYER_ID}
+            mySize={150}
+            isDisabled={true}
+            />
+          </Test>
+          <Test>
+          <InputInfo
+            id="VENDOR_NAME"
+            inputLabel="PO 승인일"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.VENDOR_NAME}
+            mySize={200}
+            isDisabled={true}
+            />
+            <InputInfo
+            id="VENDOR_NAME"
+            //inputLabel="PO 승인일"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.VENDOR_NAME}
+            mySize={200}
+            isDisabled={true}
+            />
+          </Test>
+          <InputOneDate
+            id="PO_CONTRACT"
+            inputLabel="PO 계약일"
+            handleCondition={handlePoRegsistCondition}
           />
           <InputSelect
-            id="AUTHORIZATION_STATUS"
-            inputLabel="PO 승인"
-            handlePoCondition={handlePoCondition}
+            id="PO_FOB"
+            inputLabel="인도조건"
+            handlePoRegsistCondition={handlePoRegsistCondition}
             lov={poApproveLov}
           />
-          <InputInfo
-            id="PO_NUM"
-            inputLabel="PO 번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.PO_NUM}
+          <InputSelect
+            id="PO_PAYMENT"
+            inputLabel="지불조건"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            lov={poApproveLov}
           />
-          <InputSearch
-            id="ITEM_ID"
-            inputLabel="Item"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.ITEM_ID}
-          />
+          <div>
           <InputInfo
-            id="PO_HEADER_ID"
-            inputLabel="PR 번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.PO_HEADER_ID}
-          />
-          <InputInfo
-            id="RFQ_NO"
-            inputLabel="RFQ번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.RFQ_NO}
+            id="PO_PRICE"
+            inputLabel="공급가액"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.PO_NUM}
+            mySize={300}
+            isDisabled={true}
           />
           <InputSelect
             id="ORGANIZATION_CODE"
             inputLabel="사소"
-            handlePoCondition={handlePoCondition}
+            handlePoRegsistCondition={handlePoRegsistCondition}
             lov={sasoLov}
+          />
+          <InputInfo
+            id="BIDMETHOD"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.PO_NUM}
+            mySize={80}
+            isDisabled={true}
+          />
+          </div>
+          <InputSearch
+            id="ITEM_ID"
+            inputLabel="Item"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.ITEM_ID}
+          />
+          <InputInfo
+            id="PO_HEADER_ID"
+            inputLabel="PR 번호"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.PO_HEADER_ID}
+          />
+          <InputInfo
+            id="RFQ_NO"
+            inputLabel="RFQ번호"
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.RFQ_NO}
           />
           <InputSearch
             id="REQUEST_PERSON_ID"
             inputLabel="PR 신청자"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.REQUEST_PERSON_ID}
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.REQUEST_PERSON_ID}
           />
           <InputSearch
             id="BUYER_ID"
             inputLabel="Buyer"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.BUYER_ID}
+            handlePoRegsistCondition={handlePoRegsistCondition}
+            inputValue={poRegsistCondition.BUYER_ID}
           />
           <InputSelect
             id="TYPE_LOOKUP_CODE"
             inputLabel="Type"
-            handlePoCondition={handlePoCondition}
+            handlePoRegsistCondition={handlePoRegsistCondition}
             lov={poTypeLov}
           />
         </InputContainer>
       </section>
       <ListCount>건수: 2,164</ListCount>
       <section>
-        <DataGridDemo poListData={poListData} />
+        {/* <DataGridDemo poListData={poListData} /> */}
       </section>
 
     </StyledRoot>
   );
 }
 
-export default SelectPoList;
+export default PoRegist;
 
 const StyledRoot = styled.main`
   display: flex;
@@ -198,4 +303,8 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+`;
+
+const Test = styled.div`
+  display:flex;
 `;

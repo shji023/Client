@@ -2,7 +2,7 @@ import { Input, Button, Modal } from "antd";
 import React, { useEffect, useState }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
-import DataGridModal from "components/common/DataGridModal2";
+import DataGridModal from "components/common/DataGridModal";
 import { getSearchBuyerList } from "apis/buyer.api";
 import {setRfqCondition} from "pages/SelectRFQList"
 function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputValue }) {
@@ -19,7 +19,7 @@ function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputVa
   
   const SelectSearch = async () => {
     const data = await getSearchBuyerList(inputValue);
-    // console.log("data : !!!!!",  data);
+    console.log("data : !!!!!",  data);
 
     setSearchData(data);
   };
@@ -61,10 +61,10 @@ function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputVa
         {/* modal 창 안의 내용> */}
         {/* <p>{modalText}</p> */}
         <ModalSearch
-          id="buyer_id"
+          id="BUYER_ID"
           inputLabel="Buyer"
           handlePoCondition={handleInputValue}
-          inputValue={inputValue.buyer_id}
+          inputValue={inputValue.BUYER_ID}
         />
         <br/>
         <Button onClick={SelectSearch}>검색</Button>
