@@ -18,7 +18,7 @@ import SelectPrList from "pages/SelectPrList";
 import CreatePr from "pages/CreatePr";
 import SelectRFQList from "pages/SelectRFQList";
 import SelectBidList from "pages/SelectBidList";
-import InsertBid from "pages/InsertBid";
+import InsertBid from "pages/RfqDetail";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
