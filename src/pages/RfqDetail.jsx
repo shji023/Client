@@ -16,14 +16,16 @@ function InsertBid() {
   const [rfqListData, setRfqListData] = useState({
     rfq_no: "",
     simple_quotation_flag:"",
-    rfq_status:"",
+    rfq_detail_status:"",
+
+    cd_v_meaning_status:"",
+    cd_v_meaning_type:"",
+    category_segment:"",
     line_type_id :"",
 
     rfq_description:"",
     buyer_id: "",
 
-    // 정산주기 칼럼명 넣기
-    pur_cptz_tp_tp:"",
     start_date:"",
     end_date:"",
     amount_limit:"",
@@ -33,22 +35,6 @@ function InsertBid() {
     bidding_fob:"",
   });
 
-  
-  // const [rfqListData, setRfqListData] = useState([]);
-
-
-  // Buyer id 검색창 추가시 사용하기
-  // const [rfqBuyerLov, setRfqBuyerLov] = useState([]);
-  // const [rfqStatusLov, setRfqStatusLov] = useState([]);
-  // const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
-  // const [rfqListData, setRfqListData] = useState([]);
-
-  // const handleBidCondition = (key, value) => {
-  //   const tempRfqCondition = { ...rfqListData };
-
-  //   tempRfqCondition[key] = value;
-  //   setRfqListData(tempRfqCondition);
-  // };
 
   const selectRFQDetail = async (id) => {
     const data = await getRfqInfo(id);
@@ -69,7 +55,6 @@ function InsertBid() {
 
   useEffect(() => {
     selectRFQDetail(id);
-   
   }, []);
 
   return (
@@ -81,42 +66,37 @@ function InsertBid() {
       <SubTitle>RFQ 정보</SubTitle>
       <section>
         <InputContainer>
-        <InputContainerShort>
         <BidInfo
             label="RFQ 번호"
             value={rfqListData.rfq_no}
         />
         <BidInfo
             label="단계"
-            value={rfqListData.simple_quotation_flag}
+            value={"입찰"}
         />
         <BidInfo
             label="Status"
-            value={rfqListData.rfq_status}
+            value={rfqListData.cd_v_meaning_status}
         />
         <BidInfo
             label="Type"
-            value={rfqListData.line_type_id}
+            value={rfqListData.cd_v_meaning_type}
         />
-        
-        {/* <InputContainerLong> */}
         <BidInfo
             label='건명'
             value={rfqListData.rfq_description}
         /> 
         <BidInfo
             label='담당자'
-            value={rfqListData.buyer_id}
+            value={rfqListData.buyer_name +" / "+rfqListData.buyer_dept_name +" / "+rfqListData.buyer_contact}
         />
-        {/* </InputContainerLong> */}
-        
         <BidInfo
             label="정산주기"
-            value={rfqListData.rfq_no}
+            value={rfqListData.po_payment_cycle}
         />
         <BidInfo
             label="협업 유형"
-            value={rfqListData.pur_cptz_tp_tp}
+            value={rfqListData.po_collabo_type}
         />
         <BidInfo
             label="계약 기간(BPA)"
@@ -142,12 +122,18 @@ function InsertBid() {
             label="인도 조건"
             value={rfqListData.bidding_fob}
         />
-        </InputContainerShort>
         </InputContainer>
       </section>
       <section>
         <SubTitle>공급사 선정</SubTitle>
         {/* <RFQAgGridInsertBid listData={rfqListData}/> */}
+
+        <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
+
+
+        <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
+
+
       </section>
     </StyledRoot>
   );
@@ -164,24 +150,17 @@ const StyledRoot = styled.main`
 
 const InputContainer = styled.div`
   display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-//   gap: 1rem;
-`;
-
-const InputContainerShort = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 2rem 2rem 2rem 0.5rem;
   gap: 1rem;
 `;
 
-const InputContainerLong = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
+const StyledBidInfo = styled(BidInfo)`
+  grid-column: 2 / span 2;
 `;
+
 
 const Button = styled.button`
   width: 10rem;
