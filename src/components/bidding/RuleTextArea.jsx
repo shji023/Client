@@ -1,27 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 
-function BidInfo({ label, value }) {
-  const isTowCell = (label === '건명' || label === '담당자' || label === '라운드 시작/마감') ? true: false;
-  const isFourCell = (label === '부가조건') ? true: false;
+function RuleTextArea({ label, value }) {
+
   return (
-    <StyledRoot isTowCell={isTowCell} isFourCell={isFourCell}>
+    <StyledRoot>
       <TitleWrapper>
         <Title>{label}</Title>
       </TitleWrapper>
       <DataWrapper>
-        <Data>{value}</Data>
+        <Data value={value} readOnly />
       </DataWrapper>
     </StyledRoot>
   );
 }
 
-export default BidInfo;
+export default RuleTextArea;
 
 const StyledRoot = styled.div`
   display: flex;
   align-items: center;
-  grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
+  grid-column: span 4;
 `;
 
 const TitleWrapper = styled.div`
@@ -36,7 +35,7 @@ const TitleWrapper = styled.div`
 const DataWrapper = styled.div`
   font-size: 1.6rem;
   width: 100%;
-  height: 3rem;
+  height: 15rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,8 +47,12 @@ const Title = styled.p`
   text-align: center;
   font-family: "Pretendard-SemiBold";
 `;
-const Data = styled.p`
+const Data = styled.textarea`
   font-size: 1.6rem;
-  text-align: center;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
+  line-height: 2.3rem;
 `;
 
