@@ -5,7 +5,6 @@ import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
 
 
-  const [modalListData, setModalListData] = useState([]);
 /**
  * PopUp 버튼이 추가된 Input 태그
  * @param { id }              id              Input 관련 - Id
@@ -26,21 +25,22 @@ function InputSearch({
   // Input 관련
   id,
   inputLabel,
-
+  
   // PopUp 관련
   title,
   labelTitle,
-
+  
   // Button 이벤트
   onHandleSearch,
   onHandleOk,
   onHandleCancel,
-
+  
   // DataGrid
   gridOptions,
-
+  
 }) {
-
+  const [modalListData, setModalListData] = useState([]);
+  
   !title && (title = "선택");
   labelTitle = "검색어";
   
@@ -48,14 +48,14 @@ function InputSearch({
     console.log("value : ", value);
     
   });
-
+  
   !onHandleOk && (onHandleOk = () => {
     console.log("called onHandleOk");
-
+    
     return "검색단어";
-
+    
   });
-
+  
   !onHandleCancel && (onHandleCancel = () => {
     console.log("called onHandleCancel");
 
