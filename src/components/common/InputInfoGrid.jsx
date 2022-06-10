@@ -20,7 +20,7 @@ function InputInfoGrid({ id, idx, stateValue, setStateValue }) {
       <Input
         type="text"
         id={id}
-        value={stateValue[idx][id]}
+        //value={stateValue[idx][id]}
         onChange={(e) => handleChange(id, e.target.value)}
         style={{ width: 200 }}
       />

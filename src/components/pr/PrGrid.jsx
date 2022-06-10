@@ -23,7 +23,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
-    // const onSelectionChanged = () => {
+    const onSelectionChanged = () => {
     //     // const data = gridApi.getSelectedRows();
 
     //     if (data.length > 0) {
@@ -32,21 +32,23 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
     //         setBtnDisabled(true);
     //     }
     //     setSelectedRows(gridApi.getSelectedRows());
-    // };
+    };
 
     const onCellValueChanged = (e) => {
-        const data = e.data;
-        console.log("changed", e.data);
-        const amount = data.cnt * data.unit_price;
-        console.log(amount);
-        data.total_amount = amount;
+        console.log("onCellValueChanged");
+        // const data = e.data;
+        // console.log("changed", e.data);
+        // const amount = data.cnt * data.unit_price;
+        // console.log(amount);
+        // data.total_amount = amount;
         
     };
-    let cnt = 1;
 
+    let cnt = 1;
     rowData.forEach((element) => {
         element.id = cnt++;
     });
+    
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -91,7 +93,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
                 }}
                 
                 // onGridReady={onGridReady}
-                // onSelectionChanged={onSelectionChanged}
+                onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}

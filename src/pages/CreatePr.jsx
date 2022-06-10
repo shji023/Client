@@ -2,7 +2,7 @@ import { getPrReasonLov, insertOnePr, deleteOnePr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
 // import DataGridPrLine from "components/common/DataGridPrLine";
-import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields } from "stores/colData"
+import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields } from "stores/colData";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -24,10 +24,7 @@ function selectPrList() {
       reason        : "none",      // reason : 수의사유
   })
 
-  const [selectedIds, setSelectedIds] = useState([]);
-
-  
-  
+  const [selectedIds, setSelectedIds] = useState([]);  
 
   let testData = [
     {
@@ -113,9 +110,6 @@ function selectPrList() {
 
   const gridRef = useRef();
 
-  const handleChange = () => {
-
-  }
 
   const handleCondition = (key, value) => {
     const tempCondition = { ...conditions };
@@ -247,13 +241,13 @@ function selectPrList() {
    
   } );
 
-
   const handleCellInputInfo = useCallback(({params, rowData, setRowData}) => {
-    console.log("called!!", params.colDef.field, params.rowIndex, rowData);
+    // console.log("called!!", params, params.colDef.field, params.rowIndex, rowData);
     const id = params.colDef.field;
     const idx = params.rowIndex;
     const stateValue = rowData;
     const setStateValue = setRowData;
+    // console.log("handleCellInputInfo", id, idx, stateValue, setStateValue);
     return InputInfoGrid({ id, idx, stateValue, setStateValue});
   })
 
@@ -291,62 +285,72 @@ function selectPrList() {
     gridOptions) => {
       // console.log("gridOptons", gridOptions.columnDefs, gridOptions.rowData)
 
-      const id = params.colDef.field;
+      const id  = params.colDef.field;
       const idx = params.rowIndex;
 
       // InputSearch 컴포넌트를 반환한다.
       return InputSearch({
-          id,
-          idx,
-          title,
-          onHandleSearch,
-          onHandleOk,
-          gridOptions
-        })
+        id,
+        idx,
+        title,
+        onHandleSearch,
+        onHandleOk,
+        gridOptions
+      })
   }
-  const prCreateColFields = [
-    { field: null,                headerCheckboxSelection: true, checkboxSelection: true,},
-    { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left",},
-    { field: "item",              headerName:"Item",               minWidth:110, 
-      // 컬럼 Render
-      cellRenderer : (params) => handleCellInputSearch(params, "바이어선택", onHandleCellSearch, onHandleCellOk, {
-        columnDefs : popUpBuyerColFields,
-        rowData : preparerRowData,
-        rowSelection : "single",
-        suppressRowClickSelection : false,
-      } )
+
+  const [prCreateColFields, setPrCreateColFields] = useState([
+    { field: "id",                headerCheckboxSelection: true, checkboxSelection: true,},
+    { field: "line",              headerName:"Line",               minWidth:10,   maxWidth: 80, pinned:"left", editable: false,},
+    { field: "item",              headerName:"Item",               minWidth:110, editable: false,
+      cellRenderer : () => {
+        return <input onChange={(e)=>{
+          console.log(e.target.value);
+        }}
+        />}
+    
+    // // 컬럼 Render
+    //   cellRenderer : (params) => handleCellInputSearch(params, "바이어선택", onHandleCellSearch, onHandleCellOk, {
+    //     columnDefs : popUpBuyerColFields,
+    //     rowData : preparerRowData,
+    //     rowSelection : "single",
+    //     suppressRowClickSelection : false,
+    //   })
     },
-    { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120,},
-    { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120,},
-    { field: "unit",              headerName:"단위",               minWidth:110, },
-    { field: "cnt",               headerName:"수량",               minWidth:110, 
-      cellRendererSelector: useCallback((params) => {
+    { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120, editable: false, },
+    { field: "spec",              headerName:"사양",               minWidth:110,   maxWidth:120, editable: false, },
+    { field: "unit",              headerName:"단위",               minWidth:110, editable: false, },
+    { field: "cnt",               headerName:"수량",               minWidth:110, editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: handleCellInputInfo,
           params: {params, rowData, setRowData}
         };
-      })
+      }
     },
-    { field: "unit_price",        headerName:"단가",               minWidth:110,
-      cellRenderer: (params) => handleCellInputInfo({params, rowData, setRowData})
+    { field: "unit_price",        headerName:"단가",               minWidth:110, editable: false,
+      cellRenderer: (params) => {
+
+        return handleCellInputInfo({params, rowData, setRowData})
+      }
     },
-    { field: "total_amount",      headerName:"금액",               minWidth:110, 
+    { field: "total_amount",      headerName:"금액",               minWidth:110, editable: false,
       cellRenderer : (param) => (param.data.cnt * param.data.unit_price)
     },
-    { field: "tax_code",          headerName:"Tax Code",           minWidth:110, },
-    { field: "buyer",             headerName:"Buyer",              minWidth:110, },
-    { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, 
+    { field: "tax_code",          headerName:"Tax Code",           minWidth:110, editable: false, },
+    { field: "buyer",             headerName:"Buyer",              minWidth:110, editable: false, },
+    { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:110, editable: false,
       cellRenderer: (params) => handleCellInputInfo({params, rowData, setRowData})
     },
-    { field: "requester",         headerName:"Requester",          minWidth:110, },
-    { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, },
-    { field: "destination_type",  headerName:"Destination Type",   minWidth:110, },
-    { field: "organization",      headerName:"Organization",       minWidth:110, },
-    { field: "location",          headerName:"Location",           minWidth:110, },
-    { field: "warehouse",         headerName:"창고",               minWidth:110, },
-    { field: "dist_num",          headerName:"Dist Num",           minWidth:110, },
-    { field: "charge_account",    headerName:"Charge Account",     minWidth:110, },
-    ];
+    { field: "requester",         headerName:"Requester",          minWidth:110, editable: false, },
+    { field: "need_to_date",      headerName:"요청납기일",         minWidth:110, editable: false, },
+    { field: "destination_type",  headerName:"Destination Type",   minWidth:110, editable: false, },
+    { field: "organization",      headerName:"Organization",       minWidth:110, editable: false, },
+    { field: "location",          headerName:"Location",           minWidth:110, editable: false, },
+    { field: "warehouse",         headerName:"창고",               minWidth:110, editable: false, },
+    { field: "dist_num",          headerName:"Dist Num",           minWidth:110, editable: false, },
+    { field: "charge_account",    headerName:"Charge Account",     minWidth:110, editable: false, },
+    ]);
 
 
   // Init Page
@@ -354,9 +358,12 @@ function selectPrList() {
     getLov();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("rowData useEffect")
-  // }, [rowData]);
+  
+
+  useEffect(() => {
+    console.log("rowData useEffect")
+
+  }, [rowData]);
 
   const getLov = async () => {
     const reasonLov = await getPrReasonLov();
@@ -483,7 +490,7 @@ const StyledRoot = styled.main`
 `;
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;

@@ -23,7 +23,7 @@ import DataGridModal from "components/common/DataGridModal";
 function InputSearch({ 
   // Input 관련
   id,
-  idx,
+  idx,  
   inputLabel,
 
   // PopUp 관련
