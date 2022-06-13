@@ -77,7 +77,7 @@ const AgGrid = ({ poListData }) => {
             >
                 <AgGridColumn field="authorization_STATUS" headerName="Status" maxWidth={110} pinned="left" />
                 <AgGridColumn field="contract_DATE" headerName="Order Date" maxWidth={120} pinned="left" />
-                <AgGridColumn field="po_NUM" headerName="PO" maxWidth={110} pinned="left"/>
+                <AgGridColumn field="segment" headerName="PO" maxWidth={110} pinned="left"/>
                 <AgGridColumn field="revision_NUM" headerName="Rev" minWidth={100}/>
                 <AgGridColumn field="attribute_CATEGORY" headerName="유형" minWidth={110} />
                 <AgGridColumn field="rfq_NO" headerName="Description" minWidth={300} />
