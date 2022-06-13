@@ -1,19 +1,4 @@
-import InputInfo from "components/common/InputInfo";
-
-export const bidColData = [
-  { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
-  { field: "bid_SEARCH_TYPE", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "bid_TYPE_CODE", headerName: "입찰방법", width: 90, headerAlign: "center" },
-  { field: "bidding_END_DATE", headerName: "입찰마감일시", width: 90, headerAlign: "center" },
-  { field: "bidding_NO", headerName: "입찰번호", width: 90, headerAlign: "center" },
-  { field: "bidding_START_DATE", headerName: "입찰개시일시", width: 90, headerAlign: "center" },
-  { field: "buyer_id", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "category_SEGMENT1", headerName: "부문", width: 90, headerAlign: "center" },
-  { field: "rfq_DESCRIPTION", headerName: "건명", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "RFQ번호", width: 90, headerAlign: "center" },
-  { field: "simple_QUOTATION_FLAG", headerName: "단계", width: 90, headerAlign: "center" },
-];
-
+// BidList Datagrid
 export const bidColFields =[
   { colId:1, field:"category_segment", headerName: "부문", minWidth:100, },
   { colId:2, field:"rfq_no", headerName: "RFQ번호", minWidth:150 },
