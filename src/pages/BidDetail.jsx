@@ -26,7 +26,7 @@ function BidDetail() {
       <Title>입찰정보조회 {id}</Title>
       <section>
         <SubTitle>RFQ정보</SubTitle>
-          <InfoContainer>
+          <RfqInfoContainer>
             <BidInfo label='RFQ번호' value={rfqInfoData.rfq_no}></BidInfo>
             <BidInfo label='단계' value={stage}></BidInfo>
             <BidInfo label='Status' value={rfqInfoData.cd_v_meaning_status}></BidInfo>
@@ -40,14 +40,15 @@ function BidDetail() {
             <BidInfo label='납품지역' value={rfqInfoData.rfq_ship_to}></BidInfo>
             <BidInfo label='지불조건' value={rfqInfoData.rfq_payment_terms}></BidInfo>
             <BidInfo label='인도조건' value={rfqInfoData.bidding_fob}></BidInfo>
-          </InfoContainer>
+            <BidInfo label='' value=""></BidInfo>
+          </RfqInfoContainer>
       </section>
       <section>
         <SubTitle>RFQ첨부(공급사배포)</SubTitle>
       </section>
       <section>
         <SubTitle>입찰 룰</SubTitle>
-        <InfoContainer>
+        <BidInfoContainer>
             <BidInfo label='입찰번호' value={ruleInfoData.bidding_no}></BidInfo>
             <BidInfo label='입찰유형' value={ruleInfoData.bid_type_code}></BidInfo>
             <BidInfo label='단가입력방식' value={ruleInfoData.bid_price_method}></BidInfo>
@@ -57,7 +58,7 @@ function BidDetail() {
             <BidInfo label='통화' value={ruleInfoData.main_currency}></BidInfo>
             <BidInfo label='부가조건' value={ruleInfoData.side_conditions}></BidInfo>
             <RuleTextArea label='안내사항' value={ruleInfoData.note_to_bidder}></RuleTextArea>
-        </InfoContainer>
+        </BidInfoContainer>
       </section>
       <section>
         <SubTitle>품목정보</SubTitle>
@@ -75,13 +76,54 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-const InfoContainer = styled.div`
+const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
   padding: 2rem 2rem 2rem 0.5rem;
-  gap: 1rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid rgb(225 225 225 / 87%);
+  }
+`;
+
+const BidInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  padding: 2rem 2rem 2rem 0.5rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-of-type(7) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
+  & > div:nth-of-type(8) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid rgb(225 225 225 / 87%);
+    }
+  }
 `;
 
 const Title = styled.p`
