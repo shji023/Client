@@ -62,6 +62,7 @@ function ItemInfoTable() {
         {mockData ? (
           mockData.map((m) => (
             <Tr key={m.line}>
+              <Td>{m.line}</Td>
               <Td>{m.groupName}</Td>
               <Td>{m.category}</Td>
               <Td>{m.description}</Td>
