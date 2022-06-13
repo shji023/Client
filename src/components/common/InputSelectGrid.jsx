@@ -1,16 +1,21 @@
 import { Select } from "antd";
 import React from "react";
 import styled from "styled-components";
-function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
+function InputSelect({ params, stateValue, setStateValue, lov }) {
   
+  const field = params.colDef.field;
+  const idx   = params.rowIndex;
+  console.log(stateValue[idx][field]);
   return (
     <StyledRoot>
-      <Label htmlFor={id}>{inputLabel}</Label>
       <Select
-        defaultValue="선택"
-        id={id}
+        defaultValue={stateValue[idx][field]}
+        // defaultValue="선택"
+        id={field}
         onChange={(e) => {
-          handlePoCondition(id, e);
+          console.log("value : ", e);
+          stateValue[idx][field] = e;
+          setStateValue( state => [...state] )
         }}
         style={{ width: 200 }}
       >

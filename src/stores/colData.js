@@ -96,4 +96,11 @@ export const popUpBuyerColFields = [
   { colId:3,  field:"buyer_dept_code", headerName: "부서", minWidth:150},
   ];
 
-// #endregion
+export const popUpItemColFields = [
+  { colId:1,  field:"item",  headerName: "아이템", minWidth:100},
+  { colId:2,  field:"description", headerName: "사양", minWidth:150},
+  { colId:3,  field:"category", headerName: "카테고리", minWidth:150},
+  { colId:3,  field:"uom", headerName: "단위", minWidth:150},
+  ];
+
+// #endregion 팝업

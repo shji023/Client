@@ -14,12 +14,14 @@ const getRowStyle  = params => {
 //   }
 
 const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
-    const [gridApi, setGridApi] = useState(null);
-    const [gridColumnApi, setGridColumnApi] = useState(null);
+    
     const ref = resvRef;
     const rowData = resvRowData;
     const columnDefs = resvColumnDefs;
     const defaultColDef = resvDefaultColDef;
+
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -36,11 +38,11 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
 
     const onCellValueChanged = (e) => {
         console.log("onCellValueChanged");
-        // const data = e.data;
-        // console.log("changed", e.data);
-        // const amount = data.cnt * data.unit_price;
-        // console.log(amount);
-        // data.total_amount = amount;
+        const data = e.data;
+        console.log("changed", e.data);
+        const amount = data.cnt * data.unit_price;
+        console.log(amount);
+        data.total_amount = amount;
         
     };
 

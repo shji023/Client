@@ -25,6 +25,7 @@ function InputSearch({
   id,
   idx,  
   inputLabel,
+  initValue,
 
   // PopUp 관련
   title,
@@ -60,9 +61,11 @@ function InputSearch({
 
   })
 
+  const [gridRowData, setGridRowData] = useState([]);
+
   // 검색어
   const [searchWord, setSearchWord] = useState("");
-  const [searchedWord, setSearchedWord] = useState("");
+  const [searchedWord, setSearchedWord] = useState(initValue);
  
   // modal
   const [visible, setVisible] = useState(false);
@@ -79,10 +82,12 @@ function InputSearch({
   };
 
   // 팝업 검색 버튼 이벤트
-  const handleSearch = () => {
+  const handleSearch = async () => {
     console.log('Clicked search button');
 
-    onHandleSearch && onHandleSearch(searchWord);
+    const resultList = await onHandleSearch(searchWord);
+    console.log("resultList", resultList);
+    setGridRowData([...resultList]);
 
   }
 
@@ -96,7 +101,7 @@ function InputSearch({
     const selectedRows = gridRef.current.api.getSelectedRows();
     console.log("selectedRows", selectedRows);
 
-    onHandleOk && setSearchedWord( onHandleOk(selectedRows, idx) );
+    onHandleOk && setSearchedWord( onHandleOk({selectedRows, idx}) );
 
     // ! 비동기
     // setTimeout(() => {
@@ -154,6 +159,7 @@ function InputSearch({
         <section>
           <DataGridModal 
             gridRef={gridRef}
+            gridRowData = {gridRowData}
             gridOptions={gridOptions}
           />
         </section>
@@ -196,4 +202,3 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 1rem;
 `;
-
