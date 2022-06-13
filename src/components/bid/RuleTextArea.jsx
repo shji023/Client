@@ -32,7 +32,7 @@ const TitleWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.subGray};
+  background-color: ${colors.tableGray};
   border-right: none;
 `;
 const DataWrapper = styled.div`
@@ -52,7 +52,7 @@ const Data = styled.textarea`
   border: none;
   width: 100%;
   height: 100%;
-  padding: 0 1rem;
+  padding: 0 2rem;
   line-height: 2.3rem;
 `;
 

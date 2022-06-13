@@ -29,19 +29,19 @@ const StyledRoot = styled.div`
 const TitleWrapper = styled.div`
   font-size: 1.6rem;
   min-width: 14rem;
-  height: 3rem;
+  height: 3.5rem;
   border: 1px solid rgb(225 225 225 / 87%);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.subGray};
+  background-color: ${colors.tableGray};
   border-right: none;
   border-bottom: none;
 `;
 const DataWrapper = styled.div`
   font-size: 1.6rem;
   width: 100%;
-  height: 3rem;
+  height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
