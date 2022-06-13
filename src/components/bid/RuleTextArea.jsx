@@ -54,5 +54,7 @@ const Data = styled.textarea`
   height: 100%;
   padding: 0 2rem;
   line-height: 2.3rem;
+  outline: none;
+  resize: none;
 `;
 
