@@ -13,7 +13,7 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs }) => {
+const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const ref = resvRef;
@@ -39,7 +39,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
         console.log("changed", e.data);
         const amount = data.cnt * data.unit_price;
         console.log(amount);
-        data.total_amoun = amount;
+        data.total_amount = amount;
         
     };
     let cnt = 1;
@@ -71,41 +71,32 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
             </div> */}
             <AgGridReact        
                 ref={ref}
-                defaultColDef={defaultColDef}
-                columnDefs={columnDefs}
                 rowData={rowData}
-                getRowStyle={getRowStyle}
+                columnDefs={columnDefs}
                 rowSelection={"multiple"}
+                groupSelectsChildren={true}
                 suppressRowClickSelection={true}
+                pagination={true}
+                paginationPageSize='10'
+                // paginationAutoPageSize={true}
+                suppressExcelExport={true}
+
+                defaultColDef={defaultColDef}
+                animateRows={true}
+
+                getRowStyle={getRowStyle}
                 sideBar={{
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",
                 }}
-                pagination={true}
-                paginationAutoPageSize={true}
+                
                 // onGridReady={onGridReady}
                 // onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}
+                onRowDataChanged={ onRowDataChanged }
             >
-                {/* check box */}
-                <AgGridColumn
-                    headerName="..HELLO."
-                    headerCheckboxSelection={true}
-                    checkboxSelection={true}
-                    floatingFilter={false}
-                    suppressMenu={true}
-                    minWidth={10}
-                    maxWidth={100}
-                    width={50}
-                    flex={0}
-                    resizable={false}
-                    sortable={false}
-                    editable={false}
-                    filter={false}
-                    suppressColumnsToolPanel={true}
-                />
              
             </AgGridReact>
             </div>
