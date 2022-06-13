@@ -30,7 +30,7 @@ const TitleWrapper = styled.div`
   font-size: 1.6rem;
   min-width: 14rem;
   height: 3.5rem;
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,7 +45,7 @@ const DataWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
   border-right: none;
   border-bottom: none;
 `;

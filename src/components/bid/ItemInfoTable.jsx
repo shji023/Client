@@ -86,25 +86,25 @@ export default ItemInfoTable;
 
 const Table = styled.table`
   width: 100%;
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
   border-collapse: collapse;
   font-size: 1.6rem;
   table-layout: auto;
 `;
 
 const Th = styled.th`
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
   padding: 1rem;
   background-color: ${colors.tableBlue};
   font-family: "Pretendard-SemiBold";
 `;
 
 const Tr = styled.tr`
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
 `;
 
 const Td = styled.td`
-  border: 1px solid rgb(225 225 225 / 87%);
+  border: 1px solid ${colors.tableLineGray};
   text-align: center;
   padding: 1rem;
   max-width: 50rem;
