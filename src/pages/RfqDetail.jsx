@@ -5,7 +5,7 @@ import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
-import BidInfo from "components/bidding/BidInfo";
+import BidInfo from "components/bid/BidInfo";
 import Upload from "./Upload";
 
 

@@ -1,10 +1,10 @@
 import { getRfqInfo, getRuleInfo } from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import BidInfo from "components/bidding/BidInfo";
+import BidInfo from "components/bid/BidInfo";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
-import RuleTextArea from "components/bidding/RuleTextArea";
+import RuleTextArea from "components/bid/RuleTextArea";
 
 function BidDetail() {
   const { id } = useParams();
@@ -61,6 +61,7 @@ function BidDetail() {
       </section>
       <section>
         <SubTitle>품목정보</SubTitle>
+        
       </section>
     </StyledRoot>
   );
@@ -88,7 +89,7 @@ const Title = styled.p`
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-8
+
 const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
