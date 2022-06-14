@@ -73,3 +73,12 @@ export const getRuleInfo = async (bidding_no) => {
   }
 };
 
+export const getItemInfo = async (rfq_no) => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/itemInfo/${rfq_no}`);
+
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
