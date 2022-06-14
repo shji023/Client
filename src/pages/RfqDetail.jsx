@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
 import Upload from "./Upload";
 import RuleTextArea from "components/bid/RuleTextArea";
+import BidInsertTextArea from "components/bid/BidInsertTextArea";
+
 import InputSelect from "components/common/InputSelect";
 import InputDate from "components/common/InputDate";
 import InputInfo from "components/common/InputInfo";
@@ -16,7 +18,25 @@ function RfqDetail() {
   const {id} = useParams();
   console.log("id : ", id);
 
-  const [bidCondition, setBidCondition] = useState({});
+  const [bidCondition, setBidCondition] = useState({
+    "rfq_no" : id,
+    
+    "bid_type_code" : "",
+    "bid_price_method" : "",
+    "bid_method_type" : "",
+    "max_round" : 0,
+
+    "main_currency" : "",
+    "side_conditions" : "",
+    "target_price" : 0,
+
+    "note_to_bidder" : "",
+    "bidding_rule_approval_comment" : "",
+    
+    "simple_quotation_flag" : "",
+    "category_id": 0,
+    "bidding_fob": "",
+  });
   const [rfqListData, setRfqListData] = useState({});
   const [ruleInfoData, setRuleInfoData] = useState([]);
   const [rfqInfoData, setRfqInfoData] = useState([]);
@@ -69,7 +89,10 @@ function RfqDetail() {
 
     // !: axios 비동기
     const data = await insertOneBid(bidCondition);
-    if(data.res){
+    console.log("완료 : ", data);
+
+
+    if(data === 'success'){
       alert("입찰룰이 완료되었습니다.");
     } else {
       alert("입찰룰이 실패했습니다.");
@@ -187,12 +210,6 @@ function RfqDetail() {
             handlePoCondition={handleBidCondition}
             lov={bidMethodTypeLov}
           />
-          <InputInfo
-            id="bid_method_type"
-            inputLabel="허용통화"
-            handlePoCondition={handleBidCondition}
-            inputValue={bidCondition.bid_method_type}
-          />
           <InputSelect
             id="max_round"
             inputLabel="Max 라운드"
@@ -223,9 +240,9 @@ function RfqDetail() {
             handlePoCondition={handleBidCondition}
             inputValue={bidCondition.target_price}
           />
-          <RuleTextArea label='안내사항' value={bidCondition.note_to_bidder}></RuleTextArea>
-          <RuleTextArea label='내부 보고' value={bidCondition.note_to_bidder}></RuleTextArea>
-        </InfoContainer>
+          <BidInsertTextArea id="note_to_bidder" inputLabel='안내사항' handleCondition={handleBidCondition} inputValue={bidCondition.note_to_bidder}></BidInsertTextArea>
+          <BidInsertTextArea id="bidding_rule_approval_comment" inputLabel='내부 보고' handleCondition={handleBidCondition} inputValue={bidCondition.bidding_rule_approval_comment}></BidInsertTextArea>
+          </InfoContainer>
         </section>
 
         {/* RFQ 첨부 */}
