@@ -30,10 +30,11 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  //  grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
 `;
 
 const Label = styled.label`
   font-size: 1.6rem;
-  width: 8rem;
   text-align: center;
+  font-family: "Pretendard-SemiBold";
 `;
