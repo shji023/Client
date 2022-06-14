@@ -14,16 +14,18 @@ const getRowStyle  = params => {
 //   }
 
 const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
-    const [gridApi, setGridApi] = useState(null);
-    const [gridColumnApi, setGridColumnApi] = useState(null);
+    
     const ref = resvRef;
     const rowData = resvRowData;
     const columnDefs = resvColumnDefs;
     const defaultColDef = resvDefaultColDef;
+
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
-    // const onSelectionChanged = () => {
+    const onSelectionChanged = () => {
     //     // const data = gridApi.getSelectedRows();
 
     //     if (data.length > 0) {
@@ -32,9 +34,10 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
     //         setBtnDisabled(true);
     //     }
     //     setSelectedRows(gridApi.getSelectedRows());
-    // };
+    };
 
     const onCellValueChanged = (e) => {
+        console.log("onCellValueChanged");
         const data = e.data;
         console.log("changed", e.data);
         const amount = data.cnt * data.unit_price;
@@ -42,11 +45,13 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
         data.total_amount = amount;
         
     };
-    let cnt = 1;
 
+    let cnt = 1;
     rowData.forEach((element) => {
+        element.line = cnt;
         element.id = cnt++;
     });
+    
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -91,7 +96,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
                 }}
                 
                 // onGridReady={onGridReady}
-                // onSelectionChanged={onSelectionChanged}
+                onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}

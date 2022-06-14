@@ -1,27 +1,26 @@
 import { Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-function InputInfoGrid({ id, idx, stateValue, setStateValue }) {
+function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
 
-  // console.log("InputInfoGrid", id, idx, stateValue)
-
-  const handleChange = (id, value) => {
-
-    const temp = stateValue;
-    temp[idx][id] = value;
-    setStateValue([...temp]);
-
-  }
-
+  const field = params.colDef.field;
+  const idx   = params.rowIndex;
+  let value = null;
+  if(!disabled) disabled = false;
+  if(stateValue[idx]) value = stateValue[idx][field];
 
   return (
     <StyledRoot>
       <Input
-        type="text"
-        id={id}
-        value={stateValue[idx][id]}
-        onChange={(e) => handleChange(id, e.target.value)}
+        type={'text'}
+        id={field}
+        value={value}
+        onChange={(e) => {
+          stateValue[idx][field] = e.target.value;
+          setStateValue( state => [...state] )
+        }}
+        disabled={disabled}
         style={{ width: 200 }}
       />
     </StyledRoot>

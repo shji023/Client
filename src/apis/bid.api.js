@@ -81,3 +81,82 @@ export const getItemInfo = async (rfq_no) => {
     throw new Error("Failed to load");
   }
 };
+
+// 입찰유형
+export const getBidTypeLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/bidTypeLov`);
+    // console.log("data!!!", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+// 단가입력방식
+export const getBidPriceMethodLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/bidPriceMethodLov`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+// 낙찰제도
+export const getBidMethodTypeLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/bidMethodTypeLov`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+// Max 라운드
+export const getBidMaxRoundLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/bidMaxRoundLov`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+// 통화코드
+export const getBidCurrencyCodeLov = async () => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/bidCurrencyCodeLov`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+// insertBID
+export const insertOneBid = async (sendData) => {
+  try {
+    
+    // const sendData = { conditions, lines };
+    console.log("sendData : ", sendData);
+
+    // !: 비동기
+    // TODO: GET 시도해보기
+    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
+    // console.log("resvData ", resvData);
+    // return resvData;
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/bidCreate`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    console.log("resvData ", resvData);
+    return resvData;
+    // return {res: false, data: "1234"};
+  } catch (err) {
+    // ?: console.log(err); 물어보기
+    throw new Error("Failed to load \n" + err);
+  }
+};
+

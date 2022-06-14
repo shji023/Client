@@ -27,7 +27,6 @@ export const getSearchPrList = async (sendData) => {
     console.log("resvData ", resvData);
     return resvData;
   } catch (err) {
-    // ?: console.log(err); 물어보기
     throw new Error("Failed to load \n" + err);
   }
 };
@@ -65,11 +64,31 @@ export const insertOnePr = async (conditions, lines) => {
       console.log("data : " , res.data);
       return res.data;
     })
-    console.log("resvData ", resvData);
     return resvData;
-    // return {res: false, data: "1234"};
   } catch (err) {
-    // ?: console.log(err); 물어보기
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+export const updateOnePr = async (conditions, lines) => {
+  try {
+    
+    const sendData = { conditions, lines };
+    console.log("sendData : ", sendData);
+
+    // !: 비동기
+    // TODO: GET 시도해보기
+    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
+    // console.log("resvData ", resvData);
+    // return resvData;
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    return resvData;
+  } catch (err) {
     throw new Error("Failed to load \n" + err);
   }
 };
@@ -95,7 +114,6 @@ export const deleteOnePr = async (reqNum) => {
     // return resvData;
     return {res: false, data: "1234"};
   } catch (err) {
-    // ?: console.log(err); 물어보기
     throw new Error("Failed to load \n" + err);
   }
 };
@@ -108,6 +126,74 @@ export const getPrReasonLov = async () => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/prReasonLov`);
     console.log("getPrReasonLov", data)
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+
+/**
+ * PR Organization Code Lov를 불러온다.
+ * @returns 
+ */
+export const getOrgLov = async () => {
+  try {
+    // TODO: 쿼리 만들기
+    // const { data } = await serverAxios.get(`${PREFIX_URL}/getOrgLov`);
+    // * 임시 데이터
+    const data = [
+      ["PM",  "POSCO 포항자재/외주/투자(PM)"],
+      ["KM",  "POSCO 광양자재/외주/투자(KM)"],
+      ["HQ",  "POSCO 본사"],
+      ["P00", "포스코-포항-구매원료"],
+      ["K00", "포스코-광양-구매원료"]
+    ];
+    console.log("getOrgLov", data)
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+/**
+ * PR DestinationType Lov를 불러온다.
+ * @returns 
+ */
+export const getDestLov = async () => {
+  try {
+    // TODO: 쿼리 만들기
+    // const { data } = await serverAxios.get(`${PREFIX_URL}/getDestLov`);
+    // * 임시 데이터
+    const data = [
+      ["EXPENSE",   "EXPENSE"],
+      ["INVENTORY", "INVENTORY"]
+    ];
+    console.log("getDestLov", data)
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+/**
+ * PR Tax Code Lov를 불러온다.
+ * @returns 
+ */
+export const getTaxCodeLov = async () => {
+  try {
+    // TODO: 쿼리 만들기
+    // const { data } = await serverAxios.get(`${PREFIX_URL}/getDestLov`);
+    // * 임시 데이터
+    const data = [
+      ["P영세율매입",	"P영세율매입"],
+      ["P매입세불공제",	"P매입세불공제"],
+      ["P매입세공제",	"P매입세공제"],
+      ["K영세율매입",	"K영세율매입"],
+      ["K매입세불공제",	"K매입세불공제"],
+      ["K매입세공제",	"K매입세공제"]
+    ];
+    console.log("getDestLov", data)
     return data;
   } catch (err) {
     throw new Error("Failed to load \n" + err);
