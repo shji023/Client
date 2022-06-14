@@ -1,3 +1,4 @@
+import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
@@ -22,26 +23,31 @@ const StyledRoot = styled.div`
   display: flex;
   align-items: center;
   grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
+
 `;
 
 const TitleWrapper = styled.div`
   font-size: 1.6rem;
   min-width: 14rem;
-  height: 3rem;
-  border: 1px solid rgb(225 225 225 / 0%);
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
 `;
 const DataWrapper = styled.div`
   font-size: 1.6rem;
   width: 100%;
-  height: 3rem;
+  height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  border-right: none;
+  border-bottom: none;
 `;
 const Title = styled.p`
   font-size: 1.6rem;

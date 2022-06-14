@@ -12,7 +12,7 @@ function SelectPoList() {
     VENDOR_ID: "",
     ATTRIBUTE_CATEGORY: "",
     AUTHORIZATION_STATUS: "",
-    PO_NUM: "",
+    SEGMENT: "",
     ITEM_ID: "",
     PO_HEADER_ID: "",
     RFQ_NO: "",
@@ -90,10 +90,10 @@ function SelectPoList() {
             lov={poApproveLov}
           />
           <InputInfo
-            id="PO_NUM"
+            id="SEGMENT"
             inputLabel="PO 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.PO_NUM}
+            inputValue={poCondition.SEGMENT}
             mySize={200}
           />
           <InputSearch
@@ -142,7 +142,7 @@ function SelectPoList() {
           />
         </InputContainer>
       </section>
-      <ListCount>건수: 2,164</ListCount>
+      {/* <ListCount>건수: 2,164</ListCount> */}
       <section>
         <PoListAgGrid poListData={poListData} />
       </section>

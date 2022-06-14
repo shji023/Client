@@ -125,7 +125,7 @@ function selectPrList() {
         <ButtonWrapper>
           <Button onClick={cerateRfq}>RFQ 생성</Button>
         </ButtonWrapper>
-        <ListCount>건수: {dataGridCnt}</ListCount>
+        {/* <ListCount>건수: {dataGridCnt}</ListCount> */}
       </section>
       <section>
         <AgGrid 

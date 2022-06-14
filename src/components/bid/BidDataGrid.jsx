@@ -37,7 +37,7 @@ const BidDataGrid = ({ listData }) => {
             }}
             pagination={true}
             paginationPageSize={10}
-            onRowClicked={(e) => navigate(`/bidList/${e.data.bidding_NO}`)}
+            onRowClicked={(e) => navigate(`/bidList/${e.data.bidding_no}`)}
           >
             <AgGridColumn
               headerName="..HELLO."

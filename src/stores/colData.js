@@ -1,4 +1,3 @@
-import InputInfo from "components/common/InputInfo";
 
 export const bidColData = [
   { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
@@ -15,17 +14,18 @@ export const bidColData = [
 ];
 
 export const bidColFields =[
-  { colId:1, field:"category_SEGMENT", headerName: "부문", minWidth:100, },
-  { colId:2, field:"rfq_NO", headerName: "RFQ번호", minWidth:150 },
-  { colId:3, field:"bidding_NO", headerName: "입찰번호", minWidth:150},
-  { colId:4, field:"rfq_DESCRIPTION", headerName: "건명", minWidth:300},
-  { colId:5, field:"simple_QUOTATION_FLAG", headerName: "단계", minWidth:100},
-  { colId:6, field:"bid_SEARCH_TYPE", headerName: "Status", minWidth:100},
-  { colId:7, field:"reply_METHOD_LOOKUP_CODE", headerName: "입찰방법", minWidth:150},
-  { colId:8, field:"bid_PRICE_METHOD", headerName: "단가입력방법", minWidth:150},
-  { colId:9, field:"bidding_START_DATE", headerName: "입찰개시일시", minWidth:200},
-  { colId:10, field:"bidding_END_DATE", headerName: "입찰마감일시", minWidth:200},
-  { colId:11, field:"buyer_ID", headerName: "Buyer", minWidth:100},
+  { colId:1, field:"category_segment", headerName: "부문", minWidth:100, },
+  { colId:2, field:"rfq_no", headerName: "RFQ번호", minWidth:150 },
+  { colId:3, field:"bidding_no", headerName: "입찰번호", minWidth:150},
+  { colId:4, field:"rfq_description", headerName: "건명", minWidth:300},
+  { colId:5, field:"simple_quotation_flag", headerName: "단계", minWidth:100},
+  { colId:6, field:"bid_search_type", headerName: "Status", minWidth:100},
+  { colId:7, field:"reply_method_lookup_code", headerName: "입찰방법", minWidth:150},
+  { colId:8, field:"bid_price_method", headerName: "단가입력방법", minWidth:150},
+  { colId:9, field:"bidding_start_date", headerName: "입찰개시일시", minWidth:200},
+  { colId:10, field:"bidding_end_date", headerName: "입찰마감일시", minWidth:200},
+  { colId:11, field:"buyer_name", headerName: "담당자", minWidth:100},
+  { colId:12, field:"buyer_contact", headerName: "전화번호", minWidth:100},
   ];
 
 // #region PR
@@ -71,13 +71,13 @@ export const prCreateColDef = {
 }
 
 export const rfqColumn = [
-  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:90},
-  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:200},
-  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:180},
-  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:150},
-  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:110},
-  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:150},
-  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:90}
+  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:10,     maxWidth: 110},
+  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:10,     maxWidth: 850},
+  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:10,     maxWidth: 130},
+  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 180},
+  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 110},
+  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 140},
+  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
 ]
 
 // #endregion
@@ -104,3 +104,17 @@ export const popUpItemColFields = [
   ];
 
 // #endregion 팝업
+
+export const ItemInfoColFields =[
+  { colId:1, field:"category_SEGMENT", headerName: "부문", minWidth:100, },
+  { colId:2, field:"rfq_NO", headerName: "RFQ번호", minWidth:150 },
+  { colId:3, field:"bidding_NO", headerName: "입찰번호", minWidth:150},
+  { colId:4, field:"rfq_DESCRIPTION", headerName: "건명", minWidth:300},
+  { colId:5, field:"simple_QUOTATION_FLAG", headerName: "단계", minWidth:100},
+  { colId:6, field:"bid_SEARCH_TYPE", headerName: "Status", minWidth:100},
+  { colId:7, field:"reply_METHOD_LOOKUP_CODE", headerName: "입찰방법", minWidth:150},
+  { colId:8, field:"bid_PRICE_METHOD", headerName: "단가입력방법", minWidth:150},
+  { colId:9, field:"bidding_START_DATE", headerName: "입찰개시일시", minWidth:200},
+  { colId:10, field:"bidding_END_DATE", headerName: "입찰마감일시", minWidth:200},
+  { colId:11, field:"buyer_ID", headerName: "Buyer", minWidth:100},
+  ];
