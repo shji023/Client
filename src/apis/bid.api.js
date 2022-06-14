@@ -66,7 +66,7 @@ export const getRfqInfo = async (bidding_no) => {
 export const getRuleInfo = async (bidding_no) => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/ruleInfo/${bidding_no}`);
-
+    
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -76,7 +76,6 @@ export const getRuleInfo = async (bidding_no) => {
 export const getItemInfo = async (rfq_no) => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/itemInfo/${rfq_no}`);
-
     return data;
   } catch (err) {
     throw new Error("Failed to load");
