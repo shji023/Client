@@ -38,7 +38,7 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
 
     let cnt = 1;
 
-    gridOptions.rowData.forEach((element) => {
+    gridOptions && gridOptions.rowData && gridOptions.rowData.forEach((element) => {
         element.id = cnt++;
     });
     
