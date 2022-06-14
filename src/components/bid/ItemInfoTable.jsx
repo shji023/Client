@@ -43,7 +43,8 @@ const mockData = [
     requestPerson: "손영일",
   },
 ];
-function ItemInfoTable() {
+function ItemInfoTable({itemInfoList}) {
+  console.log(itemInfoList);
   return (
     <Table>
       <thead>
@@ -59,17 +60,17 @@ function ItemInfoTable() {
         </Tr>
       </thead>
       <tbody>
-        {mockData ? (
-          mockData.map((m) => (
-            <Tr key={m.line}>
-              <Td>{m.line}</Td>
-              <Td>{m.groupName}</Td>
-              <Td>{m.category}</Td>
-              <Td>{m.description}</Td>
-              <Td>{m.uom}</Td>
-              <Td>{m.quantity}</Td>
-              <Td>{m.needByDate}</Td>
-              <Td>{m.requestPerson}</Td>
+        {itemInfoList ? (
+          itemInfoList.map((itemInfo,index) => (
+            <Tr key={itemInfo.id}>
+              <Td>{index+1}</Td>
+              <Td>{itemInfo.group_name}</Td>
+              <Td>{itemInfo.category}</Td>
+              <Td>{itemInfo.description}</Td>
+              <Td>{itemInfo.unit_meas_lookup_code}</Td>
+              <Td>{itemInfo.pur_rfq_qt}</Td>
+              <Td>{itemInfo.need_by_date}</Td>
+              <Td>{itemInfo.request_name}</Td>
             </Tr>
           ))
         ) : (
@@ -107,7 +108,7 @@ const Td = styled.td`
   border: 1px solid ${colors.tableLineGray};
   text-align: center;
   padding: 1rem;
-  max-width: 50rem;
+  max-width: 45rem;
   height: 3.5rem;
   white-space: nowrap;
   text-overflow: ellipsis; 
