@@ -3,19 +3,24 @@ import React from "react";
 import styled from "styled-components";
 function InputSelect({ params, stateValue, setStateValue, lov }) {
   
+  
   const field = params.colDef.field;
   const idx   = params.rowIndex;
-  console.log(stateValue[idx][field]);
+  let value = null;
+  if(stateValue[idx]) value = stateValue[idx][field];
+  
   return (
     <StyledRoot>
       <Select
-        defaultValue={stateValue[idx][field]}
+        defaultValue={value}
         // defaultValue="선택"
         id={field}
         onChange={(e) => {
           console.log("value : ", e);
-          stateValue[idx][field] = e;
-          setStateValue( state => [...state] )
+          if(stateValue[idx]){
+            stateValue[idx][field] = e;
+            setStateValue( state => [...state] )
+          }
         }}
         style={{ width: 200 }}
       >

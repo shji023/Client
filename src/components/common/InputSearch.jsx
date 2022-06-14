@@ -169,13 +169,14 @@ function InputSearch({
       <StyledRoot>
         <InputLabel id={id} inputLabel={inputLabel} />
         <Input.Search
-          allowClear
           type="text"
           id={id}
           value={searchedWord}
           onChange={(e) => handleInputChange(e.target.value)}
           onSearch = {showModal}  // modal     
           style={{ width: 200 }}
+          allowClear={false}
+          readOnly
         />
       </StyledRoot>
     </>

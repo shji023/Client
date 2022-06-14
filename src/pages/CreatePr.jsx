@@ -1,4 +1,4 @@
-import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, } from "apis/pr.api";
+import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
 // import DataGridPrLine from "components/common/DataGridPrLine";
@@ -13,8 +13,11 @@ import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import { observer } from "mobx-react";
 import { ValueFormatter } from "react-data-grid";
+import InputOneDateGrid from "components/common/InputOneDateGrid";
+import { useParams } from "react-router-dom";
 
 function selectPrList() {
+  const { id } = useParams();
 
   const testData = [
     {
@@ -44,7 +47,7 @@ function selectPrList() {
       charge_account: "01-PEO31-602021-00001",
     },
     {
-      line: 1, 
+      line: 2, 
       item_name: "Q2065363", 
       item_id: 333333,
       category: "Q.Burnt Chaff_B", 
@@ -70,7 +73,7 @@ function selectPrList() {
       charge_account: "01-PEO31-602021-00001",
     },
     {
-      line: 1, 
+      line: 3, 
       item_name: "Q2065363", 
       item_id: 333333,
       category: "Q.Burnt Chaff_B", 
@@ -99,7 +102,7 @@ function selectPrList() {
   const [rowData, setRowData] = useState([...testData]);
 
   const [conditions, setConditions] = useState({
-        req_num       : "",          // requisition_number : pr 번호
+        req_num       : id,          // requisition_number : pr 번호
         preparer_name : "",    // preparer_name : Preparer
         preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
@@ -141,13 +144,33 @@ function selectPrList() {
 
     // !: axios 비동기
     const data = await insertOnePr(conditions, rowData);
-    if(data.res){
+    if(data){
       alert("구매 신청이 완료되었습니다.");
+      const temp = conditions;
+      temp.req_num = data;
+      setConditions({...temp});
     } else {
       alert("구매 신청이 실패했습니다.");
     }
   };
 
+  const onUpdateContents = () => {
+    confirm(
+      "구매 신청서 수정을 완료하시겠습니까?"
+      ) ? updateContent() : null;
+  }
+
+  const updateContent = async () => {
+    console.log("onUpdateContents called");
+
+    // !: axios 비동기
+    const data = await updateOnePr(conditions, rowData);
+    if(data.res){
+      alert("구매 신청 수정이 완료되었습니다.");
+    } else {
+      alert("구매 신청 수정이 실패했습니다.");
+    }
+  }
   
   // PR 삭제 버튼 이벤트
   const onDeleteContents = () => {
@@ -354,12 +377,14 @@ function selectPrList() {
     { field: "line",              headerName:"Line",               maxWidth: 80, pinned:"left", editable: false,},
     { field: "item",              headerName:"Item",               minWidth: 200, pinned:"left", editable: false,
       cellRendererSelector : params => {
+        const idx = params.node.rowIndex;
+        const initValue = rowData[idx] ? rowData[idx].item_name : "";
         return {
           component: InputSearch,
           params : {
-            idx: params.node.rowIndex,
+            idx: idx,
             title : "아이템 선택",
-            initValue : rowData[params.node.rowIndex].item_name,
+            initValue : initValue,
             onHandleSearch : onHandleSearchItem,
             onHandleOk : onHandleOkItem,
             gridOptions: {
@@ -399,7 +424,7 @@ function selectPrList() {
     { field: "total_amount",      headerName:"금액",               minWidth:110, editable: false,
       valueGetter: params => params.data.cnt * params.data.unit_price
     },
-    { field: "tax_code",          headerName:"Tax Code",           minWidth:150, editable: false, 
+    { field: "tax_code",          headerName:"Tax Code",           minWidth:180, editable: false, 
       cellRendererSelector : params => {
         return {
           component: InputSelectGrid,
@@ -413,12 +438,14 @@ function selectPrList() {
     },
     { field: "buyer",             headerName:"Buyer",              minWidth:200, editable: false, 
       cellRendererSelector : params => {
+        const idx = params.node.rowIndex;
+        const initValue = rowData[idx] ? rowData[idx].buyer_name : "";
         return {
           component: InputSearch,
           params : {
-            idx: params.node.rowIndex,
+            idx: idx,
             title : "바이어 선택",
-            initValue : rowData[params.node.rowIndex].buyer_name,
+            initValue : initValue,
             onHandleSearch : onHandleSearchBuyer,
             onHandleOk : onHandleOkBuyer,
             gridOptions: {
@@ -443,12 +470,14 @@ function selectPrList() {
     },
     { field: "requester",         headerName:"Requester",          minWidth:200, editable: false, 
       cellRendererSelector : params => {
+        const idx = params.node.rowIndex;
+        const initValue = rowData[idx] ? rowData[idx].requester_name : "";
         return {
           component: InputSearch,
           params : {
-            idx: params.node.rowIndex,
+            idx: idx,
             title : "직원 선택",
-            initValue : rowData[params.node.rowIndex].requester_name,
+            initValue : initValue,
             onHandleSearch : onHandleSearchRequester,
             onHandleOk : onHandleOkRequester,
             gridOptions: {
@@ -460,7 +489,17 @@ function selectPrList() {
         }
       }  
     },
-    { field: "need_to_date",      headerName:"요청납기일",         minWidth:150, editable: false, },
+    { field: "need_to_date",      headerName:"요청납기일",         minWidth:150, editable: false, 
+      cellRendererSelector : params => {
+        return {
+          component: InputOneDateGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          }
+      }}
+    },
     { field: "destination_type",  headerName:"Destination Type",   minWidth:200, editable: false, 
       cellRendererSelector : params => {
         return {
@@ -539,7 +578,7 @@ function selectPrList() {
   }, []);
 
   useEffect(() => {
-    console.log("rowData changed");
+    // * 헤더 총 금액 계산
     const tempConditions = conditions;
     const tempRowData = rowData;
     let total = 0;
@@ -591,14 +630,27 @@ function selectPrList() {
   }
   // #endregion 팝업 이벤트
 
+  const ButtonSelector = () => {
+    if(id) {
+      return <>
+        <Button onClick={onUpdateContents}>저장</Button>
+        <Button onClick={onDeleteContents}>삭제</Button>
+      </>
+
+    } else {
+      // 수정
+      return <Button onClick={onSaveContents}>저장</Button>     
+    }
+  }
 
   return (
     <StyledRoot>
       <Title>구매신청</Title>
       <section>
         <ButtonWrapper>
-          <Button onClick={onSaveContents}>저장</Button>
-          <Button onClick={onDeleteContents}>삭제</Button>
+          <ButtonSelector />
+          {/* <Button onClick={onSaveContents}>저장</Button>
+          <Button onClick={onDeleteContents}>삭제</Button> */}
         </ButtonWrapper>
         <InputContainer>
           {/* TODO: disabled */}

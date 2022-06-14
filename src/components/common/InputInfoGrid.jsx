@@ -6,15 +6,16 @@ function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
 
   const field = params.colDef.field;
   const idx   = params.rowIndex;
-
+  let value = null;
   if(!disabled) disabled = false;
+  if(stateValue[idx]) value = stateValue[idx][field];
 
   return (
     <StyledRoot>
       <Input
         type={'text'}
         id={field}
-        value={stateValue[idx][field]}
+        value={value}
         onChange={(e) => {
           stateValue[idx][field] = e.target.value;
           setStateValue( state => [...state] )

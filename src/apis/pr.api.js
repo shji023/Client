@@ -27,7 +27,6 @@ export const getSearchPrList = async (sendData) => {
     console.log("resvData ", resvData);
     return resvData;
   } catch (err) {
-    // ?: console.log(err); 물어보기
     throw new Error("Failed to load \n" + err);
   }
 };
@@ -60,16 +59,36 @@ export const insertOnePr = async (conditions, lines) => {
     // console.log("resvData ", resvData);
     // return resvData;
 
-    // const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
-    // .then((res)=>{
-    //   console.log("data : " , res.data);
-    //   return res.data;
-    // })
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    return resvData;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+export const updateOnePr = async (conditions, lines) => {
+  try {
+    
+    const sendData = { conditions, lines };
+    console.log("sendData : ", sendData);
+
+    // !: 비동기
+    // TODO: GET 시도해보기
+    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
     // console.log("resvData ", resvData);
     // return resvData;
-    // return {res: false, data: "1234"};
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    return resvData;
   } catch (err) {
-    // ?: console.log(err); 물어보기
     throw new Error("Failed to load \n" + err);
   }
 };
@@ -95,7 +114,6 @@ export const deleteOnePr = async (reqNum) => {
     // return resvData;
     return {res: false, data: "1234"};
   } catch (err) {
-    // ?: console.log(err); 물어보기
     throw new Error("Failed to load \n" + err);
   }
 };

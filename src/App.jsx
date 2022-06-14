@@ -95,6 +95,7 @@ function App() {
                 <Route path="/successBid" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
+                <Route path="/createPr/:id" element={<CreatePr />} />
                 <Route path="/selectRFQList" element={<SelectRFQList />} />
                 <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/bidList/:id" element={<BidDetail />} />

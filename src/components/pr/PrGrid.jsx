@@ -48,6 +48,7 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
 
     let cnt = 1;
     rowData.forEach((element) => {
+        element.line = cnt;
         element.id = cnt++;
     });
     
