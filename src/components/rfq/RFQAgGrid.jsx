@@ -4,6 +4,7 @@ import  { excelExport } from "../common/excelExport";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
+import "./rfqAgGrid.css";
 
 const AgGridRFQ = ({ listData, colData }) => {
     console.log("listData", listData);
@@ -36,6 +37,8 @@ const AgGridRFQ = ({ listData, colData }) => {
         // EDF2F8
     };
 
+
+    // excel export
     const column = [
         {header: 'RFQ번호',      key: 'rfq_no', width: 20},
         {header: '건 명',        key: 'rfq_description', hidden:false, width: 200},
@@ -47,12 +50,14 @@ const AgGridRFQ = ({ listData, colData }) => {
     ];
 
     const handleExcel=()=>{
-        excelExport(column, listData,);
+        excelExport(column, listData);
     };
 
     return (
         <>
+            <div>
             <Button onClick={handleExcel} >excel export</Button>
+            </div>
             <div style={{ width: "100%", height: "80%" }}>
                 <div
                     id="rfqGrid"
@@ -62,7 +67,7 @@ const AgGridRFQ = ({ listData, colData }) => {
                     }}
                     className="ag-theme-alpine"
                 >
-                <AgGridReact        
+                <AgGridReact       
                     ref={gridRef}
                     rowData={listData}
                     columnDefs={colData}
@@ -114,5 +119,11 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  float: right;
 `;
+
+
+
+

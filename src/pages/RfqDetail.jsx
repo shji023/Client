@@ -1,50 +1,86 @@
-import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList, getRfqInfo } from "apis/rfq.api";
+import { getRfqInfo } from "apis/rfq.api";
+import { getBidTypeLov, getBidPriceMethodLov, getBidMethodTypeLov, getBidMaxRoundLov, getBidCurrencyCodeLov, insertOneBid} from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import RFQAgGridInsertBid from "components/rfq/RFQAgGridInsertBid";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
 import BidInfo from "components/bidding/BidInfo";
 import Upload from "./Upload";
+import RuleTextArea from "components/bidding/RuleTextArea";
+import InputSelect from "components/common/InputSelect";
+import InputDate from "components/common/InputDate";
+import InputInfo from "components/common/InputInfo";
 
-
-
-function InsertBid() {
-
+function RfqDetail() {
   const {id} = useParams();
   console.log("id : ", id);
 
-  const [rfqListData, setRfqListData] = useState({
-    rfq_no: "",
-    simple_quotation_flag:"",
-    rfq_detail_status:"",
-
-    cd_v_meaning_status:"",
-    cd_v_meaning_type:"",
-    category_segment:"",
-    line_type_id :"",
-
-    rfq_description:"",
-    buyer_id: "",
-
-    start_date:"",
-    end_date:"",
-    amount_limit:"",
-
-    rfq_ship_to:"",
-    rfq_payment_terms:"",
-    bidding_fob:"",
-  });
-
+  const [bidCondition, setBidCondition] = useState({});
+  const [rfqListData, setRfqListData] = useState({});
+  const [ruleInfoData, setRuleInfoData] = useState([]);
+  const [rfqInfoData, setRfqInfoData] = useState([]);
+ 
+  // const selectInfo = async () => {
+  //   const ruleInfo = await getRuleInfo(id);
+  //   const rfqInfo = await getRfqInfo(id);
+  //   ruleInfo && setRuleInfoData(ruleInfo[0]);
+  //   rfqInfo && setRfqInfoData(rfqInfo[0]);
+  // };
+  const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
+  const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
 
   const selectRFQDetail = async (id) => {
     const data = await getRfqInfo(id);
-    console.log("data~~~~",data);
-
+    // console.log("rfq select data",data);
     setRfqListData(data[0]);
   };
 
+
+  // Lov
+  const [bidTypeLov, setBidTypeLov] = useState([]);
+  const [bidPriceMethodLov, setBidPriceMethodLov] = useState([]);
+  const [bidMethodTypeLov, setBidMethodTypeLov] = useState([]);
+  const [bidMaxRoundLov, setBidMaxRoundLov] = useState([]);
+  const [bidCurrencyCodeLov, setBidCurrencyCodeLov] = useState([]);
+
+  const getLov = async () => {
+    const bidTypeLov = await getBidTypeLov();
+    const bidPriceMethodLov = await getBidPriceMethodLov();
+    const bidMethodTypeLov = await getBidMethodTypeLov();
+    const bidMaxRoundLov = await getBidMaxRoundLov();
+    const bidCurrencyCodeLov = await getBidCurrencyCodeLov();
+    
+    bidTypeLov && setBidTypeLov(bidTypeLov);
+    bidPriceMethodLov && setBidPriceMethodLov(bidPriceMethodLov);
+    bidMethodTypeLov && setBidMethodTypeLov(bidMethodTypeLov);
+    bidMaxRoundLov && setBidMaxRoundLov(bidMaxRoundLov);
+    bidCurrencyCodeLov && setBidCurrencyCodeLov(bidCurrencyCodeLov);
+  };
+
+  const handleBidCondition = (key, value) => {
+    const tempBidCondition = { ...bidCondition };
+    tempBidCondition[key] = value;
+    setBidCondition(tempBidCondition);
+  };
+
+  const saveContents = async () => {
+    console.log("onSaveContents called");
+
+    // !: axios 비동기
+    const data = await insertOneBid(bidCondition);
+    if(data.res){
+      alert("입찰룰이 완료되었습니다.");
+    } else {
+      alert("입찰룰이 실패했습니다.");
+    }
+  };
+
+  const onSaveContents = () => {
+    confirm(
+      "입찰룰 작성을 완료하시겠습니까?"
+    ) ? saveContents() : null;
+  }
 
   // 파일 업로드
   const pageSize = 10;
@@ -91,122 +127,113 @@ function InsertBid() {
         [name]: value, error: ""
     });
   };
-  // const getLov = async () => {
-  //   const rfqStatusLov = await getRfqStatusLov();
-  //   const rfqCategoryLov = await getRfqCategoryLov();
-
-  //   rfqStatusLov && setRfqStatusLov(rfqStatusLov);
-  //   rfqCategoryLov && setRfqCategoryLov(rfqCategoryLov);
-  // };
 
   useEffect(() => {
     selectRFQDetail(id);
+    getLov();
+    
+    // selectInfo();
   }, []);
+
+  console.log("insert - bidCondition : ", bidCondition);
 
   return (
     <StyledRoot>
       <ButtonWrapper>   
         <Title>입찰룰</Title>
         {/* <Button onClick={selectRFQList}>저장</Button> */}
+        <Button onClick={onSaveContents}>저장</Button>
       </ButtonWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
         <InputContainer>
-        <BidInfo
-            label="RFQ 번호"
-            value={rfqListData.rfq_no}
-        />
-        <BidInfo
-            label="단계"
-            value={"입찰"}
-        />
-        <BidInfo
-            label="Status"
-            value={rfqListData.cd_v_meaning_status}
-        />
-        <BidInfo
-            label="Type"
-            value={rfqListData.cd_v_meaning_type}
-        />
-        <BidInfo
-            label='건명'
-            value={rfqListData.rfq_description}
-        /> 
-        <BidInfo
-            label='담당자'
-            value={rfqListData.buyer_name +" / "+rfqListData.buyer_dept_name +" / "+rfqListData.buyer_contact}
-        />
-        <BidInfo
-            label="정산주기"
-            value={rfqListData.po_payment_cycle}
-        />
-        <BidInfo
-            label="협업 유형"
-            value={rfqListData.po_collabo_type}
-        />
-        <BidInfo
-            label="계약 기간(BPA)"
-            value={rfqListData.start_date}
-        />
-        {/* <BidInfo
-            label="계약 기간(BPA)"
-            value={rfqCondition.END_DATE}
-        /> */}
-        <BidInfo
-            label="Amount Limit"
-            value={rfqListData.amount_limit}
-        />
-        <BidInfo
-            label="납품 지역"
-            value={rfqListData.rfq_ship_to}
-        />
-        <BidInfo
-            label="지불 조건"
-            value={rfqListData.rfq_payment_terms}
-        />
-        <BidInfo
-            label="인도 조건"
-            value={rfqListData.bidding_fob}
-        />
+        <BidInfo label="RFQ 번호" value={rfqListData.rfq_no}/>
+        <BidInfo label="단계" value={stage}/>
+        <BidInfo label="Status" value={rfqListData.cd_v_meaning_status}/>
+        <BidInfo label="Type" value={rfqListData.cd_v_meaning_type}/>
+        <BidInfo label='건명' value={rfqListData.rfq_description}/> 
+        <BidInfo label='담당자' value={rfqListData.buyer_name +" / "+rfqListData.buyer_dept_name +" / "+rfqListData.buyer_contact}/>
+        <BidInfo label="정산주기" value={rfqListData.po_payment_cycle}/>
+        <BidInfo label="협업 유형" value={rfqListData.po_collabo_type}/>
+        <BidInfo label="계약 기간(BPA)" value={rfqListData.start_date}/>
+        {/* <BidInfo label="계약 기간(BPA)" value={rfqCondition.END_DATE}/> */}
+        <BidInfo label="Amount Limit" value={rfqListData.amount_limit}/>
+        <BidInfo label="납품 지역" value={rfqListData.rfq_ship_to}/>
+        <BidInfo label="지불 조건" value={rfqListData.rfq_payment_terms}/>
+        <BidInfo label="인도 조건" value={rfqListData.bidding_fob}/>
         </InputContainer>
       </section>
         <SubTitle>공급사 선정</SubTitle>
+       
         {/* <RFQAgGridInsertBid listData={rfqListData}/> */}
         <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
-        <Upload/>
-        {/* <ButtonWrapper>
-          <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
-          <Button
-            disabled={fileUplaod.title === "" || fileUplaod.file === "" || fileUplaod.details === ""}
-            onClick={onUpload}>Upload</Button>
-        </ButtonWrapper>
         <section>
-            <UploadContainer>
-              <Label htmlFor="check">선택</Label>
-              <Label htmlFor="type">유형</Label>
-              <Label htmlFor="file">첨부</Label>
-              <Label htmlFor="title">첨부 파일명</Label>
-              <Label htmlFor="size">Size</Label>
-              <Label htmlFor="createDate">등록일</Label>
-              <p>체크박스 표시</p>
-              <p>유형 선택</p>
-              <InputFile type="file" name="file" id="file"
-                  placeholder="Select a file for upload"
-                  onChange={handleInputChange}
-                  valid={true}/>
-              <InputFile type="text" name="title" id="title"
-                  placeholder="변경할 파일 이름을 입력하세요"
-                  onChange={handleInputChange}
-                  valid={true}/>
-              <p>사이즈 자동으로 등록</p>
-              <p>등록일 자동으로 등록</p>
-          </UploadContainer>  
-      </section> */}
+        <InfoContainer>
+          <InputSelect
+            id="bid_type_code"
+            inputLabel="입찰유형"
+            handlePoCondition={handleBidCondition}
+            lov={bidTypeLov}
+          />
+          <InputSelect
+            id="bid_price_method"
+            inputLabel="단가입력방식"
+            handlePoCondition={handleBidCondition}
+            lov={bidPriceMethodLov}
+          />
+          <InputSelect
+            id="bid_method_type"
+            inputLabel="낙찰제도"
+            handlePoCondition={handleBidCondition}
+            lov={bidMethodTypeLov}
+          />
+          <InputInfo
+            id="bid_method_type"
+            inputLabel="허용통화"
+            handlePoCondition={handleBidCondition}
+            inputValue={bidCondition.bid_method_type}
+          />
+          <InputSelect
+            id="max_round"
+            inputLabel="Max 라운드"
+            handlePoCondition={handleBidCondition}
+            lov={bidMaxRoundLov}
+          />
+          <InputDate
+            id="roundPeriod"
+            inputLabel="라운드 시작/마감"
+            handleCondition={handleBidCondition}
+          />
+          {/* <BidInfo label='라운드 시작/마감' value={roundPeriod}></BidInfo> */}
+           <InputSelect
+            id="main_currency"
+            inputLabel="통화"
+            handlePoCondition={handleBidCondition}
+            lov={bidCurrencyCodeLov}
+          />
+          <InputInfo
+            id="side_conditions"
+            inputLabel="부가조건"
+            handlePoCondition={handleBidCondition}
+            inputValue={bidCondition.side_conditions}
+          />
+          <InputInfo
+            id="target_price"
+            inputLabel="Target Price"
+            handlePoCondition={handleBidCondition}
+            inputValue={bidCondition.target_price}
+          />
+          <RuleTextArea label='안내사항' value={bidCondition.note_to_bidder}></RuleTextArea>
+          <RuleTextArea label='내부 보고' value={bidCondition.note_to_bidder}></RuleTextArea>
+        </InfoContainer>
+        </section>
+
+        {/* RFQ 첨부 */}
+        <Upload/>
     </StyledRoot>
   );
 }
-export default InsertBid;
-
+export default RfqDetail;
 
 const StyledRoot = styled.main`
   display: flex;
@@ -216,6 +243,15 @@ const StyledRoot = styled.main`
 `;
 
 const InputContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  border: 1px solid rgb(225 225 225 / 87%);
+  border-radius: 0.5rem;
+  padding: 2rem 2rem 2rem 0.5rem;
+  gap: 1rem;
+`;
+
+const InfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
@@ -250,6 +286,7 @@ const Button = styled.button`
 
 const ButtonWrapper = styled.div`
   display: flex; 
+  justify-content: flex-end;
 `;
 
 const ListCount = styled.p`

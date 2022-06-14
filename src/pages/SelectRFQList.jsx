@@ -9,27 +9,11 @@ import InputSearch from "components/common/InputSearch";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import InputDate from "components/common/InputDate";
-import { rfqColumn, popUpBuyerColFields } from "stores/colData";
+import { rfqColumn, rfqColumn2, popUpBuyerColFields } from "stores/colData";
 
 
 function SelectRfqList() {
-  const [rfqCondition, setRfqCondition] = useState({
-    rfq_description: "",
-    vendor_id: "",
-    attribute_category: "",
-    authorization_status: "",
-    po_num: "",
-    item_id: "",
-    po_header_id: "",
-    rfq_no: "",
-    organization_code: "",
-    request_person_id: "",
-    buyer_id: "",
-    // buyer_name: "",
-    type_lookup_code: "",
-    quote_effective_start_date: "",
-    // quote_effective_end_date: "",
-  });
+  const [rfqCondition, setRfqCondition] = useState({});
 
   // buyerid를 객체로
   const [inputValue, setInputValue] = useState({
@@ -154,10 +138,10 @@ function SelectRfqList() {
         </InputContainer>
       </section>
       {/* TO-DO : select count 로 변경 */}
-      <ListCount>건수: 2,164</ListCount>
-      <section>
+      {/* <ListCount>건수: 2,164</ListCount> */}
+     
         <AgGridRFQ listData={rfqListData} colData={rfqColumn}/>
-      </section>
+      
     </StyledRoot>
   );
 }

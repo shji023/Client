@@ -248,7 +248,7 @@ function PoRegist() {
           />
         </InputContainer>
       </section>
-      <ListCount>건수: 2,164</ListCount>
+      {/* <ListCount>건수: 2,164</ListCount> */}
       <section>
         {/* <DataGridDemo poListData={poListData} /> */}
       </section>

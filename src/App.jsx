@@ -18,11 +18,11 @@ import SelectPrList from "pages/SelectPrList";
 import CreatePr from "pages/CreatePr";
 import SelectRFQList from "pages/SelectRFQList";
 import SelectBidList from "pages/SelectBidList";
-import InsertBid from "pages/RfqDetail";
+import RfqDetail from "pages/RfqDetail";
+import BidDetail from "pages/BidDetail";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import BidDetail from "pages/BidDetail";
 
 function App() {
   const { Header, Sider, Content } = Layout;
@@ -96,9 +96,9 @@ function App() {
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
                 <Route path="/selectRFQList" element={<SelectRFQList />} />
+                <Route path="/selectRFQList/:id" element={<RfqDetail />} />
                 <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/bidList/:id" element={<BidDetail />} />
-                <Route path="/selectRFQList/:id" element={<InsertBid />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>

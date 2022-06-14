@@ -142,7 +142,7 @@ function SelectPoList() {
           />
         </InputContainer>
       </section>
-      <ListCount>건수: 2,164</ListCount>
+      {/* <ListCount>건수: 2,164</ListCount> */}
       <section>
         <PoListAgGrid poListData={poListData} />
       </section>

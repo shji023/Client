@@ -80,13 +80,13 @@ export const prCreateColFields = [
   ]
 
 export const rfqColumn = [
-  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:90},
-  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:200},
-  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:180},
-  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:150},
-  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:110},
-  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:150},
-  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:90}
+  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:10,     maxWidth: 110},
+  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:10,     maxWidth: 850},
+  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:10,     maxWidth: 130},
+  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 180},
+  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 110},
+  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 140},
+  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
 ]
 
 // #endregion
