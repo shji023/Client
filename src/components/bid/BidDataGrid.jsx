@@ -4,8 +4,9 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { bidColFields } from "stores/colData";
 import styled from "styled-components";
-
+import { useNavigate } from 'react-router-dom';
 const BidDataGrid = ({ listData }) => {
+  const navigate = useNavigate();
   return (
     <StyledRoot>
       <div style={{ width: "100%", height: "100%" }}>
@@ -36,6 +37,7 @@ const BidDataGrid = ({ listData }) => {
             }}
             pagination={true}
             paginationPageSize={10}
+            onRowClicked={(e) => navigate(`/bidList/${e.data.bidding_no}`)}
           >
             <AgGridColumn
               headerName="..HELLO."
@@ -58,6 +60,7 @@ const BidDataGrid = ({ listData }) => {
               field={data.field} 
               headerName={data.headerName} 
               minWidth={data.minWidth} 
+              // onCellClicked={() => navigate(`/bidList/${data.colId}`)}
               />)}
           </AgGridReact>
         </div>

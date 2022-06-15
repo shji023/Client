@@ -13,17 +13,19 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs }) => {
-    const [gridApi, setGridApi] = useState(null);
-    const [gridColumnApi, setGridColumnApi] = useState(null);
+const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
+    
     const ref = resvRef;
     const rowData = resvRowData;
     const columnDefs = resvColumnDefs;
     const defaultColDef = resvDefaultColDef;
+
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
-    // const onSelectionChanged = () => {
+    const onSelectionChanged = () => {
     //     // const data = gridApi.getSelectedRows();
 
     //     if (data.length > 0) {
@@ -32,21 +34,24 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
     //         setBtnDisabled(true);
     //     }
     //     setSelectedRows(gridApi.getSelectedRows());
-    // };
+    };
 
     const onCellValueChanged = (e) => {
+        console.log("onCellValueChanged");
         const data = e.data;
         console.log("changed", e.data);
         const amount = data.cnt * data.unit_price;
         console.log(amount);
-        data.total_amoun = amount;
+        data.total_amount = amount;
         
     };
-    let cnt = 1;
 
+    let cnt = 1;
     rowData.forEach((element) => {
+        element.line = cnt;
         element.id = cnt++;
     });
+    
     return (
         <>
         <div style={{ width: "100%", height: "80%" }}>
@@ -71,41 +76,32 @@ const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColum
             </div> */}
             <AgGridReact        
                 ref={ref}
-                defaultColDef={defaultColDef}
-                columnDefs={columnDefs}
                 rowData={rowData}
-                getRowStyle={getRowStyle}
+                columnDefs={columnDefs}
                 rowSelection={"multiple"}
+                groupSelectsChildren={true}
                 suppressRowClickSelection={true}
+                pagination={true}
+                paginationPageSize='10'
+                // paginationAutoPageSize={true}
+                suppressExcelExport={true}
+
+                defaultColDef={defaultColDef}
+                animateRows={true}
+
+                getRowStyle={getRowStyle}
                 sideBar={{
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",
                 }}
-                pagination={true}
-                paginationAutoPageSize={true}
+                
                 // onGridReady={onGridReady}
-                // onSelectionChanged={onSelectionChanged}
+                onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                     onCellValueChanged(e);
                 }}
+                onRowDataChanged={ onRowDataChanged }
             >
-                {/* check box */}
-                <AgGridColumn
-                    headerName="..HELLO."
-                    headerCheckboxSelection={true}
-                    checkboxSelection={true}
-                    floatingFilter={false}
-                    suppressMenu={true}
-                    minWidth={10}
-                    maxWidth={100}
-                    width={50}
-                    flex={0}
-                    resizable={false}
-                    sortable={false}
-                    editable={false}
-                    filter={false}
-                    suppressColumnsToolPanel={true}
-                />
              
             </AgGridReact>
             </div>

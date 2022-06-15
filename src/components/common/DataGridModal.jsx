@@ -8,37 +8,17 @@ const getRowStyle  = params => {
     
 };
 
-// const headerClass= params => {
-//     // logic to return the correct class
-//     return { background: '#EDF2F8' };
-//   }88
-//TODO: 각 페이지에서 props로 받기
-const colData = [
-  { field: "buyer_id", headerName: "직번", width: 90, headerAlign: "center" },
-  { field: "buyer_dept_name", headerName: "성명", width: 90, headerAlign: "center" },
-  { field: "buyer_dept_code", headerName: "부서 번호", width: 90, headerAlign: "center" },
-];
+const DataGridModal = ({ gridOptions, gridRowData, gridRef }) => {
 
-const DataGridModal = ({ gridOptions, gridRef }) => {
+
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
-    // const onSelectionChanged = () => {
-    //     // const data = gridApi.getSelectedRows();
-
-    //     if (data.length > 0) {
-    //         setBtnDisabled(false);
-    //     } else {
-    //         setBtnDisabled(true);
-    //     }
-    //     setSelectedRows(gridApi.getSelectedRows());
-    // };
-
     let cnt = 1;
 
-    gridOptions.rowData.forEach((element) => {
+    gridOptions && gridOptions.rowData && gridOptions.rowData.forEach((element) => {
         element.id = cnt++;
     });
     
@@ -53,22 +33,11 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
                 }}
                 className="ag-theme-alpine"
             >
-            {/* <div>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-            </div> */}
             <AgGridReact        
                 ref={gridRef}
                 defaultColDef={{
                     headerClass: { background: '#EDF2F8' },
-                    editable: true,
+                    editable: false,
                     sortable: true,
                     minWidth: 100,
                     filter: true,
@@ -77,7 +46,7 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
                     flex: 1,
                   }}
                 columnDefs={gridOptions.columnDefs}
-                rowData={gridOptions.rowData}
+                rowData={gridRowData}
                 getRowStyle={getRowStyle}
                 rowSelection={gridOptions.rowSelection}
                 suppressRowClickSelection={gridOptions.suppressRowClickSelection}
@@ -89,13 +58,13 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
                 paginationAutoPageSize={true}
                 // onGridReady={onGridReady}
                 // onSelectionChanged={onSelectionChanged}
-                onCellEditingStopped={(e) => {
-                    const data = e.data;
-                    console.log("changed", e.data);
-                    const amount = data.cnt * data.unit_price;
-                    console.log(amount);
-                    data.total_amoun = amount;
-                  }}
+                // onCellEditingStopped={(e) => {
+                //     const data = e.data;
+                //     console.log("changed", e.data);
+                //     const amount = data.cnt * data.unit_price;
+                //     console.log(amount);
+                //     data.total_amoun = amount;
+                //   }}
             >
              
             </AgGridReact>
@@ -106,11 +75,3 @@ const DataGridModal = ({ gridOptions, gridRef }) => {
 };
 
 export default DataGridModal;
-
-// const AgGridReactStyle = styled.AgGridReact`
-// .ag-theme-alpine {
-//     @include ag-theme-alpine((
-//         header-background-color: deeppink
-//     ));
-// }
-// `;

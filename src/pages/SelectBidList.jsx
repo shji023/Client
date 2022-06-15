@@ -1,8 +1,8 @@
 import { getBidList, getCategoryLov, getStatusLov } from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import BidDataGrid from "components/bidding/BidDataGrid";
-import BidInputInfo from "components/bidding/BidInputInfo";
-import BidInputSelect from "components/bidding/BidInputSelect";
+import BidDataGrid from "components/bid/BidDataGrid";
+import BidInputInfo from "components/bid/BidInputInfo";
+import BidInputSelect from "components/bid/BidInputSelect";
 import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

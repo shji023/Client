@@ -24,8 +24,10 @@ import CustomModal from "components/common/CustomModal";
 function InputSearch({ 
   // Input 관련
   id,
+  idx,  
   inputLabel,
-  
+  initValue,
+
   // PopUp 관련
   title,
   labelTitle,
@@ -38,9 +40,34 @@ function InputSearch({
   // DataGrid
   gridOptions,
   
-}) {
-  console.log("1", gridOptions);  
-  const [searchedWord, setSearchedWord] = useState("");
+  !onHandleSearch && (onHandleSearch = (value) => {
+    console.log("value : ", value);
+    
+  });
+
+  !onHandleOk && (onHandleOk = () => {
+    console.log("called onHandleOk");
+
+    return "검색단어";
+
+  });
+
+  !onHandleCancel && (onHandleCancel = () => {
+    console.log("called onHandleCancel");
+
+  })
+
+  const [gridRowData, setGridRowData] = useState([]);
+
+  // 검색어
+  const [searchWord, setSearchWord] = useState("");
+  const [searchedWord, setSearchedWord] = useState(initValue);
+ 
+  // modal
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  // const [modalText, setModalText] = useState('Content of the modal');
+  const gridRef = useRef();
 
   const handleInputChange = (id, value) => {
     setSearchedWord(value);
@@ -51,6 +78,59 @@ function InputSearch({
   const showModal = () => {
     setVisible(true);
 };
+
+  // 팝업 검색 버튼 이벤트
+  const handleSearch = async () => {
+    console.log('Clicked search button');
+
+    const resultList = await onHandleSearch(searchWord);
+    console.log("resultList", resultList);
+    setGridRowData([...resultList]);
+
+  }
+
+  // 팝업 OK 버튼 이벤트
+  const handleOk = () => {
+    console.log('Clicked ok button');
+    // setModalText('The modal will be closed after two seconds');
+
+    // setConfirmLoading(true);
+    // const rows = gridRef.current.api.getSelectedNodes();
+    const selectedRows = gridRef.current.api.getSelectedRows();
+    console.log("selectedRows", selectedRows);
+
+    onHandleOk && setSearchedWord( onHandleOk({selectedRows, idx}) );
+
+    // ! 비동기
+    // setTimeout(() => {
+      setVisible(false);
+    //   setConfirmLoading(false);
+    // }, 1000);
+
+    initPopUp();
+  };
+
+  // 팝업 취소 버튼 이벤트
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+
+    onHandleCancel && onHandleCancel();
+
+    setVisible(false);
+    
+    initPopUp();
+  };
+
+  const initPopUp = () => {
+    setSearchWord("");
+  }
+
+  const InputLabel = (props) => {
+    if(props.inputLabel) {
+      return <Label htmlFor={props.id}>{props.inputLabel}</Label>
+
+    }
+  }
 
   return (
     <>
@@ -65,17 +145,27 @@ function InputSearch({
       setVisible={setVisible}
      />
 
+        <section>
+          <DataGridModal 
+            gridRef={gridRef}
+            gridRowData = {gridRowData}
+            gridOptions={gridOptions}
+          />
+        </section>
+      </Modal>
+
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
-        <Label htmlFor={id}>{inputLabel}</Label>
+        <InputLabel id={id} inputLabel={inputLabel} />
         <Input.Search
-          allowClear
           type="text"
           id={id}
           value={searchedWord}
           onChange={(e) => handleInputChange(e.target.value)}
           onSearch = {showModal}  // modal     
           style={{ width: 200 }}
+          allowClear={false}
+          readOnly
         />
       </StyledRoot>
     </>
@@ -94,4 +184,11 @@ const Label = styled.label`
   font-size: 1.6rem;
   width: 8rem;
   text-align: center;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 `;
