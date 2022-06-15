@@ -1,8 +1,8 @@
 import { Select } from "antd";
 import React from "react";
 import styled from "styled-components";
+
 function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
-  
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
