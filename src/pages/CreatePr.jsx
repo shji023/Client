@@ -139,7 +139,7 @@ function selectPrList() {
   }
 
   const saveContents = async () => {
-    console.log("onSaveContents called");
+    console.log("onSaveContents called!!!!!!!!!!!");
 
     // !: axios 비동기
     const data = await insertOnePr(conditions, rowData);
@@ -190,6 +190,7 @@ function selectPrList() {
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
     }
+    navigate(`/createPr`);
   }
 
   // #region 그리드 관련 이벤트
