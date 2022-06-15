@@ -114,7 +114,7 @@ const AgGrid = ({ bidResultData }) => {
                 <AgGridColumn field="id" headerName="순위" minWidth={10} maxWidth= {80} />
                 <AgGridColumn field="vendor_name" headerName="입찰사/제작사" minWidth={300} />
                 <AgGridColumn field="main_currency" headerName="입력통화" minWidth={10} maxWidth={120}/>
-                <AgGridColumn field="quotation_total_price1" headerName="응찰가격" minWidth={10} maxWidth={120} />
+                <AgGridColumn field="quotation_total_price" headerName="응찰가격" minWidth={10} maxWidth={120} />
                 <AgGridColumn field="quotation_comment" headerName="공급사의견" minWidth={110} />
                 
             

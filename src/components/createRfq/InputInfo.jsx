@@ -1,29 +1,30 @@
-import { DatePicker } from "antd";
+import { Input } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function InputOneDate({ id, inputLabel, handleCondition }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
+    const isTowCell = (inputLabel === '건명') ? true: false;
   return (
-    <StyledRoot>
+    <StyledRoot isTowCell={isTowCell}>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <DatePicker
+      <Input
+        type="text"
         id={id}
-        onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD"))
-        }
-        style={{ width: 200 }}
+        value={inputValue}
+        onChange={(e) => handlePoCondition(id, e.target.value)}
+        
       />
     </StyledRoot>
   );
 }
 
-export default InputOneDate;
+export default InputInfo;
 
 const StyledRoot = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' :'')};
 `;
 
 const Label = styled.label`

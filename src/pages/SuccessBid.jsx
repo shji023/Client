@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
+import BidInfo from "components/common/BidInfo";
 
 
 
@@ -29,6 +30,7 @@ function SuccessBid(props) {
     
     console.log(data);
     setSuccessBidCondition(data);
+    console.log();
   };
   const selectBidResult = async () => {
     const data = await getBidResult({rfq_no: "6455407"});
@@ -57,33 +59,33 @@ function SuccessBid(props) {
             }}>낙찰확정</Button>
           </ButtonWrapper>
 
-          <InputContainer>
-            <LabelInfo
-              id="RFQ_DESCRIPTION"
-              inputLabel="건명:"
-              inputValue={successBidCondition.rfq_description}
+          <RfqInfoContainer>
+            <BidInfo
+              label="건명:"
+              value={successBidCondition.rfq_description}
             />
-            <LabelInfo
-              id="BIDDING_NO"
-              inputLabel="입찰번호:"
-              inputValue={successBidCondition.bidding_no}
+            <BidInfo
+              //id="BIDDING_NO"
+              label="입찰번호:"
+              value={successBidCondition.bidding_no}
             />
-            <LabelInfo
-              id="RFQ_NO"
-              inputLabel="RFQ번호:"
-              inputValue={successBidCondition.rfq_no}
+            <BidInfo
+              //id="RFQ_NO"
+              label="RFQ번호:"
+              value={successBidCondition.rfq_no}
             />
-            <LabelInfo
-              id="BID_TYPE_CODE"
-              inputLabel="입찰방법:"
-              inputValue={successBidCondition.bid_type_code}
+            <BidInfo
+              //id="BID_TYPE_CODE"
+              label="입찰방법:"
+              value={successBidCondition.bid_type_code}
             />
-            <LabelInfo
-              id="TARGET_PRICE"
-              inputLabel="TargetPrice:"
-              inputValue={successBidCondition.target_price}
+            <BidInfo
+              //id="TARGET_PRICE"
+              label="TargetPrice:"
+              value={successBidCondition.target_price}
             />
-          </InputContainer>
+            </RfqInfoContainer>
+
         </section>
 
         <SmallTitle>🌐 공급사별 투찰결과</SmallTitle>
@@ -138,4 +140,32 @@ const SmallTitle = styled.p`
   font-size: 1.2rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+`;
+const RfqInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  padding: 2rem 2rem 2rem 0.5rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;

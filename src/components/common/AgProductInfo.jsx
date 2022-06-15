@@ -5,24 +5,12 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import InputInfo from "./InputInfo";
 
 const AgVendorSelect = ({productInfoData}) => {
-    console.log("productInfoData ::" ,productInfoData);
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     
     const rowData = productInfoData; 
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
-
-    const onSelectionChanged = () => {
-        // const data = gridApi.getSelectedRows();
-
-        if (data.length > 0) {
-        setBtnDisabled(false);
-        } else {
-        setBtnDisabled(true);
-        }
-        setSelectedRows(gridApi.getSelectedRows());
-    };
 
     const onCellValueChanged = (e) => {
         console.log("changed", e.data);
@@ -77,7 +65,6 @@ const AgVendorSelect = ({productInfoData}) => {
                 pagination={true}
                 paginationAutoPageSize={true}
                 // onGridReady={onGridReady}
-                onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                 onCellValueChanged(e);
                 }}
@@ -108,7 +95,7 @@ const AgVendorSelect = ({productInfoData}) => {
                     return {
                         component: InputInfo,
                         params: {
-                            id: "fuckyou"
+                            id: "id"
                         }
                     };
                 }}/>                

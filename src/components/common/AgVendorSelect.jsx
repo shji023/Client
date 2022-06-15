@@ -3,24 +3,13 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-const AgVendorSelect = () => {
+const AgVendorSelect = ({selectedVendorList}) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     
     // const rowData = bidResultData; 
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
-
-    const onSelectionChanged = () => {
-        // const data = gridApi.getSelectedRows();
-
-        if (data.length > 0) {
-        setBtnDisabled(false);
-        } else {
-        setBtnDisabled(true);
-        }
-        setSelectedRows(gridApi.getSelectedRows());
-    };
 
     const onCellValueChanged = (e) => {
         console.log("changed", e.data);
@@ -54,7 +43,7 @@ const AgVendorSelect = () => {
             </div> */}
             <AgGridReact        
                
-                // rowData={rowData}
+                rowData={selectedVendorList}
                 // getRowStyle={getRowStyle}
                 rowSelection={"multiple"}
                 suppressRowClickSelection={false}
@@ -75,7 +64,6 @@ const AgVendorSelect = () => {
                 pagination={true}
                 paginationAutoPageSize={true}
                 // onGridReady={onGridReady}
-                onSelectionChanged={onSelectionChanged}
                 onCellEditingStopped={(e) => {
                 onCellValueChanged(e);
                 }}
@@ -98,11 +86,11 @@ const AgVendorSelect = () => {
                 suppressColumnsToolPanel={true}
                 />
              
-                <AgGridColumn field="id" headerName="공급사" minWidth={10} maxWidth= {100} />
-                <AgGridColumn field="vendor_name" headerName="담당자" minWidth={10} />
-                <AgGridColumn field="main_currency" headerName="e-mail" minWidth={10} maxWidth={120}/>
-                <AgGridColumn field="quotation_total_price1" headerName="연락처" minWidth={10} maxWidth={120} />                
-            
+                <AgGridColumn field="vendor_name" headerName="공급사" minWidth={10} maxWidth= {500} />
+                <AgGridColumn field="contact_name" headerName="담당자" minWidth={10} maxWidth={150} />
+                <AgGridColumn field="contact_email_address" headerName="e-mail" minWidth={10} maxWidth={300}/>
+                <AgGridColumn field="contact_mobile" headerName="연락처" minWidth={10} maxWidth={170} />                
+                
             </AgGridReact>
             </div>
         </div>

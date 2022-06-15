@@ -22,3 +22,18 @@ export const getStaffList = async (sendData) => {
     throw new Error("Failed to load \n" + err);
   }
 };
+
+export const getVendorList = async (sendData)=>{
+  try {
+    console.log("sendData : ", sendData);
+    const resvData = await serverAxios.post(`${PREFIX_URL}/vendorSearch`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    console.log("resvData ", resvData);
+    return resvData;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+}
