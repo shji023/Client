@@ -50,7 +50,7 @@ function SelectRfqList() {
   };
 
   // 바이어 검색 버튼 이벤트
-  const onHandleSearch = async (searchWord) => {
+  const HandleSearch = async (searchWord) => {
     // console.log("searchWord", searchWord);
     
     // TODO: axios로 데이터불러오기
@@ -58,14 +58,14 @@ function SelectRfqList() {
 
     // TODO: state에 데이터 저장
     console.log(data);
-    setBuyerRowData([...data]);
+    // setBuyerRowData([...data]);
+    setBuyerRowData(data);
 
   }
 
   const onHandleOk = (selectedRows) => {
     console.log("ok event called!!");
     console.log("selectedRows", selectedRows);
-    
 
     // state에 데이터 저장
     const row = selectedRows[0];
@@ -102,7 +102,7 @@ function SelectRfqList() {
             id="buyer_id"
             title="바이어선택"
             inputLabel="Buyer"
-            onHandleSearch={onHandleSearch} // 검색 버튼 이벤트
+            onHandleSearch={HandleSearch} // 검색 버튼 이벤트
             onHandleOk={onHandleOk}
             onHandleCancel={null}
             gridOptions={{
