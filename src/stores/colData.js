@@ -127,3 +127,12 @@ export const ItemInfoColFields =[
   { colId:10, field:"bidding_END_DATE", headerName: "입찰마감일시", minWidth:200},
   { colId:11, field:"buyer_ID", headerName: "Buyer", minWidth:100},
   ];
+
+  // rfq vendor select
+  export const RfqSelectVendorColFields = [
+    {colId:1, field:"vendor_name",            headerName:"공급사",    minWidth:10},
+    {colId:2, field:"contact_name",           headerName:"담당자",    minWidth:10},
+    {colId:3, field:"contact_email_address",  headerName:"e-mail",    minWidth:10},
+    {colId:4, field:"contact_mobile",         headerName:"연락처",    minWidth:10},
+  ];
+

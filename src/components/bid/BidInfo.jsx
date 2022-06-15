@@ -11,7 +11,7 @@ function BidInfo({ label, value }) {
         <Title>{label}</Title>
       </TitleWrapper>
       <DataWrapper>
-        <Data>{value}</Data>
+        <Data>{value?value:null}</Data>
       </DataWrapper>
     </StyledRoot>
   );
