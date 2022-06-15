@@ -14,7 +14,23 @@ import DataGridModal from "components/common/DataGridModal";
  * @param {*} gridOptions 
  * @returns 
  */
-function CustomModal({title, labelTitle, onHandleOk, onHandleCancel, onHandleSearch, gridOptions, visible, setVisible}){
+function CustomModal({
+  title, 
+  labelTitle, 
+  idx,
+  
+  searchedWord,
+  setSearchedWord,
+  
+  onHandleOk, 
+  onHandleCancel,
+  onHandleSearch, 
+  
+  gridOptions, 
+  
+  visible, 
+  setVisible
+}){
   console.log("2,", gridOptions);  
   
   !title && (title = "선택");
@@ -43,18 +59,20 @@ function CustomModal({title, labelTitle, onHandleOk, onHandleCancel, onHandleSea
   // modal
   const [confirmLoading, setConfirmLoading] = useState(false);
   const gridRef = useRef();
-  
+  const [gridRowData, setGridRowData] = useState([]);
+
   
   // const [modalText, setModalText] = useState('Content of the modal');
   
-
-  // 팝업 검색 버튼 이벤트
-  const handleSearch = () => {
+   // 팝업 검색 버튼 이벤트
+   const handleSearch = async () => {
     console.log('Clicked search button');
 
-    onHandleSearch && onHandleSearch(searchWord);
-
+    const resultList = await onHandleSearch(searchWord);
+    console.log("resultList  : :::::", resultList);
+    setGridRowData([...resultList]);
   }
+
 
   // 팝업 OK 버튼 이벤트
   const handleOk = () => {
@@ -66,7 +84,11 @@ function CustomModal({title, labelTitle, onHandleOk, onHandleCancel, onHandleSea
     const selectedRows = gridRef.current.api.getSelectedRows();
     console.log("selectedRows", selectedRows);
 
-    onHandleOk && onHandleOk(selectedRows);
+    if(setSearchedWord){
+      onHandleOk && setSearchedWord( onHandleOk({selectedRows, idx}) );
+    } else {
+      onHandleOk && ( onHandleOk({selectedRows}) );
+    }
 
     // ! 비동기
     // setTimeout(() => {
@@ -118,6 +140,7 @@ function CustomModal({title, labelTitle, onHandleOk, onHandleCancel, onHandleSea
         <section>
           <DataGridModal 
             gridRef={gridRef}
+            gridRowData = {gridRowData}
             gridOptions={gridOptions}
           />
         </section>

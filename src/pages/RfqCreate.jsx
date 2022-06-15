@@ -39,7 +39,6 @@ function RfqCreate() {
     rfq_payment_terms:"",
     bidding_fob:"",
   });  
-  const[vendorList, setVendorList]=useState([]);
   const[selectedVendorList, setSelectedVendorList]=useState([]);
 
   const [productInfoData, setProductInfoData] = useState([]);
@@ -92,7 +91,7 @@ function RfqCreate() {
 
   const[visible, setVisible]=useState(false);
 
-  const onHandleOk= (selectedRows)=>{
+  const onHandleOk= ({selectedRows})=>{
     setSelectedVendorList([...selectedRows]);
     
   }
@@ -108,7 +107,7 @@ function RfqCreate() {
 
     console.log("resultList", resultList);
 
-    setVendorList([...resultList]);
+    return resultList;
     
   }
     return (
@@ -222,7 +221,6 @@ function RfqCreate() {
             onHandleSearch={onHandleSearch}
             gridOptions={{
               columnDefs : popUpVendorColFields,
-              rowData : vendorList,
               rowSelection : "multiple", // single, multiple
               suppressRowClickSelection : false,
             }}
