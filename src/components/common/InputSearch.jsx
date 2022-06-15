@@ -58,9 +58,7 @@ function InputSearch({
 
   })
   // 검색어
-  console.log("initValue", initValue);
-  
-  const [searchedWord, setSearchedWord] = useState("");
+  const [searchedWord, setSearchedWord] = useState(initValue);
  
   // modal
   const [visible, setVisible] = useState(false);
