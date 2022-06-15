@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import InputInfoGrid from "components/common/InputInfoGrid";
 const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
   const navigate = useNavigate();
-
   let cnt = 1;
   itemListData &&
     itemListData.forEach((element) => {
@@ -15,7 +14,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
     });
 
   const bidWriteColFields = [
-    { field: "line", headerName: "순번", minWidth: 100 },
+    { field: "line", headerName: "순번", minWidth: 20 },
     { field: "item", headerName: "ItemCode", minWidth: 100 },
     { field: "description", headerName: "Description", minWidth: 100 },
     { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 100 },
@@ -37,15 +36,13 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
     },
     { field: "need_by_date", headerName: "납기", minWidth: 100 },
   ];
-
-  useEffect(() => {});
   return (
     <StyledRoot>
       <div style={{ width: "100%", height: "100%" }}>
         <div
           id="myGrid"
           style={{
-            height: "300px",
+            height: "30rem",
             width: "100%",
           }}
           className="ag-theme-alpine"
@@ -55,6 +52,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
             rowSelection={"multiple"}
             suppressRowClickSelection={true}
             columnDefs={bidWriteColFields}
+            domLayout={'autoHeight'}
             defaultColDef={{
               editable: false,
               sortable: true,
