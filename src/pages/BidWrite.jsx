@@ -116,8 +116,12 @@ const VendorCommentContainer = styled.div`
 
 const InputWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  //align-items: center;
+  & > div:nth-child(n+1):nth-child(-n+2){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 const TextAreaWrapper = styled.div`
