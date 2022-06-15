@@ -2,23 +2,26 @@ import { DatePicker } from "antd";
 import React from "react";
 import moment from "moment";
 import styled from "styled-components";
+import { colors } from "assets/styles/color";
 
 function InputDate({ id, inputLabel, handleCondition }) {
   const { RangePicker } = DatePicker;
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <RangePicker
-        id={id}
-        onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
-        }
-        style={{ width: 300 }}
-        ranges={{
-          Today: [moment(), moment()],
-          "This Month": [moment().startOf("month"), moment().endOf("month")],
-        }}
-      />
+      <RangePickerWrapper>
+        <RangePicker
+          id={id}
+          onChange={(date) =>
+            handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+          }
+          style={{ width: '100%' }}
+          ranges={{
+            Today: [moment(), moment()],
+            "This Month": [moment().startOf("month"), moment().endOf("month")],
+          }}
+        />
+      </RangePickerWrapper>
     </StyledRoot>
   );
 }
@@ -33,6 +36,25 @@ const StyledRoot = styled.div`
 
 const Label = styled.label`
   font-size: 1.6rem;
-  width: 8rem;
-  text-align: center;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
+`;
+
+const RangePickerWrapper = styled.div`
+  font-size: 1.6rem;
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.tableLineGray};
+  border-right: none;
+  border-bottom: none;
 `;
