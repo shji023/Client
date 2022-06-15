@@ -1,7 +1,6 @@
-import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, } from "apis/pr.api";
+import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, getPr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
-// import DataGridPrLine from "components/common/DataGridPrLine";
 import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields, popUpItemColFields } from "stores/colData";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
@@ -12,12 +11,13 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import { observer } from "mobx-react";
-import { ValueFormatter } from "react-data-grid";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function selectPrList() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const testData = [
     {
@@ -103,7 +103,7 @@ function selectPrList() {
 
   const [conditions, setConditions] = useState({
         req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "",    // preparer_name : Preparer
+        preparer_name : "123",    // preparer_name : Preparer
         preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
         description   : "PR 테스트", // PR명
@@ -149,12 +149,14 @@ function selectPrList() {
       const temp = conditions;
       temp.req_num = data;
       setConditions({...temp});
+      navigate(`/createPr/${temp.req_num}`)
+      
     } else {
       alert("구매 신청이 실패했습니다.");
     }
   };
 
-  const onUpdateContents = () => {
+  const onUpdateContents = async () => {
     confirm(
       "구매 신청서 수정을 완료하시겠습니까?"
       ) ? updateContent() : null;
@@ -202,32 +204,6 @@ function selectPrList() {
     setRowData(records);
   } )
   const createOneRecord = () => {
-    // return {
-    //   line: 1, 
-    //   item_name: "Q2065363", 
-    //   item_id: 444444,
-    //   category: "Q.Burnt Chaff_B", 
-    //   category_id: 666666, 
-    //   description: "Thermal Insulation 1400...", 
-    //   uom: "kilogram", 
-    //   cnt: 100000, 
-    //   unit_price: 2000,
-    //   total_amount: 0,
-    //   tax_code: "P매입세공제",
-    //   buyer_name: "김서정",
-    //   buyer_id: 17278,
-    //   note_to_buyer: "note_to_buyer",
-    //   requester_name: "조학식",
-    //   requester_id: 121212,
-    //   need_to_date: "2022-06-30",
-    //   destination_type: "EXPENSE",
-    //   organization: "POSCO 포항자재/외주...",
-    //   location: "PEA000Q",
-    //   warehouse: "QEJ01",
-    //   dist_num: "1",
-    //   cnt_dept: 0,
-    //   charge_account: "01-PEO31-602021-00001",
-    // }
     return {
       line: 1, 
       item_name: "", 
@@ -296,7 +272,7 @@ function selectPrList() {
 
   // 그리드 체크항목 유지
   const onRowDataChanged = () => {
-    console.log("row changed!!", selectedIds);
+    // console.log("row changed!!", selectedIds);
 
     gridRef.current.api.forEachNode( 
       node => selectedIds.includes(node.data.id) && node.setSelected(true)
@@ -371,7 +347,7 @@ function selectPrList() {
   // #endregion Line Requester 이벤트
 
 
-
+  // 그리드 컬럼
   const prCreateColFields = ([
     { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
     { field: "line",              headerName:"Line",               maxWidth: 80, pinned:"left", editable: false,},
@@ -575,6 +551,7 @@ function selectPrList() {
   // Init Page
   useEffect(() => {
     getLov();
+    getPrInit();
   }, []);
 
   useEffect(() => {
@@ -603,7 +580,17 @@ function selectPrList() {
 
   };
 
+  const getPrInit = async () => {
+    if( id ) {
+      console.log("id : ", id);
+      const data = await getPr(id);
+      console.log("resvData : ", data);
+      console.log("data pr1:::::::::: : ", data.pr1);
 
+      setConditions({...data.pr1});
+      setRowData([...data.pr2]);
+    }
+  }
 
   // #region 팝업 이벤트
   const onHandleSearch = async (value) => {
@@ -666,6 +653,7 @@ function selectPrList() {
             id="preparer_name"
             title="직원선택"
             inputLabel="Preparer"
+            initValue={conditions.preparer_name}
             onHandleSearch={onHandleSearch}
             onHandleOk={onHandleOk}
             onHandleCancel={null}

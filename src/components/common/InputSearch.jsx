@@ -1,5 +1,5 @@
 import { Input, Button, Modal } from "antd";
-import React, { useState, useRef }  from "react";
+import React, { useState, useRef, useEffect }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
@@ -65,17 +65,15 @@ function InputSearch({
 
   // 검색어
   const [searchWord, setSearchWord] = useState("");
-  const [searchedWord, setSearchedWord] = useState(initValue);
+  console.log("initValue", initValue);
+  
+  const [searchedWord, setSearchedWord] = useState("");
  
   // modal
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   // const [modalText, setModalText] = useState('Content of the modal');
   const gridRef = useRef();
-
-  const handleInputChange = (id, value) => {
-    setSearchedWord(value);
-  }
 
   const showModal = () => {
     setVisible(true);
@@ -101,7 +99,9 @@ function InputSearch({
     const selectedRows = gridRef.current.api.getSelectedRows();
     console.log("selectedRows", selectedRows);
 
-    onHandleOk && setSearchedWord( onHandleOk({selectedRows, idx}) );
+    if(onHandleOk) {
+      initValue = onHandleOk({selectedRows, idx});
+    }
 
     // ! 비동기
     // setTimeout(() => {
@@ -171,8 +171,7 @@ function InputSearch({
         <Input.Search
           type="text"
           id={id}
-          value={searchedWord}
-          onChange={(e) => handleInputChange(e.target.value)}
+          value={initValue}
           onSearch = {showModal}  // modal     
           style={{ width: 200 }}
           allowClear={false}
