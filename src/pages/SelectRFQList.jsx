@@ -15,10 +15,10 @@ import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({});
 
-  // buyerid를 객체로
-  const [inputValue, setInputValue] = useState({
-    buyer_id: "",
-  });
+  // // buyerid를 객체로
+  // const [inputValue, setInputValue] = useState({
+  //   buyer_id: "",
+  // });
 
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
@@ -57,25 +57,26 @@ function SelectRfqList() {
     const data = await getSearchBuyerList(searchWord);
 
     // TODO: state에 데이터 저장
-    console.log(data);
     // setBuyerRowData([...data]);
     setBuyerRowData(data);
 
+    return data;
   }
 
-  const onHandleOk = (selectedRows) => {
+  const onHandleOk = ({selectedRows}) => {
     console.log("ok event called!!");
     console.log("selectedRows", selectedRows);
 
     // state에 데이터 저장
     const row = selectedRows[0];
-    
+    console.log("row", row);
     const temp = rfqCondition;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
+    temp.buyer_dept_name = row.buyer_dept_name;
     setRfqCondition(temp);
     
-    return row.buyer_name;
+    return temp.buyer_name;
   }
 
   useEffect(() => {
