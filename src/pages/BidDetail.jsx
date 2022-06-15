@@ -1,4 +1,4 @@
-import { getRfqInfo, getRuleInfo } from "apis/bid.api";
+import { getItemInfo, getRfqInfo, getRuleInfo } from "apis/bid.api";
 import { colors } from "assets/styles/color";
 import BidInfo from "components/bid/BidInfo";
 import React, { useEffect, useState } from "react";
@@ -12,17 +12,23 @@ function BidDetail() {
   const { id } = useParams();
   const [ruleInfoData, setRuleInfoData] = useState([]);
   const [rfqInfoData, setRfqInfoData] = useState([]);
+  const [itemInfoList, setItemInfoList] = useState([]);
+
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(id);
     const rfqInfo = await getRfqInfo(id);
+    const itemInfo = await getItemInfo(id);
     ruleInfo && setRuleInfoData(ruleInfo[0]);
     rfqInfo && setRfqInfoData(rfqInfo[0]);
+    itemInfo && setItemInfoList(itemInfo);
   };
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
   const stage = rfqInfoData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
   useEffect(()=>{
     selectInfo();
+    console.log(id);
   },[]);
+
   return (
     <StyledRoot>
       <Title>입찰정보조회 {id}</Title>
@@ -68,7 +74,7 @@ function BidDetail() {
       <section>
         <SubTitle>품목정보</SubTitle>
         <ItemInfoContainer>
-          <ItemInfoTable></ItemInfoTable>
+          <ItemInfoTable itemInfoList={itemInfoList}></ItemInfoTable>
         </ItemInfoContainer>
       </section>
       <ButtonWrapper>

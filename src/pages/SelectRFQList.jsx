@@ -9,7 +9,7 @@ import InputSearch from "components/common/InputSearch";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import InputDate from "components/common/InputDate";
-import { rfqColumn, rfqColumn2, popUpBuyerColFields } from "stores/colData";
+import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 
 
 function SelectRfqList() {

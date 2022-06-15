@@ -11,7 +11,7 @@ function BidInfo({ label, value }) {
         <Title>{label}</Title>
       </TitleWrapper>
       <DataWrapper>
-        <Data>{value?value:null}</Data>
+        <Data>{value}</Data>
       </DataWrapper>
     </StyledRoot>
   );
@@ -23,7 +23,6 @@ const StyledRoot = styled.div`
   display: flex;
   align-items: center;
   grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
-
 `;
 
 const TitleWrapper = styled.div`
@@ -58,4 +57,3 @@ const Data = styled.p`
   font-size: 1.6rem;
   text-align: center;
 `;
-
