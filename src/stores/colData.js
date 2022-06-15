@@ -76,6 +76,29 @@ export const popUpStaffColFields = [
   { colId:3,  field:"dept", headerName: "부서", minWidth:150},
   ];
 
+export const popUpVendorColFields = [
+  {
+                headerName:"..HELLO.",
+                headerCheckboxSelection:true,
+                checkboxSelection:true,
+                floatingFilter:false,
+                suppressMenu:true,
+                minWidth:10,
+                maxWidth:100,
+                width:50,
+                flex:0,
+                resizable:false,
+                sortable:false,
+                editable:false,
+                filter:false,
+                suppressColumnsToolPanel:true,
+  },
+  { colId:1,  field:"vendor_name",  headerName: "공급사", minWidth:100},
+  { colId:2,  field:"contact_name", headerName: "담당자", minWidth:150},
+  { colId:3,  field:"contact_email_address", headerName: "email", minWidth:150},
+  { colId:3,  field:"contact_mobile", headerName: "연락처", minWidth:150},
+  ];
+
 export const popUpBuyerColFields = [
   { colId:1,  field:"buyer_id",  headerName: "직번", minWidth:100},
   { colId:2,  field:"buyer_name", headerName: "성명", minWidth:150},
@@ -115,3 +138,11 @@ export const bidWriteColFields =[
   { colId:6, field:"quotation_total_price1", headerName: "견적가", minWidth:100, },
   { colId:7, field:"need_by_date", headerName: "납기", minWidth:100, },
   ];
+  // rfq vendor select
+  export const RfqSelectVendorColFields = [
+    {colId:1, field:"vendor_name",            headerName:"공급사",    minWidth:10},
+    {colId:2, field:"contact_name",           headerName:"담당자",    minWidth:10},
+    {colId:3, field:"contact_email_address",  headerName:"e-mail",    minWidth:10},
+    {colId:4, field:"contact_mobile",         headerName:"연락처",    minWidth:10},
+  ];
+

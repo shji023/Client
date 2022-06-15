@@ -61,3 +61,16 @@ export const getRfqInfo = async (id) => {
   }
 };
 
+// selectRFQList/rfq_no 페이지의 공급사 select
+export const getSearchVendorList = async (id) => {
+  try {
+    // console.log("id!!!",id);
+    const sendData = {rfq_no : id}
+    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorInfo`, sendData);
+    console.log("vendor result", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+

@@ -20,6 +20,7 @@ import SelectRFQList from "pages/SelectRFQList";
 import SelectBidList from "pages/SelectBidList";
 import RfqDetail from "pages/RfqDetail";
 import BidDetail from "pages/BidDetail";
+import RfqCreate from "pages/RfqCreate";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
@@ -102,6 +103,7 @@ function App() {
                 <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/bidList/:id" element={<BidDetail />} />
                 <Route path="/bidWrite/:id" element={<BidWrite />} />
+                <Route path="/rfqCreate" element={<RfqCreate />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>

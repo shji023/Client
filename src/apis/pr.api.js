@@ -47,17 +47,86 @@ export const getPrStatusLov = async () => {
 };
 
 
+export const getPr = async (reqNum) => {
+  try {
+    
+    // const sendData = reqNum;
+    const sendData = {"requisitionNumber": reqNum};
+    console.log("sendData!!!!!! : ", sendData);
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prSelect`, sendData)
+    .then((res)=>{
+      console.log("axios data : " , res.data);
+
+      const data = res.data;
+
+      const pr1 = {
+        req_num : data.requisitionNumber,
+        preparer_name : data.preparerName,
+        preparer_id : data.preparerId,
+        // auth_date : ,
+        description : data.description,
+        currency_code : data.currencyCode,
+        pur_pct_agm_rsn : data.purPctAgmRsn,
+        
+      }
+
+      const dataList = res.data.pr2VoList;
+      console.log("dataList ", dataList);
+      const pr2List = [];
+      dataList.forEach(element => {
+        const pr2 = {
+          // line: element.1, // !
+          item_name: element.itemName, // !
+          item_id: element.itemId,
+          category: element.categoryName, // !
+          category_id: element.categoryId,
+          description: element.itemDescription,
+          uom: element.unitMeasLookupCode,
+          cnt: element.quantity,
+          unit_price: element.unitPrice,
+          // total_amount: element., // !
+          tax_code: element.taxCode,
+          buyer_name: element.buyerName, // !
+          buyer_id: element.buyerId, 
+          note_to_buyer: element.noteToAgent,
+          requester_name: element.requesterName, // !
+          requester_id: element.requestPersonId,
+          // need_to_date: element., // !
+          destination_type: element.destinationTypeCode,
+          organization: element.organizationCode,
+          location: element.deliverToLocationId,
+          warehouse: element.destinationSubinventory,
+          dist_num: 1,
+          cnt_dept: element.quantityDelivered,
+          charge_account: element.accountNm,
+        }
+        pr2List.push(pr2);
+      });
+      
+    
+      console.log("ajfkasdjkfl!@!@!@", pr1, pr2List);
+      const pr = {
+        pr1 : pr1,
+        pr2 : pr2List,
+      }
+
+      // return res.data;
+      return pr;
+
+    })
+    return resvData;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
+
 export const insertOnePr = async (conditions, lines) => {
   try {
     
     const sendData = { conditions, lines };
     console.log("sendData : ", sendData);
-
-    // !: 비동기
-    // TODO: GET 시도해보기
-    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
-    // console.log("resvData ", resvData);
-    // return resvData;
 
     const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
     .then((res)=>{
@@ -76,12 +145,6 @@ export const updateOnePr = async (conditions, lines) => {
     const sendData = { conditions, lines };
     console.log("sendData : ", sendData);
 
-    // !: 비동기
-    // TODO: GET 시도해보기
-    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
-    // console.log("resvData ", resvData);
-    // return resvData;
-
     const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
     .then((res)=>{
       console.log("data : " , res.data);
@@ -98,12 +161,6 @@ export const deleteOnePr = async (reqNum) => {
     
     const sendData = reqNum;
     console.log("sendData : ", sendData);
-
-    // !: 비동기
-    // TODO: GET 시도해보기
-    // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
-    // console.log("resvData ", resvData);
-    // return resvData;
 
     const resvData = await serverAxios.post(`${PREFIX_URL}/prDelete`, sendData)
     .then((res)=>{

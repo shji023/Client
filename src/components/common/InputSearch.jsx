@@ -1,8 +1,9 @@
 import { Input, Button, Modal } from "antd";
-import React, { useState, useRef }  from "react";
+import React, { useState, useRef, useEffect }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
+import CustomModal from "components/common/CustomModal";
 
 /**
  * PopUp 버튼이 추가된 Input 태그
@@ -30,19 +31,15 @@ function InputSearch({
   // PopUp 관련
   title,
   labelTitle,
-
+  
   // Button 이벤트
   onHandleSearch,
   onHandleOk,
   onHandleCancel,
-
+  
   // DataGrid
   gridOptions,
-
 }) {
-
-  !title && (title = "선택");
-  labelTitle = "검색어";
   
   !onHandleSearch && (onHandleSearch = (value) => {
     console.log("value : ", value);
@@ -60,72 +57,15 @@ function InputSearch({
     console.log("called onHandleCancel");
 
   })
-
-  const [gridRowData, setGridRowData] = useState([]);
-
   // 검색어
-  const [searchWord, setSearchWord] = useState("");
   const [searchedWord, setSearchedWord] = useState(initValue);
  
   // modal
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  // const [modalText, setModalText] = useState('Content of the modal');
-  const gridRef = useRef();
-
-  const handleInputChange = (id, value) => {
-    setSearchedWord(value);
-  }
-
+  
   const showModal = () => {
     setVisible(true);
-  };
-
-  // 팝업 검색 버튼 이벤트
-  const handleSearch = async () => {
-    console.log('Clicked search button');
-
-    const resultList = await onHandleSearch(searchWord);
-    console.log("resultList", resultList);
-    setGridRowData([...resultList]);
-
-  }
-
-  // 팝업 OK 버튼 이벤트
-  const handleOk = () => {
-    console.log('Clicked ok button');
-    // setModalText('The modal will be closed after two seconds');
-
-    // setConfirmLoading(true);
-    // const rows = gridRef.current.api.getSelectedNodes();
-    const selectedRows = gridRef.current.api.getSelectedRows();
-    console.log("selectedRows", selectedRows);
-
-    onHandleOk && setSearchedWord( onHandleOk({selectedRows, idx}) );
-
-    // ! 비동기
-    // setTimeout(() => {
-      setVisible(false);
-    //   setConfirmLoading(false);
-    // }, 1000);
-
-    initPopUp();
-  };
-
-  // 팝업 취소 버튼 이벤트
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
-
-    onHandleCancel && onHandleCancel();
-
-    setVisible(false);
-    
-    initPopUp();
-  };
-
-  const initPopUp = () => {
-    setSearchWord("");
-  }
+};
 
   const InputLabel = (props) => {
     if(props.inputLabel) {
@@ -136,34 +76,19 @@ function InputSearch({
 
   return (
     <>
-      <Modal
-        title={title}
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-      >
-        
-        {/* modal 창 안의 내용> */}
-        {/* <p>{modalText}</p> */}
-        <ModalHeader>
-          <ModalSearch
-            inputLabel={labelTitle}
-            id="id"
-            inputValue={searchWord}
-            setInputValue={setSearchWord}
-          />
-          <Button onClick={handleSearch}>검색</Button>
-        </ModalHeader>
-
-        <section>
-          <DataGridModal 
-            gridRef={gridRef}
-            gridRowData = {gridRowData}
-            gridOptions={gridOptions}
-          />
-        </section>
-      </Modal>
+     <CustomModal
+      title={title}
+      idx={idx}
+      labelTitle={labelTitle}
+      searchedWord={searchedWord}
+      setSearchedWord={setSearchedWord}
+      onHandleOk ={onHandleOk}
+      onHandleCancel={onHandleCancel}
+      onHandleSearch={onHandleSearch}
+      gridOptions={gridOptions}
+      visible={visible}
+      setVisible={setVisible}
+     />
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
@@ -172,7 +97,6 @@ function InputSearch({
           type="text"
           id={id}
           value={searchedWord}
-          onChange={(e) => handleInputChange(e.target.value)}
           onSearch = {showModal}  // modal     
           style={{ width: 200 }}
           allowClear={false}

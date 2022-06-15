@@ -1,28 +1,35 @@
-import { DatePicker } from "antd";
+import { Select } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function InputOneDate({ id, inputLabel, handleCondition }) {
+function InputSelect({ id, inputLabel, handlePoCondition, lov }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <DatePicker
+      <Select
+        defaultValue="선택"
         id={id}
-        onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD"))
-        }
-        style={{ width: 200 }}
-      />
+        onChange={(e) => {
+          handlePoCondition(id, e);
+        }}
+        style={{ width: '100%' }}
+      >
+        <Select.Option value="">선택</Select.Option>
+        {lov.map((option) => (
+          <Select.Option key={option[0]} value={option[1]}>
+            {option[1]}
+          </Select.Option>
+        ))}
+      </Select>
     </StyledRoot>
   );
 }
+export default InputSelect;
 
-export default InputOneDate;
 
 const StyledRoot = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 
