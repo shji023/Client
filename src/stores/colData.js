@@ -1,19 +1,4 @@
-import InputInfo from "components/common/InputInfo";
-
-export const bidColData = [
-  { field: "bid_PRICE_METHOD", headerName: "단가입력방법", width: 90, headerAlign: "center" },
-  { field: "bid_SEARCH_TYPE", headerName: "Status", width: 90, headerAlign: "center" },
-  { field: "bid_TYPE_CODE", headerName: "입찰방법", width: 90, headerAlign: "center" },
-  { field: "bidding_END_DATE", headerName: "입찰마감일시", width: 90, headerAlign: "center" },
-  { field: "bidding_NO", headerName: "입찰번호", width: 90, headerAlign: "center" },
-  { field: "bidding_START_DATE", headerName: "입찰개시일시", width: 90, headerAlign: "center" },
-  { field: "buyer_id", headerName: "Buyer", width: 90, headerAlign: "center" },
-  { field: "category_SEGMENT1", headerName: "부문", width: 90, headerAlign: "center" },
-  { field: "rfq_DESCRIPTION", headerName: "건명", width: 90, headerAlign: "center" },
-  { field: "rfq_NO", headerName: "RFQ번호", width: 90, headerAlign: "center" },
-  { field: "simple_QUOTATION_FLAG", headerName: "단계", width: 90, headerAlign: "center" },
-];
-
+// BidList Datagrid
 export const bidColFields =[
   { colId:1, field:"category_segment", headerName: "부문", minWidth:100, },
   { colId:2, field:"rfq_no", headerName: "RFQ번호", minWidth:150 },
@@ -97,7 +82,14 @@ export const popUpBuyerColFields = [
   { colId:3,  field:"buyer_dept_code", headerName: "부서", minWidth:150},
   ];
 
-// #endregion
+export const popUpItemColFields = [
+  { colId:1,  field:"item",  headerName: "아이템", minWidth:100},
+  { colId:2,  field:"description", headerName: "사양", minWidth:150},
+  { colId:3,  field:"category", headerName: "카테고리", minWidth:150},
+  { colId:3,  field:"uom", headerName: "단위", minWidth:150},
+  ];
+
+// #endregion 팝업
 
 export const ItemInfoColFields =[
   { colId:1, field:"category_SEGMENT", headerName: "부문", minWidth:100, },
@@ -120,3 +112,4 @@ export const ItemInfoColFields =[
     {colId:3, field:"contact_email_address",  headerName:"e-mail",    minWidth:10},
     {colId:4, field:"contact_mobile",         headerName:"연락처",    minWidth:10},
   ];
+

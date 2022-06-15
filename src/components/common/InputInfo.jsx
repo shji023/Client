@@ -2,7 +2,9 @@ import { Input } from "antd";
 import React from "react";
 import styled from "styled-components";
 
-function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue, disabled }) {
+
+  if(!disabled) disabled = false;
 
   return (
     <StyledRoot>
@@ -13,6 +15,7 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue }) {
         value={inputValue}
         onChange={(e) => handlePoCondition(id, e.target.value)}
         style={{ width: 200 }}
+        disabled={disabled}
       />
     </StyledRoot>
   );
