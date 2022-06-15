@@ -5,8 +5,13 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { bidWriteColFields } from "stores/colData";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-const BidWriteDataGrid = ({ listData }) => {
+const BidWriteDataGrid = ({ itemListData }) => {
   const navigate = useNavigate();
+
+  let cnt = 1;
+  itemListData && itemListData.forEach((element) => {
+    element.line = cnt++;
+  });
   
   return (
     <StyledRoot>
@@ -20,7 +25,7 @@ const BidWriteDataGrid = ({ listData }) => {
           className="ag-theme-alpine"
         >
           <AgGridReact
-            rowData={listData}
+            rowData={itemListData}
             rowSelection={"multiple"}
             suppressRowClickSelection={false}
             defaultColDef={{
@@ -37,7 +42,7 @@ const BidWriteDataGrid = ({ listData }) => {
               defaultToolPanel: "",
             }}
             pagination={true}
-            paginationPageSize={10}
+            paginationPageSize={5}
           >
             <AgGridColumn
               headerName="..HELLO."

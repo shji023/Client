@@ -107,11 +107,11 @@ export const ItemInfoColFields =[
 
   // BidWrite Datagrid
 export const bidWriteColFields =[
-  { colId:1, field:"id", headerName: "순번", minWidth:100, },
+  { colId:1, field:"line", headerName: "순번", minWidth:100, },
   { colId:2, field:"item", headerName: "ItemCode", minWidth:100, },
-  { colId:3, field:"quotation_total_price1", headerName: "Description", minWidth:100, },
+  { colId:3, field:"description", headerName: "Description", minWidth:100, },
   { colId:4, field:"unit_meas_lookup_code", headerName: "단위", minWidth:100, },
   { colId:5, field:"pur_rfq_qt", headerName: "수량", minWidth:100, },
-  { colId:6, field:"Description", headerName: "견적가", minWidth:100, },
-  { colId:6, field:"need_by_date", headerName: "납기", minWidth:100, },
+  { colId:6, field:"quotation_total_price1", headerName: "견적가", minWidth:100, },
+  { colId:7, field:"need_by_date", headerName: "납기", minWidth:100, },
   ];

@@ -73,9 +73,18 @@ export const getRuleInfo = async (bidding_no) => {
   }
 };
 
-export const getItemInfo = async (rfq_no) => {
+export const getItemInfo = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/itemInfo/${rfq_no}`);
+    const { data } = await serverAxios.get(`${PREFIX_URL}/itemInfo/${bidding_no}`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+export const getQuotationItemInfo = async (bidding_no) => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/quotationItem/${bidding_no}`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

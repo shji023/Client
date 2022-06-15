@@ -7,6 +7,7 @@ import BidInputSelect from "components/bid/BidInputSelect";
 import { Input } from "antd";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bid/QuotationInput";
+import { getQuotationItemInfo } from "apis/bid.api";
 
 function BidWrite() {
   const { id } = useParams();
@@ -15,14 +16,25 @@ function BidWrite() {
     quotation_total_price1: "",
   });
   const currencyLov = ['KRW','USD','JPY','EUR'];
+  const [itemListData, setItemListData] = useState([]);
 
   const result = getKoreanNumber(priceCondition.quotation_total_price1);
+
   const handleCondition = (key, value) => {
     const tempPriceCondition = { ...priceCondition };
 
     tempPriceCondition[key] = value;
     setPriceCondition(tempPriceCondition);
   };
+
+  const getItemList = async () => {
+    const quotationItem = await getQuotationItemInfo(id);
+    quotationItem && setItemListData(quotationItem);
+  };
+
+  useEffect(() => {
+    getItemList();
+  }, []);
   return (
     <StyledRoot>
       <Title>응찰서 작성 {id}</Title>
@@ -43,7 +55,7 @@ function BidWrite() {
               inputValue={priceCondition.quotation_total_price1}
             />
           </InputWrapper>
-          <BidWriteDataGrid></BidWriteDataGrid>
+          <BidWriteDataGrid itemListData={itemListData} ></BidWriteDataGrid>
         </QuotationInfoContainer>
       </section>
       <section>
