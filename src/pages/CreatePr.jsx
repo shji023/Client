@@ -10,7 +10,6 @@ import InputInfoGrid from "components/common/InputInfoGrid";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
-import { observer } from "mobx-react";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -689,6 +688,7 @@ function selectPrList() {
           <InputSelect
             id="pur_pct_agm_rsn"
             inputLabel="수의사유"
+            initValue={conditions.pur_pct_agm_rsn}
             handlePoCondition={handleCondition}
             lov={prReasonLov}
           />
@@ -715,7 +715,7 @@ function selectPrList() {
   );
 }
 
-export default observer(selectPrList);
+export default selectPrList;
 
 const StyledRoot = styled.main`
   display: flex;
