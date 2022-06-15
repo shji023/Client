@@ -1,10 +1,9 @@
 import { colors } from "assets/styles/color";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 import BidWriteDataGrid from "components/bid/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
-import { Input } from "antd";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bid/QuotationInput";
 import { getQuotationItemInfo } from "apis/bid.api";
@@ -15,14 +14,13 @@ function BidWrite() {
     currency: "",
     quotation_total_price1: "",
   });
-  const currencyLov = ['KRW','USD','JPY','EUR'];
+  const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
 
   const result = getKoreanNumber(priceCondition.quotation_total_price1);
 
   const handleCondition = (key, value) => {
     const tempPriceCondition = { ...priceCondition };
-
     tempPriceCondition[key] = value;
     setPriceCondition(tempPriceCondition);
   };
@@ -35,6 +33,22 @@ function BidWrite() {
   useEffect(() => {
     getItemList();
   }, []);
+  
+  useEffect(() => {
+    // * 헤더 총 금액 계산
+    const tempConditions = priceCondition;
+    const tempRowData = itemListData;
+    let total = 0;
+    tempRowData.forEach((element) => {
+      if (element.quotation_total_price1) {
+        total += element.quotation_total_price1 * 1;
+      }
+    });
+    tempConditions.quotation_total_price1 = total;
+
+    setPriceCondition({ ...tempConditions });
+  }, [itemListData]);
+
   return (
     <StyledRoot>
       <Title>응찰서 작성 {id}</Title>
@@ -42,11 +56,12 @@ function BidWrite() {
         <SubTitle>견적정보</SubTitle>
         <QuotationInfoContainer>
           <InputWrapper>
-            <BidInputSelect 
-              id='currency' 
-              inputLabel='견적총금액'
-              handleCondition={handleCondition} 
-              lov={currencyLov} />
+            <BidInputSelect
+              id="currency"
+              inputLabel="견적총금액"
+              handleCondition={handleCondition}
+              lov={currencyLov}
+            />
             <QuotationInput
               id="quotation_total_price1"
               priceLabel={result}
@@ -55,20 +70,18 @@ function BidWrite() {
               inputValue={priceCondition.quotation_total_price1}
             />
           </InputWrapper>
-          <BidWriteDataGrid itemListData={itemListData} ></BidWriteDataGrid>
+          <BidWriteDataGrid 
+            itemListData={itemListData}
+            setItemListData={setItemListData} />
         </QuotationInfoContainer>
       </section>
       <section>
         <SubTitle>견적서 제출</SubTitle>
-        <SubmitQuotationContainer>
-
-        </SubmitQuotationContainer>
+        <SubmitQuotationContainer></SubmitQuotationContainer>
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>
-        <VendorCommentContainer>
-
-        </VendorCommentContainer>
+        <VendorCommentContainer></VendorCommentContainer>
       </section>
       <ButtonWrapper>
         <Button>응찰서 확정</Button>
