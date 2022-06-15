@@ -4,18 +4,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
-import SuccessBidGrid from "components/common/SuccessBidGrid";
-import AgGrid from "components/common/AgGrid";
+import AgSuccessBidResult from "components/common/AgSuccessBidResult";
+import BidInfo from "components/common/BidInfo";
 
 
 
 function SuccessBid(props) {
   const [successBidCondition, setSuccessBidCondition] = useState({
-    RFQ_DESCRIPTION: "",
-    RFQ_NO: "",
-    BIDDING_NO: "",
-    BID_TYPE_CODE: "",
-    TARGET_PRICE: "",
+    rfq_description: "",
+    rfq_no: "",
+    bidding_no: "",
+    bid_type_code: "",
+    target_price: "",
   });
   // const [bidResultCondition, setBidResultCondition] = useState({
   //   VENDOR_NAME: "",
@@ -26,13 +26,14 @@ function SuccessBid(props) {
   const [bidResultData, setBidResultData] = useState([]);
   
   const selectSuccessBid = async () => {
-    const data = await getSuccessBid({RFQ_NO: "6455407"});
+    const data = await getSuccessBid({rfq_no: "6455407"});
     
     console.log(data);
     setSuccessBidCondition(data);
+    console.log();
   };
   const selectBidResult = async () => {
-    const data = await getBidResult({RFQ_NO: "6455407"});
+    const data = await getBidResult({rfq_no: "6455407"});
     console.log("여기가 찍히는거냐?" );
     console.log(data);
     setBidResultData(data);
@@ -58,41 +59,39 @@ function SuccessBid(props) {
             }}>낙찰확정</Button>
           </ButtonWrapper>
 
-          <InputContainer>
-            <LabelInfo
-              id="RFQ_DESCRIPTION"
-              inputLabel="건명:"
-              inputValue={successBidCondition.rfq_DESCRIPTION}
+          <RfqInfoContainer>
+            <BidInfo
+              label="건명:"
+              value={successBidCondition.rfq_description}
             />
-            <LabelInfo
-              id="BIDDING_NO"
-              inputLabel="입찰번호:"
-              inputValue={successBidCondition.bidding_NO}
+            <BidInfo
+              //id="BIDDING_NO"
+              label="입찰번호:"
+              value={successBidCondition.bidding_no}
             />
-            <LabelInfo
-              id="RFQ_NO"
-              inputLabel="RFQ번호:"
-              inputValue={successBidCondition.rfq_NO}
+            <BidInfo
+              //id="RFQ_NO"
+              label="RFQ번호:"
+              value={successBidCondition.rfq_no}
             />
-            <LabelInfo
-              id="BID_TYPE_CODE"
-              inputLabel="입찰방법:"
-              inputValue={successBidCondition.bid_TYPE_CODE}
+            <BidInfo
+              //id="BID_TYPE_CODE"
+              label="입찰방법:"
+              value={successBidCondition.bid_type_code}
             />
-            <LabelInfo
-              id="TARGET_PRICE"
-              inputLabel="TargetPrice:"
-              inputValue={successBidCondition.target_PRICE}
+            <BidInfo
+              //id="TARGET_PRICE"
+              label="TargetPrice:"
+              value={successBidCondition.target_price}
             />
-          </InputContainer>
+            </RfqInfoContainer>
+
         </section>
 
         <SmallTitle>🌐 공급사별 투찰결과</SmallTitle>
         
         <section>
-            
-            {/* <SuccessBidGrid bidResultData={bidResultData}/> */}
-            <AgGrid bidResultData={bidResultData}></AgGrid>
+            <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
         </section>
 
     </StyledRoot>
@@ -141,4 +140,32 @@ const SmallTitle = styled.p`
   font-size: 1.2rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+`;
+const RfqInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  padding: 2rem 2rem 2rem 0.5rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;

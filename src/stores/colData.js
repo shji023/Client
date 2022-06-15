@@ -76,6 +76,29 @@ export const popUpStaffColFields = [
   { colId:3,  field:"dept", headerName: "부서", minWidth:150},
   ];
 
+export const popUpVendorColFields = [
+  {
+                headerName:"..HELLO.",
+                headerCheckboxSelection:true,
+                checkboxSelection:true,
+                floatingFilter:false,
+                suppressMenu:true,
+                minWidth:10,
+                maxWidth:100,
+                width:50,
+                flex:0,
+                resizable:false,
+                sortable:false,
+                editable:false,
+                filter:false,
+                suppressColumnsToolPanel:true,
+  },
+  { colId:1,  field:"vendor_name",  headerName: "공급사", minWidth:100},
+  { colId:2,  field:"contact_name", headerName: "담당자", minWidth:150},
+  { colId:3,  field:"contact_email_address", headerName: "email", minWidth:150},
+  { colId:3,  field:"contact_mobile", headerName: "연락처", minWidth:150},
+  ];
+
 export const popUpBuyerColFields = [
   { colId:1,  field:"buyer_id",  headerName: "직번", minWidth:100},
   { colId:2,  field:"buyer_name", headerName: "성명", minWidth:150},
