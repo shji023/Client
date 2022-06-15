@@ -8,16 +8,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
-    RFQ_DESCRIPTION: "",
+    COMMENTS: "",
     VENDOR_ID: "",
     ATTRIBUTE_CATEGORY: "",
     AUTHORIZATION_STATUS: "",
-    SEGMENT: "",
+    PO_NUM: "",
     ITEM_ID: "",
-    PO_HEADER_ID: "",
     RFQ_NO: "",
     ORGANIZATION_CODE: "",
-    REQUEST_PERSON_ID: "",
     BUYER_ID: "",
     TYPE_LOOKUP_CODE: "",
   });
@@ -65,10 +63,10 @@ function SelectPoList() {
         </ButtonWrapper>
         <InputContainer>
           <InputInfo
-            id="RFQ_DESCRIPTION"
+            id="COMMENTS"
             inputLabel="계약명"
             handlePoCondition={handlePoCondition}
-            inputValue={poCondition.RFQ_DESCRIPTION}
+            inputValue={poCondition.COMMENTS}
             mySize={200}
           />
           <InputSearch
@@ -90,7 +88,7 @@ function SelectPoList() {
             lov={poApproveLov}
           />
           <InputInfo
-            id="SEGMENT"
+            id="PO_NUM"
             inputLabel="PO 번호"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.SEGMENT}
@@ -101,13 +99,6 @@ function SelectPoList() {
             inputLabel="Item"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.ITEM_ID}
-          />
-          <InputInfo
-            id="PO_HEADER_ID"
-            inputLabel="PR 번호"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.PO_HEADER_ID}
-            mySize={200}
           />
           <InputInfo
             id="RFQ_NO"
@@ -121,12 +112,6 @@ function SelectPoList() {
             inputLabel="사소"
             handlePoCondition={handlePoCondition}
             lov={sasoLov}
-          />
-          <InputSearch
-            id="REQUEST_PERSON_ID"
-            inputLabel="PR 신청자"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.REQUEST_PERSON_ID}
           />
           <InputSearch
             id="BUYER_ID"
