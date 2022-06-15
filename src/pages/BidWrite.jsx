@@ -81,7 +81,11 @@ function BidWrite() {
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>
-        <VendorCommentContainer></VendorCommentContainer>
+        <VendorCommentContainer>
+          <TextAreaWrapper>
+            <TextArea/>
+          </TextAreaWrapper>
+        </VendorCommentContainer>
       </section>
       <ButtonWrapper>
         <Button>응찰서 확정</Button>
@@ -114,6 +118,25 @@ const InputWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const TextAreaWrapper = styled.div`
+  font-size: 1.6rem;
+  width: 100%;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.tableLineGray};
+`;
+const TextArea = styled.textarea`
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  line-height: 2.3rem;
+  outline: none;
+  resize: none;
 `;
 
 const Title = styled.p`
