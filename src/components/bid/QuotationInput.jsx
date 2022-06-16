@@ -3,10 +3,9 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
+function QuotationInput({ id, priceLabel, currencyLabel, handleCondition, inputValue }) {
   return (
     <StyledRoot>
-      <Label htmlFor={id}>{inputLabel}</Label>
       <StyledInput>
         <Input
           type="text"
@@ -16,44 +15,29 @@ function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
           style={{ width: '100%' }}
         />
       </StyledInput>
-      
+      <Label htmlFor={id}>{priceLabel}{currencyLabel}</Label>
     </StyledRoot>
   );
 }
 
-export default BidInputInfo;
+export default QuotationInput;
 
 const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
-
-const TitleWrapper = styled.div`
-  font-size: 1.6rem;
-  min-width: 14rem;
-  height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
-`;
-
 
 const Label = styled.label`
   font-size: 1.6rem;
-  min-width: 14rem;
+  min-width: 50rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
 `;
 
 const StyledInput = styled.div`

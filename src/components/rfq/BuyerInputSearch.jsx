@@ -1,97 +1,121 @@
 import { Input, Button, Modal } from "antd";
-import React, { useEffect, useState }  from "react";
+import React, { useState, useRef }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
-import DataGridModal from "components/common/DataGridModal2";
-import { getSearchBuyerList } from "apis/buyer.api";
-import {setRfqCondition} from "pages/SelectRFQList"
-function InputSearch({ id, inputLabel, handlePoCondition, inputValue, setInputValue }) {
+import DataGridModal from "components/common/DataGridModal";
+import CustomModal from "components/common/CustomModal";
+import { colors } from "assets/styles/color";
 
- 
-  const [modalListData, setModalListData] = useState([]);
+/**
+ * PopUp 버튼이 추가된 Input 태그
+ * @param { id }              id              Input 관련 - Id
+ * @param { inputLabel }      inputLabel      Input 관련 - 라벨
+ * @param { title }           title           PopUp 관련 - 팝업 제목
+ * @param { labelTitle }      labelTitle      PopUp 관련 - 검색창 라벨
+ * @param { onHandleSearch }  onHandleSearch  Button 이벤트 - 검색 버튼
+ * @param { onHandleOk }      onHandleOk      Button 이벤트 - Ok 버튼
+ * @param { onHandleCancel }  onHandleCancel  Button 이벤트 - Cancel 버튼
+ * @param { gridOptions }     gridOptions     DataGrid 관련 - DataGrid 옵션
+ *                                                            { columnDefs : columnDefs,
+ *                                                              rowData : rowData,
+ *                                                              rowSelection : "single", "multiple",
+ *                                                              suppressRowClickSelection : true, false }
+ * @returns 
+ */
+function BuyerInputSearch({ 
+  // Input 관련
+  id,
+  idx,  
+  inputLabel,
+  initValue,
 
-  const handleInputValue = (key, value) => {
-
-    const tempInputValue = { ...inputValue };
-    tempInputValue[key] = value;
-    setInputValue(tempInputValue);
-  };
+  // PopUp 관련
+  title,
+  labelTitle,
   
-  const SelectSearch = async () => {
-    const data = await getSearchBuyerList(inputValue);
-    // console.log("data : !!!!!",  data);
+  // Button 이벤트
+  onHandleSearch,
+  onHandleOk,
+  onHandleCancel,
+  
+  // DataGrid
+  gridOptions,
+}) {
+  
+  !onHandleSearch && (onHandleSearch = (value) => {
+    console.log("value : ", value);
+    
+  });
 
-    setSearchData(data);
-  };
-  const [searchData, setSearchData] = useState([]);
+  !onHandleOk && (onHandleOk = () => {
+    console.log("called onHandleOk");
 
+    return "검색단어";
+
+  });
+
+  !onHandleCancel && (onHandleCancel = () => {
+    console.log("called onHandleCancel");
+
+  })
+  // 검색어
+  const [searchedWord, setSearchedWord] = useState(initValue);
+ 
   // modal
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
+
+  // const handleInputChange = (id, value) => {
+  //   setSearchedWord(value);
+  // }
+  
   const showModal = () => {
     setVisible(true);
-  };
+};
 
-  const handleOk = () => {
-    // setModalText('The modal will be closed after two seconds');
-    
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 1000);
-  };
+  const InputLabel = (props) => {
+    if(props.inputLabel) {
+      return <Label htmlFor={props.id}>{props.inputLabel}</Label>
 
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
-    setVisible(false);
-  };
+    }
+  }
 
   return (
     <>
-     <Modal
-        title="Buyer 선택"
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-      >
-        
-        {/* modal 창 안의 내용> */}
-        {/* <p>{modalText}</p> */}
-        <ModalSearch
-          id="buyer_id"
-          inputLabel="Buyer"
-          handlePoCondition={handleInputValue}
-          inputValue={inputValue.buyer_id}
-        />
-        <br/>
-        <Button onClick={SelectSearch}>검색</Button>
-        <section>
-          <br/>
-          <DataGridModal poListData={searchData} />
-        </section>
-      </Modal>
+     <CustomModal
+      title={title}
+      idx={idx}
+      labelTitle={labelTitle}
+      searchedWord={searchedWord}
+      setSearchedWord={setSearchedWord}
+      onHandleOk ={onHandleOk}
+      onHandleCancel={onHandleCancel}
+      onHandleSearch={onHandleSearch}
+      gridOptions={gridOptions}
+      visible={visible}
+      setVisible={setVisible}
+     />
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
-        <Label htmlFor={id}>{inputLabel}</Label>
-        <Input.Search
-          allowClear
-          type="text"
-          id={id}
-          // value={inputValue.BUYER_ID}
-          onChange={(e) => handlePoCondition(id, e.target.value)}
-          onSearch = {showModal}  // modal     
-          style={{ width: 200 }}
-        />
+        <TitleWrapper>
+          <InputLabel id={id} inputLabel={inputLabel} />
+        </TitleWrapper>
+          <Input.Search
+            type="text"
+            id={id}
+            value={searchedWord}
+            // onChange={(e) => handleInputChange(e.target.value)}
+            onSearch = {showModal}  // modal     
+            style={{ width: 300 }}
+            allowClear={false}
+            readOnly
+          />
       </StyledRoot>
     </>
   );
 }
 
-export default InputSearch;
+export default BuyerInputSearch;
 
 const StyledRoot = styled.div`
   display: flex;
@@ -99,10 +123,29 @@ const StyledRoot = styled.div`
   align-items: center;
 `;
 
+const TitleWrapper = styled.div`
+  font-size: 1.4rem;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
+`;
+
 const Label = styled.label`
   font-size: 1.6rem;
   width: 8rem;
   text-align: center;
+  font-family: "Pretendard-SemiBold";
 `;
 
-
+const ModalHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`;

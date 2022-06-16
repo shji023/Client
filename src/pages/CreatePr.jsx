@@ -1,7 +1,6 @@
-import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, } from "apis/pr.api";
+import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, getPr, } from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
-// import DataGridPrLine from "components/common/DataGridPrLine";
 import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields, popUpItemColFields } from "stores/colData";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
@@ -11,13 +10,13 @@ import InputInfoGrid from "components/common/InputInfoGrid";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
-import { observer } from "mobx-react";
-import { ValueFormatter } from "react-data-grid";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function selectPrList() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const testData = [
     {
@@ -103,7 +102,7 @@ function selectPrList() {
 
   const [conditions, setConditions] = useState({
         req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "",    // preparer_name : Preparer
+        preparer_name : "123",    // preparer_name : Preparer
         preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
         description   : "PR 테스트", // PR명
@@ -120,10 +119,6 @@ function selectPrList() {
   const [destLov, setDestLov] = useState([]);
   const [taxCodeLov, setTaxCodeLov] = useState([]);
 
-  // 팝업 그리드 행 정보
-  const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
-
-  const gridRef = useRef();
 
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
@@ -140,7 +135,7 @@ function selectPrList() {
   }
 
   const saveContents = async () => {
-    console.log("onSaveContents called");
+    console.log("onSaveContents called!!!!!!!!!!!");
 
     // !: axios 비동기
     const data = await insertOnePr(conditions, rowData);
@@ -149,12 +144,14 @@ function selectPrList() {
       const temp = conditions;
       temp.req_num = data;
       setConditions({...temp});
+      navigate(`/createPr/${temp.req_num}`)
+      
     } else {
       alert("구매 신청이 실패했습니다.");
     }
   };
 
-  const onUpdateContents = () => {
+  const onUpdateContents = async () => {
     confirm(
       "구매 신청서 수정을 완료하시겠습니까?"
       ) ? updateContent() : null;
@@ -189,9 +186,12 @@ function selectPrList() {
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
     }
+    navigate(`/createPr`);
   }
 
   // #region 그리드 관련 이벤트
+  const gridRef = useRef();
+
   // 그리드 행 추가
   // TODO: 체크항목 유지하기
   const onInsertOne = useCallback( ()=>{
@@ -202,32 +202,6 @@ function selectPrList() {
     setRowData(records);
   } )
   const createOneRecord = () => {
-    // return {
-    //   line: 1, 
-    //   item_name: "Q2065363", 
-    //   item_id: 444444,
-    //   category: "Q.Burnt Chaff_B", 
-    //   category_id: 666666, 
-    //   description: "Thermal Insulation 1400...", 
-    //   uom: "kilogram", 
-    //   cnt: 100000, 
-    //   unit_price: 2000,
-    //   total_amount: 0,
-    //   tax_code: "P매입세공제",
-    //   buyer_name: "김서정",
-    //   buyer_id: 17278,
-    //   note_to_buyer: "note_to_buyer",
-    //   requester_name: "조학식",
-    //   requester_id: 121212,
-    //   need_to_date: "2022-06-30",
-    //   destination_type: "EXPENSE",
-    //   organization: "POSCO 포항자재/외주...",
-    //   location: "PEA000Q",
-    //   warehouse: "QEJ01",
-    //   dist_num: "1",
-    //   cnt_dept: 0,
-    //   charge_account: "01-PEO31-602021-00001",
-    // }
     return {
       line: 1, 
       item_name: "", 
@@ -296,7 +270,7 @@ function selectPrList() {
 
   // 그리드 체크항목 유지
   const onRowDataChanged = () => {
-    console.log("row changed!!", selectedIds);
+    // console.log("row changed!!", selectedIds);
 
     gridRef.current.api.forEachNode( 
       node => selectedIds.includes(node.data.id) && node.setSelected(true)
@@ -371,7 +345,7 @@ function selectPrList() {
   // #endregion Line Requester 이벤트
 
 
-
+  // 그리드 컬럼
   const prCreateColFields = ([
     { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
     { field: "line",              headerName:"Line",               maxWidth: 80, pinned:"left", editable: false,},
@@ -575,6 +549,7 @@ function selectPrList() {
   // Init Page
   useEffect(() => {
     getLov();
+    getPrInit();
   }, []);
 
   useEffect(() => {
@@ -603,14 +578,23 @@ function selectPrList() {
 
   };
 
+  const getPrInit = async () => {
+    if( id ) {
+      console.log("id : ", id);
+      const data = await getPr(id);
+      console.log("resvData : ", data);
+      console.log("data pr1:::::::::: : ", data.pr1);
 
+      setConditions({...data.pr1});
+      setRowData([...data.pr2]);
+    }
+  }
 
   // #region 팝업 이벤트
   const onHandleSearch = async (value) => {
     
     // const resultList = await getStaffList(sendData);
     const resultList = await getStaffList(value);
-    setPopUpPreparerRowData([...resultList]);
     return resultList;
   }
 
@@ -645,7 +629,7 @@ function selectPrList() {
 
   return (
     <StyledRoot>
-      <Title>구매신청</Title>
+      <Title>구매신청등록</Title>
       <section>
         <ButtonWrapper>
           <ButtonSelector />
@@ -666,12 +650,12 @@ function selectPrList() {
             id="preparer_name"
             title="직원선택"
             inputLabel="Preparer"
+            initValue={conditions.preparer_name}
             onHandleSearch={onHandleSearch}
             onHandleOk={onHandleOk}
             onHandleCancel={null}
             gridOptions={{
               columnDefs : popUpStaffColFields,
-              rowData : popUpPreparerRowData,
               rowSelection : "single", // single, multiple
               suppressRowClickSelection : false,
             }}
@@ -701,6 +685,7 @@ function selectPrList() {
           <InputSelect
             id="pur_pct_agm_rsn"
             inputLabel="수의사유"
+            initValue={conditions.pur_pct_agm_rsn}
             handlePoCondition={handleCondition}
             lov={prReasonLov}
           />
@@ -727,7 +712,7 @@ function selectPrList() {
   );
 }
 
-export default observer(selectPrList);
+export default selectPrList;
 
 const StyledRoot = styled.main`
   display: flex;

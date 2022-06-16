@@ -15,6 +15,8 @@ import InputDate from "components/common/InputDate";
 import InputInfo from "components/common/InputInfo";
 import BidInputSelect from "components/bid/BidInputSelect";
 import RfqSelectVendor from "components/rfq/RfqSelectVendor";
+import BidInputInfo from "components/bid/BidInputInfo";
+import BidInputDate from "components/bid/BidInputDate";
 
 function RfqDetail() {
   const {id} = useParams();
@@ -72,7 +74,7 @@ function RfqDetail() {
     bidCurrencyCodeLov && setBidCurrencyCodeLov(bidCurrencyCodeLov);
   };
 
-  const handleBidCondition = (key, value) => {
+  const handleCondition = (key, value) => {
     const tempBidCondition = { ...bidCondition };
     tempBidCondition[key] = value;
     setBidCondition(tempBidCondition);
@@ -181,60 +183,60 @@ function RfqDetail() {
         </RfqInfoContainer>
       </section>
       <SubTitle>공급사 선정</SubTitle><br/>
-        <RfqSelectVendor id={id} ></RfqSelectVendor>
+        <RfqSelectVendor id={id} ></RfqSelectVendor><br/>
       <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
         <section>
           <BidInfoContainer>
-            <InputSelect
+            <BidInputSelect
               id="bid_type_code"
               inputLabel="입찰유형"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               lov={bidTypeLov}
             />
-            <InputSelect
+            <BidInputSelect
               id="bid_price_method"
               inputLabel="단가입력방식"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               lov={bidPriceMethodLov}
             />
-            <InputSelect
+            <BidInputSelect
               id="bid_method_type"
               inputLabel="낙찰제도"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               lov={bidMethodTypeLov}
             />
-            <InputSelect
+            <BidInputSelect
               id="max_round"
               inputLabel="Max 라운드"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               lov={bidMaxRoundLov}
             />
-            <InputDate
+            <BidInputDate
               id="roundPeriod"
               inputLabel="라운드 시작/마감"
-              handleCondition={handleBidCondition}
+              handleCondition={handleCondition}
             />
             {/* <BidInfo label='라운드 시작/마감' value={roundPeriod}></BidInfo> */}
-            <InputSelect
+            <BidInputSelect
               id="main_currency"
               inputLabel="통화"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               lov={bidCurrencyCodeLov}
             />
-            <InputInfo
+            <BidInputInfo
               id="side_conditions"
               inputLabel="부가조건"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               inputValue={bidCondition.side_conditions}
             />
-            <InputInfo
+            <BidInputInfo
               id="target_price"
               inputLabel="Target Price"
-              handlePoCondition={handleBidCondition}
+              handleCondition={handleCondition}
               inputValue={bidCondition.target_price}
             />
-            <BidInsertTextArea id="note_to_bidder" inputLabel='안내사항' handleCondition={handleBidCondition} inputValue={bidCondition.note_to_bidder}></BidInsertTextArea>
-            <BidInsertTextArea id="bidding_rule_approval_comment" inputLabel='내부 보고' handleCondition={handleBidCondition} inputValue={bidCondition.bidding_rule_approval_comment}></BidInsertTextArea>
+            <BidInsertTextArea id="note_to_bidder" inputLabel='안내사항' handleCondition={handleCondition} inputValue={bidCondition.note_to_bidder}></BidInsertTextArea>
+            <BidInsertTextArea id="bidding_rule_approval_comment" inputLabel='내부 보고' handleCondition={handleCondition} inputValue={bidCondition.bidding_rule_approval_comment}></BidInsertTextArea>
           </BidInfoContainer>
         </section>
 
@@ -359,7 +361,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  width: 90%;
+  width: 93%;
   height: 100%;
 `;
 

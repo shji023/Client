@@ -8,7 +8,7 @@ function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
   const idx   = params.rowIndex;
   let value = null;
   if(!disabled) disabled = false;
-  if(stateValue[idx]) value = stateValue[idx][field];
+  if(stateValue[idx]) value = stateValue[idx][field];// idx : 행, field : 컬럼명
 
   return (
     <StyledRoot>
@@ -21,7 +21,7 @@ function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
           setStateValue( state => [...state] )
         }}
         disabled={disabled}
-        style={{ width: 200 }}
+        style={{ width: 200, height: '39px' }}
       />
     </StyledRoot>
   );
