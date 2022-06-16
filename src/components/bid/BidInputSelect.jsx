@@ -2,6 +2,8 @@ import { Select } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
+import { colors } from "assets/styles/color";
+
 function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
   return (
     <StyledRoot>
@@ -32,6 +34,19 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const TitleWrapper = styled.div`
+  font-size: 1.4rem;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
 `;
 
 const Label = styled.label`

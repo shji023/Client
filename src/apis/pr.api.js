@@ -159,7 +159,7 @@ export const updateOnePr = async (conditions, lines) => {
 export const deleteOnePr = async (reqNum) => {
   try {
     
-    const sendData = reqNum;
+    const sendData = {"requisitionNumber": reqNum};
     console.log("sendData : ", sendData);
 
     const resvData = await serverAxios.post(`${PREFIX_URL}/prDelete`, sendData)

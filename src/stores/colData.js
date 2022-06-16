@@ -57,34 +57,22 @@ export const prCreateColDef = {
 };
 
 export const rfqColumn = [
-  { colId: 1, field: "rfq_no", headerName: "RFQ번호", minWidth: 10, maxWidth: 110 },
-  { colId: 2, field: "rfq_description", headerName: "건 명", minWidth: 10, maxWidth: 850 },
-  {
-    colId: 3,
-    field: "reply_method_lookup_code",
-    headerName: "구매 방법",
-    minWidth: 10,
-    maxWidth: 130,
-  },
-  { colId: 4, field: "rfq_ship_to", headerName: "납품 지역", minWidth: 10, maxWidth: 180 },
-  { colId: 5, field: "buyer_id", headerName: "Buyer", minWidth: 10, maxWidth: 110 },
-  {
-    colId: 6,
-    field: "quote_effective_start_date",
-    headerName: "등록일",
-    minWidth: 10,
-    maxWidth: 140,
-  },
-  { colId: 7, field: "rfq_status", headerName: "Status", minWidth: 10, maxWidth: 100 },
+  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:10,     maxWidth: 110},
+  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:10,     maxWidth: 850},
+  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:10,     maxWidth: 130},
+  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 180},
+  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 110},
+  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 140},
+  { colId:7, field:"rfq_detail_status"          ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
 ];
 
 // #endregion
 
 // #region 팝업
 export const popUpStaffColFields = [
-  { colId: 1, field: "num", headerName: "직번", minWidth: 100 },
-  { colId: 2, field: "name", headerName: "성명", minWidth: 150 },
-  { colId: 3, field: "dept", headerName: "부서", minWidth: 150 },
+  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
+  { colId:2,  field:"name", headerName: "성명", minWidth:150},
+  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
 ];
 
 export const popUpVendorColFields = [
@@ -111,10 +99,10 @@ export const popUpVendorColFields = [
 ];
 
 export const popUpBuyerColFields = [
-  { colId: 1, field: "buyer_id", headerName: "직번", minWidth: 100 },
-  { colId: 2, field: "buyer_name", headerName: "성명", minWidth: 150 },
-  { colId: 3, field: "buyer_dept_code", headerName: "부서", minWidth: 150 },
-];
+  { colId:1,  field:"buyer_id",  headerName: "직번", minWidth:100},
+  { colId:2,  field:"buyer_name", headerName: "성명", minWidth:150},
+  { colId:3,  field:"buyer_dept_name", headerName: "부서", minWidth:150},
+  ];
 
 export const popUpItemColFields = [
   { colId: 1, field: "item", headerName: "아이템", minWidth: 100 },

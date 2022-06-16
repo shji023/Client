@@ -6,6 +6,7 @@ import { colors } from "assets/styles/color";
 
 function InputDate({ id, inputLabel, handleCondition }) {
   const { RangePicker } = DatePicker;
+  
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
