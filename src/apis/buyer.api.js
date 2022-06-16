@@ -10,8 +10,8 @@ export const getSearchBuyerList = async (buyer_name) => {
    
     // TODO: GET 시도해보기
     const sendData = {buyer_name : buyer_name}
-    const { data } = await serverAxios.post(`${PREFIX_URL}/buyerSearch`, sendData);
-
+    console.log("sendData",sendData);
+    const {data} = await serverAxios.post(`${PREFIX_URL}/buyerSearch`, sendData);
     console.log("data:!!!!",data);
 
     return data;

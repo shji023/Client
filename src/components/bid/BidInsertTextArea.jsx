@@ -56,6 +56,7 @@ const DataWrapper = styled.div`
 const Title = styled.p`
   text-align: center;
   font-family: "Pretendard-SemiBold";
+  font-size: 1.4rem;
 `;
 const Data = styled.textarea`
   border: none;
