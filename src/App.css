@@ -5,8 +5,13 @@
     
 }
 
-.ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark, .ant-menu.ant-menu-dark .ant-menu-sub {
+.ant-menu-dark .ant-menu-sub, 
+.ant-menu.ant-menu-dark {
     background-color: #005386 !important;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  background-color: #003658 !important;
 }
 
 .ant-menu > .ant-menu-item:hover,
@@ -17,6 +22,6 @@
 .ant-menu> .ant-menu-submenu-open,
 .ant-menu > .ant-menu-item-selected,
 .ant-menu > .ant-menu-submenu-selected {
-  color: red !important;
-  border-bottom: 2px solid red;
+  /* color: red !important;
+  border-bottom: 2px solid red; */
 }

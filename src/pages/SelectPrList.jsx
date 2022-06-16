@@ -7,20 +7,25 @@ import InputSelect from "components/common/InputSelect";
 import { getNumberFormat } from "hooks/CommonFunction";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { prSelectColDef, prSelectColFields } from "stores/colData"
+import { popUpBuyerColFields, popUpItemColFields, popUpStaffColFields, prSelectColDef, prSelectColFields } from "stores/colData"
+import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 
 function selectPrList() {
 
   // 조회 데이터
-  const [prCondition, setPrCondition] = useState({
+  const [conditions, setConditions] = useState({
     "requisition_number" : "",
     "description"        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
-    "preparer_id"        : "",
+    "requester_id"       : "",
+    "requester_name"     : "",
     "item_id"            : "",
+    "item_name"          : "",
     "item_description"   : "",
     "type_lookup_code"   : "",
     "buyer_id"           : "",
+    "buyer_name"         : "",
     "category_id"        : "",
+    "category_name"      : "",
   });
 
   const [selectedData, setSelectedData]   = useState([]);
@@ -28,17 +33,78 @@ function selectPrList() {
   const [dataGridCnt, setDataGridCnt] = useState("0");
 
   const handlePoCondition = (key, value) => {
-    const tempPoCondition = { ...prCondition };
+    const tempPoCondition = { ...conditions };
     tempPoCondition[key] = value;
-    setPrCondition(tempPoCondition);
+    setConditions(tempPoCondition);
   };
+
+  // #region 헤더 팝업 이벤트
+  const onHandleSearchItem = async (searchWord) => {
+    const resultList = await getItemList(searchWord);
+    return resultList;
+  }
+
+  const onHandleOkItem = ({selectedRows}) => {
+    const row = selectedRows[0];
+
+    const temp = conditions;
+    console.log(row);
+    temp.item_id = row.id;
+    temp.item_name = row.item;
+    setConditions({...temp});
+    
+    return temp.item_name;
+  }
+
+  const onHandleSearchRequester = async (value) => {
+    
+    const resultList = await getStaffList(value);
+    return resultList;
+  }
+
+  const onHandleOkRequester = ({selectedRows}) => {
+    console.log("called onHandleOk1");
+    console.log("selectedRows", selectedRows);
+
+    const row = selectedRows[0];
+    
+    const temp = conditions;
+    temp.requester_id = row.id;
+    temp.requester_name = row.name;
+    setConditions(temp);
+    
+    return temp.requester_name;
+
+  }
+
+  const onHandleSearchBuyer = async (value) => {
+    
+    const resultList = await getBuyerList(value);
+    return resultList;
+  }
+
+  const onHandleOkBuyer = ({selectedRows}) => {
+    console.log("called onHandleOk1");
+    console.log("selectedRows", selectedRows);
+
+    const row = selectedRows[0];
+    
+    const temp = conditions;
+    temp.buyer_id = row.buyer_id;
+    temp.buyer_name = row.buyer_name;
+    setConditions(temp);
+    
+    return temp.buyer_name;
+
+  }
+  // #endregion 팝업 이벤트
 
   const selectPrList = async () => {
 
-    console.log("prCondition : " , prCondition);
+    console.log("conditions : " , conditions);
 
     // !: axios 비동기
-    const data = await getSearchPrList(prCondition);
+    const data = await getSearchPrList(conditions);
     console.log("getSearchPrList called : ", data);
     setSelectedData(data);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
@@ -75,31 +141,47 @@ function selectPrList() {
             id="requisition_number"
             inputLabel="PR 번호"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.requisition_number}
+            inputValue={conditions.requisition_number}
           />
           <InputInfo
             id="description"
             inputLabel="건명"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.description}
+            inputValue={conditions.description}
           />
           <InputSearch
-            id="preparer_id"
+            id="requester_name"
+            title="직원선택"
             inputLabel="Requester"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.preparer_id}
+            initValue={conditions.requester_name}
+            onHandleSearch={onHandleSearchRequester}
+            onHandleOk={onHandleOkRequester}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpStaffColFields,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputSearch
             id="item_id"
+            title="물품선택"
             inputLabel="Item"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.item_id}
+            initValue={conditions.item_description}
+            onHandleSearch={onHandleSearchItem}
+            onHandleOk={onHandleOkItem}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpItemColFields,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputInfo
             id="item_description"
             inputLabel="사양"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.item_description}
+            inputValue={conditions.item_description}
           />
           <InputSelect
             id="type_lookup_code"
@@ -109,15 +191,23 @@ function selectPrList() {
           />
           <InputSearch
             id="buyer_id"
+            title="바이어선택"
             inputLabel="Buyer"
-            handlePoCondition={handlePoCondition}
-            inputValue={prCondition.buyer_id}
+            initValue={conditions.buyer_name}
+            onHandleSearch={onHandleSearchBuyer}
+            onHandleOk={onHandleOkBuyer}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpBuyerColFields,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputInfo
-            id="category_id"
+            id="category_name"
             inputLabel="Category"
             handlePoCondition={handlePoCondition}
-            inputValue={prCondition.category_id}
+            inputValue={conditions.category_name}
           />
         </InputContainer>
       </section>

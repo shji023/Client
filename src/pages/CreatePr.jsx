@@ -119,10 +119,6 @@ function selectPrList() {
   const [destLov, setDestLov] = useState([]);
   const [taxCodeLov, setTaxCodeLov] = useState([]);
 
-  // 팝업 그리드 행 정보
-  const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
-
-  const gridRef = useRef();
 
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
@@ -194,6 +190,8 @@ function selectPrList() {
   }
 
   // #region 그리드 관련 이벤트
+  const gridRef = useRef();
+
   // 그리드 행 추가
   // TODO: 체크항목 유지하기
   const onInsertOne = useCallback( ()=>{
@@ -597,7 +595,6 @@ function selectPrList() {
     
     // const resultList = await getStaffList(sendData);
     const resultList = await getStaffList(value);
-    setPopUpPreparerRowData([...resultList]);
     return resultList;
   }
 
@@ -632,7 +629,7 @@ function selectPrList() {
 
   return (
     <StyledRoot>
-      <Title>구매신청</Title>
+      <Title>구매신청등록</Title>
       <section>
         <ButtonWrapper>
           <ButtonSelector />
@@ -659,7 +656,6 @@ function selectPrList() {
             onHandleCancel={null}
             gridOptions={{
               columnDefs : popUpStaffColFields,
-              rowData : popUpPreparerRowData,
               rowSelection : "single", // single, multiple
               suppressRowClickSelection : false,
             }}
