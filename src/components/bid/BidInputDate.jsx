@@ -1,33 +1,32 @@
-import { Select } from "antd";
+import { DatePicker } from "antd";
 import React from "react";
+import moment from "moment";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
+function BidInputDate({ id, inputLabel, handleCondition }) {
+  const { RangePicker } = DatePicker;
   return (
     <StyledRoot>
       <TitleWrapper>
         <Label htmlFor={id}>{inputLabel}</Label>
       </TitleWrapper>
-      <Select
-        defaultValue="선택"
+      <RangePicker
         id={id}
-        onChange={(e) => {
-          handleCondition(id, e);
-        }}
+        onChange={(date) =>
+          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+        }
         style={{ width: 300 }}
-      >
-        <Select.Option value="">선택</Select.Option>
-        {lov.map((option) => (
-          <Select.Option key={option[0]} value={option[0]}>
-            {option[1]}
-          </Select.Option>
-        ))}
-      </Select>
+        ranges={{
+          Today: [moment(), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+        }}
+      />
     </StyledRoot>
   );
 }
-export default BidInputSelect;
+
+export default BidInputDate;
 
 const StyledRoot = styled.div`
   display: flex;

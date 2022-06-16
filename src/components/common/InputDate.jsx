@@ -5,13 +5,17 @@ import styled from "styled-components";
 
 function InputDate({ id, inputLabel, handleCondition }) {
   const { RangePicker } = DatePicker;
+  
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
       <RangePicker
         id={id}
-        onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+        onChange={(date) =>{
+          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"));
+          console.log(" date : " + date); //1654670812337
+          console.log(" date[0] : " + date[0]); //1654670812337
+          }
         }
         style={{ width: 300 }}
         ranges={{
