@@ -2,7 +2,7 @@ import { colors } from "assets/styles/color";
 import LabelInfo from "components/common/LabelInfo";
 import InputInfo from "components/createRfq/InputInfo";
 import InputSelect from "components/createRfq/InputSelect";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import InputSearch from "components/common/InputSearch";
 import AgVendorSelect from "components/common/AgVendorSelect";
@@ -15,6 +15,8 @@ import CustomModal from "components/common/CustomModal";
 import {popUpVendorColFields} from "stores/colData";
 import {getVendorList} from "apis/public.api";
 import InputOneDate from "components/common/InputOneDate";
+import InputOneDateGrid from "components/common/InputOneDateGrid";
+import InputInfoGrid from "components/common/InputInfoGrid";
 function RfqCreate() {
   const [rfqListData, setRfqListData] = useState({
     rfq_no: "6454916",
@@ -41,6 +43,7 @@ function RfqCreate() {
   });  
   const[selectedVendorList, setSelectedVendorList]=useState([]);
 
+  // 품목정보
   const [productInfoData, setProductInfoData] = useState([]);
   const [buyerInfoData, setBuyerInfoData] = useState([]);
 
@@ -94,9 +97,11 @@ function RfqCreate() {
   const onHandleOk= ({selectedRows})=>{
     setSelectedVendorList([...selectedRows]);
   }
+  
   const onHandleCancel= ()=>{
     console.log("onHandleCancel");
   }
+
   const onHandleSearch= async (value)=>{
 
     console.log("value : ", value);
@@ -109,6 +114,94 @@ function RfqCreate() {
     return resultList;
     
   }
+
+  const columnDefs = [
+    {field:"item", headerName:"Item", minWidth:10, },
+    {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
+    {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
+    {field:"quantity", headerName:"수량", minWidth:10, maxWidth:80,
+      cellRendererSelector : params => {
+        return {
+          component: InputInfoGrid,
+          params: {
+            params: params,
+            stateValue: productInfoData,
+            setStateValue: setProductInfoData,
+          }
+      }}  
+    },
+    {field:"end_date", headerName:"납기", minWidth:10, maxWidth:120,
+      cellRendererSelector : params => {
+        return {
+          component: InputOneDateGrid,
+          params: {
+            params: params,
+            stateValue: productInfoData,
+            setStateValue: setProductInfoData,
+          }
+      }}
+    },
+    {field:"dept_name", headerName:"사용부서", minWidth:10, maxWidth:120,},
+    {field:"group_name", headerName:"그룹사", minWidth:10, maxWidth:100,},
+    {field:"requisition_num", headerName:"PR번호-Line", minWidth:10, maxWidth:140,},
+    {field:"name", headerName:"신청자", minWidth:10, maxWidth:100,},
+    {field:"staff_contact_number", headerName:"연락처", minWidth:10, maxWidth:120,},
+  ]
+
+  // #region 그리드 관련 이벤트
+  const gridRef = useRef();
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  // 그리드 행 복사
+  const onCopySelected = useCallback( ()=>{
+    copyRow();
+
+  })
+  const copyRow = () => {
+    console.log("copyRow called" );
+    let id = 1;
+    const tempData = [];
+    const ids = [];
+    const setRowData = setProductInfoData;
+
+    gridRef.current.api.forEachNode(function (node) {
+      tempData.push({...node.data, id: id++});
+      if(node.isSelected()){
+        ids.push(id-1);
+        tempData.push({...node.data, id: id++});
+      }
+    });   
+
+    setRowData([...tempData]);
+    setSelectedIds([...ids]);
+  }
+  
+
+  // 그리드 행 삭제
+  const deleteRow = useCallback( () => {
+    console.log("deleteRow called" );
+    const rowData = productInfoData;
+    const setRowData = setProductInfoData;
+
+    const selectedRowNodes = gridRef.current.api.getSelectedNodes();
+    if(selectedRowNodes.length === 0) return;
+
+    const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+    const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
+    setRowData([...filteredData]);
+    setSelectedIds([]);
+  } );
+
+  // 그리드 체크항목 유지
+  const onRowDataChanged = () => {
+    console.log("row changed!!", selectedIds);
+
+    gridRef.current.api.forEachNode( 
+      node => selectedIds.includes(node.data.id) && node.setSelected(true)
+    )
+  }
+// #endregion 그리드 관련 이벤트
+
     return (
     <StyledRoot>
         <Title>RFQ 생성</Title>
@@ -127,8 +220,10 @@ function RfqCreate() {
               let save = confirm("최종 저장 하시겠습니까?");
               if(save == true){
                 // alert("확인 누름") 
-                // insertRfqInfo(rfqListData);
-                insertVendorInfo(selectedVendorList);
+                const data = insertRfqInfo(rfqListData);
+                // if(data) 
+
+                // insertVendorInfo(selectedVendorList);
                 // insertProductInfo(productInfoData);
               }
               else
@@ -272,22 +367,15 @@ function RfqCreate() {
         <section>
           <SmallTitle>🌐 품목정보</SmallTitle>
           <ButtonWrapper>
-            <Button onClick={() => {
-              let del = confirm("행복사 하쉴?");
-              if(del == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>행 복사</Button>
-            <Button onClick={() => {
-              let save = confirm("행삭제 하쉴?");
-              if(save == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>행 삭제</Button>
+            <Button onClick = { onCopySelected }>행 복사</Button>
+            <Button onClick = { deleteRow }>행 삭제</Button>
           </ButtonWrapper>
-          <AgProductInfo productInfoData={productInfoData} ></AgProductInfo>
+          <AgProductInfo 
+            gridRef = { gridRef }
+            productInfoData={productInfoData}
+            columnDefs={columnDefs}
+            onRowDataChanged={onRowDataChanged}
+          />
         </section>
 
     </StyledRoot>
