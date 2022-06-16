@@ -5,6 +5,10 @@
     
 }
 
+.ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark, .ant-menu.ant-menu-dark .ant-menu-sub {
+    background-color: #005386 !important;
+}
+
 .ant-menu > .ant-menu-item:hover,
 .ant-menu > .ant-menu-submenu:hover,
 .ant-menu > .ant-menu-item-active,
