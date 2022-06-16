@@ -7,8 +7,8 @@ import InputInfo from "./InputInfo";
 const AgVendorSelect = ({productInfoData}) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
-    
     const rowData = productInfoData; 
+    console.log("rowData@@@@@@@@@@@@@@@@",rowData);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -99,10 +99,11 @@ const AgVendorSelect = ({productInfoData}) => {
                         }
                     };
                 }}/>                
-                <AgGridColumn field="end_date" headerName="납기" minWidth={10} maxWidth={120}  />                
+                <AgGridColumn field="end_date" headerName="납기" minWidth={10} maxWidth={120}/>           
+                
                 <AgGridColumn field="dept_name" headerName="사용부서" minWidth={10} maxWidth={120} />                
                 <AgGridColumn field="group_name" headerName="그룹사" minWidth={10} maxWidth={100} />                
-                <AgGridColumn field="requisition_number" headerName="PR번호-Line" minWidth={10} maxWidth={140} />                
+                <AgGridColumn field="requisition_num" headerName="PR번호-Line" minWidth={10} maxWidth={140} />                
                 <AgGridColumn field="name" headerName="신청자" minWidth={10} maxWidth={100} />                
                 <AgGridColumn field="staff_contact_number" headerName="연락처" minWidth={10} maxWidth={120} />                
             

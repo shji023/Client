@@ -78,3 +78,28 @@ export const getProductInfoList = async () => {
       throw new Error("Failed to load");
     }
   };
+
+  export const insertRfqInfo = async (conditions) => {
+    try {
+      console.log("conditions   :" , conditions);
+      const sendData = conditions;
+      console.log(sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/insertRfqInfo`,sendData);
+      console.log("insertRfqInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load");
+    }
+  };
+  export const insertVendorInfo = async (conditions) => {
+    try {
+      console.log("conditions*******" , conditions);
+      const sendData = conditions;
+      console.log("sendData********",sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorInfo`,sendData);
+      console.log("insertVendorInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load");
+    }
+  };

@@ -9,7 +9,7 @@ import AgVendorSelect from "components/common/AgVendorSelect";
 import AgRfqInsert from "components/common/AgRfqInsert";
 import AgProductInfo from "components/common/AgProductInfo";
 import BidInfo from "components/common/BidInfo";
-import { getProductInfoList, getBuyerInfo } from "apis/RfqCreate.api";
+import { getProductInfoList, getBuyerInfo, insertRfqInfo, insertVendorInfo } from "apis/RfqCreate.api";
 import {getCycleLov, getCollaboLov, getPaymentLov, getFobLov, getshipToLov} from "apis/RfqCreate.api";
 import CustomModal from "components/common/CustomModal";
 import {popUpVendorColFields} from "stores/colData";
@@ -17,14 +17,14 @@ import {getVendorList} from "apis/public.api";
 import InputOneDate from "components/common/InputOneDate";
 function RfqCreate() {
   const [rfqListData, setRfqListData] = useState({
-    rfq_no: "",
-    simple_quotation_flag:"",
-    rfq_detail_status:"",
+    rfq_no: "6454916",
+    simple_quotation_flag:"1", 
+    rfq_detail_status:"1",
 
-    cd_v_meaning_status:"",
-    cd_v_meaning_type:"",
-    category_segment:"",
-    line_type_id :"",
+    // cd_v_meaning_status:"",
+    // cd_v_meaning_type:"",
+    category_segment:"자재",
+    // line_type_id :"",
 
     rfq_description:"",
     buyer_id: "17278",
@@ -93,7 +93,6 @@ function RfqCreate() {
 
   const onHandleOk= ({selectedRows})=>{
     setSelectedVendorList([...selectedRows]);
-    
   }
   const onHandleCancel= ()=>{
     console.log("onHandleCancel");
@@ -126,8 +125,12 @@ function RfqCreate() {
             }}>삭제</Button>
             <Button onClick={() => {
               let save = confirm("최종 저장 하시겠습니까?");
-              if(save == true)
-                alert("확인 누름") 
+              if(save == true){
+                // alert("확인 누름") 
+                // insertRfqInfo(rfqListData);
+                insertVendorInfo(selectedVendorList);
+                // insertProductInfo(productInfoData);
+              }
               else
                 alert("취소 누름")
             }}>저장</Button>
