@@ -13,7 +13,7 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ resvRef, resvRowData, setRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
+const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
     
     const ref = resvRef;
     const rowData = resvRowData;

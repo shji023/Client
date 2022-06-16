@@ -1,5 +1,5 @@
 import { Input, Button, Modal } from "antd";
-import React, { useState, useRef }  from "react";
+import React, { useState, useRef, useEffect }  from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
@@ -62,10 +62,6 @@ function InputSearch({
  
   // modal
   const [visible, setVisible] = useState(false);
-
-  // const handleInputChange = (id, value) => {
-  //   setSearchedWord(value);
-  // }
   
   const showModal = () => {
     setVisible(true);
@@ -101,7 +97,6 @@ function InputSearch({
           type="text"
           id={id}
           value={searchedWord}
-          // onChange={(e) => handleInputChange(e.target.value)}
           onSearch = {showModal}  // modal     
           style={{ width: 200 }}
           allowClear={false}

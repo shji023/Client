@@ -4,7 +4,6 @@ import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
 import CustomModal from "components/common/CustomModal";
-import Title from "antd/lib/skeleton/Title";
 import { colors } from "assets/styles/color";
 
 /**

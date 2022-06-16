@@ -75,19 +75,20 @@ const AgGrid = ({ poListData }) => {
                 onCellValueChanged(e);
                 }}
             >
-                <AgGridColumn field="authorization_STATUS" headerName="Status" maxWidth={110} pinned="left" />
-                <AgGridColumn field="contract_DATE" headerName="Order Date" maxWidth={120} pinned="left" />
-                <AgGridColumn field="segment" headerName="PO" maxWidth={110} pinned="left"/>
-                <AgGridColumn field="revision_NUM" headerName="Rev" minWidth={100}/>
-                <AgGridColumn field="attribute_CATEGORY" headerName="유형" minWidth={110} />
-                <AgGridColumn field="rfq_NO" headerName="Description" minWidth={300} />
-                <AgGridColumn field="vendor_ID" headerName="Supplier" minWidth={110} />
-                <AgGridColumn field="currency_CODE" headerName="Currency" minWidth={110} />
-                <AgGridColumn field="blanket_TOTAL_AMOUNT" headerName="Amount" minWidth={130} />
-                <AgGridColumn field="type_LOOKUP_CODE" headerName="Type" minWidth={110} />
-                <AgGridColumn field="buyer_ID" headerName="Buyer" minWidth={110} />
-                <AgGridColumn field="closed_CODE" headerName="Closuer Status" minWidth={150} />
-                <AgGridColumn field="cancel_FLAG" headerName="Cancelled" minWidth={130} />
+                <AgGridColumn field="authorization_status" headerName="Status" maxWidth={110} pinned="left" />
+                <AgGridColumn field="start_date" headerName="Order Date" maxWidth={120} pinned="left" />
+                <AgGridColumn field="po_num" headerName="PO" maxWidth={110} pinned="left"/>
+                <AgGridColumn field="revision_num" headerName="Rev" minWidth={100}/>
+                <AgGridColumn field="attribute_category" headerName="유형" minWidth={110} />
+                <AgGridColumn field="comments" headerName="Description" minWidth={300} />
+                <AgGridColumn field="vendor_id" headerName="Supplier" minWidth={110} />
+                <AgGridColumn field="currency_code" headerName="Currency" minWidth={110} />
+                <AgGridColumn field="type_lookup_code" headerName="Amount" minWidth={130} />
+                <AgGridColumn field="buyer_id" headerName="Type" minWidth={110} />
+                <AgGridColumn field="cancel_flag" headerName="Buyer" minWidth={110} />
+                <AgGridColumn field="organization_code" headerName="Closuer Status" minWidth={100} />
+                <AgGridColumn field="closed_code" headerName="Cancelled" minWidth={100} />
+                <AgGridColumn field="line_count" headerName="품목수" minWidth={100} />
             </AgGridReact>
             </div>
         </div>
