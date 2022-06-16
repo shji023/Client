@@ -102,6 +102,7 @@ function App() {
                 <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/bidList/:id" element={<BidDetail />} />
                 <Route path="/rfqCreate" element={<RfqCreate />} />
+                <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>

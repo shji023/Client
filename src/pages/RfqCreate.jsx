@@ -9,7 +9,7 @@ import AgVendorSelect from "components/common/AgVendorSelect";
 import AgRfqInsert from "components/common/AgRfqInsert";
 import AgProductInfo from "components/common/AgProductInfo";
 import BidInfo from "components/common/BidInfo";
-import { getProductInfoList, getBuyerInfo, insertRfqInfo, insertVendorInfo } from "apis/RfqCreate.api";
+import { getProductInfoList, getBuyerInfo, insertRfqInfo, insertVendorInfo, deleteRfqInfo } from "apis/RfqCreate.api";
 import {getCycleLov, getCollaboLov, getPaymentLov, getFobLov, getshipToLov} from "apis/RfqCreate.api";
 import CustomModal from "components/common/CustomModal";
 import {popUpVendorColFields} from "stores/colData";
@@ -17,9 +17,12 @@ import {getVendorList} from "apis/public.api";
 import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
+import { useNavigate, useParams } from "react-router-dom";
 function RfqCreate() {
+  const { rfq_no } = useParams();
+
   const [rfqListData, setRfqListData] = useState({
-    rfq_no: "6454916",
+    rfq_no: "",
     simple_quotation_flag:"1", 
     rfq_detail_status:"1",
 
@@ -67,6 +70,7 @@ function RfqCreate() {
   };
 
   const handleRfqInfoCondition = (key, value) => {
+    console.log(key, value);
     const tempRfqInfoCondition = { ...rfqListData };
 
     tempRfqInfoCondition[key] = value;
@@ -202,6 +206,76 @@ function RfqCreate() {
   }
 // #endregion 그리드 관련 이벤트
 
+const navigate = useNavigate();
+function reload(){
+  document.location.reload();
+}
+
+// #region 버튼
+const onClickSaveRfq = async () => {
+  let res = confirm("최종 저장 하시겠습니까?");
+  if(res){
+    // TODO : 필수 입력사항 입력했는지 체크하기
+
+    const data = await insertRfqInfo(rfqListData);
+    if(data) {
+      alert("저장이 완료되었습니다.");
+      navigate(`/rfqCreate/${data}`/* , { replace: true} */)
+    } else {
+      alert("저장 되지 않았습니다.");
+    }
+    // if(data) 
+
+    // insertVendorInfo(selectedVendorList);
+    // insertProductInfo(productInfoData);
+  }
+}
+
+const onClickDeleteRfq = async () => {
+  let res = confirm("삭제 하시겠습니까?");
+  if(res){
+    // TODO : 서버에서 삭제하기
+    const data = await deleteRfqInfo(rfq_no);
+    if(data) {
+      alert("삭제가 완료되었습니다.");
+      // reload();
+      navigate(`/rfqCreate`);
+    } else {
+      alert("삭제가 되지 않았습니다.");
+      
+    }
+  }
+}
+
+const onClickUpdateRfq = () => {
+  let res = confirm("수정 하시겠습니까?");
+  if(res){
+    // TODO : 필수 입력사항 입력했는지 체크하기
+
+    // TODO : 서버에서 업데이트하기
+    reload();
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    // navigate(`/rfqCreate`, { replace: true});
+
+  }
+}
+
+const ButtonSelector = () => {
+  console.log("rfq_no", rfq_no);
+  if(rfq_no) {
+      // 수정
+    return <>
+      <Button onClick={onClickUpdateRfq}>저장</Button>
+      <Button onClick={onClickDeleteRfq}>삭제</Button>
+    </>
+
+  } else {
+    // 생성
+    return <Button onClick={onClickSaveRfq}>저장</Button>     
+  }
+}
+// #endregion 버튼
+
     return (
     <StyledRoot>
         <Title>RFQ 생성</Title>
@@ -209,26 +283,7 @@ function RfqCreate() {
         <section>
           <SmallTitle>🌐 RFQ 정보</SmallTitle>
           <ButtonWrapper>
-            <Button onClick={() => {
-              let del = confirm("삭제 하시겠습니까?");
-              if(del == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>삭제</Button>
-            <Button onClick={() => {
-              let save = confirm("최종 저장 하시겠습니까?");
-              if(save == true){
-                // alert("확인 누름") 
-                const data = insertRfqInfo(rfqListData);
-                // if(data) 
-
-                // insertVendorInfo(selectedVendorList);
-                // insertProductInfo(productInfoData);
-              }
-              else
-                alert("취소 누름")
-            }}>저장</Button>
+            <ButtonSelector />
           </ButtonWrapper>
           
           <RfqInfoContainer>
@@ -272,7 +327,7 @@ function RfqCreate() {
             lov={CollaboLov}
           />
           <InputOneDate
-            id="PO_CONTRACT"
+            id="end_date"
             inputLabel="계약기간(BPA)"
             handleCondition={handleRfqInfoCondition}
           />
