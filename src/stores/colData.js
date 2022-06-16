@@ -63,8 +63,8 @@ export const rfqColumn = [
   { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 180},
   { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 110},
   { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 140},
-  { colId:7, field:"rfq_status"                 ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
-]
+  { colId:7, field:"rfq_detail_status"          ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
+];
 
 // #endregion
 
@@ -74,7 +74,7 @@ export const popUpStaffColFields = [
   { colId:1,  field:"num",  headerName: "직번", minWidth:100},
   { colId:2,  field:"name", headerName: "성명", minWidth:150},
   { colId:3,  field:"dept", headerName: "부서", minWidth:150},
-  ];
+];
 
 export const popUpVendorColFields = [
   {

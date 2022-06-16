@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import  { excelExport } from "../common/excelExport";
 import styled from "styled-components";
@@ -8,6 +8,10 @@ import "./rfqAgGrid.css";
 
 const AgGridRFQ = ({ listData, colData }) => {
     console.log("listData", listData);
+
+    const rfqDetail = (listData) => {
+        // listData.rfq_datail_status==='N'?listData.rfq_datail_status==='신규':listData.rfq_datail_status;
+    }
     
     const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
@@ -52,6 +56,10 @@ const AgGridRFQ = ({ listData, colData }) => {
     const handleExcel=()=>{
         excelExport(column, listData);
     };
+
+    useEffect(() => {
+        // rfqDetail();
+      }, []);
 
     return (
         <>

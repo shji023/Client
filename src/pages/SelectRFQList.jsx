@@ -13,12 +13,12 @@ import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 
 
 function SelectRfqList() {
-  const [rfqCondition, setRfqCondition] = useState({});
-
-  // // buyerid를 객체로
-  // const [inputValue, setInputValue] = useState({
-  //   buyer_id: "",
-  // });
+  const [rfqCondition, setRfqCondition] = useState({
+    "buyer_id":"",
+    "rfq_status" : "",
+    "category_id" : "",
+    "item_id" : 0
+  });
 
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
@@ -73,7 +73,7 @@ function SelectRfqList() {
     const temp = rfqCondition;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
-    temp.buyer_dept_name = row.buyer_dept_name;
+    // temp.buyer_dept_name = row.buyer_dept_name;
     setRfqCondition(temp);
     
     return temp.buyer_name;
@@ -126,10 +126,10 @@ function SelectRfqList() {
             lov={rfqCategoryLov}
           />
           <InputInfo
-            id="attribute_category"
+            id="item_id"
             inputLabel="Item Code"
             handlePoCondition={handleRFQCondition}
-            inputValue={rfqCondition.attribute_category}
+            inputValue={rfqCondition.item_id}
           />
           <InputDate
             id="quote_effective_start_date"
