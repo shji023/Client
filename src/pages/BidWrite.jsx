@@ -23,7 +23,6 @@ function BidWrite() {
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-
   const result = getKoreanNumber(priceCondition.quotation_total_price1);
 
   const handleCondition = (key, value) => {
@@ -41,11 +40,14 @@ function BidWrite() {
   const getItemList = async () => {
     const quotationItem = await getQuotationItemInfo(id);
     quotationItem && setItemListData(quotationItem);
-    console.log(quotationItem);
-    
+    setVendorComment({...vendorComment,
+      ["rfq_no"]: quotationItem[0].rfq_no,
+      ["bidding_no"]: id,
+    })
   };
 
   const postVendorInfo = async () => {
+    console.log(vendorComment);
     const data = await postVendorComment(vendorComment);
     console.log(data);
     if(data === true){
@@ -55,10 +57,6 @@ function BidWrite() {
 
   useEffect(() => {
     getItemList();
-    setVendorComment({...vendorComment,
-      ["rfq_no"]:itemListData[0]?.rfq_no,
-      ["bidding_no"]:id,
-    })
   }, []);
   
   useEffect(() => {

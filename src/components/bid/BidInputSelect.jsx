@@ -2,7 +2,6 @@ import { Select } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
-import { colors } from "assets/styles/color";
 
 function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
   return (
@@ -20,7 +19,7 @@ function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
           <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
             <Select.Option key={option} value={option}>
-              {option}
+              {option}P
             </Select.Option>
           ))}
         </Select>

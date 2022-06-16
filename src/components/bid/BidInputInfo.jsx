@@ -2,7 +2,6 @@ import { Input } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
-import { colors } from "assets/styles/color";
 
 function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
   return (
