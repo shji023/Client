@@ -15,7 +15,7 @@ function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
         onChange={(e) => {
           handleCondition(id, e);
         }}
-        style={{ width: 200 }}
+        style={{ width: 300 }}
       >
         <Select.Option value="">선택</Select.Option>
         {lov.map((option) => (
@@ -36,7 +36,7 @@ const StyledRoot = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};

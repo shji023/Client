@@ -35,7 +35,7 @@ const StyledRoot = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};

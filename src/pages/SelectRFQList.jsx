@@ -10,15 +10,13 @@ import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import InputDate from "components/common/InputDate";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
+import BidInputSelect from "components/bid/BidInputSelect";
+import BidInputInfo from "components/bid/BidInputInfo";
+import BidInputDate from "components/bid/BidInputDate";
 
 
 function SelectRfqList() {
-  const [rfqCondition, setRfqCondition] = useState({
-    "buyer_id":"",
-    "rfq_status" : "",
-    "category_id" : "",
-    "item_id" : 0
-  });
+  const [rfqCondition, setRfqCondition] = useState({});
 
   const [rfqStatusLov, setRfqStatusLov] = useState([]);
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
@@ -90,16 +88,8 @@ function SelectRfqList() {
         <Button onClick={selectRFQList}>조회</Button>
       </ButtonWrapper>
       <section>
-        <InputContainer>    
-          {/* <BuyerInputSearch
-            id="buyer_id"
-            inputLabel="Buyer"
-            handlePoCondition={handleRFQCondition}
-            inputValue = {inputValue}
-            // inputValue = {buyerCondition.buyer_id}
-            setInputValue={setInputValue}
-          /> */}
-          <InputSearch
+        <RfqInfoContainer>    
+          <BuyerInputSearch
             id="buyer_id"
             title="바이어선택"
             inputLabel="Buyer"
@@ -113,30 +103,30 @@ function SelectRfqList() {
               suppressRowClickSelection : false, // 선택 방지
             }}
           />
-          <InputSelect
+          <BidInputSelect
             id="rfq_status"
             inputLabel="Status"
-            handlePoCondition={handleRFQCondition}
+            handleCondition={handleRFQCondition}
             lov={rfqStatusLov}
           />
-          <InputSelect
+          <BidInputSelect
             id="category_id"
             inputLabel="Category"
-            handlePoCondition={handleRFQCondition}
+            handleCondition={handleRFQCondition}
             lov={rfqCategoryLov}
           />
-          <InputInfo
+          <BidInputInfo
             id="item_id"
             inputLabel="Item Code"
-            handlePoCondition={handleRFQCondition}
+            handleCondition={handleRFQCondition}
             inputValue={rfqCondition.item_id}
           />
-          <InputDate
+          <BidInputDate
             id="quote_effective_start_date"
             inputLabel="등록일"
             handleCondition={handleRFQCondition}
           />
-        </InputContainer>
+        </RfqInfoContainer>
       </section>
       {/* TO-DO : select count 로 변경 */}
       {/* <ListCount>건수: 2,164</ListCount> */}
@@ -153,6 +143,35 @@ const StyledRoot = styled.main`
   flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+const RfqInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(27rem, 1fr));
+  padding: 2rem 2rem 2rem 0.5rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 const InputContainer = styled.div`
