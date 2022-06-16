@@ -107,11 +107,20 @@ const StyledRoot = styled.main`
 `;
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(35rem, 1fr));
+  & > div:nth-of-type(3) {
+    & > div:nth-of-type(1) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(1) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+4):nth-child(-n+6){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 const Button = styled.button`

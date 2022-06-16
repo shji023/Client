@@ -24,6 +24,7 @@ import RfqCreate from "pages/RfqCreate";
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import BidWrite from "pages/BidWrite";
 
 function App() {
   const { Header, Sider, Content } = Layout;
@@ -101,6 +102,7 @@ function App() {
                 <Route path="/selectRFQList/:id" element={<RfqDetail />} />
                 <Route path="/bidList" element={<SelectBidList />} />
                 <Route path="/bidList/:id" element={<BidDetail />} />
+                <Route path="/bidWrite/:id" element={<BidWrite />} />
                 <Route path="/rfqCreate" element={<RfqCreate />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>

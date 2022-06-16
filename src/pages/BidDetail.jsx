@@ -3,13 +3,14 @@ import { colors } from "assets/styles/color";
 import BidInfo from "components/bid/BidInfo";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RuleTextArea from "components/bid/RuleTextArea";
 import RfqAttachTable from "components/bid/RfqAttachTable";
 import ItemInfoTable from "components/bid/ItemInfoTable";
 
 function BidDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [ruleInfoData, setRuleInfoData] = useState([]);
   const [rfqInfoData, setRfqInfoData] = useState([]);
   const [itemInfoList, setItemInfoList] = useState([]);
@@ -26,7 +27,6 @@ function BidDetail() {
   const stage = rfqInfoData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
   useEffect(()=>{
     selectInfo();
-    console.log(id);
   },[]);
 
   return (
@@ -78,7 +78,7 @@ function BidDetail() {
         </ItemInfoContainer>
       </section>
       <ButtonWrapper>
-        <Button>응찰서 작성</Button>
+        <Button onClick={() => navigate(`/bidWrite/${id}`)}>응찰서 작성</Button>
       </ButtonWrapper>
     </StyledRoot>
   );
