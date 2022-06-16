@@ -19,7 +19,7 @@ function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
           <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
             <Select.Option key={option} value={option}>
-              {option}P
+              {option}
             </Select.Option>
           ))}
         </Select>
