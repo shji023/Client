@@ -169,3 +169,14 @@ export const insertOneBid = async (sendData) => {
   }
 };
 
+export const postVendorComment = async (vendorComment) => {
+  try {
+    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorComment`,vendorComment);
+    if (data === "success"){
+      return true;
+    }
+    return false;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
