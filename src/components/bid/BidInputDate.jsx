@@ -13,8 +13,11 @@ function BidInputDate({ id, inputLabel, handleCondition }) {
       </TitleWrapper>
       <RangePicker
         id={id}
-        onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+        onChange={(date) =>{
+            // console.log("before date ", date[0]._d, " , ", date[1]);
+            handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
+            // console.log("after date ", date[0], " ,  ", date[1]);
+          }
         }
         style={{ width: 300 }}
         ranges={{

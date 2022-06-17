@@ -137,7 +137,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   width: 8rem;
   text-align: center;
   font-family: "Pretendard-SemiBold";
