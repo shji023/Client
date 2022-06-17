@@ -3,18 +3,28 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov }) {
+function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCnt }) {
   
   id === "terms_id" && console.log("init", initValue, lov);
   if(!initValue) initValue = "선택";
-  return (
-    <StyledRoot>
-      <TitleWrapper>
-      <Title htmlFor={id}>{inputLabel}</Title>
+
+  const InputLabel = (props) => {
+    if(props.inputLabel) {
+
+      return <TitleWrapper>
+        <Title htmlFor={props.id}>{props.inputLabel}</Title>
       </TitleWrapper>
+
+    }
+  }
+
+  return (
+    <StyledRoot spanCnt={spanCnt}>
+      <InputLabel id={id} inputLabel={inputLabel} />
+      {/* <TitleWrapper>
+        <Title htmlFor={id}>{inputLabel}</Title>
+      </TitleWrapper> */}
       <DataWrapper>
-
-
       <Select
         defaultValue={initValue}
         id={id}
@@ -54,6 +64,7 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  grid-column: ${({ spanCnt }) => (spanCnt ? 'span ' + spanCnt : 'span 1')};
 `;
 
 const TitleWrapper = styled.div`

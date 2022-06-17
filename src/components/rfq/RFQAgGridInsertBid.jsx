@@ -38,7 +38,7 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     return (
         <>
-            <Button onClick={handleExcel} >excel export</Button>
+            <Button onClick={handleExcel} >Export</Button>
             <div style={{ width: "100%", height: "80%" }}>
                 <div
                     id="rfqGrid"

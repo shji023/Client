@@ -102,7 +102,8 @@ function CustomModal({
   const handleCancel = () => {
     console.log('Clicked cancel button');
 
-    onHandleCancel && onHandleCancel();
+    onHandleCancel && onHandleCancel({idx});
+    if(setSearchedWord) setSearchedWord("");
 
     setVisible(false);
     

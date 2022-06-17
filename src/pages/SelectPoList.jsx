@@ -2,10 +2,12 @@ import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList, getPoTypeLov } 
 import { colors } from "assets/styles/color";
 import PoListAgGrid from "components/po/PoListAgGrid";
 import InputInfo from "components/po/PoInputInfo";
-import InputSearch from "components/po/PoInputSearch";
+import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/po/PoInputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
+import { ItemInfoColFields, popUpBuyerColFields, popUpItemColFields, popUpVendorColFields } from "stores/colData";
 
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
@@ -51,6 +53,71 @@ function SelectPoList() {
     poType && setPoTypeLov(poType);
   };
 
+  // #region 팝업
+  const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
+
+  const onHandleSearchVendor= async (value)=>{
+
+    console.log("value : ", value);
+
+    const sendData = {"vendor_name" : value};
+    const resultList = await getVendorList(sendData);
+
+    console.log("resultList", resultList);
+
+    return resultList;
+    
+  }
+
+  const onHandleOkVendor = ({selectedRows, idx}) => {
+    const row = selectedRows[0];
+    const temp = poCondition;
+    console.log(row);
+
+    temp.VENDOR_ID = row.vendor_id;
+    setPoCondition(temp);
+    
+    return temp.VENDOR_ID;
+  }
+
+
+  const onHandleSearchItem = async (searchWord) => {
+    const resultList = await getItemList(searchWord);
+    return resultList;
+  }
+
+  const onHandleOkItem = ({selectedRows}) => {
+    const row = selectedRows[0];
+
+    const temp = poCondition;
+    console.log(row);
+    temp.ITEM_ID = row.item;
+    setPoCondition(temp);
+    
+    return temp.ITEM_ID;
+  }
+
+  const onHandleSearchBuyer = async (value) => {
+    
+    const resultList = await getBuyerList(value);
+    return resultList;
+  }
+
+  const onHandleOkBuyer = ({selectedRows}) => {
+    console.log("called onHandleOk1");
+    console.log("selectedRows", selectedRows);
+
+    const row = selectedRows[0];
+    
+    const temp = poCondition;
+    temp.BUYER_ID = row.buyer_name;
+    setPoCondition(temp);
+    
+    return temp.BUYER_ID;
+
+  }
+  // #endregion 팝업
+
   useEffect(() => {
     getLov();
   }, []);
@@ -72,9 +139,18 @@ function SelectPoList() {
           />
           <InputSearch
             id="VENDOR_ID"
+            title="공급사 선택"
             inputLabel="공급사"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.VENDOR_ID}
+            initValue={poCondition.VENDOR_ID}
+            onHandleSearch={onHandleSearchVendor}
+            onHandleOk={onHandleOkVendor}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpVendorColFields,
+              rowData : popUpPreparerRowData,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputSelect
             id="ATTRIBUTE_CATEGORY"
@@ -97,9 +173,17 @@ function SelectPoList() {
           />
           <InputSearch
             id="ITEM_ID"
+            title="물품선택"
             inputLabel="Item"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.ITEM_ID}
+            initValue={poCondition.ITEM_ID}
+            onHandleSearch={onHandleSearchItem}
+            onHandleOk={onHandleOkItem}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpItemColFields,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputInfo
             id="RFQ_NO"
@@ -116,9 +200,17 @@ function SelectPoList() {
           />
           <InputSearch
             id="BUYER_ID"
+            title="바이어선택"
             inputLabel="Buyer"
-            handlePoCondition={handlePoCondition}
-            inputValue={poCondition.BUYER_ID}
+            initValue={poCondition.BUYER_ID}
+            onHandleSearch={onHandleSearchBuyer}
+            onHandleOk={onHandleOkBuyer}
+            onHandleCancel={null}
+            gridOptions={{
+              columnDefs : popUpBuyerColFields,
+              rowSelection : "single", // single, multiple
+              suppressRowClickSelection : false,
+            }}
           />
           <InputSelect
             id="TYPE_LOOKUP_CODE"
@@ -157,29 +249,19 @@ const StyledRoot = styled.main`
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(27rem, 1fr));
+  grid-template-columns: repeat(4, minmax(27rem, 1fr));
   padding: 2rem 0rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(8) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n+4):nth-child(-n+12){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

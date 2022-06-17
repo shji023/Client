@@ -3,15 +3,26 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function InputInfo({ id, inputLabel, handlePoCondition, inputValue, disabled }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, disabled }) {
 
   if(!disabled) disabled = false;
 
+  const InputLabel = (props) => {
+    if(props.inputLabel) {
+
+      return <TitleWrapper>
+        <Title htmlFor={props.id}>{props.inputLabel}</Title>
+      </TitleWrapper>
+
+    }
+  }
+
   return (
-    <StyledRoot>
-      <TitleWrapper>
-      <Title htmlFor={id}>{inputLabel}</Title>
-        </TitleWrapper>
+    <StyledRoot spanCnt={spanCnt}>
+      <InputLabel id={id} inputLabel={inputLabel} />
+      {/* <TitleWrapper>
+        <Title htmlFor={id}>{inputLabel}</Title>
+      </TitleWrapper> */}
         <DataWrapper>
 
       <Input
@@ -45,7 +56,7 @@ export default InputInfo;
 const StyledRoot = styled.div`
   display: flex;
   align-items: center;
-  grid-column: ${({ isTowCell }) => (isTowCell ? 'span 2' : ({ isFourCell }) => (isFourCell ? 'span 4' : ''))};
+  grid-column: ${({ spanCnt }) => (spanCnt ? 'span ' + spanCnt : 'span 1')};
 
 `;
 
