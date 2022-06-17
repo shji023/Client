@@ -322,6 +322,17 @@ function selectPrList() {
     
     return temp[idx].buyer_name;
   }
+
+  const onHandleCancelBuyer = ({idx}) => {
+
+    const temp = rowData;
+    temp[idx].buyer_id = "";
+    temp[idx].buyer_name = "";
+
+    setRowData([...temp]);
+    
+    return temp[idx].buyer_name;
+  }
   // #endregion Line 바이어 이벤트
 
 // #region Line Requester 이벤트
@@ -422,6 +433,7 @@ function selectPrList() {
             initValue : initValue,
             onHandleSearch : onHandleSearchBuyer,
             onHandleOk : onHandleOkBuyer,
+            onHandleCancel : onHandleCancelBuyer,
             gridOptions: {
               columnDefs : popUpBuyerColFields,
               rowSelection : "single",
@@ -612,6 +624,18 @@ function selectPrList() {
     return temp.preparer_name;
 
   }
+
+  const onHandleCancel = () => {
+    console.log("called onHandleCancel");
+
+    const temp = conditions;
+    temp.preparer_id = "";
+    temp.preparer_name = "";
+    setConditions(temp);
+    
+    return temp.preparer_name;
+
+  }
   // #endregion 팝업 이벤트
 
   const ButtonSelector = () => {
@@ -651,7 +675,7 @@ function selectPrList() {
             initValue={conditions.preparer_name}
             onHandleSearch={onHandleSearch}
             onHandleOk={onHandleOk}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCancel}
             gridOptions={{
               columnDefs : popUpStaffColFields,
               rowSelection : "single", // single, multiple
