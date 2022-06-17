@@ -292,7 +292,7 @@ const ButtonSelector = () => {
         <Title>RFQ 생성</Title>
 
         <section>
-          <SmallTitle>🌐 RFQ 정보</SmallTitle>
+          <SmallTitle>RFQ 정보</SmallTitle>
           <ButtonWrapper>
             <ButtonSelector />
           </ButtonWrapper>
@@ -376,7 +376,7 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          <SmallTitle>🌐 공급사선정</SmallTitle>
+          <SmallTitle>공급사선정</SmallTitle>
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -431,7 +431,7 @@ const ButtonSelector = () => {
 
 
         <section>
-          <SmallTitle>🌐 품목정보</SmallTitle>
+          <SmallTitle>품목정보</SmallTitle>
           <ButtonWrapper>
             <Button onClick = { onCopySelected }>행 복사</Button>
             <Button onClick = { deleteRow }>행 삭제</Button>
@@ -488,7 +488,7 @@ const Title = styled.p`
   margin-top: 1.5rem;
 `;
 const SmallTitle = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
