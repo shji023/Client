@@ -78,3 +78,46 @@ export const getProductInfoList = async () => {
       throw new Error("Failed to load");
     }
   };
+
+  export const insertRfqInfo = async (conditions, vendorList, productList) => {
+    try {
+      // const sendData = conditions;
+      const sendData = {
+        conditions : conditions,
+        vendorList : vendorList,
+        productList : productList,
+      }
+      console.log("sendData", sendData);
+
+      const { data } = await serverAxios.post(`${PREFIX_URL}/insertRfqInfo`,sendData);
+      console.log("insertRfqInfo : ", data);
+      return data;
+      
+    } catch (err) {
+      throw new Error("Failed to load");
+    }
+  };
+  export const deleteRfqInfo = async (rfq_no) => {
+    try {
+      console.log("rfq_no !!!!!!!!!!!!!!!!!!!!!!" , rfq_no);
+      const sendData = {"rfq_no": rfq_no};
+      console.log(sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/deleteRfqInfo`,sendData);
+      console.log("deleteRfqInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load");
+    }
+  };
+  export const insertVendorInfo = async (conditions) => {
+    try {
+      console.log("conditions*******" , conditions);
+      const sendData = conditions;
+      console.log("sendData********",sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorInfo`,sendData);
+      console.log("insertVendorInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load");
+    }
+  };

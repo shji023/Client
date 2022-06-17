@@ -10,7 +10,9 @@ function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition }
   const idx   = params.rowIndex;
   let value = null;
   if(stateValue[idx]) {
-    value = (stateValue[idx][field] === "" ? null : moment(stateValue[idx][field], dateFormat));
+    value = (
+      (!stateValue[idx][field]) || (stateValue[idx][field] === "") 
+      ? null : moment(stateValue[idx][field], dateFormat));
   }
 
   return (
