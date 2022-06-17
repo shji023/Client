@@ -2,7 +2,9 @@ import { Input } from "antd";
 import React from "react";
 import styled from "styled-components";
 
-function InputInfo({ id, inputLabel, handlePoCondition, inputValue, isDisabled, mySize }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue, disabled, mySize }) {
+  const isTowCell = (inputLabel === '건명' || inputLabel === '담당자' || inputLabel === '라운드 시작/마감') ? true: false;
+  const isFourCell = (inputLabel === '부가조건') ? true: false;
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
@@ -12,7 +14,7 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue, isDisabled, 
         value={inputValue}
         onChange={(e) => handlePoCondition(id, e.target.value)}
         style={{ width: mySize }}
-        disabled={isDisabled}
+        disabled={disabled}
       />
     </StyledRoot>
   );
