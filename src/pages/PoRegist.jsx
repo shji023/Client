@@ -2,7 +2,8 @@ import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTax
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
 import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields, popUpItemColFields, popUpVendorColFields } from "stores/colData";
-import InputInfo from "components/po/PoInputInfo";
+// import InputInfo from "components/po/PoInputInfo";
+import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import InputSelectGrid from "components/common/InputSelectGrid";
@@ -784,9 +785,9 @@ cellRendererSelector : params => {
 
   return (
     <StyledRoot>
-      <Title>구매계약</Title>
       <section>
         <ButtonWrapper>
+          <Title>구매계약</Title>
           <ButtonSelector />
         </ButtonWrapper>
         <InputContainer>
@@ -810,6 +811,7 @@ cellRendererSelector : params => {
             handlePoCondition={handleCondition}
             inputValue={conditions.type_lookup_code}
             disabled={true}
+            spanCnt={2}
           />
           <InputSelect
             id="attribute_category"
@@ -817,13 +819,14 @@ cellRendererSelector : params => {
             initValue={conditions.attribute_category}
             handlePoCondition={handleCondition}
             lov={attributeCategory}
+            spanCnt={2}
           />
           <InputInfo
             id="comments"
             inputLabel="계약명"
             handlePoCondition={handleCondition}
             inputValue={conditions.comments}
-            
+            spanCnt={2}
           />
           <InputInfo
             id="vendor_id"
@@ -849,7 +852,7 @@ cellRendererSelector : params => {
           <InputSearch
             id="BUYER_NAME"
             title="바이어 선택"
-            inputLabel="Preparer"
+            inputLabel="Buyer"
             initValue={conditions.BUYER_NAME}
             onHandleSearch={onHandleSearch}
             onHandleOk={onHandleOk}
@@ -884,6 +887,7 @@ cellRendererSelector : params => {
             id="contract_date"
             inputLabel="PO 계약일"
             handleCondition={handleCondition}
+            spanCnt={2}
           />
           <InputInfo
             id="acceptance_due_date"
@@ -891,6 +895,7 @@ cellRendererSelector : params => {
             handlePoCondition={handleCondition}
             inputValue={conditions.acceptance_due_date}
             disabled={true}
+            spanCnt={2}
           />
           <InputSelect
             id="fob_lookup_code"
@@ -898,6 +903,7 @@ cellRendererSelector : params => {
             initValue={conditions.fob_lookup_code}
             handlePoCondition={handleCondition}
             lov={fobLookupCodeLov}
+            spanCnt={2}            
           />
           <InputSelect
             id="terms_id"
@@ -905,6 +911,7 @@ cellRendererSelector : params => {
             initValue={conditions.terms_id}
             handlePoCondition={handleCondition}
             lov={termsIdLov}
+            spanCnt={2}
           />
           <InputInfo
             id="blanket_total_amount"
@@ -912,19 +919,21 @@ cellRendererSelector : params => {
             handlePoCondition={handleCondition}
             inputValue={conditions.blanket_total_amount}
             disabled={true}
+            spanCnt={2}
           />
-          <InputInfo
+          {/* <InputInfo
             id="currency_code"
             handlePoCondition={handleCondition}
             inputValue={conditions.currency_code}
             disabled={true}
-          />
+          /> */}
           <InputSelect
             id="bid_method_type"
             inputLabel="낙찰유형"
             initValue={conditions.bid_method_type}
             handlePoCondition={handleCondition}
             lov={bidMethodTypeLov}
+            spanCnt={2}
           />
           <InputSelect
             id="invoice_type"
@@ -932,6 +941,7 @@ cellRendererSelector : params => {
             initValue={conditions.invoice_type}
             handlePoCondition={handleCondition}
             lov={invoiceTypeLov}
+            spanCnt={2}
           />
           <InputSelect
             id="reply_method_lookup_code1"
@@ -939,6 +949,7 @@ cellRendererSelector : params => {
             initValue={conditions.reply_method_lookup_code1}
             handlePoCondition={handleCondition}
             lov={replyMethodLookupCode1Lov}
+            spanCnt={2}
           />
           <InputInfo
             id="note_to_vendor"
@@ -946,6 +957,7 @@ cellRendererSelector : params => {
             handlePoCondition={handleCondition}
             inputValue={conditions.note_to_vendor}
             disabled={true}
+            spanCnt={2}
           />
           <InputInfo
             id="note_to_receiver"
@@ -953,6 +965,7 @@ cellRendererSelector : params => {
             handlePoCondition={handleCondition}
             inputValue={conditions.note_to_receiver}
             disabled={true}
+            spanCnt={2}
           />
           <InputSelect
             id="control_confirm_flag"
@@ -960,16 +973,17 @@ cellRendererSelector : params => {
             initValue={conditions.control_confirm_flag}
             handlePoCondition={handleCondition}
             lov={controlConfirmFlagLov}
+            spanCnt={2}
           />
         </InputContainer>
       </section>
       <section>
-        <ButtonWrapper>
+        <ButtonWrapperLine>
           {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
           <Button onClick = { onInsertOne }>Line 추가</Button>
           <Button onClick = { onCopySelected }>행 복사</Button>
           <Button onClick = { deleteRow }>행 삭제</Button>
-        </ButtonWrapper>
+        </ButtonWrapperLine>
       </section>
       <section>
         <AgGrid 
@@ -1003,14 +1017,14 @@ const StyledRoot = styled.main`
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  grid-template-columns: repeat(6, minmax(27rem, 1fr));
   padding: 2rem 2rem 2rem 0.5rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(10) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
@@ -1035,9 +1049,9 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  // & > div:nth-child(n+11):nth-child(-n+14){
-  //   border-bottom: 1px solid ${colors.tableLineGray};
-  // }
+  & > div:nth-child(n+20):nth-child(-n+22){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 
@@ -1058,8 +1072,14 @@ const Button = styled.button`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
+
+const ButtonWrapperLine = styled.div`
+  display: flex;
+  justify-content: flex-end;  
+`;
+
 
 const ListCount = styled.p`
   font-size: 1.4rem;
