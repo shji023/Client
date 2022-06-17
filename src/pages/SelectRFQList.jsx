@@ -175,21 +175,6 @@ const InputContainer = styled.div`
   gap: 1rem;
 `;
 
-// const Button = styled.button`
-//   width: 10rem;
-//   height: 4rem;
-//   background-color: ${colors.mainBlue};
-//   color: white;
-//   font-size: 1.6rem;
-//   font-family: "Pretendard-Regular";
-//   border-radius: 0.7rem;
-//   :hover {
-//     cursor: pointer;
-//   }
-//   margin-bottom: 2rem;
-//   margin-top: 1.5rem;
-// `;
-
 const ButtonWrapper = styled.div`
   display: flex; 
   margin-left: 1rem;

@@ -27,7 +27,6 @@ const initMetaDataPaged = {
 };
 
 class Upload extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +89,7 @@ class Upload extends Component {
     };
 
     onUpload = async () => {
-        console.log("upload 버튼 클릭");
+        // console.log("upload 버튼 클릭");
         try {
             const result = await restClient.uploadFile(this.state.file, this.state.title, this.state.details)
             if (!result) this.displayTheError('No user found');
@@ -120,10 +119,9 @@ class Upload extends Component {
             <>
                 <ButtonWrapper>
                 <SubTitle>RFQ 첨부 (공급사 배포)</SubTitle>
-                <Button
+                {/* <Button
                     disabled={this.state.title === "" || this.state.file === "" || this.state.details === ""}
-                    // color="primary" size="md"
-                    onClick={this.onUpload}>Upload</Button>
+                    onClick={this.onUpload}>Upload</Button> */}
                 </ButtonWrapper>
                 <section>
                     <UploadContainer>
