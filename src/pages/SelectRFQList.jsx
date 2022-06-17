@@ -151,27 +151,17 @@ const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
   padding: 2rem 2rem 0.1rem 0.5rem;
-  & > div:nth-of-type(4) {
+  & > div:nth-of-type(3) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(5) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n+3):nth-child(-n+5){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
