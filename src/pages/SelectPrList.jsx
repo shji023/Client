@@ -312,22 +312,12 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(8) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n+4):nth-child(-n+8){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
