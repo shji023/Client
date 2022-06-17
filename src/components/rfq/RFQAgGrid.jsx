@@ -64,7 +64,7 @@ const AgGridRFQ = ({ listData, colData }) => {
     return (
         <>
             <Wrapper>
-            <Button onClick={handleExcel} >excel export</Button>
+            <Button onClick={handleExcel} >Export</Button>
             </Wrapper>
             <Wrapper style={{ width: "100%", height: "80%" }}>
                 <div
