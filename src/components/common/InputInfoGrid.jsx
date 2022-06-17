@@ -21,7 +21,7 @@ function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
           setStateValue( state => [...state] )
         }}
         disabled={disabled}
-        style={{ width: 200 }}
+        style={{ width: 200, height: '39px' }}
       />
     </StyledRoot>
   );
