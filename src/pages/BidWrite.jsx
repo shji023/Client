@@ -7,6 +7,7 @@ import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
 import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
+import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 
 function BidWrite() {
   const { id } = useParams();
@@ -106,7 +107,9 @@ function BidWrite() {
       </section>
       <section>
         <SubTitle>견적서 제출</SubTitle>
-        <SubmitQuotationContainer></SubmitQuotationContainer>
+        <SubmitQuotationContainer>
+          <QuotationFileDataGrid />
+        </SubmitQuotationContainer>
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>

@@ -3,32 +3,15 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import InputInfoGrid from "components/common/InputInfoGrid";
-const QuotationFileDataGrid = ({ itemListData, setItemListData }) => {
-  const navigate = useNavigate();
-  let cnt = 1;
 
-  const bidWriteColFields = [
+const QuotationFileDataGrid = () => {
+
+  const quotationFileColFields = [
     { field: "item", headerName: "유형", minWidth: 100 },
     { field: "description", headerName: "첨부", minWidth: 100 },
     { field: "unit_meas_lookup_code", headerName: "첨부파일명", minWidth: 100 },
     { field: "pur_rfq_qt", headerName: "Size", minWidth: 100 },
-    {
-      field: "quotation_total_price1",
-      headerName: "등록일",
-      minWidth: 100,
-      cellRendererSelector: (params) => {
-        return {
-          component: InputInfoGrid,
-          params: {
-            params: params,
-            stateValue: itemListData,
-            setStateValue: setItemListData,
-          },
-        };
-      },
-    },
+    { field: "quotation_total_price1", headerName: "등록일", minWidth: 100},
   ];
   return (
     <StyledRoot>
@@ -42,10 +25,10 @@ const QuotationFileDataGrid = ({ itemListData, setItemListData }) => {
           className="ag-theme-alpine"
         >
           <AgGridReact
-            rowData={itemListData}
+            // rowData={}
             rowSelection={"multiple"}
             suppressRowClickSelection={true}
-            columnDefs={bidWriteColFields}
+            columnDefs={quotationFileColFields}
             domLayout={'autoHeight'}
             defaultColDef={{
               editable: false,
