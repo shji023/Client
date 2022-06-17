@@ -31,7 +31,6 @@ function CustomModal({
   visible, 
   setVisible
 }){
-  console.log("2,", gridOptions);  
   
   !title && (title = "선택");
     !labelTitle && (labelTitle = "검색어");

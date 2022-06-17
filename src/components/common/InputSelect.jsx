@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov }) {
   
+  id === "terms_id" && console.log("init", initValue, lov);
   if(!initValue) initValue = "선택";
 
   return (
