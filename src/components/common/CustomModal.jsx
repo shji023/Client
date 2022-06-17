@@ -103,7 +103,7 @@ function CustomModal({
     console.log('Clicked cancel button');
 
     onHandleCancel && onHandleCancel({idx});
-    setSearchedWord("");
+    if(setSearchedWord) setSearchedWord("");
 
     setVisible(false);
     

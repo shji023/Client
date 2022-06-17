@@ -289,13 +289,14 @@ const ButtonSelector = () => {
 
     return (
     <StyledRoot>
-        <Title>RFQ 생성</Title>
+        
 
         <section>
-          <SmallTitle>RFQ 정보</SmallTitle>
           <ButtonWrapper>
+            <Title>RFQ 생성</Title>
             <ButtonSelector />
           </ButtonWrapper>
+          <SubTitle>RFQ 정보</SubTitle>
           
           <RfqInfoContainer>
           
@@ -376,7 +377,7 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          <SmallTitle>공급사선정</SmallTitle>
+          
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -392,6 +393,7 @@ const ButtonSelector = () => {
             setVisible={setVisible}
           ></CustomModal>
           <ButtonWrapper>
+          <SubTitle>공급사선정</SubTitle>
             <Button onClick={() => {
                 setVisible(true);
             }}>공급사선정</Button>
@@ -431,10 +433,13 @@ const ButtonSelector = () => {
 
 
         <section>
-          <SmallTitle>품목정보</SmallTitle>
+          
           <ButtonWrapper>
+          <SubTitle>품목정보</SubTitle>s
+          <section>
             <Button onClick = { onCopySelected }>행 복사</Button>
             <Button onClick = { deleteRow }>행 삭제</Button>
+          </section>
           </ButtonWrapper>
           <AgProductInfo 
             gridRef = { gridRef }
@@ -478,24 +483,32 @@ const Button = styled.button`
   }
   margin-bottom: 2rem;
 `;
+
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
+
+const ButtonWrapperLine = styled.div`
+  display: flex;
+  justify-content: flex-end;  
+`;
+
+
 const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-const SmallTitle = styled.p`
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
-`;
+// const SmallTitle = styled.p`
+//   font-size: 1.6rem;
+//   margin-bottom: 1rem;
+//   margin-top: 1.5rem;
+// `;
 const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
@@ -519,4 +532,11 @@ const RfqInfoContainer = styled.div`
   & > div:nth-child(n+11):nth-child(-n+14){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
+`;
+
+
+const SubTitle = styled.p`
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
 `;
