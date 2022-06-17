@@ -1053,6 +1053,7 @@ const Button = styled.button`
     cursor: pointer;
   }
   margin-bottom: 2rem;
+  margin-left: 1rem;
 `;
 
 const ButtonWrapper = styled.div`
