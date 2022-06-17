@@ -4,11 +4,11 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import InputInfo from "./InputInfo";
 
-const AgVendorSelect = ({productInfoData}) => {
+const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
-    
     const rowData = productInfoData; 
+    console.log("rowData@@@@@@@@@@@@@@@@",rowData);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
 
@@ -42,10 +42,10 @@ const AgVendorSelect = ({productInfoData}) => {
                 action1
                 </Button>
             </div> */}
-            <AgGridReact        
-               
+            <AgGridReact
+                ref={gridRef}
+                columnDefs={columnDefs}
                 rowData={rowData}
-                // getRowStyle={getRowStyle}
                 rowSelection={"multiple"}
                 suppressRowClickSelection={false}
                 defaultColDef={{
@@ -68,43 +68,10 @@ const AgVendorSelect = ({productInfoData}) => {
                 onCellEditingStopped={(e) => {
                 onCellValueChanged(e);
                 }}
+                onRowDataChanged={onRowDataChanged}
             >
-                {/* check box */}
-                <AgGridColumn
-                headerName="..HELLO."
-                headerCheckboxSelection={true}
-                checkboxSelection={true}
-                floatingFilter={false}
-                suppressMenu={true}
-                minWidth={10}
-                maxWidth={100}
-                width={50}
-                flex={0}
-                resizable={false}
-                sortable={false}
-                editable={false}
-                filter={false}
-                suppressColumnsToolPanel={true}
-                />
-             
-                <AgGridColumn field="item" headerName="Item" minWidth={10} />
-                <AgGridColumn field="description" headerName="Description" minWidth={10} maxWidth={150}/>
-                <AgGridColumn field="uom" headerName="단위" minWidth={10} maxWidth={80} />                
-                <AgGridColumn field="quantity" headerName="수량" minWidth={10} maxWidth={80} 
-                cellRendererSelector={(params) => {
-                    return {
-                        component: InputInfo,
-                        params: {
-                            id: "id"
-                        }
-                    };
-                }}/>                
-                <AgGridColumn field="end_date" headerName="납기" minWidth={10} maxWidth={120}  />                
-                <AgGridColumn field="dept_name" headerName="사용부서" minWidth={10} maxWidth={120} />                
-                <AgGridColumn field="group_name" headerName="그룹사" minWidth={10} maxWidth={100} />                
-                <AgGridColumn field="requisition_number" headerName="PR번호-Line" minWidth={10} maxWidth={140} />                
-                <AgGridColumn field="name" headerName="신청자" minWidth={10} maxWidth={100} />                
-                <AgGridColumn field="staff_contact_number" headerName="연락처" minWidth={10} maxWidth={120} />                
+                
+              
             
             </AgGridReact>
             </div>

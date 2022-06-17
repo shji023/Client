@@ -222,6 +222,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
+                <Route path="/poRegist/:id" element={<PoRegist />} />
                 <Route path="/successBid" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
@@ -232,6 +233,7 @@ function App() {
                 <Route path="/bidList/:id" element={<BidDetail />} />
                 <Route path="/bidWrite/:id" element={<BidWrite />} />
                 <Route path="/rfqCreate" element={<RfqCreate />} />
+                <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>
