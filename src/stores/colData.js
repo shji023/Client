@@ -18,7 +18,7 @@ export const bidColFields = [
 
 export const prSelectColDef = {
   headerClass: { background: "#EDF2F8" },
-  editable: true,
+  editable: false,
   sortable: true,
   minWidth: 100,
   filter: true,
@@ -28,18 +28,18 @@ export const prSelectColDef = {
 };
 
 export const prSelectColFields = [
-  { colId: 1, field: "num", headerName: "순번", minWidth: 100 },
-  { colId: 2, field: "line_STATUS", headerName: "Status", minWidth: 150 },
-  { colId: 3, field: "po_NUM", headerName: "RFQ번호", minWidth: 150 },
-  { colId: 4, field: "dateInterval", headerName: "경과일", minWidth: 300 },
-  { colId: 5, field: "category_ID", headerName: "Category", minWidth: 100 },
-  { colId: 6, field: "requisition_NUMBER", headerName: "PR번호", minWidth: 100 },
-  { colId: 7, field: "description", headerName: "건명", minWidth: 150 },
-  { colId: 8, field: "unit_PRICE", headerName: "금액", minWidth: 150 },
-  { colId: 9, field: "currency_CODE", headerName: "단위", minWidth: 200 },
-  { colId: 10, field: "need_BY_DATE", headerName: "요청납기일", minWidth: 200 },
-  { colId: 11, field: "preparer_ID", headerName: "Requester", minWidth: 100 },
-  { colId: 12, field: "organization_CODE", headerName: "사용부서", minWidth: 100 },
+    { colId: 1, field: "line", headerName: "순번", minWidth: 100 },
+    { colId: 2, field: "typeLookupCode", headerName: "Status", minWidth: 150 },
+    { colId: 3, field: "rfqNumber", headerName: "RFQ번호", minWidth: 150 },
+    { colId: 4, field: "dateInterval", headerName: "경과일", minWidth: 300 },
+    { colId: 5, field: "categoryId", headerName: "Category", minWidth: 100 },
+    { colId: 6, field: "requisitionNumber", headerName: "PR번호", minWidth: 100 },
+    { colId: 7, field: "description", headerName: "건명", minWidth: 150 },
+    { colId: 8, field: "amount", headerName: "금액", minWidth: 150 },
+    { colId: 9, field: "currencyCode", headerName: "단위", minWidth: 200 },
+    { colId: 10, field: "needByDate", headerName: "요청납기일", minWidth: 200 },
+    { colId: 11, field: "requestPersonId", headerName: "Requester", minWidth: 100 },
+    { colId: 12, field: "organizationCode", headerName: "사용부서", minWidth: 100 },
 ];
 
 export const prCreateColDef = {
