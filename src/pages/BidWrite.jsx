@@ -81,7 +81,7 @@ function BidWrite() {
 
   return (
     <StyledRoot>
-      <Title>응찰서 작성 {id}</Title>
+      <Title>응찰서 작성</Title>
       <section>
         <SubTitle>견적정보</SubTitle>
         <QuotationInfoContainer>
@@ -106,7 +106,10 @@ function BidWrite() {
         </QuotationInfoContainer>
       </section>
       <section>
-        <SubTitle>견적서 제출</SubTitle>
+        <SubmitTitle>
+          <p>견적서 제출</p>
+          <DeleteButton>삭제</DeleteButton>
+        </SubmitTitle>
         <SubmitQuotationContainer>
           <QuotationFileDataGrid />
         </SubmitQuotationContainer>
@@ -205,4 +208,24 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+`;
+
+const DeleteButton = styled.button`
+  width: 8rem;
+  height: 3rem;
+  background-color: ${colors.mildBlack};
+  color: white;
+  font-size: 1.4rem;
+  border-radius: 0.7rem;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const SubmitTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 2rem;
+  font-size: 1.6rem;
 `;
