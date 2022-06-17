@@ -16,7 +16,7 @@ const PREFIX_URL = "/rfq";
 export const getSearchRfqList = async (test) => {
   try {
     // TODO: GET 시도해보기
-    console.log(test);
+    console.log("input data : ", test);
     const { data } = await serverAxios.post(`${PREFIX_URL}/rfqSearch`, test);
     console.log("~~~", data);
     return data;
