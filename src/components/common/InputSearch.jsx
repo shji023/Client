@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
 import CustomModal from "components/common/CustomModal";
+import { colors } from "assets/styles/color";
 
 /**
  * PopUp 버튼이 추가된 Input 태그
@@ -69,7 +70,10 @@ function InputSearch({
 
   const InputLabel = (props) => {
     if(props.inputLabel) {
-      return <Label htmlFor={props.id}>{props.inputLabel}</Label>
+
+      return <TitleWrapper>
+        <Title htmlFor={props.id}>{props.inputLabel}</Title>
+      </TitleWrapper>
 
     }
   }
@@ -92,16 +96,20 @@ function InputSearch({
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
+      
         <InputLabel id={id} inputLabel={inputLabel} />
+        <DataWrapper>
+
         <Input.Search
           type="text"
           id={id}
           value={searchedWord}
           onSearch = {showModal}  // modal     
-          style={{ width: 200 }}
+          style={{ width: '100%' }}
           allowClear={false}
           readOnly
-        />
+          />
+          </DataWrapper>
       </StyledRoot>
     </>
   );
@@ -126,4 +134,35 @@ const ModalHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+
+
+const TitleWrapper = styled.div`
+  font-size: 1.6rem;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
+`;
+
+const DataWrapper = styled.div`
+  font-size: 1.6rem;
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.tableLineGray};
+  border-right: none;
+  border-bottom: none;
+`;
+const Title = styled.p`
+  font-size: 1.6rem;
+  text-align: center;
+  font-family: "Pretendard-SemiBold";
 `;
