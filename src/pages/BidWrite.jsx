@@ -2,10 +2,10 @@ import { colors } from "assets/styles/color";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import BidWriteDataGrid from "components/bid/BidWriteDataGrid";
+import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
-import QuotationInput from "components/bid/QuotationInput";
+import QuotationInput from "components/bidWrite/QuotationInput";
 import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
 
 function BidWrite() {
