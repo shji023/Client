@@ -79,22 +79,28 @@ export const getProductInfoList = async () => {
     }
   };
 
-  export const insertRfqInfo = async (conditions) => {
+  export const insertRfqInfo = async (conditions, vendorList, productList) => {
     try {
-      console.log("conditions   :" , conditions);
-      const sendData = conditions;
-      console.log(sendData);
+      // const sendData = conditions;
+      const sendData = {
+        conditions : conditions,
+        vendorList : vendorList,
+        productList : productList,
+      }
+      console.log("sendData", sendData);
+
       const { data } = await serverAxios.post(`${PREFIX_URL}/insertRfqInfo`,sendData);
       console.log("insertRfqInfo : ", data);
       return data;
+      
     } catch (err) {
       throw new Error("Failed to load");
     }
   };
   export const deleteRfqInfo = async (rfq_no) => {
     try {
-      console.log("rfq_no   :" , rfq_no);
-      const sendData = {"rfq_no" : rfq_no};
+      console.log("rfq_no !!!!!!!!!!!!!!!!!!!!!!" , rfq_no);
+      const sendData = {"rfq_no": rfq_no};
       console.log(sendData);
       const { data } = await serverAxios.post(`${PREFIX_URL}/deleteRfqInfo`,sendData);
       console.log("deleteRfqInfo : ", data);

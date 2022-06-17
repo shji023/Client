@@ -61,27 +61,27 @@ function SuccessBid(props) {
 
           <RfqInfoContainer>
             <BidInfo
-              label="건명:"
+              label="건명"
               value={successBidCondition.rfq_description}
             />
             <BidInfo
               //id="BIDDING_NO"
-              label="입찰번호:"
+              label="입찰번호"
               value={successBidCondition.bidding_no}
             />
             <BidInfo
               //id="RFQ_NO"
-              label="RFQ번호:"
+              label="RFQ번호"
               value={successBidCondition.rfq_no}
             />
             <BidInfo
               //id="BID_TYPE_CODE"
-              label="입찰방법:"
+              label="입찰방법"
               value={successBidCondition.bid_type_code}
             />
             <BidInfo
               //id="TARGET_PRICE"
-              label="TargetPrice:"
+              label="TargetPrice"
               value={successBidCondition.target_price}
             />
             </RfqInfoContainer>
@@ -143,29 +143,24 @@ const SmallTitle = styled.p`
 `;
 const RfqInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
+  grid-template-columns: repeat(2, minmax(27rem, 1fr));
   padding: 2rem 2rem 2rem 0.5rem;
-  & > div:nth-of-type(4) {
+  & > div:nth-of-type(1) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(3) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
+  & > div:nth-of-type(5) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n+4):nth-child(-n+5){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

@@ -217,7 +217,7 @@ const onClickSaveRfq = async () => {
   if(res){
     // TODO : 필수 입력사항 입력했는지 체크하기
 
-    const data = await insertRfqInfo(rfqListData);
+    const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData );
     if(data) {
       alert("저장이 완료되었습니다.");
       navigate(`/rfqCreate/${data}`/* , { replace: true} */)
@@ -265,7 +265,7 @@ const ButtonSelector = () => {
   if(rfq_no) {
       // 수정
     return <>
-      <Button onClick={onClickUpdateRfq}>저장</Button>
+      <Button onClick={onClickUpdateRfq}>수정</Button>
       <Button onClick={onClickDeleteRfq}>삭제</Button>
     </>
 
@@ -388,7 +388,7 @@ const ButtonSelector = () => {
           <AgVendorSelect selectedVendorList={selectedVendorList}></AgVendorSelect>
         </section>
 
-        <section>
+        {/* <section>
           <SmallTitle>🌐 RFQ첨부(공급사배포)</SmallTitle>
           <ButtonWrapper>
             <Button onClick={() => {
@@ -400,10 +400,10 @@ const ButtonSelector = () => {
             }}>삭제</Button>
           </ButtonWrapper>
           <AgRfqInsert ></AgRfqInsert>
-        </section>
+        </section> */}
 
 
-        <section>
+        {/* <section>
           <SmallTitle>🌐 RFQ첨부(내부결제)</SmallTitle>
           <ButtonWrapper>
             <Button onClick={() => {
@@ -416,7 +416,7 @@ const ButtonSelector = () => {
           </ButtonWrapper>
           <AgRfqInsert></AgRfqInsert>
 
-        </section>
+        </section> */}
 
 
         <section>
