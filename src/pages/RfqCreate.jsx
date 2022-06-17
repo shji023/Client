@@ -22,7 +22,7 @@ function RfqCreate() {
   const { rfq_no } = useParams();
 
   const [rfqListData, setRfqListData] = useState({
-    rfq_no: "",
+    rfq_no: "-",
     simple_quotation_flag:"1", 
     rfq_detail_status:"1",
 
@@ -83,15 +83,25 @@ function RfqCreate() {
     const Payment = await getPaymentLov();
     const Fob = await getFobLov();
     const shipTo = await getshipToLov();
-
+   
     Cycle && setCycleLov(Cycle);
     Collabo && setCollaboLov(Collabo);
     Payment && setPaymentLov(Payment);
     Fob && setFobLov(Fob);
     shipTo && setshipToLov(shipTo);
   };
+
+  const getInitRfq = () => {
+    if(!rfq_no) return;
+
+    // TODO: 값 초기화
+    setRfqListData({...rfqListData, rfq_no : rfq_no });
+        
+  }
+
   useEffect(() => {
     getLov();
+    getInitRfq();
     selectBuyerInfo();
     selectProductInfo();
   }, []);
@@ -220,6 +230,7 @@ const onClickSaveRfq = async () => {
     const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData );
     if(data) {
       alert("저장이 완료되었습니다.");
+      
       navigate(`/rfqCreate/${data}`/* , { replace: true} */)
     } else {
       alert("저장 되지 않았습니다.");
@@ -281,7 +292,7 @@ const ButtonSelector = () => {
         <Title>RFQ 생성</Title>
 
         <section>
-          <SmallTitle>🌐 RFQ 정보</SmallTitle>
+          <SmallTitle>RFQ 정보</SmallTitle>
           <ButtonWrapper>
             <ButtonSelector />
           </ButtonWrapper>
@@ -290,7 +301,7 @@ const ButtonSelector = () => {
           
           <BidInfo
             label= "RFQ번호" 
-            value= "-"
+            value= {rfqListData.rfq_no}
           />
           <BidInfo
             label= "단계" 
@@ -365,7 +376,7 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          <SmallTitle>🌐 공급사선정</SmallTitle>
+          <SmallTitle>공급사선정</SmallTitle>
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -420,7 +431,7 @@ const ButtonSelector = () => {
 
 
         <section>
-          <SmallTitle>🌐 품목정보</SmallTitle>
+          <SmallTitle>품목정보</SmallTitle>
           <ButtonWrapper>
             <Button onClick = { onCopySelected }>행 복사</Button>
             <Button onClick = { deleteRow }>행 삭제</Button>
@@ -477,7 +488,7 @@ const Title = styled.p`
   margin-top: 1.5rem;
 `;
 const SmallTitle = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
