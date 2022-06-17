@@ -13,7 +13,7 @@ function BidWrite() {
   const { id } = useParams();
   const [priceCondition, setPriceCondition] = useState({
     currency: "",
-    quotation_total_price1: "",
+    quotation_total_price: "",
   });
   const [vendorComment, setVendorComment] = useState({
     vendor_site_id: "689",
@@ -21,16 +21,26 @@ function BidWrite() {
     bidding_no:"",
     quotation_comment:"",
   })
+  const [updateItem, setUpdateItem] = useState({
+    vendor_site_id:"689",
+    quotation_total_price:"",
+    rfq_no:"",
+    main_currency:"",
+  })
   //const [currencyLov, setCurrencyLov] = useState([]);
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-  const result = getKoreanNumber(priceCondition.quotation_total_price1);
+
+  const result = getKoreanNumber(updateItem.quotation_total_price);
 
   const handleCondition = (key, value) => {
-    const tempPriceCondition = { ...priceCondition };
-    tempPriceCondition[key] = value;
-    setPriceCondition(tempPriceCondition);
+    // const tempPriceCondition = { ...priceCondition };
+    // tempPriceCondition[key] = value;
+    // setPriceCondition(tempPriceCondition);
+    const tempUpdateItem = {...updateItem};
+    tempUpdateItem[key] = value;
+    setUpdateItem(tempUpdateItem);
   };
 
   const handleVendorComment = (value)=>{
@@ -46,18 +56,19 @@ function BidWrite() {
       ["rfq_no"]: quotationItem[0].rfq_no,
       ["bidding_no"]: id,
     })
-    // const currencyLov = await getBidCurrencyCodeLov();
-    // console.log(currencyLov);
-    // setCurrencyLov(currencyLov);
+    setUpdateItem({...updateItem,
+      ["rfq_no"]: quotationItem[0].rfq_no,
+    })
   };
 
   const postVendorInfo = async () => {
-    console.log(vendorComment);
+    // 공급사 의견 insert
     const data = await postVendorComment(vendorComment);
-    console.log(data);
     if(data === true){
       setIsSubmit(true);
     }
+    // 견적정보 update
+    console.log(updateItem);
   };
 
   useEffect(() => {
@@ -66,17 +77,17 @@ function BidWrite() {
   
   useEffect(() => {
     // * 헤더 총 금액 계산
-    const tempConditions = priceCondition;
+    const tempConditions = updateItem;
     const tempRowData = itemListData;
     let total = 0;
     tempRowData.forEach((element) => {
-      if (element.quotation_total_price1) {
-        total += element.quotation_total_price1 * 1;
+      if (element.quotation_total_price) {
+        total += element.quotation_total_price * 1;
       }
     });
-    tempConditions.quotation_total_price1 = total;
+    tempConditions.quotation_total_price = total;
 
-    setPriceCondition({ ...tempConditions });
+    setUpdateItem({ ...tempConditions });
   }, [itemListData]);
 
   return (
@@ -87,17 +98,17 @@ function BidWrite() {
         <QuotationInfoContainer>
           <InputWrapper>
             <BidInputSelect
-              id="currency"
+              id="main_currency"
               inputLabel="견적총금액"
               handleCondition={handleCondition}
               lov={currencyLov}
             />
             <QuotationInput
-              id="quotation_total_price1"
+              id="quotation_total_price"
               priceLabel={result}
-              currencyLabel={priceCondition.currency}
+              currencyLabel={updateItem.main_currency}
               handleCondition={handleCondition}
-              inputValue={priceCondition.quotation_total_price1}
+              inputValue={updateItem.quotation_total_price}
             />
           </InputWrapper>
           <BidWriteDataGrid 
