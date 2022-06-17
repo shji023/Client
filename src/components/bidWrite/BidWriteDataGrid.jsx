@@ -14,11 +14,11 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
     });
 
   const bidWriteColFields = [
-    { field: "line", headerName: "순번", minWidth: 20 },
-    { field: "item", headerName: "ItemCode", minWidth: 100 },
-    { field: "description", headerName: "Description", minWidth: 100 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 100 },
-    { field: "pur_rfq_qt", headerName: "수량", minWidth: 100 },
+    { field: "line", headerName: "순번", minWidth: 50, maxWidth: 80 },
+    { field: "item", headerName: "ItemCode",  minWidth: 70, maxWidth: 130 },
+    { field: "description", headerName: "Description", minWidth: 150, maxWidth: 350 },
+    { field: "unit_meas_lookup_code", headerName: "단위",  minWidth: 50, maxWidth: 80 },
+    { field: "pur_rfq_qt", headerName: "수량",  minWidth: 50, maxWidth: 80 },
     {
       field: "quotation_total_price1",
       headerName: "견적가",
