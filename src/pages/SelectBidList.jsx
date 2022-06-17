@@ -65,12 +65,14 @@ function SelectBidList() {
             inputLabel="Status"
             handleCondition={handleBidCondition}
             lov={bidSeacrhTypeLov}
+            isDisabled={false}
           />
           <BidInputSelect
             id="CATEGORY_SEGMENT1"
             inputLabel="부문"
             handleCondition={handleBidCondition}
             lov={bidCategoryLov}
+            isDisabled={false}
           />
           <BidInputInfo
             id="RFQ_DESCRIPTION"

@@ -11,10 +11,6 @@ import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 
 function BidWrite() {
   const { id } = useParams();
-  const [priceCondition, setPriceCondition] = useState({
-    currency: "",
-    quotation_total_price: "",
-  });
   const [vendorComment, setVendorComment] = useState({
     vendor_site_id: "689",
     rfq_no:"",
@@ -35,9 +31,6 @@ function BidWrite() {
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
   const handleCondition = (key, value) => {
-    // const tempPriceCondition = { ...priceCondition };
-    // tempPriceCondition[key] = value;
-    // setPriceCondition(tempPriceCondition);
     const tempUpdateItem = {...updateItem};
     tempUpdateItem[key] = value;
     setUpdateItem(tempUpdateItem);
@@ -102,6 +95,7 @@ function BidWrite() {
               inputLabel="견적총금액"
               handleCondition={handleCondition}
               lov={currencyLov}
+              isDisabled={isSubmit}
             />
             <QuotationInput
               id="quotation_total_price"
@@ -109,11 +103,13 @@ function BidWrite() {
               currencyLabel={updateItem.main_currency}
               handleCondition={handleCondition}
               inputValue={updateItem.quotation_total_price}
+              isDisabled={isSubmit}
             />
           </InputWrapper>
           <BidWriteDataGrid 
             itemListData={itemListData}
-            setItemListData={setItemListData} />
+            setItemListData={setItemListData}
+            isDisabled={isSubmit} />
         </QuotationInfoContainer>
       </section>
       <section>
@@ -122,7 +118,7 @@ function BidWrite() {
           <DeleteButton>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
-          <QuotationFileDataGrid />
+          <QuotationFileDataGrid isDisabled={isSubmit}/>
         </SubmitQuotationContainer>
       </section>
       <section>

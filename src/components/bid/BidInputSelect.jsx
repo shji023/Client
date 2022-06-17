@@ -3,7 +3,7 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
+function BidInputSelect({ id, inputLabel, handleCondition, lov, isDisabled }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
@@ -15,6 +15,7 @@ function BidInputSelect({ id, inputLabel, handleCondition, lov }) {
             handleCondition(id, e);
           }}
           style={{ width: '100%' }}
+          disabled={isDisabled}
         >
           <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
