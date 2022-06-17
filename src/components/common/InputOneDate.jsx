@@ -10,7 +10,7 @@ function InputOneDate({ id, inputLabel, handleCondition }) {
       <DatePicker
         id={id}
         onChange={(date) =>
-          handleCondition(id, date[0].format("YYYY-MM-DD"))
+          handleCondition(id, date.format("YYYY-MM-DD"))
         }
         style={{ width: 200 }}
       />
@@ -37,4 +37,6 @@ const Label = styled.label`
     background-color: ${colors.tableGray};
     border-right: none;
     border-bottom: none;
+    font-family: "Pretendard-SemiBold";
+
 `;

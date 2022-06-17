@@ -181,7 +181,7 @@ function selectPrList() {
 
     // !: axios 비동기
     const data = await deleteOnePr(conditions.req_num);
-    if(data.res){
+    if(data){
       alert("구매 신청 삭제가 완료되었습니다.");
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
