@@ -3,38 +3,15 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import InputInfoGrid from "components/common/InputInfoGrid";
-const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
-  const navigate = useNavigate();
-  let cnt = 1;
-  itemListData &&
-    itemListData.forEach((element) => {
-      element.line = cnt++;
-    });
 
-  const bidWriteColFields = [
-    { field: "line", headerName: "순번", minWidth: 20 },
-    { field: "item", headerName: "ItemCode", minWidth: 100 },
-    { field: "description", headerName: "Description", minWidth: 100 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 100 },
-    { field: "pur_rfq_qt", headerName: "수량", minWidth: 100 },
-    {
-      field: "quotation_total_price1",
-      headerName: "견적가",
-      minWidth: 100,
-      cellRendererSelector: (params) => {
-        return {
-          component: InputInfoGrid,
-          params: {
-            params: params,
-            stateValue: itemListData,
-            setStateValue: setItemListData,
-          },
-        };
-      },
-    },
-    { field: "need_by_date", headerName: "납기", minWidth: 100 },
+const QuotationFileDataGrid = () => {
+
+  const quotationFileColFields = [
+    { field: "item", headerName: "유형", minWidth: 100 },
+    { field: "description", headerName: "첨부", minWidth: 100 },
+    { field: "unit_meas_lookup_code", headerName: "첨부파일명", minWidth: 100 },
+    { field: "pur_rfq_qt", headerName: "Size", minWidth: 100 },
+    { field: "quotation_total_price1", headerName: "등록일", minWidth: 100},
   ];
   return (
     <StyledRoot>
@@ -48,10 +25,10 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
           className="ag-theme-alpine"
         >
           <AgGridReact
-            rowData={itemListData}
+            // rowData={}
             rowSelection={"multiple"}
             suppressRowClickSelection={true}
-            columnDefs={bidWriteColFields}
+            columnDefs={quotationFileColFields}
             domLayout={'autoHeight'}
             defaultColDef={{
               editable: false,
@@ -69,6 +46,22 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
             pagination={true}
             paginationPageSize={5}
           >
+            <AgGridColumn
+              headerName="..HELLO."
+              headerCheckboxSelection={true}
+              checkboxSelection={true}
+              floatingFilter={false}
+              suppressMenu={true}
+              minWidth={50}
+              maxWidth={50}
+              width={50}
+              flex={0}
+              resizable={false}
+              sortable={false}
+              editable={false}
+              filter={false}
+              suppressColumnsToolPanel={true}
+            />
             {/* {bidWriteColFields.map((data) => (
               <AgGridColumn
                 key={data.colId}
@@ -84,7 +77,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData }) => {
   );
 };
 
-export default BidWriteDataGrid;
+export default QuotationFileDataGrid;
 
 const StyledRoot = styled.section`
   margin-top: 3rem;

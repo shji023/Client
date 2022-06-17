@@ -37,4 +37,6 @@ const Label = styled.label`
     background-color: ${colors.tableGray};
     border-right: none;
     border-bottom: none;
+    font-family: "Pretendard-SemiBold";
+
 `;
