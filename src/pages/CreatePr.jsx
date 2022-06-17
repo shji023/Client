@@ -102,7 +102,7 @@ function selectPrList() {
 
   const [conditions, setConditions] = useState({
         req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "123",    // preparer_name : Preparer
+        preparer_name : "",    // preparer_name : Preparer
         preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
         description   : "PR 테스트", // PR명
@@ -322,6 +322,17 @@ function selectPrList() {
     
     return temp[idx].buyer_name;
   }
+
+  const onHandleCancelBuyer = ({idx}) => {
+
+    const temp = rowData;
+    temp[idx].buyer_id = "";
+    temp[idx].buyer_name = "";
+
+    setRowData([...temp]);
+    
+    return temp[idx].buyer_name;
+  }
   // #endregion Line 바이어 이벤트
 
 // #region Line Requester 이벤트
@@ -422,6 +433,7 @@ function selectPrList() {
             initValue : initValue,
             onHandleSearch : onHandleSearchBuyer,
             onHandleOk : onHandleOkBuyer,
+            onHandleCancel : onHandleCancelBuyer,
             gridOptions: {
               columnDefs : popUpBuyerColFields,
               rowSelection : "single",
@@ -612,6 +624,18 @@ function selectPrList() {
     return temp.preparer_name;
 
   }
+
+  const onHandleCancel = () => {
+    console.log("called onHandleCancel");
+
+    const temp = conditions;
+    temp.preparer_id = "";
+    temp.preparer_name = "";
+    setConditions(temp);
+    
+    return temp.preparer_name;
+
+  }
   // #endregion 팝업 이벤트
 
   const ButtonSelector = () => {
@@ -651,7 +675,7 @@ function selectPrList() {
             initValue={conditions.preparer_name}
             onHandleSearch={onHandleSearch}
             onHandleOk={onHandleOk}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCancel}
             gridOptions={{
               columnDefs : popUpStaffColFields,
               rowSelection : "single", // single, multiple
@@ -731,7 +755,7 @@ const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
   padding: 2rem 0rem;
-  & > div:nth-of-type(4) {
+  & > div:nth-of-type(3) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
@@ -741,17 +765,7 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n+4):nth-child(-n+6){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
