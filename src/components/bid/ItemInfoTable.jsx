@@ -89,7 +89,7 @@ const Table = styled.table`
   width: 100%;
   border: 1px solid ${colors.tableLineGray};
   border-collapse: collapse;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   table-layout: auto;
 `;
 

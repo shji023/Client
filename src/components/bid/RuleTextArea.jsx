@@ -25,7 +25,7 @@ const StyledRoot = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 15rem;  
   border: 1px solid ${colors.tableLineGray};
@@ -36,7 +36,7 @@ const TitleWrapper = styled.div`
   border-right: none;
 `;
 const DataWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   width: 100%;
   height: 15rem;
   display: flex;

@@ -35,7 +35,7 @@ const StyledRoot = styled.div`
   align-items: center;
 `;
 
-const TitleWrapper = styled.div`
+const Label = styled.label`
   font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
@@ -46,23 +46,11 @@ const TitleWrapper = styled.div`
   background-color: ${colors.tableGray};
   border-right: none;
   border-bottom: none;
-`;
-
-const Label = styled.label`
-  font-size: 1.6rem;
-  min-width: 14rem;
-  height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
+  font-family:"Pretendard-SemiBold"
 `;
 
 const StyledSelect = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   width: 100%;
   height: 3.5rem;
   display: flex;
@@ -71,4 +59,5 @@ const StyledSelect = styled.div`
   border: 1px solid ${colors.tableLineGray};
   border-right: none;
   border-bottom: none;
+  
 `;
