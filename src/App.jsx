@@ -26,6 +26,9 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
+import { Ping } from "assets/images";
+import { POSCO_ICT_CI_ENG } from "assets/images";
+import { POSCO_ICT_CI_ENG_new } from "assets/images";
 
 function App() {
   const { Header, Sider, Content } = Layout;
@@ -194,7 +197,10 @@ function App() {
       <GlobalStyle />
       <StyledRoot>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
+          {/* <div className="logo" /> */}
+          <Logo>
+          <img  className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
+          </Logo>
           <Menu
             theme="dark"
             mode="inline"
@@ -253,4 +259,10 @@ export default App;
 
 const StyledRoot = styled(Layout)`
   height: 100%;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
 `;
