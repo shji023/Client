@@ -100,16 +100,18 @@ function BuyerInputSearch({
         <TitleWrapper>
           <InputLabel id={id} inputLabel={inputLabel} />
         </TitleWrapper>
+        <StyledSelect>
           <Input.Search
             type="text"
             id={id}
             value={searchedWord}
             // onChange={(e) => handleInputChange(e.target.value)}
             onSearch = {showModal}  // modal     
-            style={{ width: 300 }}
+            style={{ width: '100%' , height: '100%'}}
             allowClear={false}
             readOnly
           />
+        </StyledSelect>
       </StyledRoot>
     </>
   );
@@ -138,8 +140,15 @@ const TitleWrapper = styled.div`
 
 const Label = styled.label`
   font-size: 1.4rem;
-  width: 8rem;
-  text-align: center;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
   font-family: "Pretendard-SemiBold";
 `;
 
@@ -148,4 +157,16 @@ const ModalHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+
+const StyledSelect = styled.div`
+  font-size: 1.4rem;
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.tableLineGray};
+  border-right: none;
+  border-bottom: none;
 `;

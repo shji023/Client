@@ -1,32 +1,51 @@
-import { Input } from "antd";
+import { Select } from "antd";
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
+function RfqInputSelect({ id, inputLabel, handleCondition, lov }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
-      <StyledInput>
-        <Input
-          type="text"
+      <StyledSelect>
+        <Select
+          defaultValue="선택"
           id={id}
-          value={inputValue}
-          onChange={(e) => handleCondition(id, e.target.value)}
+          onChange={(e) => {
+            handleCondition(id, e);
+          }}
           style={{ width: '100%' }}
-        />
-      </StyledInput>
-      
+        >
+          <Select.Option value="">선택</Select.Option>
+          {lov.map((option) => (
+            <Select.Option key={option[0]} value={option[0]}>
+              {option[1]}
+            </Select.Option>
+          ))}
+        </Select>
+      </StyledSelect>
     </StyledRoot>
   );
 }
-
-export default BidInputInfo;
+export default RfqInputSelect;
 
 const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const TitleWrapper = styled.div`
+  font-size: 1.4rem;
+  min-width: 14rem;
+  height: 3.5rem;
+  border: 1px solid ${colors.tableLineGray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.tableGray};
+  border-right: none;
+  border-bottom: none;
 `;
 
 const Label = styled.label`
@@ -43,7 +62,7 @@ const Label = styled.label`
   font-family: "Pretendard-SemiBold";
 `;
 
-const StyledInput = styled.div`
+const StyledSelect = styled.div`
   font-size: 1.4rem;
   width: 100%;
   height: 3.5rem;

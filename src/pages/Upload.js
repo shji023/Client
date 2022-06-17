@@ -272,6 +272,7 @@ const Button = styled.button`
 
 const ButtonWrapper = styled.div`
   display: flex; 
+  justify-content: space-between;
 `;
 
 const SubTitle = styled.p`

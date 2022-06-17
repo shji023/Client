@@ -11,8 +11,10 @@ import styled from "styled-components";
 import InputDate from "components/common/InputDate";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 import BidInputSelect from "components/bid/BidInputSelect";
+import RfqInputSelect from "components/rfq/RfqInputSelect";
 import BidInputInfo from "components/bid/BidInputInfo";
-import BidInputDate from "components/bid/BidInputDate";
+import RfqInputDate from "components/rfq/RfqInputDate";
+import RfqInputInfo from "components/rfq/RfqInputInfo";
 
 
 function SelectRfqList() {
@@ -83,7 +85,7 @@ function SelectRfqList() {
 
   return (
     <StyledRoot>
-      <ButtonWrapper>   
+      <ButtonWrapper>  
         <Title>RFQ 목록조회</Title>
         <Button onClick={selectRFQList}>조회</Button>
       </ButtonWrapper>
@@ -103,25 +105,25 @@ function SelectRfqList() {
               suppressRowClickSelection : false, // 선택 방지
             }}
           />
-          <BidInputSelect
+          <RfqInputSelect
             id="rfq_status"
             inputLabel="Status"
             handleCondition={handleRFQCondition}
             lov={rfqStatusLov}
           />
-          <BidInputSelect
+          <RfqInputSelect
             id="category_id"
             inputLabel="Category"
             handleCondition={handleRFQCondition}
             lov={rfqCategoryLov}
           />
-          <BidInputInfo
+          <RfqInputInfo
             id="item_id"
             inputLabel="Item Code"
             handleCondition={handleRFQCondition}
             inputValue={rfqCondition.item_id}
           />
-          <BidInputDate
+          <RfqInputDate
             id="quote_effective_start_date"
             inputLabel="등록일"
             handleCondition={handleRFQCondition}
@@ -130,7 +132,7 @@ function SelectRfqList() {
       </section>
       {/* TO-DO : select count 로 변경 */}
       {/* <ListCount>건수: 2,164</ListCount> */}
-     
+    
         <AgGridRFQ listData={rfqListData} colData={rfqColumn}/>
       
     </StyledRoot>
@@ -148,7 +150,7 @@ const StyledRoot = styled.main`
 const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 2rem 0.1rem 0.5rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
@@ -183,6 +185,28 @@ const InputContainer = styled.div`
   gap: 1rem;
 `;
 
+// const Button = styled.button`
+//   width: 10rem;
+//   height: 4rem;
+//   background-color: ${colors.mainBlue};
+//   color: white;
+//   font-size: 1.6rem;
+//   font-family: "Pretendard-Regular";
+//   border-radius: 0.7rem;
+//   :hover {
+//     cursor: pointer;
+//   }
+//   margin-bottom: 2rem;
+//   margin-top: 1.5rem;
+// `;
+
+const ButtonWrapper = styled.div`
+  display: flex; 
+  margin-left: 1rem;
+  justify-content: space-between;
+  padding: 1rem 2rem 0.5rem 0.5rem;
+`;
+
 const Button = styled.button`
   width: 10rem;
   height: 4rem;
@@ -194,12 +218,9 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
-  margin-bottom: 2rem;
-  margin-top: 1.5rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex; 
+  margin-top: 1rem;
+  // margin-bottom: 1rem;
+  margin-left: 1rem;
 `;
 
 const ListCount = styled.p`

@@ -57,9 +57,9 @@ function SelectPoList() {
 
   return (
     <StyledRoot>
-      <Title>PO 목록조회</Title>
       <section>
         <ButtonWrapper>
+          <Title>PO 목록조회</Title>
           <Button onClick={selectPoList}>조회</Button>
         </ButtonWrapper>
         <InputContainer>
@@ -144,13 +144,44 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
+
+// const InputContainer = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr;
+//   border: 1px solid rgb(225 225 225 / 87%);
+//   border-radius: 0.5rem;
+//   padding: 2rem 0.5rem;
+//   gap: 1rem;
+// `;
+
+
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(27rem, 1fr));
+  padding: 2rem 0rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 const Button = styled.button`
@@ -169,7 +200,7 @@ const Button = styled.button`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 const ListCount = styled.p`

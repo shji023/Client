@@ -25,9 +25,9 @@ code {
 }
 
 .logo {
-  height: 32px;
+  width: 65%;
   margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
+  /* background: rgba(255, 255, 255, 0.3); */
 }
 
 .site-layout .site-layout-background {
