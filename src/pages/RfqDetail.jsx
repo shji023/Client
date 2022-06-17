@@ -16,7 +16,9 @@ import InputInfo from "components/common/InputInfo";
 import BidInputSelect from "components/bid/BidInputSelect";
 import RfqSelectVendor from "components/rfq/RfqSelectVendor";
 import BidInputInfo from "components/bid/BidInputInfo";
-import BidInputDate from "components/bid/BidInputDate";
+import RfqInputSelect from "components/rfq/RfqInputSelect";
+import RfqInputDate from "components/rfq/RfqInputDate";
+import RfqInputInfo from "components/rfq/RfqInputInfo";
 
 function RfqDetail() {
   const {id} = useParams();
@@ -155,12 +157,11 @@ function RfqDetail() {
   console.log("insert - bidCondition : ", bidCondition);
 
   return (
-    <StyledRoot>
-      <ButtonWrapper>   
-        <Title>입찰룰</Title>
-        {/* <Button onClick={selectRFQList}>저장</Button> */}
-        <Button onClick={onSaveContents}>저장</Button>
-      </ButtonWrapper>
+    <StyledRoot>  
+        <ButtonWrapper> 
+          <Title>입찰룰</Title>
+          <Button onClick={onSaveContents}>저장</Button>
+        </ButtonWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
         <RfqInfoContainer>
@@ -183,53 +184,55 @@ function RfqDetail() {
         </RfqInfoContainer>
       </section>
       <SubTitle>공급사 선정</SubTitle><br/>
-        <RfqSelectVendor id={id} ></RfqSelectVendor><br/>
+        <RfqSelectVendorContainer>
+          <RfqSelectVendor id={id} ></RfqSelectVendor>
+        </RfqSelectVendorContainer>
       <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
         <section>
           <BidInfoContainer>
-            <BidInputSelect
+            <RfqInputSelect
               id="bid_type_code"
               inputLabel="입찰유형"
               handleCondition={handleCondition}
               lov={bidTypeLov}
             />
-            <BidInputSelect
+            <RfqInputSelect
               id="bid_price_method"
               inputLabel="단가입력방식"
               handleCondition={handleCondition}
               lov={bidPriceMethodLov}
             />
-            <BidInputSelect
+            <RfqInputSelect
               id="bid_method_type"
               inputLabel="낙찰제도"
               handleCondition={handleCondition}
               lov={bidMethodTypeLov}
             />
-            <BidInputSelect
+            <RfqInputSelect
               id="max_round"
               inputLabel="Max 라운드"
               handleCondition={handleCondition}
               lov={bidMaxRoundLov}
             />
-            <BidInputDate
+            <RfqInputDate
               id="roundPeriod"
               inputLabel="라운드 시작/마감"
               handleCondition={handleCondition}
             />
             {/* <BidInfo label='라운드 시작/마감' value={roundPeriod}></BidInfo> */}
-            <BidInputSelect
+            <RfqInputSelect
               id="main_currency"
               inputLabel="통화"
               handleCondition={handleCondition}
               lov={bidCurrencyCodeLov}
             />
-            <BidInputInfo
+            <RfqInputInfo
               id="side_conditions"
               inputLabel="부가조건"
               handleCondition={handleCondition}
               inputValue={bidCondition.side_conditions}
             />
-            <BidInputInfo
+            <RfqInputInfo
               id="target_price"
               inputLabel="Target Price"
               handleCondition={handleCondition}
@@ -239,9 +242,9 @@ function RfqDetail() {
             <BidInsertTextArea id="bidding_rule_approval_comment" inputLabel='내부 보고' handleCondition={handleCondition} inputValue={bidCondition.bidding_rule_approval_comment}></BidInsertTextArea>
           </BidInfoContainer>
         </section>
-
-        {/* RFQ 첨부 */}
-        <Upload/>
+        <RfqSelectVendorContainer>
+          <Upload/>
+        </RfqSelectVendorContainer>
     </StyledRoot>
   );
 }
@@ -304,6 +307,10 @@ const BidInfoContainer = styled.div`
   }
 `;
 
+const RfqSelectVendorContainer = styled.div`
+padding: 1rem 2rem 2rem 0.5rem;
+`;
+
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
@@ -342,13 +349,15 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
-  margin-bottom: 1.0rem;
-  // margin-top: 1.5rem;
+  // margin-bottom: 1.0rem;
+  margin-top: 1.5rem;
 `;
 
 const ButtonWrapper = styled.div`
-  display: flex; 
-  justify-content: flex-end;
+  display: flex;   
+  justify-content: space-between;
+  padding: 1rem 2rem 2rem 0.5rem;
+
 `;
 
 const ListCount = styled.p`
@@ -361,7 +370,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  width: 93%;
+  width: 80%;
   height: 100%;
 `;
 
