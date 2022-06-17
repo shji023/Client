@@ -102,7 +102,7 @@ function selectPrList() {
 
   const [conditions, setConditions] = useState({
         req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "123",    // preparer_name : Preparer
+        preparer_name : "",    // preparer_name : Preparer
         preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
         description   : "PR 테스트", // PR명

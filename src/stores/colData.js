@@ -70,9 +70,9 @@ export const rfqColumn = [
 
 // #region 팝업
 export const popUpStaffColFields = [
-  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
+  { colId:1,  field:"id",  headerName: "직번", minWidth:100},
   { colId:2,  field:"name", headerName: "성명", minWidth:150},
-  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
+  { colId:3,  field:"dept_name", headerName: "부서", minWidth:150},
 ];
 
 export const popUpVendorColFields = [
