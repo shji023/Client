@@ -22,7 +22,7 @@ function RfqCreate() {
   const { rfq_no } = useParams();
 
   const [rfqListData, setRfqListData] = useState({
-    rfq_no: "",
+    rfq_no: "-",
     simple_quotation_flag:"1", 
     rfq_detail_status:"1",
 
@@ -83,15 +83,25 @@ function RfqCreate() {
     const Payment = await getPaymentLov();
     const Fob = await getFobLov();
     const shipTo = await getshipToLov();
-
+   
     Cycle && setCycleLov(Cycle);
     Collabo && setCollaboLov(Collabo);
     Payment && setPaymentLov(Payment);
     Fob && setFobLov(Fob);
     shipTo && setshipToLov(shipTo);
   };
+
+  const getInitRfq = () => {
+    if(!rfq_no) return;
+
+    // TODO: 값 초기화
+    setRfqListData({...rfqListData, rfq_no : rfq_no });
+        
+  }
+
   useEffect(() => {
     getLov();
+    getInitRfq();
     selectBuyerInfo();
     selectProductInfo();
   }, []);
@@ -220,6 +230,7 @@ const onClickSaveRfq = async () => {
     const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData );
     if(data) {
       alert("저장이 완료되었습니다.");
+      
       navigate(`/rfqCreate/${data}`/* , { replace: true} */)
     } else {
       alert("저장 되지 않았습니다.");
@@ -290,7 +301,7 @@ const ButtonSelector = () => {
           
           <BidInfo
             label= "RFQ번호" 
-            value= "-"
+            value= {rfqListData.rfq_no}
           />
           <BidInfo
             label= "단계" 
