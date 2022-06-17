@@ -31,7 +31,7 @@ function BidDetail() {
 
   return (
     <StyledRoot>
-      <Title>입찰정보조회 {id}</Title>
+      <Title>입찰정보조회</Title>
       <section>
         <SubTitle>RFQ정보</SubTitle>
         <RfqInfoContainer>

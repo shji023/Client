@@ -80,5 +80,4 @@ const QuotationFileDataGrid = () => {
 export default QuotationFileDataGrid;
 
 const StyledRoot = styled.section`
-  margin-top: 3rem;
 `;
