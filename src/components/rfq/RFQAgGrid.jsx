@@ -44,13 +44,13 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     // excel export
     const column = [
-        {header: 'RFQ번호',      key: 'rfq_no', width: 20},
-        {header: '건 명',        key: 'rfq_description', hidden:false, width: 200},
-        {header: '구매 방법',    key: 'reply_method_lookup_code', width: 180},
-        {header: '납품 지역',    key: 'rfq_ship_to', width: 150},
-        {header: 'Buyer',       key: 'buyer_id', hidden:false, width: 110},
-        {header: '구매 등록일',  key: 'quote_effective_start_date', width: 150},
-        {header: 'Status',      key: 'rfq_status', width: 90}
+        {header: 'RFQ번호',      key: 'rfq_no', minWidth:10, maxWidth: 30},
+        {header: '건 명',        key: 'rfq_description', minWidth:100, maxWidth: 230},
+        {header: '구매 방법',    key: 'reply_method_lookup_code', minWidth:100, maxWidth: 190},
+        {header: '납품 지역',    key: 'rfq_ship_to', minWidth:60, maxWidth: 160},
+        {header: 'Buyer',       key: 'buyer_id', minWidth:60, maxWidth: 120},
+        {header: '구매 등록일',  key: 'quote_effective_start_date', minWidth:100, maxWidth: 160},
+        {header: 'Status',      key: 'rfq_status', minWidth:50, maxWidth: 100}
     ];
 
     const handleExcel=()=>{
@@ -63,14 +63,14 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     return (
         <>
-            <div>
+            <Wrapper>
             <Button onClick={handleExcel} >excel export</Button>
-            </div>
-            <div style={{ width: "100%", height: "80%" }}>
+            </Wrapper>
+            <Wrapper style={{ width: "100%", height: "80%" }}>
                 <div
                     id="rfqGrid"
                     style={{
-                        height: "600px",
+                        height: "570px",
                         width: "100%",
                     }}
                     className="ag-theme-alpine"
@@ -109,7 +109,7 @@ const AgGridRFQ = ({ listData, colData }) => {
 
                 </AgGridReact>
                 </div>
-            </div>
+            </Wrapper>
         </>
     );
 };
@@ -117,8 +117,8 @@ const AgGridRFQ = ({ listData, colData }) => {
 export default AgGridRFQ;
 
 const Button = styled.button`
-  width: 15rem;
-  height: 3rem;
+  width: 10rem;
+  height: 4rem;
   background-color: ${colors.mainBlue};
   color: white;
   font-size: 1.6rem;
@@ -127,10 +127,16 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+//   margin-top: 1rem;
+//   margin-bottom: 1rem;
   float: right;
 `;
+
+
+const Wrapper = styled.div`
+padding: 1rem 2rem 0.5rem 0.5rem;
+`;
+
 
 
 

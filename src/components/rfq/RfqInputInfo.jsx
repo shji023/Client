@@ -3,7 +3,7 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
+function RfqInputInfo({ id, inputLabel, handleCondition, inputValue }) {
   return (
     <StyledRoot>
       <Label htmlFor={id}>{inputLabel}</Label>
@@ -21,7 +21,7 @@ function BidInputInfo({ id, inputLabel, handleCondition, inputValue }) {
   );
 }
 
-export default BidInputInfo;
+export default RfqInputInfo;
 
 const StyledRoot = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const StyledRoot = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
@@ -44,7 +44,7 @@ const TitleWrapper = styled.div`
 
 
 const Label = styled.label`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
