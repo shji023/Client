@@ -36,7 +36,7 @@ const StyledRoot = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
@@ -46,10 +46,11 @@ const Label = styled.label`
   background-color: ${colors.tableGray};
   border-right: none;
   border-bottom: none;
+  font-family:"Pretendard-SemiBold"
 `;
 
 const RangePickerWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   width: 100%;
   height: 3.5rem;
   display: flex;
