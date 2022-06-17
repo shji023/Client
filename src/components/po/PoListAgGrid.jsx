@@ -2,9 +2,11 @@ import React, { useState, useRef, useCallback } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { useNavigate } from 'react-router-dom';
 
 
 const AgGrid = ({ poListData }) => {
+    const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     //   const [rowData, setRowData] = useState(null);
@@ -16,12 +18,12 @@ const AgGrid = ({ poListData }) => {
     const onSelectionChanged = () => {
         // const data = gridApi.getSelectedRows();
 
-        if (data.length > 0) {
-        setBtnDisabled(false);
-        } else {
-        setBtnDisabled(true);
-        }
-        setSelectedRows(gridApi.getSelectedRows());
+        // if (data.length > 0) {
+        // setBtnDisabled(false);
+        // } else {
+        // setBtnDisabled(true);
+        // }
+        // setSelectedRows(gridApi.getSelectedRows());
     };
 
     const onCellValueChanged = (e) => {
@@ -46,7 +48,8 @@ const AgGrid = ({ poListData }) => {
                 }}
                 className="ag-theme-alpine"
             >
-            <AgGridReact        
+            <AgGridReact
+                onRowClicked={(e) => navigate(`/poRegist/${e.data.po_num}`)}       
                 ref={gridRef}
                 rowData={rowData}
                 getRowStyle={getRowStyle}
@@ -70,10 +73,7 @@ const AgGrid = ({ poListData }) => {
                 pagination={true}
                 paginationAutoPageSize={true}
                 // onGridReady={onGridReady}
-                onSelectionChanged={onSelectionChanged}
-                onCellEditingStopped={(e) => {
-                onCellValueChanged(e);
-                }}
+               
             >
                 <AgGridColumn field="authorization_status" headerName="Status" maxWidth={110} pinned="left" />
                 <AgGridColumn field="start_date" headerName="Order Date" maxWidth={120} pinned="left" />

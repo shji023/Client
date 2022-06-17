@@ -222,6 +222,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
+                <Route path="/poRegist/:id" element={<PoRegist />} />
                 <Route path="/successBid" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
