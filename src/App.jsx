@@ -4,9 +4,10 @@ import "App.css";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  EditFilled,
+  ScheduleFilled,
+  SoundFilled,
+  ReconciliationFilled,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
@@ -34,6 +35,7 @@ function App() {
     {
       type: 'group',
       label: '구매신청',
+      icon: <EditFilled />,
       children: [
         {
           label: (
@@ -56,6 +58,7 @@ function App() {
     {
       type: 'group',
       label: 'RFQ',
+      icon: <ScheduleFilled />,
       children: [
         {
           label: (
@@ -70,6 +73,7 @@ function App() {
     {
       type: 'group',
       label: '입찰',
+      icon: <SoundFilled />,
       children: [
         {
           label: (
@@ -84,6 +88,7 @@ function App() {
     {
       type: 'group',
       label: '구매계약',
+      icon: <ReconciliationFilled />,
       children: [
         {
           label: (
@@ -109,7 +114,7 @@ function App() {
     {
       label: '구매신청',
       key: 'PrSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <EditFilled />,
       children: [
         {
           type: 'group',
@@ -132,7 +137,7 @@ function App() {
     {
       label: 'RFQ',
       key: 'RfqSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <ScheduleFilled />,
       children: [
         {
           type: 'group',
@@ -147,7 +152,7 @@ function App() {
     {
       label: '입찰',
       key: 'BidSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <SoundFilled />,
       children: [
         {
           type: 'group',
@@ -162,7 +167,7 @@ function App() {
     {
       label: '구매계약',
       key: 'PoSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <ReconciliationFilled />,
       children: [
         {
           type: 'group',
