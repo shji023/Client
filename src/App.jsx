@@ -4,9 +4,10 @@ import "App.css";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  EditFilled,
+  ScheduleFilled,
+  SoundFilled,
+  ReconciliationFilled,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
@@ -25,6 +26,9 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
+import { Ping } from "assets/images";
+import { POSCO_ICT_CI_ENG } from "assets/images";
+import { POSCO_ICT_CI_ENG_new } from "assets/images";
 
 function App() {
   const { Header, Sider, Content } = Layout;
@@ -34,6 +38,7 @@ function App() {
     {
       type: 'group',
       label: '구매신청',
+      icon: <EditFilled />,
       children: [
         {
           label: (
@@ -56,6 +61,7 @@ function App() {
     {
       type: 'group',
       label: 'RFQ',
+      icon: <ScheduleFilled />,
       children: [
         {
           label: (
@@ -70,6 +76,7 @@ function App() {
     {
       type: 'group',
       label: '입찰',
+      icon: <SoundFilled />,
       children: [
         {
           label: (
@@ -84,6 +91,7 @@ function App() {
     {
       type: 'group',
       label: '구매계약',
+      icon: <ReconciliationFilled />,
       children: [
         {
           label: (
@@ -109,7 +117,7 @@ function App() {
     {
       label: '구매신청',
       key: 'PrSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <EditFilled />,
       children: [
         {
           type: 'group',
@@ -132,7 +140,7 @@ function App() {
     {
       label: 'RFQ',
       key: 'RfqSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <ScheduleFilled />,
       children: [
         {
           type: 'group',
@@ -147,7 +155,7 @@ function App() {
     {
       label: '입찰',
       key: 'BidSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <SoundFilled />,
       children: [
         {
           type: 'group',
@@ -162,7 +170,7 @@ function App() {
     {
       label: '구매계약',
       key: 'PoSubMenu',
-      // icon: <SettingOutlined />,
+      icon: <ReconciliationFilled />,
       children: [
         {
           type: 'group',
@@ -189,7 +197,10 @@ function App() {
       <GlobalStyle />
       <StyledRoot>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
+          {/* <div className="logo" /> */}
+          <Logo>
+          <img  className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
+          </Logo>
           <Menu
             theme="dark"
             mode="inline"
@@ -249,4 +260,10 @@ export default App;
 
 const StyledRoot = styled(Layout)`
   height: 100%;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
 `;

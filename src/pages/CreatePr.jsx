@@ -616,10 +616,10 @@ function selectPrList() {
 
   const ButtonSelector = () => {
     if(id) {
-      return <>
+      return <section>
         <Button onClick={onUpdateContents}>저장</Button>
         <Button onClick={onDeleteContents}>삭제</Button>
-      </>
+      </section>
 
     } else {
       // 수정
@@ -629,12 +629,10 @@ function selectPrList() {
 
   return (
     <StyledRoot>
-      <Title>구매신청등록</Title>
       <section>
         <ButtonWrapper>
+          <Title>구매신청등록</Title>
           <ButtonSelector />
-          {/* <Button onClick={onSaveContents}>저장</Button>
-          <Button onClick={onDeleteContents}>삭제</Button> */}
         </ButtonWrapper>
         <InputContainer>
           {/* TODO: disabled */}
@@ -692,12 +690,12 @@ function selectPrList() {
         </InputContainer>
       </section>
       <section>
-        <ButtonWrapper>
+        <ButtonWrapperLine>
           {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
           <Button onClick = { onInsertOne }>Line 추가</Button>
           <Button onClick = { onCopySelected }>행 복사</Button>
           <Button onClick = { deleteRow }>행 삭제</Button>
-        </ButtonWrapper>
+        </ButtonWrapperLine>
       </section>
       <section>
         <AgGrid 
@@ -720,13 +718,42 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
+// const InputContainer = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr;
+//   border: 1px solid rgb(225 225 225 / 87%);
+//   border-radius: 0.5rem;
+//   padding: 2rem 0.5rem;
+//   gap: 1rem;
+// `;
+
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(27rem, 1fr));
+  padding: 2rem 0rem;
+  & > div:nth-of-type(4) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-of-type(14) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n+11):nth-child(-n+14){
+    border-bottom: 1px solid ${colors.tableLineGray};
+  }
 `;
 
 const Button = styled.button`
@@ -741,11 +768,17 @@ const Button = styled.button`
     cursor: pointer;
   }
   margin-bottom: 2rem;
+  margin-left: 1rem;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+const ButtonWrapperLine = styled.div`
+  display: flex;
+  justify-content: flex-end;  
 `;
 
 const ListCount = styled.p`

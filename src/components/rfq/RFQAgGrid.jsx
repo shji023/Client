@@ -44,13 +44,13 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     // excel export
     const column = [
-        {header: 'RFQ번호',      key: 'rfq_no', width: 20},
-        {header: '건 명',        key: 'rfq_description', hidden:false, width: 200},
-        {header: '구매 방법',    key: 'reply_method_lookup_code', width: 180},
-        {header: '납품 지역',    key: 'rfq_ship_to', width: 150},
-        {header: 'Buyer',       key: 'buyer_id', hidden:false, width: 110},
-        {header: '구매 등록일',  key: 'quote_effective_start_date', width: 150},
-        {header: 'Status',      key: 'rfq_status', width: 90}
+        {header: 'RFQ번호',      key: 'rfq_no', width: 30},
+        {header: '건 명',        key: 'rfq_description', hidden:false, width: 230},
+        {header: '구매 방법',    key: 'reply_method_lookup_code', width: 190},
+        {header: '납품 지역',    key: 'rfq_ship_to', width: 160},
+        {header: 'Buyer',       key: 'buyer_id', hidden:false, width: 120},
+        {header: '구매 등록일',  key: 'quote_effective_start_date', width: 160},
+        {header: 'Status',      key: 'rfq_status', width: 100}
     ];
 
     const handleExcel=()=>{
@@ -63,19 +63,19 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     return (
         <>
-            <div>
+            <Wrapper>
             <Button onClick={handleExcel} >excel export</Button>
-            </div>
-            <div style={{ width: "100%", height: "80%" }}>
+            </Wrapper>
+            <Wrapper style={{ width: "100%", height: "80%" }}>
                 <div
                     id="rfqGrid"
                     style={{
-                        height: "600px",
+                        height: "570px",
                         width: "100%",
                     }}
                     className="ag-theme-alpine"
                 >
-                <AgGridReact       
+                <StyleDatagrid       
                     ref={gridRef}
                     rowData={listData}
                     columnDefs={colData}
@@ -84,6 +84,7 @@ const AgGridRFQ = ({ listData, colData }) => {
                     // headerStyle = {headerClass}
                     rowSelection={"multiple"}
                     suppressRowClickSelection={false}
+                    
                     defaultColDef={{
                         headerClass: { background: '#EDF2F8' },
                         editable: true,
@@ -107,9 +108,9 @@ const AgGridRFQ = ({ listData, colData }) => {
                         onCellValueChanged(e);
                     }}>
 
-                </AgGridReact>
+                </StyleDatagrid>
                 </div>
-            </div>
+            </Wrapper>
         </>
     );
 };
@@ -117,8 +118,8 @@ const AgGridRFQ = ({ listData, colData }) => {
 export default AgGridRFQ;
 
 const Button = styled.button`
-  width: 15rem;
-  height: 3rem;
+  width: 10rem;
+  height: 4rem;
   background-color: ${colors.mainBlue};
   color: white;
   font-size: 1.6rem;
@@ -127,11 +128,47 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+//   margin-top: 1rem;
+//   margin-bottom: 1rem;
   float: right;
 `;
 
+
+const Wrapper = styled.div`
+padding: 1rem 2rem 0.5rem 0.5rem;
+`;
+
+const StyleDatagrid = styled(AgGridReact)`
+  /* 스크롤바 설정*/
+  & ::-webkit-scrollbar {
+    /*  스크롤바 막대 너비 설정 */
+    width: 6px;
+    height: 6px;
+  }
+
+  /* 스크롤바 막대 설정*/
+  & ::-webkit-scrollbar-thumb {
+    /* 스크롤바 막대 높이 설정    */
+    height: 1em;
+    background-color: rgb(225 225 225 / 87%);
+    /* 스크롤바 둥글게 설정    */
+    border-radius: 10px;
+  }
+
+  /* 스크롤바 뒷 배경 설정*/
+  & ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .MuiDataGrid-row:nth-child(even){
+    background-color: aliceblue;
+  }
+
+  .MuiDataGrid-columnHeaders{
+    background-color: #005386;
+    color:white;
+  }
+`;
 
 
 

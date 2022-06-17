@@ -2,11 +2,12 @@ import { colors } from "assets/styles/color";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import BidWriteDataGrid from "components/bid/BidWriteDataGrid";
+import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
-import QuotationInput from "components/bid/QuotationInput";
-import { getQuotationItemInfo, postVendorComment } from "apis/bid.api";
+import QuotationInput from "components/bidWrite/QuotationInput";
+import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
+import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 
 function BidWrite() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ function BidWrite() {
     bidding_no:"",
     quotation_comment:"",
   })
+  //const [currencyLov, setCurrencyLov] = useState([]);
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -44,6 +46,9 @@ function BidWrite() {
       ["rfq_no"]: quotationItem[0].rfq_no,
       ["bidding_no"]: id,
     })
+    // const currencyLov = await getBidCurrencyCodeLov();
+    // console.log(currencyLov);
+    // setCurrencyLov(currencyLov);
   };
 
   const postVendorInfo = async () => {
@@ -102,7 +107,9 @@ function BidWrite() {
       </section>
       <section>
         <SubTitle>견적서 제출</SubTitle>
-        <SubmitQuotationContainer></SubmitQuotationContainer>
+        <SubmitQuotationContainer>
+          <QuotationFileDataGrid />
+        </SubmitQuotationContainer>
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>

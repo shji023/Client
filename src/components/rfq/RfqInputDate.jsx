@@ -17,7 +17,7 @@ function BidInputDate({ id, inputLabel, handleCondition }) {
             handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
           }
         }
-        style={{ width: 300 }}
+        style={{ width: '100%' }}
         ranges={{
           Today: [moment(), moment()],
           "This Month": [moment().startOf("month"), moment().endOf("month")],
