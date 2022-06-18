@@ -4,6 +4,7 @@ import BidDataGrid from "components/bid/BidDataGrid";
 import BidInputInfo from "components/bid/BidInputInfo";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -50,10 +51,10 @@ function SelectBidList() {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>입찰진행현황</Title>
           <Button onClick={selectBidList}>조회</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <BidInputInfo
             id="RFQ_NO"
@@ -123,11 +124,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+6){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const Title = styled.p`

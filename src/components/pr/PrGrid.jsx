@@ -54,7 +54,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
     
     return (
         <>
-        <div style={{ width: "100%", height: "80%" }}>
+        <div style={{ width: "100%", height: "80%", padding: "2rem 0rem" }}>
             <div
                 id="agGrid"
                 style={{

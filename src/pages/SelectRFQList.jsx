@@ -16,6 +16,7 @@ import BidInputInfo from "components/bid/BidInputInfo";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 
 function SelectRfqList() {
@@ -86,10 +87,10 @@ function SelectRfqList() {
 
   return (
     <StyledRoot>
-      <ButtonWrapper>  
+      <HeaderWrapper  >  
         <Title>RFQ 목록조회</Title>
         <Button onClick={selectRFQList}>조회</Button>
-      </ButtonWrapper>
+      </HeaderWrapper>
       <section>
         <InputContainer>    
           <BuyerInputSearch
@@ -165,13 +166,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+3):nth-child(-n+5){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex; 
-  justify-content: space-between;
-  align-items: baseline;
-  margin-left: 1rem;
 `;
 
 const ListCount = styled.p`

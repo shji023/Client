@@ -20,6 +20,7 @@ import RfqInputSelect from "components/rfq/RfqInputSelect";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 function RfqDetail() {
   const {id} = useParams();
@@ -159,10 +160,10 @@ function RfqDetail() {
 
   return (
     <StyledRoot>  
-        <ButtonWrapper> 
+        <HeaderWrapper> 
           <Title>입찰룰</Title>
           <Button onClick={onSaveContents}>저장</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
         <RfqInfoContainer>
@@ -337,13 +338,6 @@ const UploadContainer = styled.div`
   border-radius: 0.5rem;
   padding: 0rem 0.5rem;
   gap: 1rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;   
-  justify-content: space-between;
-  padding: 1rem 2rem 2rem 0.5rem;
-
 `;
 
 const ListCount = styled.p`

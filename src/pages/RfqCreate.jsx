@@ -19,6 +19,7 @@ import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -276,10 +277,10 @@ const ButtonSelector = () => {
   console.log("rfq_no", rfq_no);
   if(rfq_no) {
       // 수정
-    return <>
+    return <section>
       <Button onClick={onClickUpdateRfq}>수정</Button>
       <Button onClick={onClickDeleteRfq}>삭제</Button>
-    </>
+    </section>
 
   } else {
     // 생성
@@ -293,10 +294,10 @@ const ButtonSelector = () => {
         
 
         <section>
-          <ButtonWrapper>
+          <HeaderWrapper>
             <Title>RFQ 생성</Title>
             <ButtonSelector />
-          </ButtonWrapper>
+          </HeaderWrapper>
           <SubTitle>RFQ 정보</SubTitle>
           
           <RfqInfoContainer>
@@ -378,7 +379,6 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}

@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import InputOneDate from "components/common/InputOneDate";
 import { getPoRegistLov, getPoSearch } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 
 function PoRegist() {
@@ -787,10 +788,10 @@ cellRendererSelector : params => {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>구매계약</Title>
           <ButtonSelector />
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <InputInfo
             id="po_num"
@@ -1053,11 +1054,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+20):nth-child(-n+22){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ButtonWrapperLine = styled.div`

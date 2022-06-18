@@ -8,7 +8,7 @@ import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
 import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
 import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
-import { Button } from "components/common/CustomButton";
+import { Button, DeleteButton } from "components/common/CustomButton";
 
 function BidWrite() {
   const { id } = useParams();
@@ -196,18 +196,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-`;
-
-const DeleteButton = styled.button`
-  width: 8rem;
-  height: 3rem;
-  background-color: ${colors.mildBlack};
-  color: white;
-  font-size: 1.4rem;
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const SubmitTitle = styled.div`

@@ -27,6 +27,7 @@ const AgVendorSelect = ({selectedVendorList}) => {
             style={{
                 height: "600px",
                 width: "100%",
+                padding: "2rem 0rem",
             }}
             className="ag-theme-alpine"
             >

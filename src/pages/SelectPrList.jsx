@@ -11,6 +11,7 @@ import { popUpBuyerColFields, popUpItemColFields, popUpStaffColFields, prSelectC
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import moment from "moment";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 function selectPrList() {
 
@@ -189,10 +190,10 @@ function selectPrList() {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>구매신청조회</Title>
           <Button onClick={selectPrList}>조회</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <InputInfo
             id="requisition_number"
@@ -321,11 +322,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+8){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ButtonWrapperLine = styled.div`

@@ -7,6 +7,7 @@ import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
 import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 
 
@@ -47,10 +48,10 @@ function SuccessBid(props) {
 
     return (
     <StyledRoot>
-        <Title>낙찰처리</Title>
 
         <section>
-          <ButtonWrapper>
+          <HeaderWrapper>
+            <Title>낙찰처리</Title>
             <Button onClick={() => {
               let nakchal = confirm("최종낙찰 하시겠습니까?");
               if(nakchal == true)
@@ -58,9 +59,9 @@ function SuccessBid(props) {
               else
                 alert("취소 누름")
             }}>낙찰확정</Button>
-          </ButtonWrapper>
+          </HeaderWrapper>
 
-          <RfqInfoContainer>
+          <InputContainer>
             <BidInfo
               label="건명"
               value={successBidCondition.rfq_description}
@@ -85,11 +86,11 @@ function SuccessBid(props) {
               label="TargetPrice"
               value={successBidCondition.target_price}
             />
-            </RfqInfoContainer>
+            </InputContainer>
 
         </section>
 
-        <SmallTitle>🌐 공급사별 투찰결과</SmallTitle>
+        <SubTitle>공급사별 투찰결과</SubTitle>
         
         <section>
             <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
@@ -107,33 +108,21 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-const InputContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
-`;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
 const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-const SmallTitle = styled.p`
-  font-size: 1.2rem;
+const SubTitle = styled.p`
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-const RfqInfoContainer = styled.div`
+const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(27rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(1) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};

@@ -16,3 +16,19 @@ export const Button = styled.button`
   margin-left: 1rem;
   // margin-bottom: 1rem;
 `;
+
+export const DeleteButton = styled.button`
+  width: 8rem;
+  height: 3rem;
+  background-color: ${colors.mildBlack};
+  color: white;
+  font-size: 1.4rem;
+  font-family: "Pretendard-Regular";
+  border-radius: 0.5rem;
+  :hover {
+    cursor: pointer;
+    background-color: ${colors.subBlack};
+  }
+  margin-left: 1rem;
+  // margin-bottom: 1rem;
+`;
