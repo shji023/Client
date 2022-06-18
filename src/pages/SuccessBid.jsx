@@ -6,6 +6,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
+import { Button } from "components/common/CustomButton";
 
 
 
@@ -114,19 +115,7 @@ const InputContainer = styled.div`
   padding: 2rem 0.5rem;
   gap: 1rem;
 `;
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;

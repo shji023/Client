@@ -8,6 +8,7 @@ import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
 import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
 import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
+import { Button } from "components/common/CustomButton";
 
 function BidWrite() {
   const { id } = useParams();
@@ -189,19 +190,6 @@ const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-`;
-
-const Button = styled.button`
-  width: 12rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`

@@ -18,6 +18,7 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "components/common/CustomButton";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -468,20 +469,6 @@ const InputContainer = styled.div`
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
   gap: 1rem;
-`;
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  margin-left: 1rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`

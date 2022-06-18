@@ -13,6 +13,7 @@ import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { Button } from "components/common/CustomButton";
 
 function selectPrList() {
   const { id } = useParams();
@@ -770,24 +771,10 @@ const InputContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 `;
 
 const ButtonWrapperLine = styled.div`

@@ -19,6 +19,7 @@ import BidInputInfo from "components/bid/BidInputInfo";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
+import { Button } from "components/common/CustomButton";
 
 function RfqDetail() {
   const {id} = useParams();
@@ -336,21 +337,6 @@ const UploadContainer = styled.div`
   border-radius: 0.5rem;
   padding: 0rem 0.5rem;
   gap: 1rem;
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  // margin-bottom: 1.0rem;
-  margin-top: 1.5rem;
 `;
 
 const ButtonWrapper = styled.div`
