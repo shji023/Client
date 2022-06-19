@@ -12,8 +12,7 @@ const getRowStyle  = params => {
 //     // logic to return the correct class
 //     return { background: '#EDF2F8' };
 //   }
-
-const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
+const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged, onRowClicked }) => {
     
     const ref = resvRef;
     const rowData = resvRowData;
@@ -91,6 +90,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                     onCellValueChanged(e);
                 }}
                 onRowDataChanged={ onRowDataChanged }
+                onRowClicked={onRowClicked}
             >
              
             </AgGridReact>

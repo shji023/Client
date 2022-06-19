@@ -12,8 +12,10 @@ import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import moment from "moment";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import { useNavigate } from "react-router-dom";
 
 function selectPrList() {
+  const navigate = useNavigate();
 
   // 조회 데이터
   const [conditions, setConditions] = useState({
@@ -162,6 +164,7 @@ function selectPrList() {
 
   // #region 그리드
   const prSelectColFields = [
+    { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
     { colId: 1, field: "line", headerName: "순번", minWidth: 100, },
     { colId: 2, field: "typeLookupCode", headerName: "Status", minWidth: 150 },
     { colId: 3, field: "rfqNumber", headerName: "RFQ번호", minWidth: 150, 
@@ -280,6 +283,12 @@ function selectPrList() {
           resvRowData = {selectedData}
           resvDefaultColDef = { prSelectColDef }
           resvColumnDefs = { prSelectColFields }
+          onRowClicked = {(e) => {
+            confirm(
+              "구매 신청을 조회하시겠습니까?"
+            ) ? navigate(`/createPr/${e.data.requisitionNumber}`) : null;
+            
+          }}
         />
       </section>
     </StyledRoot>
