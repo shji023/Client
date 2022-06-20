@@ -15,12 +15,9 @@ function BidInsertTextArea({ id, inputLabel, handleCondition, inputValue }) {
           id={id}
           value={inputValue}
           onChange={(e) => handleCondition(id, e.target.value)}
-          style={{ width: 200 }}
+          style={{ width: '100%' }}
         />
       </DataWrapper>
-      {/* <DataWrapper>
-        <Data value={value} readOnly />
-      </DataWrapper> */}
     </StyledRoot>
   );
 }
@@ -63,7 +60,7 @@ const Data = styled.textarea`
   width: 100%;
   height: 100%;
   padding: 0 2rem;
-  line-height: 2.3rem;
+  // line-height: 2.3rem;
   outline: none;
   resize: none;
 `;

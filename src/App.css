@@ -11,7 +11,8 @@
 }
 
 .ant-menu.ant-menu-dark .ant-menu-sub {
-  background-color: #003658 !important;
+  /* background-color: #003658 !important; */
+  /* box-shadow: inset 0px 0px 10px -5px black !important; */
 }
 
 .ant-menu > .ant-menu-item:hover,
@@ -25,3 +26,20 @@
   /* color: red !important;
   border-bottom: 2px solid red; */
 }
+
+.ant-menu .ant-menu-sub .ant-menu-inline {
+  
+}
+
+
+.ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open::selection {
+  background: red;
+}
+
+.ant-menu-item-group-title:hover {
+  color: rgba(255, 255, 255, 0.884);
+}
+.ant-menu-item-group-title a:hover {
+  color: white !important;
+}
+

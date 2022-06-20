@@ -3,6 +3,8 @@ import { colors } from "assets/styles/color";
 import BidDataGrid from "components/bid/BidDataGrid";
 import BidInputInfo from "components/bid/BidInputInfo";
 import BidInputSelect from "components/bid/BidInputSelect";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -48,11 +50,11 @@ function SelectBidList() {
 
   return (
     <StyledRoot>
-      <Title>입찰진행현황</Title>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
+          <Title>입찰진행현황</Title>
           <Button onClick={selectBidList}>조회</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <BidInputInfo
             id="RFQ_NO"
@@ -110,6 +112,7 @@ const StyledRoot = styled.main`
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(35rem, 1fr));
+  padding: 2rem 0rem;
   & > div:nth-of-type(3) {
     & > div:nth-of-type(1) {
       border-right: 1px solid ${colors.tableLineGray};
@@ -123,25 +126,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+6){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `;
 
 const Title = styled.p`

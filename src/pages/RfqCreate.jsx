@@ -18,6 +18,8 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -275,10 +277,10 @@ const ButtonSelector = () => {
   console.log("rfq_no", rfq_no);
   if(rfq_no) {
       // 수정
-    return <>
+    return <section>
       <Button onClick={onClickUpdateRfq}>수정</Button>
       <Button onClick={onClickDeleteRfq}>삭제</Button>
-    </>
+    </section>
 
   } else {
     // 생성
@@ -292,10 +294,10 @@ const ButtonSelector = () => {
         
 
         <section>
-          <ButtonWrapper>
+          <HeaderWrapper>
             <Title>RFQ 생성</Title>
             <ButtonSelector />
-          </ButtonWrapper>
+          </HeaderWrapper>
           <SubTitle>RFQ 정보</SubTitle>
           
           <RfqInfoContainer>
@@ -377,7 +379,6 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -468,20 +469,6 @@ const InputContainer = styled.div`
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
   gap: 1rem;
-`;
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  margin-left: 1rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`

@@ -22,7 +22,7 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
     });
     return (
         <>
-        <div style={{ width: "100%", height: "80%" }}>
+        <div style={{ width: "100%", height: "80%", padding: "2rem 0rem", }}>
             <div
             id="rfqGrid"
             style={{
@@ -31,17 +31,7 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
             }}
             className="ag-theme-alpine"
             >
-            {/* <div>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-            </div> */}
+           
             <AgGridReact
                 ref={gridRef}
                 columnDefs={columnDefs}

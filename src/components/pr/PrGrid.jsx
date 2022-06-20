@@ -12,8 +12,7 @@ const getRowStyle  = params => {
 //     // logic to return the correct class
 //     return { background: '#EDF2F8' };
 //   }
-
-const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged }) => {
+const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged, onRowClicked }) => {
     
     const ref = resvRef;
     const rowData = resvRowData;
@@ -54,7 +53,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
     
     return (
         <>
-        <div style={{ width: "100%", height: "80%" }}>
+        <div style={{ width: "100%", height: "80%", padding: "2rem 0rem" }}>
             <div
                 id="agGrid"
                 style={{
@@ -63,17 +62,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                 }}
                 className="ag-theme-alpine"
             >
-            {/* <div>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-            </div> */}
+           
             <AgGridReact        
                 ref={ref}
                 rowData={rowData}
@@ -101,6 +90,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                     onCellValueChanged(e);
                 }}
                 onRowDataChanged={ onRowDataChanged }
+                onRowClicked={onRowClicked}
             >
              
             </AgGridReact>

@@ -4,6 +4,7 @@ import  { excelExport } from "../common/excelExport";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
+import { Button } from "components/common/CustomButton";
 
 const AgGridRFQ = ({ listData, colData }) => {
     const navigate = useNavigate();
@@ -85,17 +86,3 @@ const AgGridRFQ = ({ listData, colData }) => {
 };
 
 export default AgGridRFQ;
-
-const Button = styled.button`
-  width: 15rem;
-  height: 3rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 1rem;
-`;
