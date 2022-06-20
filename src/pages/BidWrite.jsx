@@ -6,24 +6,29 @@ import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
-import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
+import {
+  getBidCurrencyCodeLov,
+  getQuotationItemInfo,
+  postQuotationInfo,
+  postVendorComment,
+} from "apis/bid.api";
 import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 import { Button, DeleteButton } from "components/common/CustomButton";
 
 function BidWrite() {
   const { id } = useParams();
   const [vendorComment, setVendorComment] = useState({
-    vendor_site_id: "689",
-    rfq_no:"",
-    bidding_no:"",
-    quotation_comment:"",
-  })
+    vendor_site_id: "822",
+    rfq_no: "",
+    bidding_no: "",
+    quotation_comment: "",
+  });
   const [updateItem, setUpdateItem] = useState({
-    vendor_site_id:"689",
-    quotation_total_price:"",
-    rfq_no:"",
-    main_currency:"",
-  })
+    vendor_site_id: "822",
+    quotation_total_price: "",
+    rfq_no: "",
+    main_currency: "",
+  });
   //const [currencyLov, setCurrencyLov] = useState([]);
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
@@ -32,43 +37,41 @@ function BidWrite() {
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
   const handleCondition = (key, value) => {
-    const tempUpdateItem = {...updateItem};
+    const tempUpdateItem = { ...updateItem };
     tempUpdateItem[key] = value;
     setUpdateItem(tempUpdateItem);
   };
 
-  const handleVendorComment = (value)=>{
-    const tempVendorComment = {...vendorComment};
+  const handleVendorComment = (value) => {
+    const tempVendorComment = { ...vendorComment };
     tempVendorComment["quotation_comment"] = value;
     setVendorComment(tempVendorComment);
-  }
+  };
 
   const getItemList = async () => {
     const quotationItem = await getQuotationItemInfo(id);
     quotationItem && setItemListData(quotationItem);
-    setVendorComment({...vendorComment,
-      ["rfq_no"]: quotationItem[0].rfq_no,
-      ["bidding_no"]: id,
-    })
-    setUpdateItem({...updateItem,
-      ["rfq_no"]: quotationItem[0].rfq_no,
-    })
+    setVendorComment({ ...vendorComment, ["rfq_no"]: quotationItem[0].rfq_no, ["bidding_no"]: id });
+    setUpdateItem({ ...updateItem, ["rfq_no"]: quotationItem[0].rfq_no });
   };
 
   const postVendorInfo = async () => {
     // 공급사 의견 insert
     const data = await postVendorComment(vendorComment);
-    if(data === true){
+    if (data === true) {
       setIsSubmit(true);
     }
     // 견적정보 update
-    console.log(updateItem);
+    const data2 = await postQuotationInfo(updateItem);
+    if (data2 === true) {
+      setIsSubmit(true);
+    }
   };
 
   useEffect(() => {
     getItemList();
   }, []);
-  
+
   useEffect(() => {
     // * 헤더 총 금액 계산
     const tempConditions = updateItem;
@@ -107,10 +110,11 @@ function BidWrite() {
               isDisabled={isSubmit}
             />
           </InputWrapper>
-          <BidWriteDataGrid 
+          <BidWriteDataGrid
             itemListData={itemListData}
             setItemListData={setItemListData}
-            isDisabled={isSubmit} />
+            isDisabled={isSubmit}
+          />
         </QuotationInfoContainer>
       </section>
       <section>
@@ -119,14 +123,19 @@ function BidWrite() {
           <DeleteButton>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
-          <QuotationFileDataGrid isDisabled={isSubmit}/>
+          <QuotationFileDataGrid isDisabled={isSubmit} />
         </SubmitQuotationContainer>
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>
         <VendorCommentContainer>
           <TextAreaWrapper>
-            <TextArea onChange={(e)=>{handleVendorComment(e.target.value)}} disabled={isSubmit}/>
+            <TextArea
+              onChange={(e) => {
+                handleVendorComment(e.target.value);
+              }}
+              disabled={isSubmit}
+            />
           </TextAreaWrapper>
         </VendorCommentContainer>
       </section>
@@ -162,7 +171,7 @@ const InputWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  & > div:nth-child(n+1):nth-child(-n+2){
+  & > div:nth-child(n + 1):nth-child(-n + 2) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
