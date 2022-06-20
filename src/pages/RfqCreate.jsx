@@ -20,6 +20,8 @@ import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import pageData from "stores/PageData";
+
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -59,8 +61,8 @@ function RfqCreate() {
   const [FobLov, setFobLov] = useState([]);
 
   const selectProductInfo = async () => {
-    const data = await getProductInfoList();
-    console.log("여기가 찍히는거냐?" );
+    const reqNumList = pageData.getPrNumList();
+    const data = await getProductInfoList(reqNumList);
     console.log(data);
     setProductInfoData(data);
   };

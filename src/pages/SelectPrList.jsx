@@ -15,6 +15,7 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useNavigate } from "react-router-dom";
 import pageData from "stores/PageData";
 
+
 function selectPrList() {
   const navigate = useNavigate();
 
@@ -173,7 +174,7 @@ function selectPrList() {
 
     // ! MobX
     if(prNumList.length > 0) {
-      pageData.setPrData(prNumList);
+      pageData.setPrNumList(prNumList);
       confirm(
         "선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?"
       ) ? navigate(`/rfqCreate`) : null;
