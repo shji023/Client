@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import './App.css';
 import {
     ButtonGroup,
     // Button,
@@ -14,7 +13,7 @@ import {
     ModalHeader,
     Row
 } from 'reactstrap';
-import restClient from "./restClient";
+import restClient from "../pages/restClient";
 // import MetadataListView from "./MetadataListView";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
@@ -25,6 +24,7 @@ const initMetaDataPaged = {
     totalSize: 0,
     page: 0
 };
+
 
 class Upload extends Component {
     constructor(props) {
@@ -139,7 +139,9 @@ class Upload extends Component {
                         valid={true}/>
                     <InputFile type="text" name="title" id="title"
                         placeholder="변경할 파일 이름을 입력하세요"
-                        onChange={this.handleInputChange}
+                        onChange={()=>{
+                            
+                        }}
                         valid={true}/>
                     <p>사이즈 자동으로 등록</p>
                     <p>등록일 자동으로 등록</p>
@@ -221,9 +223,9 @@ class Upload extends Component {
             //         </ModalFooter>
             //     </Modal>
             // </div>
-        );
+        )
     }
-}
+};
 
 export default Upload;
 
