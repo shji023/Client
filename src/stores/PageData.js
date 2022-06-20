@@ -5,7 +5,7 @@ class PageData {
     // 참고용
     // obsVal = 10;
 
-    prData = {};
+    prNumList = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -21,16 +21,17 @@ class PageData {
     //     console.log("print obsVal : " + this.obsVal);
     // }
 
-    get getPrData() {
-        console.log("PrData", this.prData);
-        return this.prData;
+    getPrNumList() {
+        console.log("prNumList", this.prNumList);
+        return this.prNumList;
     }
     
-    setPrData(prData) {
-        this.prData = prData;
+    setPrNumList(prNumList) {
+        this.prNumList = prNumList;
     }
 }
 
+// 전역 변수
 const pageData = new PageData();
 
 export default pageData;
