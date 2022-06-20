@@ -6,7 +6,7 @@ import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
-import Upload from "./Upload";
+import FileManager from "fileUpload/FileManager";
 import RuleTextArea from "components/bid/RuleTextArea";
 import BidInsertTextArea from "components/bid/BidInsertTextArea";
 
@@ -245,7 +245,7 @@ function RfqDetail() {
           </BidInfoContainer>
         </section>
         <RfqSelectVendorContainer>
-          <Upload/>
+          <FileManager/>
         </RfqSelectVendorContainer>
     </StyledRoot>
   );
