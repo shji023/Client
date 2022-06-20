@@ -97,19 +97,3 @@ function RfqSelectVendor({id}) {
     );
 };
 export default RfqSelectVendor;
-
-const Button = styled.button`
-  width: 15rem;
-  height: 3rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  float: right;
-`;

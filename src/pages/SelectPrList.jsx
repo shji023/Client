@@ -5,13 +5,19 @@ import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import { getDiffDate, getNumberFormat } from "hooks/CommonFunction";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { popUpBuyerColFields, popUpItemColFields, popUpStaffColFields, prSelectColDef } from "stores/colData"
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import moment from "moment";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
+import { useNavigate } from "react-router-dom";
+import pageData from "stores/PageData";
+
 
 function selectPrList() {
+  const navigate = useNavigate();
 
   // 조회 데이터
   const [conditions, setConditions] = useState({
@@ -111,10 +117,27 @@ function selectPrList() {
     const tempList = [];
     if(data) {
       data.forEach(( element )=>{
+        // TODO: 나중에 DB에서 조인해서 가져와야됨
+        // typeLookupCode
+        switch( element.typeLookupCode ) {
+          case "PR" : element.typeValue =	"구매신청"; break;
+          case "NT" : element.typeValue =	"엔투비이관"; break;
+          case "MT" : element.typeValue =	"발주방안검토"; break;
+          case "RQ" : element.typeValue =	"ITB"; break;
+          case "OP" : element.typeValue =	"공개구매"; break;
+          case "TP" : element.typeValue =	"단순견적"; break;
+          case "BD" : element.typeValue =	"업체선정중"; break;
+          case "PO" : element.typeValue =	"계약대기중"; break;
+          case "PA" : element.typeValue =	"계약완료"; break;
+          case "PC" : element.typeValue =	"계약취소"; break;
+        }
+
+
         let temp = {
           // Pr1
           line: element.line,
           typeLookupCode: element.typeLookupCode,
+          typeValue: element.typeValue,
           // purPctAgmRsn: element.purPctAgmRsn,
           rfqNumber:element.rfqNumber,
           requisitionNumber: element.requisitionNumber,
@@ -140,12 +163,25 @@ function selectPrList() {
     setDataGridCnt(getNumberFormat(data.length));
   };
 
-  // TODO: RFQ 생성 페이지로 데이터 전달하기
   const cerateRfq = async () => {
 
-    // TODO: Datagrid에서 선택한 값 읽어오기
+    const selectedRowNodes = gridRef.current.api.getSelectedNodes();
+    const prNumList = [];
+    selectedRowNodes.forEach((element)=>{
+      prNumList.push(element.data.requisitionNumber);
+    })
+    console.log("selected", prNumList);
 
-    // TODO: RFQ 페이지로 데이터 전달하기 (MobX)
+    // ! MobX
+    if(prNumList.length > 0) {
+      pageData.setPrNumList(prNumList);
+      confirm(
+        "선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?"
+      ) ? navigate(`/rfqCreate`) : null;
+      
+    } else {
+      alert("구매신청을 선택해주세요.");
+    }
 
   };
 
@@ -159,9 +195,12 @@ function selectPrList() {
   }, []);
 
   // #region 그리드
+  const gridRef = useRef();
+
   const prSelectColFields = [
+    { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
     { colId: 1, field: "line", headerName: "순번", minWidth: 100, },
-    { colId: 2, field: "typeLookupCode", headerName: "Status", minWidth: 150 },
+    { colId: 2, field: "typeValue", headerName: "Status", minWidth: 150 },
     { colId: 3, field: "rfqNumber", headerName: "RFQ번호", minWidth: 150, 
       valueGetter: params => (!params.data.rfqNumber) ? "-" : !params.data.rfqNumber
     },
@@ -188,10 +227,10 @@ function selectPrList() {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>구매신청조회</Title>
           <Button onClick={selectPrList}>조회</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <InputInfo
             id="requisition_number"
@@ -275,9 +314,16 @@ function selectPrList() {
       </section>
       <section>
         <AgGrid 
+          resvRef = {gridRef}
           resvRowData = {selectedData}
           resvDefaultColDef = { prSelectColDef }
           resvColumnDefs = { prSelectColFields }
+          onRowClicked = {(e) => {
+            confirm(
+              "구매 신청을 조회하시겠습니까?"
+            ) ? navigate(`/createPr/${e.data.requisitionNumber}`) : null;
+            
+          }}
         />
       </section>
     </StyledRoot>
@@ -320,25 +366,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+8){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ButtonWrapperLine = styled.div`

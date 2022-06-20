@@ -13,6 +13,8 @@ import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 function selectPrList() {
   const { id } = useParams();
@@ -654,10 +656,10 @@ function selectPrList() {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>구매신청등록</Title>
           <ButtonSelector />
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           {/* TODO: disabled */}
           <InputInfo
@@ -768,26 +770,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+6){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ButtonWrapperLine = styled.div`

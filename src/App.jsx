@@ -214,6 +214,7 @@ function App() {
             className="site-layout-background"
             style={{
               padding: 0,
+              boxShadow: "0px 0px 10px -5px gray",
             }}
           >
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -227,6 +228,8 @@ function App() {
               margin: "24px 16px",
               padding: 24,
               minHeight: 280,
+              borderRadius: 5,
+              boxShadow: "0px 0px 10px -5px gray",
             }}
           >
             <BrowserRouter>
@@ -267,3 +270,4 @@ const Logo = styled.div`
   justify-content: center;
   margin-bottom: 25px;
 `;
+

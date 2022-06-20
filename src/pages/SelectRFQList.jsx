@@ -15,6 +15,8 @@ import RfqInputSelect from "components/rfq/RfqInputSelect";
 import BidInputInfo from "components/bid/BidInputInfo";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 
 function SelectRfqList() {
@@ -85,12 +87,12 @@ function SelectRfqList() {
 
   return (
     <StyledRoot>
-      <ButtonWrapper>  
+      <HeaderWrapper  >  
         <Title>RFQ 목록조회</Title>
         <Button onClick={selectRFQList}>조회</Button>
-      </ButtonWrapper>
+      </HeaderWrapper>
       <section>
-        <RfqInfoContainer>    
+        <InputContainer>    
           <BuyerInputSearch
             id="buyer_id"
             title="바이어선택"
@@ -128,7 +130,7 @@ function SelectRfqList() {
             inputLabel="등록일"
             handleCondition={handleRFQCondition}
           />
-        </RfqInfoContainer>
+        </InputContainer>
       </section>
       {/* TO-DO : select count 로 변경 */}
       {/* <ListCount>건수: 2,164</ListCount> */}
@@ -147,10 +149,10 @@ const StyledRoot = styled.main`
   height: 100%;
 `;
 
-const RfqInfoContainer = styled.div`
+const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
-  padding: 2rem 2rem 0.1rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(3) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
@@ -166,38 +168,6 @@ const RfqInfoContainer = styled.div`
   }
 `;
 
-const InputContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0.5rem;
-  gap: 1rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex; 
-  margin-left: 1rem;
-  justify-content: space-between;
-  padding: 1rem 2rem 0.5rem 0.5rem;
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-top: 1rem;
-  // margin-bottom: 1rem;
-  margin-left: 1rem;
-`;
-
 const ListCount = styled.p`
   font-size: 1.4rem;
   margin-bottom: 1rem;
@@ -208,6 +178,4 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  width: 90%;
-  height: 100%;
 `;

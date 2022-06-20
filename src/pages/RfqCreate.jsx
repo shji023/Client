@@ -18,6 +18,10 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
+import pageData from "stores/PageData";
+
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -57,8 +61,8 @@ function RfqCreate() {
   const [FobLov, setFobLov] = useState([]);
 
   const selectProductInfo = async () => {
-    const data = await getProductInfoList();
-    console.log("여기가 찍히는거냐?" );
+    const reqNumList = pageData.getPrNumList();
+    const data = await getProductInfoList(reqNumList);
     console.log(data);
     setProductInfoData(data);
   };
@@ -98,12 +102,15 @@ function RfqCreate() {
     setRfqListData({...rfqListData, rfq_no : rfq_no });
         
   }
-
+  const getPrList = async()=>{
+    console.log("pageData.getPrDataㅋㅋㅋㅋㅋㅋㅋ", pageData.getPrData);
+  }
   useEffect(() => {
     getLov();
     getInitRfq();
     selectBuyerInfo();
     selectProductInfo();
+    getPrList();
   }, []);
 
   const[visible, setVisible]=useState(false);
@@ -128,8 +135,23 @@ function RfqCreate() {
     return resultList;
     
   }
-
   const columnDefs = [
+    {
+      headerName:"..HELLO.",
+      headerCheckboxSelection:true,
+      checkboxSelection:true,
+      floatingFilter:false,
+      suppressMenu:true,
+      minWidth:10,
+      maxWidth:100,
+      width:50,
+      flex:0,
+      resizable:false,
+      sortable:false,
+      editable:false,
+      filter:false,
+      suppressColumnsToolPanel:true,
+    },
     {field:"item", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
     {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
@@ -275,10 +297,10 @@ const ButtonSelector = () => {
   console.log("rfq_no", rfq_no);
   if(rfq_no) {
       // 수정
-    return <>
+    return <section>
       <Button onClick={onClickUpdateRfq}>수정</Button>
       <Button onClick={onClickDeleteRfq}>삭제</Button>
-    </>
+    </section>
 
   } else {
     // 생성
@@ -288,14 +310,15 @@ const ButtonSelector = () => {
 // #endregion 버튼
 
     return (
-    <StyledRoot>
+      <StyledRoot>
+      <input type="file"></input>
         
 
         <section>
-          <ButtonWrapper>
+          <HeaderWrapper>
             <Title>RFQ 생성</Title>
             <ButtonSelector />
-          </ButtonWrapper>
+          </HeaderWrapper>
           <SubTitle>RFQ 정보</SubTitle>
           
           <RfqInfoContainer>
@@ -377,7 +400,6 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -468,20 +490,6 @@ const InputContainer = styled.div`
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
   gap: 1rem;
-`;
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  margin-left: 1rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`
