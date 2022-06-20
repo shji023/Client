@@ -132,6 +132,7 @@ function RfqCreate() {
   }
 
   const columnDefs = [
+    
     {field:"item", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
     {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},

@@ -33,6 +33,7 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
             >
            
             <AgGridReact
+            
                 ref={gridRef}
                 columnDefs={columnDefs}
                 rowData={rowData}
@@ -60,10 +61,8 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
                 }}
                 onRowDataChanged={onRowDataChanged}
             >
-                
-              
-            
             </AgGridReact>
+            
             </div>
         </div>
         </>
