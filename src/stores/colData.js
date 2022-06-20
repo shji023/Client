@@ -45,8 +45,6 @@ export const prSelectColFields = [
 export const prCreateColDef = {
   editable: true,
   sortable: true,
-  enablePivot: true,
-  enableValue: true,
   flex: 1,
   minWidth: 100,
   filter: true,

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import RuleTextArea from "components/bid/RuleTextArea";
 import RfqAttachTable from "components/bid/RfqAttachTable";
 import ItemInfoTable from "components/bid/ItemInfoTable";
+import { Button } from "components/common/CustomButton";
 
 function BidDetail() {
   const { id } = useParams();
@@ -160,19 +161,6 @@ const SubTitle = styled.p`
   font-size: 1.6rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-`;
-
-const Button = styled.button`
-  width: 12rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`

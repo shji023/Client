@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
 import "./rfqAgGrid.css";
+import { Button } from "components/common/CustomButton";
 
 const AgGridRFQ = ({ listData, colData }) => {
     console.log("listData", listData);
@@ -63,9 +64,9 @@ const AgGridRFQ = ({ listData, colData }) => {
 
     return (
         <>
-            <Wrapper>
-            <Button onClick={handleExcel} >excel export</Button>
-            </Wrapper>
+            <ButtonWrapper>
+              <Button onClick={handleExcel} >Export</Button>
+            </ButtonWrapper>
             <Wrapper style={{ width: "100%", height: "80%" }}>
                 <div
                     id="rfqGrid"
@@ -117,26 +118,14 @@ const AgGridRFQ = ({ listData, colData }) => {
 
 export default AgGridRFQ;
 
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-//   margin-top: 1rem;
-//   margin-bottom: 1rem;
-  float: right;
-`;
-
-
 const Wrapper = styled.div`
-padding: 1rem 2rem 0.5rem 0.5rem;
+  padding: 2rem 0rem;
 `;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
 
 const StyleDatagrid = styled(AgGridReact)`
   /* 스크롤바 설정*/

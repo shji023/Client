@@ -1,5 +1,6 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList } from "apis/po.api";
 import { colors } from "assets/styles/color";
+import { Button } from "components/common/CustomButton";
 import InputOneDate from "components/common/InputOneDate";
 import InputInfo from "components/po/PoInputInfo";
 import InputSearch from "components/po/PoInputSearch";
@@ -363,20 +364,6 @@ const InputContainer = styled.div`
   border-radius: 0.5rem;
   padding: 2rem 0.5rem;
   gap: 1rem;
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`

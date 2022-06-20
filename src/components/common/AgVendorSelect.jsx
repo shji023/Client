@@ -27,20 +27,11 @@ const AgVendorSelect = ({selectedVendorList}) => {
             style={{
                 height: "600px",
                 width: "100%",
+                padding: "2rem 0rem",
             }}
             className="ag-theme-alpine"
             >
-            {/* <div>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-                <Button variant="contained" disabled={btndisabled}>
-                action1
-                </Button>
-            </div> */}
+           
             <AgGridReact        
                
                 rowData={selectedVendorList}

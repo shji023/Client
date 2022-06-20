@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
 import { ItemInfoColFields, popUpBuyerColFields, popUpItemColFields, popUpVendorColFields } from "stores/colData";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
@@ -125,10 +127,10 @@ function SelectPoList() {
   return (
     <StyledRoot>
       <section>
-        <ButtonWrapper>
+        <HeaderWrapper>
           <Title>PO 목록조회</Title>
           <Button onClick={selectPoList}>조회</Button>
-        </ButtonWrapper>
+        </HeaderWrapper>
         <InputContainer>
           <InputInfo
             id="COMMENTS"
@@ -264,25 +266,6 @@ const InputContainer = styled.div`
   & > div:nth-child(n+4):nth-child(-n+12){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
-`;
-
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const ListCount = styled.p`

@@ -18,6 +18,8 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "components/common/CustomButton";
+import { HeaderWrapper } from "components/common/CustomWrapper";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -130,6 +132,7 @@ function RfqCreate() {
   }
 
   const columnDefs = [
+    
     {field:"item", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
     {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
@@ -275,10 +278,10 @@ const ButtonSelector = () => {
   console.log("rfq_no", rfq_no);
   if(rfq_no) {
       // 수정
-    return <>
+    return <section>
       <Button onClick={onClickUpdateRfq}>수정</Button>
       <Button onClick={onClickDeleteRfq}>삭제</Button>
-    </>
+    </section>
 
   } else {
     // 생성
@@ -289,13 +292,14 @@ const ButtonSelector = () => {
 
     return (
     <StyledRoot>
-        <Title>RFQ 생성</Title>
+        
 
         <section>
-          <SmallTitle>RFQ 정보</SmallTitle>
-          <ButtonWrapper>
+          <HeaderWrapper>
+            <Title>RFQ 생성</Title>
             <ButtonSelector />
-          </ButtonWrapper>
+          </HeaderWrapper>
+          <SubTitle>RFQ 정보</SubTitle>
           
           <RfqInfoContainer>
           
@@ -376,7 +380,6 @@ const ButtonSelector = () => {
         </section>
 
         <section>
-          <SmallTitle>공급사선정</SmallTitle>
           <CustomModal
             title={"공급사 선택"}
             labelTitle={"공급사명"}
@@ -392,6 +395,7 @@ const ButtonSelector = () => {
             setVisible={setVisible}
           ></CustomModal>
           <ButtonWrapper>
+          <SubTitle>공급사선정</SubTitle>
             <Button onClick={() => {
                 setVisible(true);
             }}>공급사선정</Button>
@@ -431,10 +435,13 @@ const ButtonSelector = () => {
 
 
         <section>
-          <SmallTitle>품목정보</SmallTitle>
+          
           <ButtonWrapper>
+          <SubTitle>품목정보</SubTitle>s
+          <section>
             <Button onClick = { onCopySelected }>행 복사</Button>
             <Button onClick = { deleteRow }>행 삭제</Button>
+          </section>
           </ButtonWrapper>
           <AgProductInfo 
             gridRef = { gridRef }
@@ -464,38 +471,32 @@ const InputContainer = styled.div`
   padding: 2rem 0.5rem;
   gap: 1rem;
 `;
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  margin-left: 1rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 2rem;
-`;
+
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
+
+const ButtonWrapperLine = styled.div`
+  display: flex;
+  justify-content: flex-end;  
+`;
+
+
 const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
-const SmallTitle = styled.p`
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
-`;
+// const SmallTitle = styled.p`
+//   font-size: 1.6rem;
+//   margin-bottom: 1rem;
+//   margin-top: 1.5rem;
+// `;
 const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
@@ -519,4 +520,11 @@ const RfqInfoContainer = styled.div`
   & > div:nth-child(n+11):nth-child(-n+14){
     border-bottom: 1px solid ${colors.tableLineGray};
   }
+`;
+
+
+const SubTitle = styled.p`
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
 `;
