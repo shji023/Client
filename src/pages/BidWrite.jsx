@@ -14,6 +14,7 @@ import {
 } from "apis/bid.api";
 import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 import { Button, DeleteButton } from "components/common/CustomButton";
+import ConfirmModal from "components/bidWrite/ConfirmModal";
 
 function BidWrite() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ function BidWrite() {
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
   const handleCondition = (key, value) => {
@@ -140,8 +141,19 @@ function BidWrite() {
         </VendorCommentContainer>
       </section>
       <ButtonWrapper>
-        <Button onClick={postVendorInfo}>응찰서 확정</Button>
+        <Button
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          응찰서 확정
+        </Button>
       </ButtonWrapper>
+      <ConfirmModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        postVendorInfo={postVendorInfo}
+      />
     </StyledRoot>
   );
 }
