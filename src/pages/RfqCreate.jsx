@@ -102,12 +102,15 @@ function RfqCreate() {
     setRfqListData({...rfqListData, rfq_no : rfq_no });
         
   }
-
+  const getPrList = async()=>{
+    console.log("pageData.getPrDataㅋㅋㅋㅋㅋㅋㅋ", pageData.getPrData);
+  }
   useEffect(() => {
     getLov();
     getInitRfq();
     selectBuyerInfo();
     selectProductInfo();
+    getPrList();
   }, []);
 
   const[visible, setVisible]=useState(false);
@@ -132,9 +135,23 @@ function RfqCreate() {
     return resultList;
     
   }
-
   const columnDefs = [
-    
+    {
+      headerName:"..HELLO.",
+      headerCheckboxSelection:true,
+      checkboxSelection:true,
+      floatingFilter:false,
+      suppressMenu:true,
+      minWidth:10,
+      maxWidth:100,
+      width:50,
+      flex:0,
+      resizable:false,
+      sortable:false,
+      editable:false,
+      filter:false,
+      suppressColumnsToolPanel:true,
+    },
     {field:"item", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
     {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
@@ -293,7 +310,8 @@ const ButtonSelector = () => {
 // #endregion 버튼
 
     return (
-    <StyledRoot>
+      <StyledRoot>
+      <input type="file"></input>
         
 
         <section>
