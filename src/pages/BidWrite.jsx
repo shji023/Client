@@ -1,66 +1,131 @@
 import { colors } from "assets/styles/color";
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
-import {
-  getBidCurrencyCodeLov,
-  getQuotationItemInfo,
-  postQuotationInfo,
-  postVendorComment,
-} from "apis/bid.api";
+import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis/bid.api";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
+import { uploadContent, uploadFile } from "apis/file.api";
 
 function BidWrite() {
   const { id } = useParams();
-  const [vendorComment, setVendorComment] = useState({
-    vendor_site_id: "822",
-    rfq_no: "",
-    bidding_no: "",
-    quotation_comment: "",
-  });
+  const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [updateItem, setUpdateItem] = useState({
     vendor_site_id: "822",
     quotation_total_price: "",
     rfq_no: "",
     main_currency: "",
   });
-
-  //const [currencyLov, setCurrencyLov] = useState([]);
-  const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
+  const [quotationFile, setQuotationFile] = useState([
+    // {
+    //   id: 0,
+    //   fileType: "",
+    //   fileName: "",
+    //   size: "",
+    //   registerDate: "",
+    // },
+  ]);
+  // const [content, setContent] = useState({});
+  const [vendorComment, setVendorComment] = useState({
+    vendor_site_id: "822",
+    rfq_no: "",
+    bidding_no: "",
+    quotation_comment: "",
+  });
   const [isSubmit, setIsSubmit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [quotationFile, setQuotationFile] = useState([
-    {
-      fileType: "",
-      attach: "",
-      attachName: "",
-      size: "",
-      registerDate: "",
-    },
-  ]);
-  const dataId = useState(0);
-
+  const [isAdd, setIsAdd] = useState(false);
+  const nextId = useRef(0);
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
+  // Item 견적가 입력
   const handleCondition = (key, value) => {
     const tempUpdateItem = { ...updateItem };
     tempUpdateItem[key] = value;
     setUpdateItem(tempUpdateItem);
   };
 
+  // file 변경 내용 입력
+  const handleInputChange = async (e) => {
+    const formData = new FormData();
+    e.target.files[0] && formData.append("file", e.target.files[0]);
+
+    const returnData = await uploadFile(formData);
+    console.log(returnData[0].originFile);
+
+    setQuotationFile(
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              fileName: returnData[0].originFile,
+              size: "123byte",
+              registerDate: "202206021",
+            }
+          : q,
+      ),
+    );
+    setIsAdd(!isAdd);
+    // setTimeout(() => {
+    //   onCreate();
+    // }, 3000);
+    //
+    //console.log(q.id, nextId.current)
+    //await uploadContent(content);
+  };
+
+  useEffect(() => {
+    console.log("--------------");
+    onCreate();
+  }, [isAdd]);
+
+  // fileTable row추가
+  const onCreate = () => {
+    nextId.current += 1;
+    const newFile = {
+      id: nextId.current,
+      fileType: "",
+      fileName: "",
+      size: "",
+      registerDate: "",
+    };
+    setQuotationFile([...quotationFile, newFile]);
+  };
+  // file content 내용 등록
+  const handleFileContent = (key, value) => {
+    // const tempFileContent = { ...content };
+    // tempFileContent[key] = value;
+    // setQuotationFile(tempFileContent);
+    console.log(key, value);
+    console.log(quotationFile);
+
+    setQuotationFile(
+      console.log("ffff"),
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              fileType: value,
+            }
+          : q,
+      ),
+    );
+  };
+
+  // 공급사 의견 입력
   const handleVendorComment = (value) => {
     const tempVendorComment = { ...vendorComment };
     tempVendorComment["quotation_comment"] = value;
     setVendorComment(tempVendorComment);
   };
 
+  // 견적정보 가져오기
   const getItemList = async () => {
     const quotationItem = await getQuotationItemInfo(id);
     quotationItem && setItemListData(quotationItem);
@@ -79,18 +144,7 @@ function BidWrite() {
     if (data2 === true) {
       setIsSubmit(true);
     }
-  };
-
-  const onCreate = () => {
-    const newFile = {
-      type,
-      attach,
-      attachName,
-      size,
-      registerDate,
-    };
-    dataId.current += 1;
-    setQuotationFile([newFile, ...quotationFile]);
+    // file정보 insert
   };
 
   useEffect(() => {
@@ -148,11 +202,11 @@ function BidWrite() {
           <DeleteButton>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
-          {/* <QuotationFileDataGrid isDisabled={isSubmit} /> */}
           <QuotationSubmitTable
             quotationFile={quotationFile}
             onCreate={onCreate}
-            handleCondition={handleCondition}
+            handleFileContent={handleFileContent}
+            handleInputChange={handleInputChange}
           ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </section>

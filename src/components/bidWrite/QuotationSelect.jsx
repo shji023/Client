@@ -3,19 +3,18 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function QuotationSelect({ id, handleCondition, lov, isDisabled }) {
+function QuotationSelect({ id, handleFileContent, lov, isDisabled }) {
   return (
     <StyledRoot>
       <StyledSelect>
         <Select
           defaultValue="선택"
           onChange={(e) => {
-            handleCondition(id, e);
+            handleFileContent(id, e);
           }}
           style={{ width: "100%" }}
           disabled={isDisabled}
         >
-          <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
             <Select.Option key={option} value={option}>
               {option}

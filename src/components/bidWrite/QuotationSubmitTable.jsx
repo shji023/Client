@@ -1,11 +1,18 @@
 import { colors } from "assets/styles/color";
 import { UploadButton } from "components/common/CustomButton";
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import QuotationSelect from "./QuotationSelect";
 
-function QuotationSubmitTable({ quotationFile, onCreate, handleCondition }) {
-  const lov = ["기타", "유형1", "유형2"];
+function QuotationSubmitTable({ quotationFile, onCreate, handleFileContent, handleInputChange }) {
+  const lov = ["기타"];
+  const inputRef = useRef(null);
+  console.log(quotationFile);
+  const handleButton = () => {
+    if (inputRef.current !== null) {
+      inputRef.current.click();
+    }
+  };
   return (
     <Table>
       <thead>
@@ -20,25 +27,26 @@ function QuotationSubmitTable({ quotationFile, onCreate, handleCondition }) {
       </thead>
       <tbody>
         {quotationFile ? (
-          quotationFile.map((m) => (
-            <Tr key={m.id}>
+          quotationFile.map((q, index) => (
+            <Tr key={index}>
               <Td>
                 <input type="checkbox" />
               </Td>
               <Td>
                 <QuotationSelect
                   id="fileType"
-                  handleCondition={handleCondition}
+                  handleFileContent={handleFileContent}
                   lov={lov}
                   isDisabled={false}
                 ></QuotationSelect>
               </Td>
               <Td>
-                <UploadButton>업로드</UploadButton>
+                <input hidden={true} ref={inputRef} type="file" onChange={handleInputChange} />
+                <UploadButton onClick={handleButton}>업로드</UploadButton>
               </Td>
-              <Td>{m.attachName}</Td>
-              <Td>{m.size}</Td>
-              <Td>{m.registerDate}</Td>
+              <Td>{q.fileName}</Td>
+              <Td>{q.size}</Td>
+              <Td>{q.registerDate}</Td>
             </Tr>
           ))
         ) : (
