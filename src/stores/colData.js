@@ -18,7 +18,7 @@ export const bidColFields = [
 
 export const prSelectColDef = {
   headerClass: { background: "#EDF2F8" },
-  editable: false,
+  editable: true,
   sortable: true,
   minWidth: 100,
   filter: true,
@@ -28,23 +28,25 @@ export const prSelectColDef = {
 };
 
 export const prSelectColFields = [
-    { colId: 1, field: "line", headerName: "순번", minWidth: 100 },
-    { colId: 2, field: "typeLookupCode", headerName: "Status", minWidth: 150 },
-    { colId: 3, field: "rfqNumber", headerName: "RFQ번호", minWidth: 150 },
-    { colId: 4, field: "dateInterval", headerName: "경과일", minWidth: 300 },
-    { colId: 5, field: "categoryId", headerName: "Category", minWidth: 100 },
-    { colId: 6, field: "requisitionNumber", headerName: "PR번호", minWidth: 100 },
-    { colId: 7, field: "description", headerName: "건명", minWidth: 150 },
-    { colId: 8, field: "amount", headerName: "금액", minWidth: 150 },
-    { colId: 9, field: "currencyCode", headerName: "단위", minWidth: 200 },
-    { colId: 10, field: "needByDate", headerName: "요청납기일", minWidth: 200 },
-    { colId: 11, field: "requestPersonId", headerName: "Requester", minWidth: 100 },
-    { colId: 12, field: "organizationCode", headerName: "사용부서", minWidth: 100 },
+  { colId: 1, field: "num", headerName: "순번", minWidth: 100 },
+  { colId: 2, field: "line_STATUS", headerName: "Status", minWidth: 150 },
+  { colId: 3, field: "po_NUM", headerName: "RFQ번호", minWidth: 150 },
+  { colId: 4, field: "dateInterval", headerName: "경과일", minWidth: 300 },
+  { colId: 5, field: "category_ID", headerName: "Category", minWidth: 100 },
+  { colId: 6, field: "requisition_NUMBER", headerName: "PR번호", minWidth: 100 },
+  { colId: 7, field: "description", headerName: "건명", minWidth: 150 },
+  { colId: 8, field: "unit_PRICE", headerName: "금액", minWidth: 150 },
+  { colId: 9, field: "currency_CODE", headerName: "단위", minWidth: 200 },
+  { colId: 10, field: "need_BY_DATE", headerName: "요청납기일", minWidth: 200 },
+  { colId: 11, field: "preparer_ID", headerName: "Requester", minWidth: 100 },
+  { colId: 12, field: "organization_CODE", headerName: "사용부서", minWidth: 100 },
 ];
 
 export const prCreateColDef = {
   editable: true,
   sortable: true,
+  enablePivot: true,
+  enableValue: true,
   flex: 1,
   minWidth: 100,
   filter: true,
@@ -55,22 +57,22 @@ export const prCreateColDef = {
 };
 
 export const rfqColumn = [
-  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:10,     maxWidth: 130},
-  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:10,     maxWidth: 870},
-  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:10,     maxWidth: 150},
-  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 200},
-  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 130},
-  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 160},
-  { colId:7, field:"rfq_detail_status"          ,headerName:"Status"    ,minWidth:10,     maxWidth: 120},
+  { colId:1, field:"rfq_no"                     ,headerName:"RFQ번호"   ,minWidth:10,     maxWidth: 110},
+  { colId:2, field:"rfq_description"            ,headerName:"건 명"     ,minWidth:10,     maxWidth: 850},
+  { colId:3, field:"reply_method_lookup_code"   ,headerName:"구매 방법" , minWidth:10,     maxWidth: 130},
+  { colId:4, field:"rfq_ship_to"                ,headerName:"납품 지역" , minWidth:10,     maxWidth: 180},
+  { colId:5, field:"buyer_id"                   ,headerName:"Buyer"     ,minWidth:10,      maxWidth: 110},
+  { colId:6, field:"quote_effective_start_date" ,headerName:"등록일"    , minWidth:10,     maxWidth: 140},
+  { colId:7, field:"rfq_detail_status"          ,headerName:"Status"    ,minWidth:10,     maxWidth: 100},
 ];
 
 // #endregion
 
 // #region 팝업
 export const popUpStaffColFields = [
-  { colId:1,  field:"id",  headerName: "직번", minWidth:100},
+  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
   { colId:2,  field:"name", headerName: "성명", minWidth:150},
-  { colId:3,  field:"dept_name", headerName: "부서", minWidth:150},
+  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
 ];
 
 export const popUpVendorColFields = [
