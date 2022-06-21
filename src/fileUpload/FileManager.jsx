@@ -12,49 +12,17 @@ import { serverAxios } from "apis/axios";
 import { getBidTypeLov} from "apis/bid.api";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
 import axios from "axios";
-import { uploadFiles } from "apis/file.api";
+import { uploadContent, uploadFiles, getStatusLov1 } from "apis/file.api";
 
 function FileManager({sendFile}) {
   const [fileList, setFileList] = useState([]);
   const [content, setContent] = useState(sendFile);
- 
-  console.log("sendFile : " ,content);
-  const [bidTypeLov, setBidTypeLov] = useState([]);
+  const [stateTypeLov, setStateTypeLov] = useState([]);
+  // const [result1, setResult1] = useState({});
 
-  
-
-
-
-  const getLov = async () => {
-    const bidTypeLov = await getBidTypeLov();
-    bidTypeLov && setBidTypeLov(bidTypeLov);
-  };
-
-  const handleInputChange1 = (e) => {
-    // 스테이트 값 변경
-    setFileList({ selectedFile: e.target.files[0] });
-    console.log(fileList);
-
-    setTimeout(() => {
-      // formData : 파일을 담는 객체
-      const formData = new FormData();
-      // 스테이트에 담긴 파일을 넣어준다.
-      formData.append("file", fileList.selectedFile);
-      return serverAxios
-        .post("/file/upload", formData)
-        .then((res) => {
-          // 저장한 파일 이름을 서버로부터 받아온다.
-          setFileList({ saveFile: res.data.filename });
-
-          // $('#is_MenualName').remove()
-          // $('#upload_menual').prepend('<input id="is_MenualName" type="hidden"'
-          // +'name="is_MenualName" value="/swmanual/'+this.state.menualName+'"}/>')
-          alert();
-        })
-        .catch((error) => {
-          alert("작업중 오류가 발생하였습니다.", error, "error", "닫기");
-        });
-    }, 1);
+  const getLov = () => {
+    const stateTypeLov = getStatusLov1();
+    stateTypeLov && setStateTypeLov(stateTypeLov);
   };
 
   const handleCondition = (key, value) => {
@@ -67,20 +35,19 @@ function FileManager({sendFile}) {
     // formData : 파일을 담는 객체
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    console.log("content", content);
-    const result = await uploadFiles(formData);
-    console.log("@@@@@ result : ", result)
+    const fileInfoList = await uploadFiles(formData);
+    setTimeout(()=>{}, 1000);
     
-      // axios.post("http://localhost:8081/file/upload", formData)
-      // serverAxios.post("/file/upload", formData)
-      // .then((res)=>{console.log("저장된 파일 결과 : ",res);}).catch(()=>{});
-
-    // setTimeout(function() {}, 1000);
-
-    // serverAxios.post('file/content', content)
-    // axios.post("http://localhost:8081/file/content", content)
-    // .then(()=>{}).catch(()=>{});
+    const result2 = uploadContent(fileInfoList[0], content);
+    
+    // const {sendContent} = {content, result1};
+    // console.log("@@@@@@ content", sendContent);
   };
+
+  // const sendConetent = async (result1) => {
+  //   const result2 = await uploadContent(result1, content);
+  //   console.log("result2 : ", result2);
+  // }
 
   useEffect(() => {
     getLov(); 
@@ -103,11 +70,11 @@ function FileManager({sendFile}) {
           <Label htmlFor="size">Size</Label>
           <Label htmlFor="createDate">등록일</Label>
           <p>체크박스 표시</p>
-          <RfqInputSelect
-              id="bid_type_code"
+          <BidInputSelect
+              id="type"
               inputLabel="입찰유형"
               handleCondition={handleCondition}
-              lov={bidTypeLov}
+              lov={stateTypeLov}
             />
           <InputFile
             type="file"
