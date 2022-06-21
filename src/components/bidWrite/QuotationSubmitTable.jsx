@@ -4,7 +4,12 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import QuotationSelect from "./QuotationSelect";
 
-function QuotationSubmitTable({ quotationFile, onCreate, handleFileContent, handleInputChange }) {
+function QuotationSubmitTable({
+  quotationFile,
+  handleRemoveList,
+  handleFileContent,
+  handleInputChange,
+}) {
   const lov = ["기타"];
   const inputRef = useRef(null);
   console.log(quotationFile);
@@ -27,10 +32,10 @@ function QuotationSubmitTable({ quotationFile, onCreate, handleFileContent, hand
       </thead>
       <tbody>
         {quotationFile ? (
-          quotationFile.map((q, index) => (
-            <Tr key={index}>
+          quotationFile.map((q) => (
+            <Tr key={q.id}>
               <Td>
-                <input type="checkbox" />
+                <input type="checkbox" onClick={() => handleRemoveList(q.id)} />
               </Td>
               <Td>
                 <QuotationSelect

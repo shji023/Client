@@ -11,7 +11,7 @@ import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import { uploadContent, uploadFile } from "apis/file.api";
-
+import useDidMountEffect from "hooks/useDidMountEffect";
 function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
@@ -41,6 +41,8 @@ function BidWrite() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
+  const [removeList, setRemoveList] = useState([]);
+
   const nextId = useRef(0);
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
@@ -72,16 +74,23 @@ function BidWrite() {
       ),
     );
     setIsAdd(!isAdd);
-    // setTimeout(() => {
-    //   onCreate();
-    // }, 3000);
-    //
-    //console.log(q.id, nextId.current)
     //await uploadContent(content);
   };
 
-  useEffect(() => {
-    console.log("--------------");
+  const handleRemoveList = (id) => {
+    setRemoveList([...removeList, id]);
+  };
+
+  const onRemove = () => {
+    console.log(removeList);
+    removeList.map((r) => {
+      console.log(r);
+      setQuotationFile(quotationFile.filter((q) => q.id !== r));
+    });
+    setRemoveList([]);
+  };
+
+  useDidMountEffect(() => {
     onCreate();
   }, [isAdd]);
 
@@ -99,14 +108,7 @@ function BidWrite() {
   };
   // file content 내용 등록
   const handleFileContent = (key, value) => {
-    // const tempFileContent = { ...content };
-    // tempFileContent[key] = value;
-    // setQuotationFile(tempFileContent);
-    console.log(key, value);
-    console.log(quotationFile);
-
     setQuotationFile(
-      console.log("ffff"),
       quotationFile.map((q) =>
         q.id === nextId.current
           ? {
@@ -199,7 +201,7 @@ function BidWrite() {
       <section>
         <SubmitTitle>
           <p>견적서 제출</p>
-          <DeleteButton>삭제</DeleteButton>
+          <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
           <QuotationSubmitTable
@@ -207,6 +209,7 @@ function BidWrite() {
             onCreate={onCreate}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
+            handleRemoveList={handleRemoveList}
           ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </section>
