@@ -79,7 +79,12 @@ function SelectPoList() {
     temp.VENDOR_ID = row.vendor_id;
     setPoCondition(temp);
     
-    return temp.VENDOR_ID;
+    return temp.vendor_name;
+  }
+  const onHandleCanceVendor = ({}) => {
+    const temp = poCondition;
+    temp.VENDOR_ID = "";
+    setPoCondition(temp);
   }
 
 
@@ -93,10 +98,15 @@ function SelectPoList() {
 
     const temp = poCondition;
     console.log(row);
-    temp.ITEM_ID = row.item;
+    temp.ITEM_ID = row.item_id;
     setPoCondition(temp);
     
-    return temp.ITEM_ID;
+    return row.item;
+  }
+  const onHandleCancelItem = ({}) => {
+    const temp = poCondition;
+    temp.ITEM_ID = "";
+    setPoCondition(temp);
   }
 
   const onHandleSearchBuyer = async (value) => {
@@ -112,11 +122,17 @@ function SelectPoList() {
     const row = selectedRows[0];
     
     const temp = poCondition;
-    temp.BUYER_ID = row.buyer_name;
+    temp.BUYER_ID = row.buyer_id;
     setPoCondition(temp);
     
-    return temp.BUYER_ID;
+    return row.buyer_name;
 
+  }
+
+  const onHandleCanceBuyer = ({}) => {
+    const temp = poCondition;
+    temp.BUYER_ID = "";
+    setPoCondition(temp);
   }
   // #endregion 팝업
 
@@ -146,7 +162,7 @@ function SelectPoList() {
             initValue={poCondition.VENDOR_ID}
             onHandleSearch={onHandleSearchVendor}
             onHandleOk={onHandleOkVendor}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCanceVendor}
             gridOptions={{
               columnDefs : popUpVendorColFields,
               rowData : popUpPreparerRowData,
@@ -180,7 +196,7 @@ function SelectPoList() {
             initValue={poCondition.ITEM_ID}
             onHandleSearch={onHandleSearchItem}
             onHandleOk={onHandleOkItem}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCancelItem}
             gridOptions={{
               columnDefs : popUpItemColFields,
               rowSelection : "single", // single, multiple
@@ -207,7 +223,7 @@ function SelectPoList() {
             initValue={poCondition.BUYER_ID}
             onHandleSearch={onHandleSearchBuyer}
             onHandleOk={onHandleOkBuyer}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCanceBuyer}
             gridOptions={{
               columnDefs : popUpBuyerColFields,
               rowSelection : "single", // single, multiple
