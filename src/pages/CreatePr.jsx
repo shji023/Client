@@ -168,7 +168,10 @@ function selectPrList() {
     // !: axios 비동기
     const data = await updateOnePr(conditions, rowData, deletedIdList);
     if(data){
+      console.log(data);
       alert("구매 신청 수정이 완료되었습니다.");
+      document.location.reload();
+      // navigate(`/createPr/${data}`)
     } else {
       alert("구매 신청 수정이 실패했습니다.");
     }
