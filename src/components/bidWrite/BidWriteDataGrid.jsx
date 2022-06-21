@@ -15,10 +15,10 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
 
   const bidWriteColFields = [
     { field: "line", headerName: "순번", minWidth: 50, maxWidth: 80 },
-    { field: "item", headerName: "ItemCode",  minWidth: 70, maxWidth: 130 },
+    { field: "item", headerName: "ItemCode", minWidth: 70, maxWidth: 130 },
     { field: "description", headerName: "Description", minWidth: 150, maxWidth: 350 },
-    { field: "unit_meas_lookup_code", headerName: "단위",  minWidth: 50, maxWidth: 80 },
-    { field: "pur_rfq_qt", headerName: "수량",  minWidth: 50, maxWidth: 80 },
+    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 80 },
+    { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 80 },
     {
       field: "quotation_total_price",
       headerName: "견적가",
@@ -30,7 +30,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             params: params,
             stateValue: itemListData,
             setStateValue: setItemListData,
-            disabled:isDisabled,
+            disabled: isDisabled,
           },
         };
       },
@@ -53,7 +53,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             rowSelection={"multiple"}
             suppressRowClickSelection={true}
             columnDefs={bidWriteColFields}
-            domLayout={'autoHeight'}
+            domLayout={"autoHeight"}
             defaultColDef={{
               editable: false,
               sortable: true,

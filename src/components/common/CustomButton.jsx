@@ -32,3 +32,19 @@ export const DeleteButton = styled.button`
   margin-left: 1rem;
   // margin-bottom: 1rem;
 `;
+
+export const UploadButton = styled.button`
+  width: 8rem;
+  height: 3rem;
+  background-color: ${colors.mainBlue};
+  color: white;
+  font-size: 1.4rem;
+  font-family: "Pretendard-Regular";
+  border-radius: 0.5rem;
+  :hover {
+    cursor: pointer;
+    background-color: ${colors.mildBlack};
+  }
+  margin-left: 1rem;
+  // margin-bottom: 1rem;
+`;

@@ -1,5 +1,5 @@
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
@@ -12,9 +12,9 @@ import {
   postQuotationInfo,
   postVendorComment,
 } from "apis/bid.api";
-import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
+import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 
 function BidWrite() {
   const { id } = useParams();
@@ -30,11 +30,23 @@ function BidWrite() {
     rfq_no: "",
     main_currency: "",
   });
+
   //const [currencyLov, setCurrencyLov] = useState([]);
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [itemListData, setItemListData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quotationFile, setQuotationFile] = useState([
+    {
+      fileType: "",
+      attach: "",
+      attachName: "",
+      size: "",
+      registerDate: "",
+    },
+  ]);
+  const dataId = useState(0);
+
   const result = getKoreanNumber(updateItem.quotation_total_price);
 
   const handleCondition = (key, value) => {
@@ -67,6 +79,18 @@ function BidWrite() {
     if (data2 === true) {
       setIsSubmit(true);
     }
+  };
+
+  const onCreate = () => {
+    const newFile = {
+      type,
+      attach,
+      attachName,
+      size,
+      registerDate,
+    };
+    dataId.current += 1;
+    setQuotationFile([newFile, ...quotationFile]);
   };
 
   useEffect(() => {
@@ -124,7 +148,12 @@ function BidWrite() {
           <DeleteButton>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
-          <QuotationFileDataGrid isDisabled={isSubmit} />
+          {/* <QuotationFileDataGrid isDisabled={isSubmit} /> */}
+          <QuotationSubmitTable
+            quotationFile={quotationFile}
+            onCreate={onCreate}
+            handleCondition={handleCondition}
+          ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </section>
       <section>
