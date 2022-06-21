@@ -47,6 +47,9 @@ function RfqDetail() {
   });
   const [rfqListData, setRfqListData] = useState({}); 
   const [ruleInfoData, setRuleInfoData] = useState([]);
+  const [sendFile, setSendFile] = useState({
+    "rfq_no" : id,
+  });
 
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
   const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
@@ -245,7 +248,7 @@ function RfqDetail() {
           </BidInfoContainer>
         </section>
         <RfqSelectVendorContainer>
-          <FileManager/>
+          <FileManager sendFile={sendFile}/>
         </RfqSelectVendorContainer>
     </StyledRoot>
   );

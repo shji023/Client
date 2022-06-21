@@ -11,11 +11,19 @@ import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
 import { serverAxios } from "apis/axios";
 import { getBidTypeLov} from "apis/bid.api";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
+import axios from "axios";
+import { uploadFiles } from "apis/file.api";
 
-function FileManager() {
+function FileManager({sendFile}) {
   const [fileList, setFileList] = useState([]);
-  const [content, setContent] = useState({});
+  const [content, setContent] = useState(sendFile);
+ 
+  console.log("sendFile : " ,content);
   const [bidTypeLov, setBidTypeLov] = useState([]);
+
+  
+
+
 
   const getLov = async () => {
     const bidTypeLov = await getBidTypeLov();
@@ -55,20 +63,23 @@ function FileManager() {
     setContent(tempBidCondition);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     // formData : 파일을 담는 객체
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     console.log("content", content);
-    formData.append("content", JSON.stringify(content));
+    const result = await uploadFiles(formData);
+    console.log("@@@@@ result : ", result)
     
-    serverAxios.post("/file/upload", formData)
-    .then(()=>{}).catch(()=>{});
+      // axios.post("http://localhost:8081/file/upload", formData)
+      // serverAxios.post("/file/upload", formData)
+      // .then((res)=>{console.log("저장된 파일 결과 : ",res);}).catch(()=>{});
 
-    setTimeout(function() {}, 1000);
+    // setTimeout(function() {}, 1000);
 
-    serverAxios.post("/file/content", content)
-    .then(()=>{}).catch(()=>{});
+    // serverAxios.post('file/content', content)
+    // axios.post("http://localhost:8081/file/content", content)
+    // .then(()=>{}).catch(()=>{});
   };
 
   useEffect(() => {
