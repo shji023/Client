@@ -101,6 +101,7 @@ function selectPrList() {
     },
   ];
   const [rowData, setRowData] = useState([...testData]);
+  const [deletedIdList, setDeletedIdList] = useState([]);
 
   const [conditions, setConditions] = useState({
         req_num       : id,          // requisition_number : pr 번호
@@ -162,8 +163,10 @@ function selectPrList() {
   const updateContent = async () => {
     console.log("onUpdateContents called");
 
+    // console.log(conditions, rowData, deletedIdList);
+
     // !: axios 비동기
-    const data = await updateOnePr(conditions, rowData);
+    const data = await updateOnePr(conditions, rowData, deletedIdList);
     if(data.res){
       alert("구매 신청 수정이 완료되었습니다.");
     } else {
@@ -203,6 +206,7 @@ function selectPrList() {
     const records = [ ...rowData, newRecord];
     setRowData(records);
   } )
+
   const createOneRecord = () => {
     return {
       line: 1, 
@@ -229,6 +233,8 @@ function selectPrList() {
       dist_num: "1",
       cnt_dept: 0,
       charge_account: "",
+      // * 사용될 DB 쿼리 종류
+      query_type: "insert",
     }
   }
   
@@ -248,7 +254,8 @@ function selectPrList() {
       tempData.push({...node.data, id: id++});
       if(node.isSelected()){
         ids.push(id-1);
-        tempData.push({...node.data, id: id++});
+        // * id, query_type 새로 부여
+        tempData.push({...node.data, id: id++, query_type: "insert"});
       }
     });
 
@@ -265,6 +272,17 @@ function selectPrList() {
     if(selectedRowNodes.length === 0) return;
 
     const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+    const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
+    console.log("selectedData :::", selectedData);
+
+    // * 삭제한 행의 정보를 담는다.
+    const tempList = deletedIdList;
+    selectedData.forEach((element)=>{
+      // * 기존 행인 경우에만 담는다.
+      if(element.query_type === "update") tempList.push(element.requisition_line_id);
+    });
+    setDeletedIdList([ ...tempList ]);
+
     const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
     setRowData([...filteredData]);
     setSelectedIds([]);
