@@ -20,6 +20,8 @@ import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import pageData from "stores/PageData";
+
 function RfqCreate() {
   const { rfq_no } = useParams();
 
@@ -59,8 +61,8 @@ function RfqCreate() {
   const [FobLov, setFobLov] = useState([]);
 
   const selectProductInfo = async () => {
-    const data = await getProductInfoList();
-    console.log("여기가 찍히는거냐?" );
+    const reqNumList = pageData.getPrNumList();
+    const data = await getProductInfoList(reqNumList);
     console.log(data);
     setProductInfoData(data);
   };
@@ -100,12 +102,15 @@ function RfqCreate() {
     setRfqListData({...rfqListData, rfq_no : rfq_no });
         
   }
-
+  const getPrList = async()=>{
+    console.log("pageData.getPrDataㅋㅋㅋㅋㅋㅋㅋ", pageData.getPrData);
+  }
   useEffect(() => {
     getLov();
     getInitRfq();
     selectBuyerInfo();
     selectProductInfo();
+    getPrList();
   }, []);
 
   const[visible, setVisible]=useState(false);
@@ -130,8 +135,23 @@ function RfqCreate() {
     return resultList;
     
   }
-
   const columnDefs = [
+    {
+      headerName:"..HELLO.",
+      headerCheckboxSelection:true,
+      checkboxSelection:true,
+      floatingFilter:false,
+      suppressMenu:true,
+      minWidth:10,
+      maxWidth:100,
+      width:50,
+      flex:0,
+      resizable:false,
+      sortable:false,
+      editable:false,
+      filter:false,
+      suppressColumnsToolPanel:true,
+    },
     {field:"item", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
     {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
@@ -290,7 +310,8 @@ const ButtonSelector = () => {
 // #endregion 버튼
 
     return (
-    <StyledRoot>
+      <StyledRoot>
+      <input type="file"></input>
         
 
         <section>
