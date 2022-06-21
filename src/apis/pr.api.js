@@ -70,11 +70,12 @@ export const getPr = async (reqNum) => {
         pur_pct_agm_rsn : data.purPctAgmRsn,
         
       }
+      console.log("pr1 ::: ", pr1);
 
       const dataList = res.data.pr2VoList;
       console.log("dataList ", dataList);
       const pr2List = [];
-      dataList.forEach(element => {
+      dataList && dataList.forEach(element => {
         console.log("element :::", element);
         const pr2 = {
           requisition_line_id : element.requisitionLineId,
