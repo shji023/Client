@@ -8,7 +8,7 @@ function QuotationSelect({ id, handleFileContent, lov, isDisabled }) {
     <StyledRoot>
       <StyledSelect>
         <Select
-          defaultValue="선택"
+          defaultValue="기타"
           onChange={(e) => {
             handleFileContent(id, e);
           }}

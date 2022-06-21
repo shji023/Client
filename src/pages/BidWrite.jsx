@@ -90,7 +90,7 @@ function BidWrite() {
     nextId.current += 1;
     const newFile = {
       id: nextId.current,
-      fileType: "",
+      fileType: "기타",
       fileName: "",
       size: "",
       registerDate: "",
