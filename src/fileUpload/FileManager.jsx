@@ -1,24 +1,13 @@
 import { colors } from "assets/styles/color";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
-import { getKoreanNumber } from "hooks/GetKoreanNumber";
-import QuotationInput from "components/bidWrite/QuotationInput";
-import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
-import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
-import { serverAxios } from "apis/axios";
-import { getBidTypeLov} from "apis/bid.api";
-import RfqInputSelect from "components/rfq/RfqInputSelect";
-import axios from "axios";
 import { uploadContent, uploadFiles, getStatusLov1 } from "apis/file.api";
 
 function FileManager({sendFile}) {
   const [fileList, setFileList] = useState([]);
   const [content, setContent] = useState(sendFile);
   const [stateTypeLov, setStateTypeLov] = useState([]);
-  // const [result1, setResult1] = useState({});
 
   const getLov = () => {
     const stateTypeLov = getStatusLov1();
@@ -39,15 +28,7 @@ function FileManager({sendFile}) {
     setTimeout(()=>{}, 1000);
     
     const result2 = uploadContent(fileInfoList[0], content);
-    
-    // const {sendContent} = {content, result1};
-    // console.log("@@@@@@ content", sendContent);
   };
-
-  // const sendConetent = async (result1) => {
-  //   const result2 = await uploadContent(result1, content);
-  //   console.log("result2 : ", result2);
-  // }
 
   useEffect(() => {
     getLov(); 
@@ -57,9 +38,6 @@ function FileManager({sendFile}) {
     <>
       <ButtonWrapper>
         <SubTitle>RFQ 첨부1 (공급사 배포)</SubTitle>
-        {/* <Button
-          disabled={this.state.title === "" || this.state.file === "" || this.state.details === ""}
-          onClick={this.onUpload}>Upload</Button> */}
       </ButtonWrapper>
       <section>
         <UploadContainer>
