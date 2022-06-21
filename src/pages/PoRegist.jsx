@@ -58,72 +58,6 @@ function PoRegist() {
       subinventory : "",
       charge_account : "",
     },
-    {
-      closed_code : "",
-      line : "",
-      item : "",
-      category : "",
-      description : "",
-      uom : "",
-      quantity : "",
-      unit_price : "",
-      total_amount : "",
-      shipment : "",
-      ship_quantity : "",
-      total_amount : "",
-      need_by_date : "",
-      promised_date : "",
-      organization : "",
-      tax_code : "",
-      match_option : "",
-      over_receipt_tol : "",
-      action : "",
-      quantity_recevied : "",
-      quantity_accepted : "",
-      quantity_rejected : "",
-      quantity_billed : "",
-      quantity_cancelled : "",
-      distribution : "",
-      requisition : "",
-      req_line : "",
-      requester : "",
-      deliver_to_location : "",
-      subinventory : "",
-      charge_account : "",
-    },
-    {
-      closed_code : "",
-      line : "",
-      item : "",
-      category : "",
-      description : "",
-      uom : "",
-      quantity : "",
-      unit_price : "",
-      total_amount : "",
-      shipment : "",
-      ship_quantity : "",
-      total_amount : "",
-      need_by_date : "",
-      promised_date : "",
-      organization : "",
-      tax_code : "",
-      match_option : "",
-      over_receipt_tol : "",
-      action : "",
-      quantity_recevied : "",
-      quantity_accepted : "",
-      quantity_rejected : "",
-      quantity_billed : "",
-      quantity_cancelled : "",
-      distribution : "",
-      requisition : "",
-      req_line : "",
-      requester : "",
-      deliver_to_location : "",
-      subinventory : "",
-      charge_account : "",
-    },
   ];
   const [rowData, setRowData] = useState([...testData]);
 
@@ -166,12 +100,6 @@ function PoRegist() {
   });
 
   const [selectedIds, setSelectedIds] = useState([]);
-
-  // 수의사유 Lov
-  const [prReasonLov, setPrReasonLov] = useState([]);
-  const [orgLov, setOrgLov] = useState([]);
-  const [destLov, setDestLov] = useState([]);
-
 
   // Lov
   const [attributeCategory, setAttributeCategory] = useState([]);
@@ -282,8 +210,8 @@ function PoRegist() {
   // 그리드 행 복사
   const onCopySelected = useCallback( ()=>{
     copyRow();
-
   })
+  
   const copyRow = () => {
     console.log("copyRow called" );
     let id = 1;
@@ -349,6 +277,14 @@ function PoRegist() {
     
     return temp[idx].item_name;
   }
+
+    const onHandleCancelItem = ({}) => {
+    const temp = conditions;
+    temp.item_id = "";
+    temp.item = "";
+    temp.category = "";
+    setConditions(temp);
+  }
   // #endregion Line 아이템 이벤트
 
   
@@ -410,6 +346,7 @@ function PoRegist() {
             initValue : initValue,
             onHandleSearch : onHandleSearchItem,
             onHandleOk : onHandleOkItem,
+            onHandleCancel : onHandleCancelItem,
             gridOptions: {
               columnDefs : popUpItemColFields,
               rowSelection : "single",
@@ -447,7 +384,7 @@ function PoRegist() {
     { field: "total_amount",      headerName:"금액",               minWidth:100, editable: false,
       valueGetter: params => params.data.quantity * params.data.unit_price
     },
-    { field: "shipment",          headerName:"shipment",           minWidth:80, editable: false, },
+    { field: "shipment",          headerName:"shipment",           minWidth:120, editable: false, valueGetter: params => 1},
     { field: "ship_quantity",               headerName:"수량",               minWidth:100, editable: false,
       cellRendererSelector : params => {
         return {
@@ -460,7 +397,7 @@ function PoRegist() {
       }}
     },
     { field: "total_amount",      headerName:"금액",               minWidth:100, editable: false,
-      valueGetter: params => params.data.quantity * params.data.unit_price
+      valueGetter: params => params.data.ship_quantity * params.data.unit_price
     },
     { field: "need_by_date",      headerName:"Need By Date",         minWidth:150, editable: false, 
     cellRendererSelector : params => {
@@ -543,19 +480,15 @@ function PoRegist() {
       }
   }}
 },
-{ field: "quantity_recevied",          headerName:"Quantity Recevied",           minWidth:180, editable: false, },
-{ field: "quantity_accepted",          headerName:"Quantity Accepted",           minWidth:180, editable: false, },
-{ field: "quantity_rejected",          headerName:"Quantity Rejected",           minWidth:180, editable: false, },
-{ field: "quantity_billed",          headerName:"Quantity Billed",           minWidth:180, editable: false, },
-{ field: "quantity_cancelled",          headerName:"Quantity Cancelled",           minWidth:180, editable: false, },
-{ field: "distribution",          headerName:"Distribution",           minWidth:180, editable: false, 
-  valueGetter: params => 1
-},
-{ field: "requisition",          headerName:"Requisition",           minWidth:180, editable: false, },
-{ field: "req_line",          headerName:"Req Line",           minWidth:180, editable: false, 
-  valueGetter: params => 1
-},
-{ field: "requester",         headerName:"Requester",          minWidth:200, editable: false, 
+{ field: "quantity_recevied",          headerName:"Quantity Recevied",           minWidth:180, editable: false, valueGetter: params => 0 },
+{ field: "quantity_accepted",          headerName:"Quantity Accepted",           minWidth:180, editable: false, valueGetter: params => 0 },
+{ field: "quantity_rejected",          headerName:"Quantity Rejected",           minWidth:180, editable: false, valueGetter: params => 0 },
+{ field: "quantity_billed",            headerName:"Quantity Billed",             minWidth:180, editable: false, valueGetter: params => 0 },
+{ field: "quantity_cancelled",         headerName:"Quantity Cancelled",          minWidth:180, editable: false, valueGetter: params => 0 },
+{ field: "distribution",               headerName:"Distribution",                minWidth:180, editable: false, valueGetter: params => 1 },
+{ field: "requisition",                headerName:"Requisition",                 minWidth:180, editable: false, },
+{ field: "req_line",                   headerName:"Req Line",                    minWidth:180, editable: false, valueGetter: params => 1 },
+{ field: "requester",                  headerName:"Requester",                   minWidth:200, editable: false, 
 cellRendererSelector : params => {
   const idx = params.node.rowIndex;
   const initValue = rowData[idx] ? rowData[idx].requester_name : "";
@@ -632,7 +565,7 @@ cellRendererSelector : params => {
   }, [rowData])
 
   const getLov = async () => {
-    // TODO : cd_v 넣기
+
     const resv1  = await getPoRegistLov("PO_ATTRIBUTE_CATEGORY");
     const resv2  = await getPoRegistLov("PO_FOB"); 
     const resv3  = await getPoRegistLov("PO_PAYMENT_TERM");
