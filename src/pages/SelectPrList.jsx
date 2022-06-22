@@ -5,7 +5,7 @@ import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import { getDiffDate, getNumberFormat } from "hooks/CommonFunction";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { popUpBuyerColFields, popUpItemColFields, popUpStaffColFields, prSelectColDef } from "stores/colData"
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
@@ -14,6 +14,7 @@ import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useNavigate } from "react-router-dom";
 import pageData from "stores/PageData";
+import { showGridLoading } from "components/common/CustomGrid";
 
 
 function selectPrList() {
@@ -107,6 +108,7 @@ function selectPrList() {
   // #endregion 팝업 이벤트
 
   const selectPrList = async () => {
+    showGridLoading(gridRef, true);
 
     console.log("conditions : " , conditions);
 
@@ -161,6 +163,8 @@ function selectPrList() {
     setSelectedData([...tempList]);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
     setDataGridCnt(getNumberFormat(data.length));
+
+    showGridLoading(gridRef, false);
   };
 
   const cerateRfq = async () => {
@@ -199,27 +203,27 @@ function selectPrList() {
 
   const prSelectColFields = [
     { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
-    { colId: 1, field: "line", headerName: "순번", minWidth: 100, },
-    { colId: 2, field: "typeValue", headerName: "Status", minWidth: 150 },
-    { colId: 3, field: "rfqNumber", headerName: "RFQ번호", minWidth: 150, 
+    { field: "line", headerName: "순번", minWidth: 100, },
+    { field: "typeValue", headerName: "Status", minWidth: 150 },
+    { field: "rfqNumber", headerName: "RFQ번호", minWidth: 150, 
       valueGetter: params => (!params.data.rfqNumber) ? "-" : !params.data.rfqNumber
     },
-    { colId: 4, field: "dateInterval", headerName: "경과일", minWidth: 100,
+    { field: "dateInterval", headerName: "경과일", minWidth: 100,
       valueGetter: params => {
         const diff = getDiffDate(new moment(), params.data.needByDate, "day" );
         return diff < 0 ? 0 : diff;
       }
     },
-    { colId: 5, field: "categoryId", headerName: "Category", minWidth: 140 },
-    { colId: 6, field: "requisitionNumber", headerName: "PR번호", minWidth: 140, },
-    { colId: 7, field: "description", headerName: "건명", minWidth: 300 },
-    { colId: 8, field: "amount", headerName: "금액", minWidth: 150, 
+    { field: "categoryId", headerName: "Category", minWidth: 140 },
+    { field: "requisitionNumber", headerName: "PR번호", minWidth: 140, },
+    { field: "description", headerName: "건명", minWidth: 300 },
+    { field: "amount", headerName: "금액", minWidth: 150, 
       valueGetter: params => getNumberFormat(params.data.amount)
     },
-    { colId: 9, field: "currencyCode", headerName: "단위", minWidth: 80 },
-    { colId: 10, field: "needByDate", headerName: "요청납기일", minWidth: 200 },
-    { colId: 11, field: "requestPersonId", headerName: "Requester", minWidth: 140 },
-    { colId: 12, field: "organizationCode", headerName: "사용부서", minWidth: 200 },
+    { field: "currencyCode", headerName: "단위", minWidth: 80 },
+    { field: "needByDate", headerName: "요청납기일", minWidth: 200 },
+    { field: "requestPersonId", headerName: "Requester", minWidth: 140 },
+    { field: "organizationCode", headerName: "사용부서", minWidth: 200 },
   ];
   // #endregion 그리드
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { gridLoadingMsg } from "components/common/CustomGrid";
 
 
 const getRowStyle  = params => {
@@ -91,6 +92,9 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                 }}
                 onRowDataChanged={ onRowDataChanged }
                 onRowClicked={onRowClicked}
+                overlayLoadingTemplate={
+                    gridLoadingMsg
+                }
             >
              
             </AgGridReact>
