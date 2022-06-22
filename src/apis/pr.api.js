@@ -70,12 +70,15 @@ export const getPr = async (reqNum) => {
         pur_pct_agm_rsn : data.purPctAgmRsn,
         
       }
+      console.log("pr1 ::: ", pr1);
 
       const dataList = res.data.pr2VoList;
       console.log("dataList ", dataList);
       const pr2List = [];
-      dataList.forEach(element => {
+      dataList && dataList.forEach(element => {
+        console.log("element :::", element);
         const pr2 = {
+          requisition_line_id : element.requisitionLineId,
           // line: element.1, // !
           item_name: element.itemName, // !
           item_id: element.itemId,
@@ -100,6 +103,8 @@ export const getPr = async (reqNum) => {
           dist_num: 1,
           cnt_dept: element.quantityDelivered,
           charge_account: element.accountNm,
+          // * 사용될 DB 쿼리 종류
+          query_type: "update",
         }
         pr2List.push(pr2);
       });
@@ -139,13 +144,13 @@ export const insertOnePr = async (conditions, lines) => {
   }
 };
 
-export const updateOnePr = async (conditions, lines) => {
+export const updateOnePr = async (conditions, lines, deletedIdList) => {
   try {
     
-    const sendData = { conditions, lines };
+    const sendData = { conditions, lines, deletedIdList };
     console.log("sendData : ", sendData);
 
-    const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData)
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prUpdate`, sendData)
     .then((res)=>{
       console.log("data : " , res.data);
       return res.data;
