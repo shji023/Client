@@ -42,7 +42,10 @@ export const uploadFile = async (formData) => {
 export const uploadFileContent = async (content) => {
   try {
     const { data } = await serverAxios.post(`${PREFIX_URL}/content`, content);
-    return data;
+    if (data === "success") {
+      return true;
+    }
+    return false;
   } catch (err) {
     throw new Error("Failed to load");
   }
