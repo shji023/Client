@@ -1,7 +1,7 @@
 import { getRfqInfo} from "apis/rfq.api";
 import { getBidTypeLov, getBidPriceMethodLov, getBidMethodTypeLov, getBidMaxRoundLov, getBidCurrencyCodeLov, insertOneBid} from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
@@ -83,9 +83,13 @@ function RfqDetail() {
   const saveContents = async () => {
     console.log("onSaveContents called");
 
+    // myRef.current.saveDB();
+    // <myRef className="current saveDB"></myRef>;
+    // const myRef = useRef();
+
     // !: axios 비동기
     const data = await insertOneBid(bidCondition);
-    
+
     console.log("완료 : ", data);
 
     if(data === 'success'){
@@ -112,7 +116,10 @@ function RfqDetail() {
     <StyledRoot>  
         <HeaderWrapper> 
           <Title>입찰룰</Title>
-          <Button onClick={onSaveContents}>저장</Button>
+          <Button onClick={ () =>{ 
+            onSaveContents(); 
+            // myRef.current.saveDB(); 
+          }}>저장</Button>
         </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
@@ -193,6 +200,7 @@ function RfqDetail() {
         </section>
         <RfqSelectVendorContainer>
           <FileManager sendFile={sendFile}/>
+          {/* <FileManager sendFile={sendFile} ref={myRef}/> */}
         </RfqSelectVendorContainer>
     </StyledRoot>
   );

@@ -1,14 +1,19 @@
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { uploadContent, uploadFiles, getStatusLov1 } from "apis/file.api";
+import { forwardRef } from "react";
+import { useImperativeHandle } from "react";
 
 function FileManager({sendFile}) {
+// function FileManager({sendFile}, myRef) {
   const [fileList, setFileList] = useState([]);
   const [content, setContent] = useState(sendFile);
   const [stateTypeLov, setStateTypeLov] = useState([]);
   const [fileInfoList, setFileInfoList] = useState([]);
+
+  // const inputRef = useRef();
 
   const getLov = () => {
     const stateTypeLov = getStatusLov1();
@@ -31,14 +36,41 @@ function FileManager({sendFile}) {
     setFileInfoList(fileInfo[0]);
     console.log("fileInfoList : ", fileInfoList);
 
-    setTimeout(()=>{}, 1000);
-    
+    // const DBInfo = uploadContent(fileInfoList, content);
   };
+
+  // function FancyInput(props, ref) {
+  //   const inputRef = useRef();
+  //   useImperativeHandle(ref, () => ({
+  //     focus: () => {
+  //       inputRef.current.focus();
+  //     }
+  //   }));
+  //   return <input ref={inputRef} ... />;
+  // }
+  // FancyInput = forwardRef(FancyInput);
+
+  // const saveFileInfo = useImperativeHandle(
+  //   inputRef,() => { 
+  //         // const DBInfo = uploadContent(fileInfoList, content);
+  //         alert("하위 컴포넌트 호출");
+  //         }
+  //   )
+
+  // const child = 
+  //   useImperativeHandle(ref, () => ({
+  //     saveDB() {
+  //       alert("하위 컴포넌트 호출🧯");
+  //     },
+  //   }));
 
   // 파일을 DB에 저장
   const saveDB = async () => {
-    const DBInfo = uploadContent(fileInfo[0], content);
+    // const DBInfo = uploadContent(fileInfoList, content);
+    alert("하위 컴포넌트 호출");
   }
+  // console.log("myRef : ", myRef);
+  // myRef.current.saveDB = saveDB();
 
   useEffect(() => {
     getLov(); 
