@@ -25,9 +25,9 @@ import pageData from "stores/PageData";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
-  const [disabled, setDisabled] = useState(false);
-  const [hide, setHide] = useState(false);
-  const [buttonDisplay, setButtonDisplay] = useState("inline-block");
+  const [disabled, setDisabled] = useState(true);
+  const [hide, setHide] = useState(true);
+  const [buttonDisplay, setButtonDisplay] = useState("none");
 
   const toggleHide = ()=>{
     setHide(!hide);
@@ -87,7 +87,8 @@ function RfqCreate() {
 
   // 품목정보
   const [productInfoData, setProductInfoData] = useState([]);
-  const [deletedIdList, setDeletedIdList] = useState([]);
+  const [deletedVendorIdList, setDeletedVendorIdList] = useState([]);
+  const [deletedProductIdList, setDeletedProductIdList] = useState([]);
 
   const [buyerInfoData, setBuyerInfoData] = useState([]);
 
@@ -134,9 +135,10 @@ function RfqCreate() {
     const productList = data.rfq2List;
     const tempProductList = [];
     productList.forEach((element)=>{
-      tempProductList.push({...element});
+      tempProductList.push({...element, rfq_id: element.id, query_type: "update"});
     });
-    setProductInfoData([...productList]);
+    console.log("productList", productList);
+    setProductInfoData([...tempProductList]);
     
   }
 
@@ -225,6 +227,14 @@ function RfqCreate() {
   const[visible, setVisible]=useState(false);
 
   const onHandleOk= ({selectedRows})=>{
+    // 기존 목록 삭제
+    let temp = [];
+    selectedVendorList.forEach((element)=>{
+      temp.push(element.rfq_vendor_id);
+    })
+    setDeletedVendorIdList([...temp]);
+
+    // 새 목록 갱신
     setSelectedVendorList([...selectedRows]);
   }
   
@@ -340,13 +350,13 @@ function RfqCreate() {
     console.log("selectedData :::", selectedData);
 
     // * 삭제한 행의 정보를 담는다.
-    const tempList = deletedIdList;
+    const tempList = deletedProductIdList;
     selectedData.forEach((element)=>{
       // * 기존 행인 경우에만 담는다.
       // primary key 가져오기
-      // if(element.query_type === "update") tempList.push(element.);
+      if(element.query_type === "update") tempList.push(element.rfq_id);
     });
-    setDeletedIdList([ ...tempList ]);
+    setDeletedProductIdList([ ...tempList ]);
     
     const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
     setRowData([...filteredData]);
@@ -408,18 +418,18 @@ const onClickDeleteRfq = async () => {
 const onClickUpdateRfq = async () => {
   let res = confirm("수정 하시겠습니까?");
   if(res){
-    toggleHide();
-    toggleDisabled();
-    toggleButtonDisplay();
     // TODO : 필수 입력사항 입력했는지 체크하기
-    // const data = await updateRfqInfo(rfqListData, selectedVendorList, productInfoData);
+    const data = await updateRfqInfo(rfqListData, selectedVendorList, productInfoData, deletedVendorIdList, deletedProductIdList);
     // if(data) {
-    //   alert("수정이 완료되었습니다.");
-    //   reload();
-    // } else {
-    //   alert("수정이 되지 않았습니다.");
-    // }
-
+      //   alert("수정이 완료되었습니다.");
+      //   reload();
+      // } else {
+        //   alert("수정이 되지 않았습니다.");
+        // }
+        
+    // toggleHide();
+    // toggleDisabled();
+    // toggleButtonDisplay();
   }
 }
 
