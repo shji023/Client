@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import { reload } from "hooks/CommonFunction";
 
 function selectPrList() {
   const { id } = useParams();
@@ -148,6 +149,7 @@ function selectPrList() {
       temp.req_num = data;
       setConditions({...temp});
       navigate(`/createPr/${temp.req_num}`)
+      reload();
       
     } else {
       alert("구매 신청이 실패했습니다.");
@@ -170,7 +172,7 @@ function selectPrList() {
     if(data){
       console.log(data);
       alert("구매 신청 수정이 완료되었습니다.");
-      document.location.reload();
+      reload();
       // navigate(`/createPr/${data}`)
     } else {
       alert("구매 신청 수정이 실패했습니다.");
