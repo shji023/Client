@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 import styled from "styled-components";
 
-function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition }) {
+function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition, disabled }) {
 
   const dateFormat = "YYYY-MM-DD";
   const field = params.colDef.field;
@@ -19,7 +19,7 @@ function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition }
     <StyledRoot>
       <DatePicker
         id={field}
-        defaultValue={value}
+        value={value}
         onChange={(date) => {
           console.log("date", date);
           stateValue[idx][field] = date.format("YYYY-MM-DD");
@@ -27,6 +27,7 @@ function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition }
         }}
         style={{ width: 200 }}
         allowClear={false}
+        disabled={disabled}
       />
     </StyledRoot>
   );

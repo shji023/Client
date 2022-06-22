@@ -110,6 +110,21 @@ export const getProductInfoList = async (reqNumList) => {
       throw new Error("Failed to load " + err);
     }
   };
+  export const updateRfqInfo = async (conditions, vendorList, productList) => {
+    try {
+      const sendData = {
+        conditions : conditions,
+        vendorList : vendorList,
+        productList : productList,
+      }
+      console.log(sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/updateRfqInfo`,sendData);
+      console.log("updateRfqInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load " + err);
+    }
+  };
   export const insertVendorInfo = async (conditions) => {
     try {
       console.log("conditions*******" , conditions);
