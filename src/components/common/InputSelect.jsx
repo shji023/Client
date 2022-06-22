@@ -3,9 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
 
-function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCnt }) {
+function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCnt, disabled }) {
   
-  id === "terms_id" && console.log("init", initValue, lov);
   if(!initValue) initValue = "선택";
 
   const InputLabel = (props) => {
@@ -26,8 +25,10 @@ function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCn
       </TitleWrapper> */}
       <DataWrapper>
       <Select
-        defaultValue={initValue}
+        value={initValue}
         id={id}
+        disabled={disabled}
+
         onChange={(e) => {
           handlePoCondition(id, e);
         }}
@@ -39,6 +40,7 @@ function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCn
             {option[1]}
           </Select.Option>
         ))}
+
       </Select>
         </DataWrapper>
     </StyledRoot>

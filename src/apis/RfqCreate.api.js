@@ -10,7 +10,7 @@ const PREFIX_URL = "/createRfq";
 //     console.log("!!!", data);
 //     return data;
 //   } catch (err) {
-//     throw new Error("Failed to load");
+//     throw new Error("Failed to load " + err);
 //   }
 // };
 
@@ -19,7 +19,7 @@ export const getCycleLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/paymentCycle`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load " + err);
   }
 };
 export const getCollaboLov = async () => {
@@ -27,7 +27,7 @@ export const getCollaboLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/collaboType`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load " + err);
   }
 };
 export const getPaymentLov = async () => {
@@ -35,7 +35,7 @@ export const getPaymentLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/paymentTerm`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load " + err);
   }
 };
 export const getFobLov = async () => {
@@ -43,7 +43,7 @@ export const getFobLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/fob`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load " + err);
   }
 };
 export const getshipToLov = async () => {
@@ -51,7 +51,7 @@ export const getshipToLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/shipTo`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load " + err);
   }
 };
 
@@ -63,7 +63,7 @@ export const getProductInfoList = async (reqNumList) => {
       
       return data;
     } catch (err) {
-      throw new Error("Failed to load");
+      throw new Error("Failed to load " + err);
     }
   };
 
@@ -76,7 +76,7 @@ export const getProductInfoList = async (reqNumList) => {
       
       return data;
     } catch (err) {
-      throw new Error("Failed to load");
+      throw new Error("Failed to load " + err);
     }
   };
 
@@ -95,7 +95,7 @@ export const getProductInfoList = async (reqNumList) => {
       return data;
       
     } catch (err) {
-      throw new Error("Failed to load");
+      throw new Error("Failed to load " + err);
     }
   };
   export const deleteRfqInfo = async (rfq_no) => {
@@ -107,7 +107,22 @@ export const getProductInfoList = async (reqNumList) => {
       console.log("deleteRfqInfo : ", data);
       return data;
     } catch (err) {
-      throw new Error("Failed to load");
+      throw new Error("Failed to load " + err);
+    }
+  };
+  export const updateRfqInfo = async (conditions, vendorList, productList) => {
+    try {
+      const sendData = {
+        conditions : conditions,
+        vendorList : vendorList,
+        productList : productList,
+      }
+      console.log(sendData);
+      const { data } = await serverAxios.post(`${PREFIX_URL}/updateRfqInfo`,sendData);
+      console.log("updateRfqInfo : ", data);
+      return data;
+    } catch (err) {
+      throw new Error("Failed to load " + err);
     }
   };
   export const insertVendorInfo = async (conditions) => {
@@ -119,6 +134,17 @@ export const getProductInfoList = async (reqNumList) => {
       console.log("insertVendorInfo : ", data);
       return data;
     } catch (err) {
-      throw new Error("Failed to load");
+      throw new Error("Failed to load " + err);
     }
   };
+
+  export const selectRfq = async (rfq_no) => {
+    try{
+      const sendData = {"rfq_no" : rfq_no};
+      const {data} = await serverAxios.post(`${PREFIX_URL}/selectRfq`, sendData);
+      console.log("selectRfq data :::", data)
+      return data;
+    } catch(err) {
+      throw new Error("Failed to load " + err);
+    }
+  }

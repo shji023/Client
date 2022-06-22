@@ -3,7 +3,7 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-const AgVendorSelect = ({selectedVendorList}) => {
+const AgVendorSelect = ({selectedVendorList, hide}) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     
@@ -40,7 +40,7 @@ const AgVendorSelect = ({selectedVendorList}) => {
                 suppressRowClickSelection={false}
                 defaultColDef={{
                     headerClass: { background: '#EDF2F8' },
-                    editable: true,
+                    editable: false,
                     sortable: true,
                     minWidth: 100,
                     filter: true,
@@ -61,7 +61,7 @@ const AgVendorSelect = ({selectedVendorList}) => {
             >
                 {/* check box */}
                 <AgGridColumn
-                headerName="..HELLO."
+                headerName=""
                 headerCheckboxSelection={true}
                 checkboxSelection={true}
                 floatingFilter={false}
@@ -75,6 +75,7 @@ const AgVendorSelect = ({selectedVendorList}) => {
                 editable={false}
                 filter={false}
                 suppressColumnsToolPanel={true}
+                hide={hide}
                 />
              
                 <AgGridColumn field="vendor_name" headerName="공급사" minWidth={10} maxWidth= {500} />
