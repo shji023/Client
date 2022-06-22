@@ -24,6 +24,7 @@ import pageData from "stores/PageData";
 import FileVendor from "fileUpload/FileVendor";
 import FileInner from "fileUpload/FileInner";
 import FileManager from "fileUpload/FileManager";
+import { reload } from "hooks/CommonFunction";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
@@ -386,9 +387,7 @@ function RfqCreate() {
 // #endregion 그리드 관련 이벤트
 
 const navigate = useNavigate();
-function reload(){
-  document.location.reload();
-}
+
 
 // 저장 button
 const onClickSaveRfq = async () => {
@@ -400,6 +399,7 @@ const onClickSaveRfq = async () => {
       alert("저장이 완료되었습니다.");
       
       navigate(`/rfqCreate/${data}`/* , { replace: true} */)
+      reload();
     } else {
       alert("저장 되지 않았습니다.");
     }
