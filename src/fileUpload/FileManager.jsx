@@ -1,13 +1,19 @@
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { uploadContent, uploadFiles, getStatusLov1 } from "apis/file.api";
+import { forwardRef } from "react";
+import { useImperativeHandle } from "react";
 
 function FileManager({sendFile}) {
+// function FileManager({sendFile}, myRef) {
   const [fileList, setFileList] = useState([]);
   const [content, setContent] = useState(sendFile);
   const [stateTypeLov, setStateTypeLov] = useState([]);
+  const [fileInfoList, setFileInfoList] = useState([]);
+
+  // const inputRef = useRef();
 
   const getLov = () => {
     const stateTypeLov = getStatusLov1();
@@ -20,15 +26,51 @@ function FileManager({sendFile}) {
     setContent(tempBidCondition);
   };
 
+
+  // 파일을 서버에 저장
   const handleInputChange = async (e) => {
     // formData : 파일을 담는 객체
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    const fileInfoList = await uploadFiles(formData);
-    setTimeout(()=>{}, 1000);
-    
-    const result2 = uploadContent(fileInfoList[0], content);
+    const fileInfo = await uploadFiles(formData);
+    setFileInfoList(fileInfo[0]);
+    console.log("fileInfoList : ", fileInfoList);
+
+    // const DBInfo = uploadContent(fileInfoList, content);
   };
+
+  // function FancyInput(props, ref) {
+  //   const inputRef = useRef();
+  //   useImperativeHandle(ref, () => ({
+  //     focus: () => {
+  //       inputRef.current.focus();
+  //     }
+  //   }));
+  //   return <input ref={inputRef} ... />;
+  // }
+  // FancyInput = forwardRef(FancyInput);
+
+  // const saveFileInfo = useImperativeHandle(
+  //   inputRef,() => { 
+  //         // const DBInfo = uploadContent(fileInfoList, content);
+  //         alert("하위 컴포넌트 호출");
+  //         }
+  //   )
+
+  // const child = 
+  //   useImperativeHandle(ref, () => ({
+  //     saveDB() {
+  //       alert("하위 컴포넌트 호출🧯");
+  //     },
+  //   }));
+
+  // 파일을 DB에 저장
+  const saveDB = async () => {
+    // const DBInfo = uploadContent(fileInfoList, content);
+    alert("하위 컴포넌트 호출");
+  }
+  // console.log("myRef : ", myRef);
+  // myRef.current.saveDB = saveDB();
 
   useEffect(() => {
     getLov(); 
@@ -62,16 +104,9 @@ function FileManager({sendFile}) {
             onChange={handleInputChange}
             valid={true}
           />
-          <InputFile
-            type="text"
-            name="title"
-            id="title"
-            placeholder="변경할 파일 이름을 입력하세요"
-            onChange={() => {}}
-            valid={true}
-          />
-          <p>사이즈 자동으로 등록</p>
-          <p>등록일 자동으로 등록</p>
+          <p>{fileInfoList.originFile}</p>
+          <p>{fileInfoList.size} Byte</p>
+          <p>{fileInfoList.uploadDate}</p>
         </UploadContainer>
       </section>
     </>
