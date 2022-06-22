@@ -3,12 +3,11 @@ import { serverAxios } from "apis/axios";
 const PREFIX_URL = "/file";
 
 // 파일을 서버에 저장
-export const uploadFiles = async (sendData)=>{
+export const uploadFiles = async (sendData) => {
   try {
     console.log("send file: ", sendData);
-    const resvData = await serverAxios.post(`${PREFIX_URL}/upload`, sendData)
-    .then((res)=>{
-      console.log("file data : " , res.data);
+    const resvData = await serverAxios.post(`${PREFIX_URL}/upload`, sendData).then((res) => {
+      console.log("file data : ", res.data);
       return res.data;
     });
     console.log("file resvData ", resvData);
@@ -16,19 +15,18 @@ export const uploadFiles = async (sendData)=>{
   } catch (err) {
     throw new Error("Failed to load \n" + err);
   }
-}
+};
 
 // 파일 정보를 DB에 저장
-export const uploadContent = async (file, content)=>{
+export const uploadContent = async (file, content) => {
   try {
     const sendData = {
-      file : file,
-      content : content,
-    }
+      file: file,
+      content: content,
+    };
     console.log("sendData", sendData);
-    const resvData = await serverAxios.post(`${PREFIX_URL}/content`, sendData)
-    .then((res)=>{
-      console.log("content data : " , res.data);
+    const resvData = await serverAxios.post(`${PREFIX_URL}/content`, sendData).then((res) => {
+      console.log("content data : ", res.data);
       return res.data;
     });
     return resvData;
@@ -37,18 +35,18 @@ export const uploadContent = async (file, content)=>{
   }
 };
 
-
 // RFQ 생성, BiddingRule 설정
 export const getStatusLov1 = () => {
-    const data = ['약관', '구입사양서', '기타'];
-    return data;
+  const data = ["약관", "구입사양서", "기타"];
+  return data;
 };
 
 // 응찰서 작성
 export const getStatusLov2 = () => {
-  const data = ['기타'];
+  const data = ["기타"];
   return data;
 };
+
 export const uploadFile = async (formData) => {
   try {
     const { data } = await serverAxios.post(`${PREFIX_URL}/upload`, formData);
@@ -58,7 +56,7 @@ export const uploadFile = async (formData) => {
   }
 };
 
-export const uploadContent = async (content) => {
+export const uploadFileContent = async (content) => {
   try {
     const { data } = await serverAxios.post(`${PREFIX_URL}/content`, content);
     return data;

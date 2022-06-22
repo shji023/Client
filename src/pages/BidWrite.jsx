@@ -10,7 +10,7 @@ import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { uploadContent, uploadFile } from "apis/file.api";
+import { uploadFile } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 function BidWrite() {
   const { id } = useParams();
@@ -74,7 +74,6 @@ function BidWrite() {
       ),
     );
     setIsAdd(!isAdd);
-    //await uploadContent(content);
   };
 
   const handleRemoveList = (id) => {
