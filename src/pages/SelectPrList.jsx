@@ -22,7 +22,7 @@ function selectPrList() {
   // 조회 데이터
   const [conditions, setConditions] = useState({
     "requisition_number" : "",
-    "description"        : "용압화파트 실험압연기 메인실린더 누유 수리작업",
+    "description"        : "",
     "requester_id"       : "",
     "requester_name"     : "",
     "item_id"            : "",
