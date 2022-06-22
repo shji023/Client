@@ -2,17 +2,11 @@ import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.a
 import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
-import InputInfo from "components/common/InputInfo";
 import BuyerInputSearch from "components/rfq/BuyerInputSearch";
-import InputSelect from "components/common/InputSelect";
-import InputSearch from "components/common/InputSearch";
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
-import InputDate from "components/common/InputDate";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
-import BidInputSelect from "components/bid/BidInputSelect";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
-import BidInputInfo from "components/bid/BidInputInfo";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
@@ -52,13 +46,11 @@ function SelectRfqList() {
   };
 
   // 바이어 검색 버튼 이벤트
-  const HandleSearch = async (searchWord) => {
-    // console.log("searchWord", searchWord);
-    
-    // TODO: axios로 데이터불러오기
+  const HandleSearch = async (searchWord) => {    
+    // axios로 데이터불러오기
     const data = await getSearchBuyerList(searchWord);
 
-    // TODO: state에 데이터 저장
+    // state에 데이터 저장
     // setBuyerRowData([...data]);
     setBuyerRowData(data);
 
