@@ -57,6 +57,7 @@ export const getshipToLov = async () => {
 
 export const getProductInfoList = async (reqNumList) => {
     try {
+      console.log("000000000000000000000")
       const sendData = {"reqNum" : reqNumList}
       const { data } = await serverAxios.post(`${PREFIX_URL}/ProductInfoList`, sendData);
       console.log("ProductInfoList :::::::: ", data);

@@ -21,6 +21,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
+import FileVendor from "fileUpload/FileVendor";
+import FileInner from "fileUpload/FileInner";
+import FileManager from "fileUpload/FileManager";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
@@ -92,6 +95,7 @@ function RfqCreate() {
 
   const [buyerInfoData, setBuyerInfoData] = useState([]);
 
+  //lov
   const [CycleLov, setCycleLov] = useState([]);
   const [CollaboLov, setCollaboLov] = useState([]);
   const [shipToLov, setshipToLov] = useState([]);
@@ -144,6 +148,7 @@ function RfqCreate() {
 
   const selectProductInfo = async () => {
     const reqNumList = pageData.getPrNumList();
+    console.log("@#@# req", reqNumList);
     const data = await getProductInfoList(reqNumList);
     console.log("@#@#@#@", data);
 
@@ -224,8 +229,8 @@ function RfqCreate() {
     getInitRfq();
   }, []);
 
+  //modal 기능(onHandleOk, onHandleCancel, onHandleSearch)
   const[visible, setVisible]=useState(false);
-
   const onHandleOk= ({selectedRows})=>{
     // 기존 목록 삭제
     let temp = [];
@@ -237,11 +242,9 @@ function RfqCreate() {
     // 새 목록 갱신
     setSelectedVendorList([...selectedRows]);
   }
-  
   const onHandleCancel= ()=>{
     console.log("onHandleCancel");
   }
-
   const onHandleSearch= async (value)=>{
 
     console.log("value : ", value);
@@ -378,12 +381,11 @@ function reload(){
   document.location.reload();
 }
 
-// #region 버튼
+// 저장 button
 const onClickSaveRfq = async () => {
   let res = confirm("최종 저장 하시겠습니까?");
   if(res){
-    // TODO : 필수 입력사항 입력했는지 체크하기
-
+    // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
     const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData );
     if(data) {
       alert("저장이 완료되었습니다.");
@@ -392,17 +394,12 @@ const onClickSaveRfq = async () => {
     } else {
       alert("저장 되지 않았습니다.");
     }
-    // if(data) 
-
-    // insertVendorInfo(selectedVendorList);
-    // insertProductInfo(productInfoData);
   }
 }
 
 const onClickDeleteRfq = async () => {
   let res = confirm("삭제 하시겠습니까?");
   if(res){
-    // TODO : 서버에서 삭제하기
     const data = await deleteRfqInfo(rfq_no);
     if(data) {
       alert("삭제가 완료되었습니다.");
@@ -455,9 +452,7 @@ const handleCondition = (key, value) => {
 };
 
     return (
-      <StyledRoot>
-      <input type="file"></input>
-        
+      <StyledRoot>        
 
         <section>
           <HeaderWrapper>
@@ -597,8 +592,8 @@ const handleCondition = (key, value) => {
         </section>
 
         {/* <section>
-          <SmallTitle>🌐 RFQ첨부(공급사배포)</SmallTitle>
           <ButtonWrapper>
+            <SubTitle>RFQ첨부(공급사배포)</SubTitle>
             <Button onClick={() => {
               let del = confirm("삭제 하시겠습니까?");
               if(del == true)
@@ -607,13 +602,15 @@ const handleCondition = (key, value) => {
                 alert("취소 누름")
             }}>삭제</Button>
           </ButtonWrapper>
-          <AgRfqInsert ></AgRfqInsert>
+          <RfqSelectVendorContainer>
+            <FileManager/>
+          </RfqSelectVendorContainer>
         </section> */}
 
 
         {/* <section>
-          <SmallTitle>🌐 RFQ첨부(내부결제)</SmallTitle>
           <ButtonWrapper>
+            <SubTitle>RFQ첨부(내부결제)</SubTitle>
             <Button onClick={() => {
               let del = confirm("삭제 하시겠습니까?");
               if(del == true)
@@ -622,15 +619,16 @@ const handleCondition = (key, value) => {
                 alert("취소 누름")
             }}>삭제</Button>
           </ButtonWrapper>
-          <AgRfqInsert></AgRfqInsert>
-
+          <RfqSelectVendorContainer>
+            <FileManager/>
+          </RfqSelectVendorContainer>
         </section> */}
 
 
         <section>
           
           <ButtonWrapper>
-          <SubTitle>품목정보</SubTitle>s
+          <SubTitle>품목정보</SubTitle>
           <section>
             <Button style={{display : buttonDisplay}} onClick = { onCopySelected }>행 복사</Button>
             <Button style={{display : buttonDisplay}} onClick = { deleteRow }>행 삭제</Button>
@@ -720,4 +718,8 @@ const SubTitle = styled.p`
   font-size: 1.8rem;
   margin-top: 1rem;
   margin-left: 1rem;
+`;
+
+const RfqSelectVendorContainer = styled.div`
+padding: 1rem 2rem 2rem 0.5rem;
 `;
