@@ -12,7 +12,6 @@ function QuotationSubmitTable({
 }) {
   const lov = ["기타"];
   const inputRef = useRef(null);
-  //console.log(quotationFile);
   const handleButton = () => {
     if (inputRef.current !== null) {
       inputRef.current.click();
@@ -49,7 +48,14 @@ function QuotationSubmitTable({
                 ></QuotationSelect>
               </Td>
               <Td>
-                <input hidden={true} ref={inputRef} type="file" onChange={handleInputChange} />
+                <input
+                  hidden={true}
+                  ref={(el) => {
+                    inputRef.current = el;
+                  }}
+                  type="file"
+                  onChange={handleInputChange}
+                />
                 <UploadButton onClick={handleButton}>업로드</UploadButton>
               </Td>
               <Td>{q.fileName}</Td>
