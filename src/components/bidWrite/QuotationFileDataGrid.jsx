@@ -4,7 +4,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
 
-const QuotationFileDataGrid = () => {
+const QuotationFileDataGrid = ({isDisabled}) => {
 
   const quotationFileColFields = [
     { field: "item", headerName: "유형", minWidth: 100 },

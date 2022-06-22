@@ -5,7 +5,7 @@ const PREFIX_URL = "/bid";
 // 전체 불러오기 사용x
 export const getBidList = async (bidCondition) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`,bidCondition);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`, bidCondition);
     // const { lectures, category, skill } = data.data;
 
     // const result = lectures.map((response) => {
@@ -66,7 +66,7 @@ export const getRfqInfo = async (bidding_no) => {
 export const getRuleInfo = async (bidding_no) => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/ruleInfo/${bidding_no}`);
-    
+
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -145,7 +145,6 @@ export const getBidCurrencyCodeLov = async () => {
 // insertBID
 export const insertOneBid = async (sendData) => {
   try {
-    
     // const sendData = { conditions, lines };
     console.log("sendData : ", sendData);
 
@@ -155,11 +154,10 @@ export const insertOneBid = async (sendData) => {
     // console.log("resvData ", resvData);
     // return resvData;
 
-    const resvData = await serverAxios.post(`${PREFIX_URL}/bidCreate`, sendData)
-    .then((res)=>{
-      console.log("data : " , res.data);
+    const resvData = await serverAxios.post(`${PREFIX_URL}/bidCreate`, sendData).then((res) => {
+      console.log("data : ", res.data);
       return res.data;
-    })
+    });
     console.log("resvData ", resvData);
     return resvData;
     // return {res: false, data: "1234"};
@@ -171,8 +169,20 @@ export const insertOneBid = async (sendData) => {
 
 export const postVendorComment = async (vendorComment) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorComment`,vendorComment);
-    if (data === "success"){
+    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorComment`, vendorComment);
+    if (data === "success") {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
+
+export const postQuotationInfo = async (quotationInfo) => {
+  try {
+    const { data } = await serverAxios.post(`${PREFIX_URL}/quotationInfo`, quotationInfo);
+    if (data === "success") {
       return true;
     }
     return false;
