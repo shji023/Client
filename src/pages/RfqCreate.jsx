@@ -1,7 +1,7 @@
 import { colors } from "assets/styles/color";
 import LabelInfo from "components/common/LabelInfo";
-import InputInfo from "components/createRfq/InputInfo";
-import InputSelect from "components/createRfq/InputSelect";
+import InputInfo from "components/common/InputInfo";
+import InputSelect from "components/common/InputSelect";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import InputSearch from "components/common/InputSearch";
@@ -9,7 +9,7 @@ import AgVendorSelect from "components/common/AgVendorSelect";
 import AgRfqInsert from "components/common/AgRfqInsert";
 import AgProductInfo from "components/common/AgProductInfo";
 import BidInfo from "components/common/BidInfo";
-import { getProductInfoList, getBuyerInfo, insertRfqInfo, insertVendorInfo, deleteRfqInfo } from "apis/RfqCreate.api";
+import { getProductInfoList, getBuyerInfo, insertRfqInfo, insertVendorInfo, deleteRfqInfo, selectRfq, updateRfqInfo } from "apis/RfqCreate.api";
 import {getCycleLov, getCollaboLov, getPaymentLov, getFobLov, getshipToLov} from "apis/RfqCreate.api";
 import CustomModal from "components/common/CustomModal";
 import {popUpVendorColFields} from "stores/colData";
@@ -21,11 +21,43 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
+import FileVendor from "fileUpload/FileVendor";
+import FileInner from "fileUpload/FileInner";
+import FileManager from "fileUpload/FileManager";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
 
-  const [rfqListData, setRfqListData] = useState({
+  const [disabled, setDisabled] = useState(true);
+  const [hide, setHide] = useState(true);
+  const [buttonDisplay, setButtonDisplay] = useState("none");
+
+  const toggleHide = ()=>{
+    setHide(!hide);
+  }
+  const toggleDisabled = ()=>{
+    setDisabled(!disabled);
+  }
+  const toggleButtonDisplay = ()=>{
+    buttonDisplay === "inline-block" ? setButtonDisplay("none") : setButtonDisplay("inline-block");
+  }
+
+  const testConditions = {
+    amount_limit: "1",
+    bidding_fob: "당사지정장소",
+    buyer_id: "17278",
+    category_segment: "자재",
+    end_date: "2022-06-01",
+    po_collabo_type: "Consignment",
+    po_payment_cycle: "15 Days",
+    rfq_description: "테스트1",
+    rfq_detail_status: "1",
+    rfq_no: "",
+    rfq_payment_terms: "10000",
+    rfq_ship_to: "837",
+    simple_quotation_flag: "1"  ,
+  }
+  const defaultConditions = {
     rfq_no: "-",
     simple_quotation_flag:"1", 
     rfq_detail_status:"1",
@@ -47,28 +79,101 @@ function RfqCreate() {
     rfq_ship_to:"",
     rfq_payment_terms:"",
     bidding_fob:"",
-  });  
+  }
+
+  const [rfqListData, setRfqListData] = useState(
+    // testConditions
+    defaultConditions
+  );  
+  // 공급사선정
   const[selectedVendorList, setSelectedVendorList]=useState([]);
 
   // 품목정보
   const [productInfoData, setProductInfoData] = useState([]);
+  const [deletedVendorIdList, setDeletedVendorIdList] = useState([]);
+  const [deletedProductIdList, setDeletedProductIdList] = useState([]);
+
   const [buyerInfoData, setBuyerInfoData] = useState([]);
 
+  //lov
   const [CycleLov, setCycleLov] = useState([]);
   const [CollaboLov, setCollaboLov] = useState([]);
   const [shipToLov, setshipToLov] = useState([]);
   const [PaymentLov, setPaymentLov] = useState([]);
   const [FobLov, setFobLov] = useState([]);
 
+  const getRfqInfo = async (rfq_no) => {
+    
+    const data = await selectRfq(rfq_no);
+
+    // Rfq Header
+    const rfqList = data;
+    const po1 = data.po1List[0];
+    const bid1 = data.bid1List[0];
+
+    const temp = 
+    {
+      rfq_no: data.rfq_no,
+      simple_quotation_flag: data.simple_quotation_flag, 
+      rfq_detail_status: data.rfq_detail_status,
+      category_segment:data.category_segment,
+      rfq_description:data.rfq_description,
+      buyer_id: data.buyer_id,
+      po_payment_cycle: po1.po_payment_cycle,
+      po_collabo_type: po1.po_collabo_type,
+      end_date: po1.end_date,
+      amount_limit:po1.amount_limit,
+      rfq_ship_to: data.rfq_ship_to,
+      rfq_payment_terms: data.rfq_payment_terms,
+      bidding_fob:bid1.bidding_fob,
+    }
+    setRfqListData({...temp});
+
+
+    // Rfq Vendor
+    const vendorList = data.rfq3List;
+    setSelectedVendorList([...vendorList]);
+
+
+    // Rfq Product = Rfq 2
+    const productList = data.rfq2List;
+    const tempProductList = [];
+    productList.forEach((element)=>{
+      tempProductList.push({...element, rfq_id: element.id, query_type: "update"});
+    });
+    console.log("productList", productList);
+    setProductInfoData([...tempProductList]);
+    
+  }
+
   const selectProductInfo = async () => {
     const reqNumList = pageData.getPrNumList();
+    console.log("@#@# req", reqNumList);
     const data = await getProductInfoList(reqNumList);
-    console.log(data);
-    setProductInfoData(data);
+    console.log("@#@#@#@", data);
+
+    const tempList = [];
+    data.forEach((element)=>{
+      let temp =
+      {
+        request_dept : element.dept_name,
+        description : element.description,
+        group_name : element.group_name,
+        item_name : element.item,
+        request_name : element.name,
+        requisition_num : element.requisition_num + "-" + element.requisition_line_number,
+        request_phone : element.staff_contact_number,
+        unit_meas_lookup_code : element.uom,
+      };
+      tempList.push(temp);
+    })
+
+    setProductInfoData([...tempList]);
   };
-  const selectBuyerInfo = async () => {
-    //TODO: buyer_id 받아와서 넣기 
-    const data = await getBuyerInfo("17278");
+
+  const selectBuyerInfo = async (buyerId) => {
+    //TODO: 로그인 한 buyer_id 받아와서 넣기 
+    const data = await getBuyerInfo(buyerId);
     console.log("받아오는 바이어인포   :   ", data);
     setBuyerInfoData(data);
   };
@@ -96,33 +201,50 @@ function RfqCreate() {
   };
 
   const getInitRfq = () => {
-    if(!rfq_no) return;
-
-    // TODO: 값 초기화
-    setRfqListData({...rfqListData, rfq_no : rfq_no });
-        
-  }
-  const getPrList = async()=>{
-    console.log("pageData.getPrDataㅋㅋㅋㅋㅋㅋㅋ", pageData.getPrData);
-  }
-  useEffect(() => {
     getLov();
+
+    
+    if(rfq_no) {
+      // * RFQ 수정
+      // RFQ Create로 넘어온 경우
+      selectBuyerInfo("17278");
+      getRfqInfo(rfq_no);
+      // setDisabled(true);
+      toggleButtonDisplay();
+      toggleHide();
+      toggleDisabled();
+
+    } else {
+      // * RFQ 생성
+      // Pr에서 넘어온 경우
+      selectBuyerInfo("17278");
+      selectProductInfo();
+      setRfqListData({...rfqListData, rfq_no : rfq_no });
+      setDisabled(false);
+    }
+
+  }
+
+  useEffect(() => {
     getInitRfq();
-    selectBuyerInfo();
-    selectProductInfo();
-    getPrList();
   }, []);
 
+  //modal 기능(onHandleOk, onHandleCancel, onHandleSearch)
   const[visible, setVisible]=useState(false);
-
   const onHandleOk= ({selectedRows})=>{
+    // 기존 목록 삭제
+    let temp = [];
+    selectedVendorList.forEach((element)=>{
+      temp.push(element.rfq_vendor_id);
+    })
+    setDeletedVendorIdList([...temp]);
+
+    // 새 목록 갱신
     setSelectedVendorList([...selectedRows]);
   }
-  
   const onHandleCancel= ()=>{
     console.log("onHandleCancel");
   }
-
   const onHandleSearch= async (value)=>{
 
     console.log("value : ", value);
@@ -137,7 +259,7 @@ function RfqCreate() {
   }
   const columnDefs = [
     {
-      headerName:"..HELLO.",
+      headerName:"",
       headerCheckboxSelection:true,
       checkboxSelection:true,
       floatingFilter:false,
@@ -151,11 +273,12 @@ function RfqCreate() {
       editable:false,
       filter:false,
       suppressColumnsToolPanel:true,
+      hide:hide,
     },
-    {field:"item", headerName:"Item", minWidth:10, },
+    {field:"item_name", headerName:"Item", minWidth:10, },
     {field:"description", headerName:"Description", minWidth:10, maxWidth:150,},
-    {field:"uom", headerName:"단위", minWidth:10, maxWidth:80,},
-    {field:"quantity", headerName:"수량", minWidth:10, maxWidth:80,
+    {field:"unit_meas_lookup_code", headerName:"단위", minWidth:10, maxWidth:80,},
+    {field:"pur_rfq_qt", headerName:"수량", minWidth:10, maxWidth:80,
       cellRendererSelector : params => {
         return {
           component: InputInfoGrid,
@@ -163,10 +286,11 @@ function RfqCreate() {
             params: params,
             stateValue: productInfoData,
             setStateValue: setProductInfoData,
+            disabled: disabled,
           }
       }}  
     },
-    {field:"end_date", headerName:"납기", minWidth:10, maxWidth:120,
+    {field:"need_by_date", headerName:"납기", minWidth:10, maxWidth:120,
       cellRendererSelector : params => {
         return {
           component: InputOneDateGrid,
@@ -174,14 +298,15 @@ function RfqCreate() {
             params: params,
             stateValue: productInfoData,
             setStateValue: setProductInfoData,
+            disabled: disabled,
           }
       }}
     },
-    {field:"dept_name", headerName:"사용부서", minWidth:10, maxWidth:120,},
+    {field:"request_dept", headerName:"사용부서", minWidth:10, maxWidth:120,},
     {field:"group_name", headerName:"그룹사", minWidth:10, maxWidth:100,},
     {field:"requisition_num", headerName:"PR번호-Line", minWidth:10, maxWidth:140,},
-    {field:"name", headerName:"신청자", minWidth:10, maxWidth:100,},
-    {field:"staff_contact_number", headerName:"연락처", minWidth:10, maxWidth:120,},
+    {field:"request_name", headerName:"신청자", minWidth:10, maxWidth:100,},
+    {field:"request_phone", headerName:"연락처", minWidth:10, maxWidth:120,},
   ]
 
   // #region 그리드 관련 이벤트
@@ -204,7 +329,8 @@ function RfqCreate() {
       tempData.push({...node.data, id: id++});
       if(node.isSelected()){
         ids.push(id-1);
-        tempData.push({...node.data, id: id++});
+        // * id, query_type 새로 부여
+        tempData.push({...node.data, id: id++, query_type: "insert"});
       }
     });   
 
@@ -223,6 +349,18 @@ function RfqCreate() {
     if(selectedRowNodes.length === 0) return;
 
     const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+    const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
+    console.log("selectedData :::", selectedData);
+
+    // * 삭제한 행의 정보를 담는다.
+    const tempList = deletedProductIdList;
+    selectedData.forEach((element)=>{
+      // * 기존 행인 경우에만 담는다.
+      // primary key 가져오기
+      if(element.query_type === "update") tempList.push(element.rfq_id);
+    });
+    setDeletedProductIdList([ ...tempList ]);
+    
     const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
     setRowData([...filteredData]);
     setSelectedIds([]);
@@ -243,12 +381,11 @@ function reload(){
   document.location.reload();
 }
 
-// #region 버튼
+// 저장 button
 const onClickSaveRfq = async () => {
   let res = confirm("최종 저장 하시겠습니까?");
   if(res){
-    // TODO : 필수 입력사항 입력했는지 체크하기
-
+    // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
     const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData );
     if(data) {
       alert("저장이 완료되었습니다.");
@@ -257,17 +394,12 @@ const onClickSaveRfq = async () => {
     } else {
       alert("저장 되지 않았습니다.");
     }
-    // if(data) 
-
-    // insertVendorInfo(selectedVendorList);
-    // insertProductInfo(productInfoData);
   }
 }
 
 const onClickDeleteRfq = async () => {
   let res = confirm("삭제 하시겠습니까?");
   if(res){
-    // TODO : 서버에서 삭제하기
     const data = await deleteRfqInfo(rfq_no);
     if(data) {
       alert("삭제가 완료되었습니다.");
@@ -280,16 +412,21 @@ const onClickDeleteRfq = async () => {
   }
 }
 
-const onClickUpdateRfq = () => {
+const onClickUpdateRfq = async () => {
   let res = confirm("수정 하시겠습니까?");
   if(res){
     // TODO : 필수 입력사항 입력했는지 체크하기
-
-    // TODO : 서버에서 업데이트하기
-    reload();
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    // navigate(`/rfqCreate`, { replace: true});
-
+    const data = await updateRfqInfo(rfqListData, selectedVendorList, productInfoData, deletedVendorIdList, deletedProductIdList);
+    // if(data) {
+      //   alert("수정이 완료되었습니다.");
+      //   reload();
+      // } else {
+        //   alert("수정이 되지 않았습니다.");
+        // }
+        
+    // toggleHide();
+    // toggleDisabled();
+    // toggleButtonDisplay();
   }
 }
 
@@ -308,11 +445,14 @@ const ButtonSelector = () => {
   }
 }
 // #endregion 버튼
+const handleCondition = (key, value) => {
+  const tempCondition = { ...conditions };
+  tempCondition[key] = value;
+  setConditions({ ...tempCondition });
+};
 
     return (
-      <StyledRoot>
-      <input type="file"></input>
-        
+      <StyledRoot>        
 
         <section>
           <HeaderWrapper>
@@ -323,73 +463,101 @@ const ButtonSelector = () => {
           
           <RfqInfoContainer>
           
-          <BidInfo
-            label= "RFQ번호" 
-            value= {rfqListData.rfq_no}
+           <InputInfo
+            id="rfq_no"
+            inputLabel="RFQ번호"
+            handlePoCondition={handleCondition}
+            inputValue={rfqListData.rfq_no}
+            disabled={true}
+            spanCnt={1}
           />
-          <BidInfo
-            label= "단계" 
-            value= "입찰"
+          <InputInfo
+            inputLabel="단계"
+            inputValue={"입찰"}
+            disabled={true}
+            spanCnt={1}
           />
-          <BidInfo
-            label= "status" 
-            value= "작성중"
+          {/* TODO: 값에 따라 바껴야됨 */}
+          <InputInfo
+            inputLabel="status"
+            inputValue={"작성중"}
+            disabled={true}
+            spanCnt={1}
           />
-          <BidInfo
-            label= "Type" 
-            value= "자재"
+          <InputInfo
+            inputLabel="Type"
+            inputValue={"자재"}
+            disabled={true}
+            spanCnt={1}
           />
           <InputInfo
             id="rfq_description"
             inputLabel="건명"
             handlePoCondition={handleRfqInfoCondition}
             inputValue={rfqListData.rfq_description}
+            disabled={disabled}
+            spanCnt={2}
           />
-          <BidInfo
-            label= "담당자" 
-            value= {buyerInfoData.buyer_name+"/ "+buyerInfoData.buyer_dept_name+"/ "+buyerInfoData.buyer_contact}
+          <InputInfo
+            inputLabel="담당자"
+            inputValue={buyerInfoData.buyer_name+"/ "+buyerInfoData.buyer_dept_name+"/ "+buyerInfoData.buyer_contact}
+            disabled={true}
+            spanCnt={2}
           />
           <InputSelect
             id="po_payment_cycle"
             inputLabel="정산주기"
+            // initValue={rfqListData.po_payment_cycle}
+            initValue={rfqListData.po_payment_cycle}
             handlePoCondition={handleRfqInfoCondition}
             lov={CycleLov}
+            disabled={disabled}
           />
           <InputSelect
-            id="po_collabo_type"
+            id="po_collabo_type"  
             inputLabel="협업유형"
+            initValue={rfqListData.po_collabo_type}
             handlePoCondition={handleRfqInfoCondition}
             lov={CollaboLov}
+            disabled={disabled}
           />
           <InputOneDate
             id="end_date"
             inputLabel="계약기간(BPA)"
+            initValue={rfqListData.end_date}
             handleCondition={handleRfqInfoCondition}
+            disabled={disabled}
           />
           <InputInfo
             id="amount_limit"
             inputLabel="Amount Limit(%)"
             handlePoCondition={handleRfqInfoCondition}
             inputValue={rfqListData.amount_limit}
-            mySize={200}
+            disabled={disabled}
           />
           <InputSelect
             id="rfq_ship_to"
             inputLabel="납품지역"
+            initValue={rfqListData.rfq_ship_to}
             handlePoCondition={handleRfqInfoCondition}
             lov={shipToLov}
+            disabled={disabled}
           />
           <InputSelect
             id="rfq_payment_terms"
             inputLabel="지불조건"
+            initValue={rfqListData.rfq_payment_terms}
             handlePoCondition={handleRfqInfoCondition}
             lov={PaymentLov}
+            disabled={disabled}
           />
           <InputSelect
             id="bidding_fob"
             inputLabel="인도조건"
+            initValue={rfqListData.bidding_fob}
             handlePoCondition={handleRfqInfoCondition}
             lov={FobLov}
+            disabled={disabled}
           />
           <BidInfo
             label= "" 
@@ -420,12 +588,12 @@ const ButtonSelector = () => {
                 setVisible(true);
             }}>공급사선정</Button>
           </ButtonWrapper>
-          <AgVendorSelect selectedVendorList={selectedVendorList}></AgVendorSelect>
+          <AgVendorSelect   selectedVendorList={selectedVendorList} hide={hide}/>
         </section>
 
         {/* <section>
-          <SmallTitle>🌐 RFQ첨부(공급사배포)</SmallTitle>
           <ButtonWrapper>
+            <SubTitle>RFQ첨부(공급사배포)</SubTitle>
             <Button onClick={() => {
               let del = confirm("삭제 하시겠습니까?");
               if(del == true)
@@ -434,13 +602,15 @@ const ButtonSelector = () => {
                 alert("취소 누름")
             }}>삭제</Button>
           </ButtonWrapper>
-          <AgRfqInsert ></AgRfqInsert>
+          <RfqSelectVendorContainer>
+            <FileManager/>
+          </RfqSelectVendorContainer>
         </section> */}
 
 
         {/* <section>
-          <SmallTitle>🌐 RFQ첨부(내부결제)</SmallTitle>
           <ButtonWrapper>
+            <SubTitle>RFQ첨부(내부결제)</SubTitle>
             <Button onClick={() => {
               let del = confirm("삭제 하시겠습니까?");
               if(del == true)
@@ -449,18 +619,19 @@ const ButtonSelector = () => {
                 alert("취소 누름")
             }}>삭제</Button>
           </ButtonWrapper>
-          <AgRfqInsert></AgRfqInsert>
-
+          <RfqSelectVendorContainer>
+            <FileManager/>
+          </RfqSelectVendorContainer>
         </section> */}
 
 
         <section>
           
           <ButtonWrapper>
-          <SubTitle>품목정보</SubTitle>s
+          <SubTitle>품목정보</SubTitle>
           <section>
-            <Button onClick = { onCopySelected }>행 복사</Button>
-            <Button onClick = { deleteRow }>행 삭제</Button>
+            <Button style={{display : buttonDisplay}} onClick = { onCopySelected }>행 복사</Button>
+            <Button style={{display : buttonDisplay}} onClick = { deleteRow }>행 삭제</Button>
           </section>
           </ButtonWrapper>
           <AgProductInfo 
@@ -547,4 +718,8 @@ const SubTitle = styled.p`
   font-size: 1.8rem;
   margin-top: 1rem;
   margin-left: 1rem;
+`;
+
+const RfqSelectVendorContainer = styled.div`
+padding: 1rem 2rem 2rem 0.5rem;
 `;

@@ -2,8 +2,13 @@ import { DatePicker } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
+import moment from "moment";
 
-function InputOneDate({ id, inputLabel, handleCondition, spanCnt }) {
+function InputOneDate({ id, inputLabel, initValue, handleCondition, spanCnt, disabled }) {
+
+  const dateFormat = "YYYY-MM-DD";
+  let value = null;
+  value = !initValue ? null : moment(initValue, dateFormat);
 
   const InputLabel = (props) => {
     if(props.inputLabel) {
@@ -21,6 +26,8 @@ function InputOneDate({ id, inputLabel, handleCondition, spanCnt }) {
       {/* <Label htmlFor={id}>{inputLabel}</Label> */}
       <DatePicker
         id={id}
+        value={value}
+        disabled={disabled}
         onChange={(date) =>
           handleCondition(id, date.format("YYYY-MM-DD"))
         }

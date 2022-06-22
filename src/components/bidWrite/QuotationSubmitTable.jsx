@@ -12,7 +12,6 @@ function QuotationSubmitTable({
 }) {
   const lov = ["기타"];
   const inputRef = useRef(null);
-  console.log(quotationFile);
   const handleButton = () => {
     if (inputRef.current !== null) {
       inputRef.current.click();
@@ -35,23 +34,33 @@ function QuotationSubmitTable({
           quotationFile.map((q) => (
             <Tr key={q.id}>
               <Td>
-                <input type="checkbox" onClick={() => handleRemoveList(q.id)} />
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleRemoveList(e.currentTarget.checked, q.id)}
+                />
               </Td>
               <Td>
                 <QuotationSelect
-                  id="fileType"
+                  id="type"
                   handleFileContent={handleFileContent}
                   lov={lov}
                   isDisabled={false}
                 ></QuotationSelect>
               </Td>
               <Td>
-                <input hidden={true} ref={inputRef} type="file" onChange={handleInputChange} />
+                <input
+                  hidden={true}
+                  ref={(el) => {
+                    inputRef.current = el;
+                  }}
+                  type="file"
+                  onChange={handleInputChange}
+                />
                 <UploadButton onClick={handleButton}>업로드</UploadButton>
               </Td>
-              <Td>{q.fileName}</Td>
+              <Td>{q.origin_name}</Td>
               <Td>{q.size}</Td>
-              <Td>{q.registerDate}</Td>
+              <Td>{q.upload_date}</Td>
             </Tr>
           ))
         ) : (

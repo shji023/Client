@@ -12,6 +12,7 @@ import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import { uploadFile } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
+
 function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
@@ -22,16 +23,8 @@ function BidWrite() {
     main_currency: "",
   });
   const [itemListData, setItemListData] = useState([]);
-  const [quotationFile, setQuotationFile] = useState([
-    // {
-    //   id: 0,
-    //   fileType: "",
-    //   fileName: "",
-    //   size: "",
-    //   registerDate: "",
-    // },
-  ]);
-  // const [content, setContent] = useState({});
+  // RenderingData
+  const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
     vendor_site_id: "822",
     rfq_no: "",
@@ -59,16 +52,16 @@ function BidWrite() {
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
-    console.log(returnData[0].originFile);
-
     setQuotationFile(
       quotationFile.map((q) =>
         q.id === nextId.current
           ? {
               ...q,
-              fileName: returnData[0].originFile,
-              size: "123byte",
-              registerDate: "202206021",
+              origin_name: returnData[0].originFile,
+              save_name: returnData[0].saveFile,
+              size: returnData[0].size + "Bytes",
+              upload_date: returnData[0].uploadDate,
+              file_path: returnData[0].saveFolder,
             }
           : q,
       ),
@@ -76,35 +69,40 @@ function BidWrite() {
     setIsAdd(!isAdd);
   };
 
-  const handleRemoveList = (id) => {
-    setRemoveList([...removeList, id]);
+  const handleRemoveList = (checked, id) => {
+    if (checked) {
+      setRemoveList([...removeList, id]);
+    } else {
+      setRemoveList(removeList.filter((r) => r !== id));
+    }
   };
 
   const onRemove = () => {
-    console.log(removeList);
+    let temp = quotationFile;
     removeList.map((r) => {
-      console.log(r);
-      setQuotationFile(quotationFile.filter((q) => q.id !== r));
+      temp = temp.filter((q) => q.id !== r);
     });
+    setQuotationFile([...temp]);
     setRemoveList([]);
   };
-
-  useDidMountEffect(() => {
-    onCreate();
-  }, [isAdd]);
 
   // fileTable row추가
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
       id: nextId.current,
-      fileType: "기타",
-      fileName: "",
+      type: "기타",
+      origin_name: "",
+      save_name: "",
       size: "",
-      registerDate: "",
+      upload_date: "",
+      file_path: "",
+      bidding_no: id,
+      vendor_site_id: "822",
     };
     setQuotationFile([...quotationFile, newFile]);
   };
+
   // file content 내용 등록
   const handleFileContent = (key, value) => {
     setQuotationFile(
@@ -151,6 +149,10 @@ function BidWrite() {
   useEffect(() => {
     getItemList();
   }, []);
+
+  useDidMountEffect(() => {
+    onCreate();
+  }, [isAdd]);
 
   useEffect(() => {
     // * 헤더 총 금액 계산
@@ -205,7 +207,6 @@ function BidWrite() {
         <SubmitQuotationContainer>
           <QuotationSubmitTable
             quotationFile={quotationFile}
-            onCreate={onCreate}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
             handleRemoveList={handleRemoveList}
