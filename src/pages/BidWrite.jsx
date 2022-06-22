@@ -110,7 +110,7 @@ function BidWrite() {
         q.id === nextId.current
           ? {
               ...q,
-              fileType: value,
+              type: value,
             }
           : q,
       ),
@@ -153,6 +153,10 @@ function BidWrite() {
   useDidMountEffect(() => {
     onCreate();
   }, [isAdd]);
+
+  useDidMountEffect(() => {
+    console.log(quotationFile);
+  }, [quotationFile]);
 
   useEffect(() => {
     // * 헤더 총 금액 계산
