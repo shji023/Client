@@ -15,7 +15,7 @@ import { getBuyerList, getItemList, getStaffList, getVendorList } from "apis/pub
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import InputOneDate from "components/common/InputOneDate";
-import { getPoRegistLov, getPoSearch, insertOnePo } from "apis/po.api";
+import { getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 
@@ -99,6 +99,11 @@ function PoRegist() {
     // },
   ];
   const [rowData, setRowData] = useState([...testData]);
+  const [deletedIdList, setDeletedIdList] = useState({
+    line: [],
+    location: [],
+    distribution: [],
+  });
 
   const testCondition = {
     acceptance_due_date: "",
@@ -230,13 +235,13 @@ function PoRegist() {
       navigate(`/createPo/${temp.req_num}`)
       
     } else {
-      alert("구매 신청이 실패했습니다.");
+      alert("구매 계약 등록이 실패했습니다.");
     }
   };
 
   const onUpdateContents = async () => {
     confirm(
-      "구매 신청서 수정을 완료하시겠습니까?"
+      "구매 계약서 수정을 완료하시겠습니까?"
       ) ? updateContent() : null;
   }
 
@@ -244,18 +249,18 @@ function PoRegist() {
     console.log("onUpdateContents called");
 
     // !: axios 비동기
-    const data = await updateOnePr(conditions, rowData);
+    const data = await updateOnePo(conditions, rowData, deletedIdList);
     if(data.res){
-      alert("구매 신청 수정이 완료되었습니다.");
+      alert("구매 계약 수정이 완료되었습니다.");
     } else {
-      alert("구매 신청 수정이 실패했습니다.");
+      alert("구매 계약 수정이 실패했습니다.");
     }
   }
   
   // PR 삭제 버튼 이벤트
   const onDeleteContents = () => {
     confirm(
-      "삭제 시 해당 신청서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"
+      "삭제 시 해당 계약서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"
       ) ? deleteContent() : null;
   }
   
@@ -265,9 +270,9 @@ function PoRegist() {
     // !: axios 비동기
     // const data = await deleteOnePr(conditions.req_num);
     if(data.res){
-      alert("구매 신청 삭제가 완료되었습니다.");
+      alert("구매 계약 삭제가 완료되었습니다.");
     } else {
-      alert("구매 신청 삭제가 실패했습니다.");
+      alert("구매 계약 삭제가 실패했습니다.");
     }
     navigate(`/createPr`);
   }
@@ -284,7 +289,38 @@ function PoRegist() {
   } )
   const createOneRecord = () => {
     return {
-      
+      closed_code : "",
+      line : "",
+      item : "",
+      category : "",
+      description : "",
+      uom : "",
+      quantity : "",
+      unit_price : "",
+      total_amount : "",
+      shipment : "",
+      ship_quantity : "",
+      ship_total_amount : "",
+      need_by_date : "",
+      promised_date : "",
+      organization : "",
+      tax_code : "",
+      match_option : "",
+      over_receipt_tol : "",
+      action : "",
+      quantity_recevied : "",
+      quantity_accepted : "",
+      quantity_rejected : "",
+      quantity_billed : "",
+      quantity_cancelled : "",
+      distribution : "",
+      requisition : "",
+      req_line : "",
+      requester : "",
+      deliver_to_location : "",
+      subinventory : "",
+      charge_account : "",
+      query_type: "insert",
     }
   }
   
@@ -304,7 +340,7 @@ function PoRegist() {
       tempData.push({...node.data, id: id++});
       if(node.isSelected()){
         ids.push(id-1);
-        tempData.push({...node.data, id: id++});
+        tempData.push({...node.data, id: id++, query_type: "insert"});
       }
     });
 
@@ -321,6 +357,28 @@ function PoRegist() {
     if(selectedRowNodes.length === 0) return;
 
     const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
+    const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
+    console.log("selectedData :::", selectedData);
+
+     // * 삭제한 행의 정보를 담는다.
+    //  const tempList = deletedIdList;
+     const tempLineList = deletedIdList.line;
+     const tempLocationList = deletedIdList.location;
+     const tempDistList = deletedIdList.distribution;
+     selectedData.forEach((element)=>{
+       // * 기존 행인 경우에만 담는다.
+       if(element.query_type === "update") {
+        tempLineList.push(element.po_line_id);
+        tempLocationList.push(element.po_line_location_id);
+        tempDistList.push(element.po_distribution_id);
+       }
+     });
+     setDeletedIdList({
+      line : [...tempLineList],
+      location : [...tempLocationList],
+      distribution : [...tempDistList],
+     });
+
     const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
     setRowData([...filteredData]);
     setSelectedIds([]);
@@ -699,6 +757,7 @@ cellRendererSelector : params => {
       data.forEach(( element )=>{
         
         let temp_line = {
+          // TODO: id 가져오기
           closed_code : element.closed_code,
           line : element.po_line_num,
           item : element.item_id,
@@ -731,6 +790,10 @@ cellRendererSelector : params => {
           deliver_to_location : element.deliver_to_location_id,
           subinventory : element.destination_subinventory,
           charge_account : element.account_nm,
+          query_type: "update",
+          po_line_id: element.po_line_id,
+          po_line_location_id: element.po_line_location_id,
+          po_distribution_id: element.po_distribution_id,
         }
         temp_lines.push(temp_line);
       })
