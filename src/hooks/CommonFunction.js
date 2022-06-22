@@ -28,3 +28,7 @@ import moment from "moment";
     // console.log(`Difference is ${fromDate.diff(toDate)} milliseconds`);
 
  }
+
+ export const reload = () => {
+    document.location.reload();
+  }

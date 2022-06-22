@@ -15,7 +15,7 @@ import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import useDidMountEffect from "hooks/useDidMountEffect";
-import { uploadFile } from "apis/file.api";
+import { uploadContent, uploadFile } from "apis/file.api";
 import { DeleteButton } from "components/common/CustomButton";
 function RfqDetail() {
   const {id} = useParams();
@@ -78,30 +78,6 @@ function RfqDetail() {
     tempBidCondition[key] = value;
     setBidCondition(tempBidCondition);
   };
-
-
-  // file upload
-  // const [content, setContent] = useState({
-  //   "rfq_no" : id,
-  // });
-  // const [fileInfoList, setFileInfoList] = useState([]);
-
-  // const handleInputChange = async (e) => {
-  //   // formData : 파일을 담는 객체
-  //   const formData = new FormData();
-  //   formData.append("file", e.target.files[0]);
-  //   const fileInfo = await uploadFiles(formData);
-  //   setFileInfoList(fileInfo[0]);
-  //   console.log("fileInfoList : ", fileInfoList);
-
-  //   // const DBInfo = uploadContent(fileInfoList, content);
-  // };
-
-  // const handleFileCondition = (key, value) => {
-  //   const tempBidCondition = { ...content };
-  //   tempBidCondition[key] = value;
-  //   setContent(tempBidCondition);
-  // };
 
 //------------------------------------------------------
   const [quotationFile, setQuotationFile] = useState([]);
@@ -191,15 +167,17 @@ function RfqDetail() {
   const saveContents = async () => {
     console.log("onSaveContents called");
 
-    const data = await insertOneBid(bidCondition);
+    const returnData = await uploadContent(quotationFile);
+    // const data = await insertOneBid(bidCondition);
 
-    console.log("완료 : ", data);
+    console.log("완료 : ", returnData);
+    // console.log("완료 : ", data);
 
-    if(data === 'success'){
-      alert("입찰룰이 완료되었습니다.");
-    } else {
-      alert("입찰룰이 실패했습니다.");
-    }
+    // if(data === 'success'){
+    //   alert("입찰룰이 완료되었습니다.");
+    // } else {
+    //   alert("입찰룰이 실패했습니다.");
+    // }
   };
 
   const onSaveContents = () => {
@@ -221,6 +199,7 @@ function RfqDetail() {
           <Title>입찰룰</Title>
           <Button onClick={ () =>{ 
             onSaveContents(); 
+
           }}>저장</Button>
         </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>

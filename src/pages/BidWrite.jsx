@@ -10,7 +10,7 @@ import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { uploadFile } from "apis/file.api";
+import { uploadFile, uploadFileContent } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 
 function BidWrite() {
@@ -144,6 +144,11 @@ function BidWrite() {
       setIsSubmit(true);
     }
     // file정보 insert
+    // if (data === "success") {
+    //   return true;
+    // }
+    // return false;
+    await uploadFileContent(quotationFile);
   };
 
   useEffect(() => {
