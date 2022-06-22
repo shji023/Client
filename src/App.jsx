@@ -238,7 +238,7 @@ function App() {
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
                 <Route path="/poRegist/:id" element={<PoRegist />} />
-                <Route path="/successBid" element={<SuccessBid />} />
+                <Route path="/successBid/:rfq_no" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
                 <Route path="/createPr/:id" element={<CreatePr />} />
