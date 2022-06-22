@@ -1,83 +1,170 @@
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import QuotationInput from "components/bidWrite/QuotationInput";
-import { getBidCurrencyCodeLov, getQuotationItemInfo, postVendorComment } from "apis/bid.api";
-import QuotationFileDataGrid from "components/bidWrite/QuotationFileDataGrid";
+import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis/bid.api";
 import { Button, DeleteButton } from "components/common/CustomButton";
-
+import ConfirmModal from "components/bidWrite/ConfirmModal";
+import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
+import { uploadFile } from "apis/file.api";
+import useDidMountEffect from "hooks/useDidMountEffect";
 function BidWrite() {
   const { id } = useParams();
-  const [priceCondition, setPriceCondition] = useState({
-    currency: "",
-    quotation_total_price1: "",
-  });
-  const [vendorComment, setVendorComment] = useState({
-    vendor_site_id: "689",
-    rfq_no:"",
-    bidding_no:"",
-    quotation_comment:"",
-  })
-  //const [currencyLov, setCurrencyLov] = useState([]);
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
+  const [updateItem, setUpdateItem] = useState({
+    vendor_site_id: "822",
+    quotation_total_price: "",
+    rfq_no: "",
+    main_currency: "",
+  });
   const [itemListData, setItemListData] = useState([]);
+  const [quotationFile, setQuotationFile] = useState([
+    // {
+    //   id: 0,
+    //   fileType: "",
+    //   fileName: "",
+    //   size: "",
+    //   registerDate: "",
+    // },
+  ]);
+  // const [content, setContent] = useState({});
+  const [vendorComment, setVendorComment] = useState({
+    vendor_site_id: "822",
+    rfq_no: "",
+    bidding_no: "",
+    quotation_comment: "",
+  });
   const [isSubmit, setIsSubmit] = useState(false);
-  const result = getKoreanNumber(priceCondition.quotation_total_price1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
+  const [removeList, setRemoveList] = useState([]);
 
+  const nextId = useRef(0);
+  const result = getKoreanNumber(updateItem.quotation_total_price);
+
+  // Item 견적가 입력
   const handleCondition = (key, value) => {
-    const tempPriceCondition = { ...priceCondition };
-    tempPriceCondition[key] = value;
-    setPriceCondition(tempPriceCondition);
+    const tempUpdateItem = { ...updateItem };
+    tempUpdateItem[key] = value;
+    setUpdateItem(tempUpdateItem);
   };
 
-  const handleVendorComment = (value)=>{
-    const tempVendorComment = {...vendorComment};
+  // file 변경 내용 입력
+  const handleInputChange = async (e) => {
+    const formData = new FormData();
+    e.target.files[0] && formData.append("file", e.target.files[0]);
+
+    const returnData = await uploadFile(formData);
+    console.log(returnData[0].originFile);
+
+    setQuotationFile(
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              fileName: returnData[0].originFile,
+              size: "123byte",
+              registerDate: "202206021",
+            }
+          : q,
+      ),
+    );
+    setIsAdd(!isAdd);
+  };
+
+  const handleRemoveList = (id) => {
+    setRemoveList([...removeList, id]);
+  };
+
+  const onRemove = () => {
+    console.log(removeList);
+    removeList.map((r) => {
+      console.log(r);
+      setQuotationFile(quotationFile.filter((q) => q.id !== r));
+    });
+    setRemoveList([]);
+  };
+
+  useDidMountEffect(() => {
+    onCreate();
+  }, [isAdd]);
+
+  // fileTable row추가
+  const onCreate = () => {
+    nextId.current += 1;
+    const newFile = {
+      id: nextId.current,
+      fileType: "기타",
+      fileName: "",
+      size: "",
+      registerDate: "",
+    };
+    setQuotationFile([...quotationFile, newFile]);
+  };
+  // file content 내용 등록
+  const handleFileContent = (key, value) => {
+    setQuotationFile(
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              fileType: value,
+            }
+          : q,
+      ),
+    );
+  };
+
+  // 공급사 의견 입력
+  const handleVendorComment = (value) => {
+    const tempVendorComment = { ...vendorComment };
     tempVendorComment["quotation_comment"] = value;
     setVendorComment(tempVendorComment);
-  }
+  };
 
+  // 견적정보 가져오기
   const getItemList = async () => {
     const quotationItem = await getQuotationItemInfo(id);
     quotationItem && setItemListData(quotationItem);
-    setVendorComment({...vendorComment,
-      ["rfq_no"]: quotationItem[0].rfq_no,
-      ["bidding_no"]: id,
-    })
-    // const currencyLov = await getBidCurrencyCodeLov();
-    // console.log(currencyLov);
-    // setCurrencyLov(currencyLov);
+    setVendorComment({ ...vendorComment, ["rfq_no"]: quotationItem[0].rfq_no, ["bidding_no"]: id });
+    setUpdateItem({ ...updateItem, ["rfq_no"]: quotationItem[0].rfq_no });
   };
 
   const postVendorInfo = async () => {
-    console.log(vendorComment);
+    // 공급사 의견 insert
     const data = await postVendorComment(vendorComment);
-    console.log(data);
-    if(data === true){
+    if (data === true) {
       setIsSubmit(true);
     }
+    // 견적정보 update
+    const data2 = await postQuotationInfo(updateItem);
+    if (data2 === true) {
+      setIsSubmit(true);
+    }
+    // file정보 insert
   };
 
   useEffect(() => {
     getItemList();
   }, []);
-  
+
   useEffect(() => {
     // * 헤더 총 금액 계산
-    const tempConditions = priceCondition;
+    const tempConditions = updateItem;
     const tempRowData = itemListData;
     let total = 0;
     tempRowData.forEach((element) => {
-      if (element.quotation_total_price1) {
-        total += element.quotation_total_price1 * 1;
+      if (element.quotation_total_price) {
+        total += element.quotation_total_price * 1;
       }
     });
-    tempConditions.quotation_total_price1 = total;
+    tempConditions.quotation_total_price = total;
 
-    setPriceCondition({ ...tempConditions });
+    setUpdateItem({ ...tempConditions });
   }, [itemListData]);
 
   return (
@@ -88,44 +175,70 @@ function BidWrite() {
         <QuotationInfoContainer>
           <InputWrapper>
             <BidInputSelect
-              id="currency"
+              id="main_currency"
               inputLabel="견적총금액"
               handleCondition={handleCondition}
               lov={currencyLov}
+              isDisabled={isSubmit}
             />
             <QuotationInput
-              id="quotation_total_price1"
+              id="quotation_total_price"
               priceLabel={result}
-              currencyLabel={priceCondition.currency}
+              currencyLabel={updateItem.main_currency}
               handleCondition={handleCondition}
-              inputValue={priceCondition.quotation_total_price1}
+              inputValue={updateItem.quotation_total_price}
+              isDisabled={isSubmit}
             />
           </InputWrapper>
-          <BidWriteDataGrid 
+          <BidWriteDataGrid
             itemListData={itemListData}
-            setItemListData={setItemListData} />
+            setItemListData={setItemListData}
+            isDisabled={isSubmit}
+          />
         </QuotationInfoContainer>
       </section>
       <section>
         <SubmitTitle>
           <p>견적서 제출</p>
-          <DeleteButton>삭제</DeleteButton>
+          <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
-          <QuotationFileDataGrid />
+          <QuotationSubmitTable
+            quotationFile={quotationFile}
+            onCreate={onCreate}
+            handleFileContent={handleFileContent}
+            handleInputChange={handleInputChange}
+            handleRemoveList={handleRemoveList}
+          ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </section>
       <section>
         <SubTitle>공급사 의견</SubTitle>
         <VendorCommentContainer>
           <TextAreaWrapper>
-            <TextArea onChange={(e)=>{handleVendorComment(e.target.value)}} disabled={isSubmit}/>
+            <TextArea
+              onChange={(e) => {
+                handleVendorComment(e.target.value);
+              }}
+              disabled={isSubmit}
+            />
           </TextAreaWrapper>
         </VendorCommentContainer>
       </section>
       <ButtonWrapper>
-        <Button onClick={postVendorInfo}>응찰서 확정</Button>
+        <Button
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          응찰서 확정
+        </Button>
       </ButtonWrapper>
+      <ConfirmModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        postVendorInfo={postVendorInfo}
+      />
     </StyledRoot>
   );
 }
@@ -155,7 +268,7 @@ const InputWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  & > div:nth-child(n+1):nth-child(-n+2){
+  & > div:nth-child(n + 1):nth-child(-n + 2) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
