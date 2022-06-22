@@ -85,6 +85,7 @@ function RfqDetail() {
 
     // !: axios 비동기
     const data = await insertOneBid(bidCondition);
+    
     console.log("완료 : ", data);
 
     if(data === 'success'){
@@ -99,14 +100,6 @@ function RfqDetail() {
       "입찰룰 작성을 완료하시겠습니까?"
     ) ? saveContents() : null;
   }
-
-  // 파일 업로드
-  const pageSize = 10;
-  const initMetaDataPaged = {
-      content: [],
-      totalSize: 0,
-      page: 0
-  };
 
   useEffect(() => {
     selectRFQDetail(id);

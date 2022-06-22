@@ -8,6 +8,7 @@ function FileManager({sendFile}) {
   const [fileList, setFileList] = useState([]);
   const [content, setContent] = useState(sendFile);
   const [stateTypeLov, setStateTypeLov] = useState([]);
+  const [fileInfoList, setFileInfoList] = useState([]);
 
   const getLov = () => {
     const stateTypeLov = getStatusLov1();
@@ -20,15 +21,24 @@ function FileManager({sendFile}) {
     setContent(tempBidCondition);
   };
 
+
+  // 파일을 서버에 저장
   const handleInputChange = async (e) => {
     // formData : 파일을 담는 객체
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    const fileInfoList = await uploadFiles(formData);
+    const fileInfo = await uploadFiles(formData);
+    setFileInfoList(fileInfo[0]);
+    console.log("fileInfoList : ", fileInfoList);
+
     setTimeout(()=>{}, 1000);
     
-    const result2 = uploadContent(fileInfoList[0], content);
   };
+
+  // 파일을 DB에 저장
+  const saveDB = async () => {
+    const DBInfo = uploadContent(fileInfo[0], content);
+  }
 
   useEffect(() => {
     getLov(); 
@@ -62,16 +72,9 @@ function FileManager({sendFile}) {
             onChange={handleInputChange}
             valid={true}
           />
-          <InputFile
-            type="text"
-            name="title"
-            id="title"
-            placeholder="변경할 파일 이름을 입력하세요"
-            onChange={() => {}}
-            valid={true}
-          />
-          <p>사이즈 자동으로 등록</p>
-          <p>등록일 자동으로 등록</p>
+          <p>{fileInfoList.originFile}</p>
+          <p>{fileInfoList.size} Byte</p>
+          <p>{fileInfoList.uploadDate}</p>
         </UploadContainer>
       </section>
     </>
