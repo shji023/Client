@@ -8,10 +8,13 @@ import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import { useParams } from "react-router-dom";
 
 
 
 function SuccessBid(props) {
+  const {rfq_no} = useParams(/* "6455407" */);
+
   const [successBidCondition, setSuccessBidCondition] = useState({
     rfq_description: "",
     rfq_no: "",
@@ -28,14 +31,14 @@ function SuccessBid(props) {
   const [bidResultData, setBidResultData] = useState([]);
   
   const selectSuccessBid = async () => {
-    const data = await getSuccessBid({rfq_no: "6455407"});
+    const data = await getSuccessBid({rfq_no: rfq_no});
     
     console.log(data);
     setSuccessBidCondition(data);
     console.log();
   };
   const selectBidResult = async () => {
-    const data = await getBidResult({rfq_no: "6455407"});
+    const data = await getBidResult({rfq_no: rfq_no});
     console.log("여기가 찍히는거냐?" );
     console.log(data);
     setBidResultData(data);
