@@ -22,16 +22,7 @@ function BidWrite() {
     main_currency: "",
   });
   const [itemListData, setItemListData] = useState([]);
-  const [quotationFile, setQuotationFile] = useState([
-    // {
-    //   id: 0,
-    //   fileType: "",
-    //   fileName: "",
-    //   size: "",
-    //   registerDate: "",
-    // },
-  ]);
-  // const [content, setContent] = useState({});
+  const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
     vendor_site_id: "822",
     rfq_no: "",
@@ -76,22 +67,30 @@ function BidWrite() {
     setIsAdd(!isAdd);
   };
 
-  const handleRemoveList = (id) => {
-    setRemoveList([...removeList, id]);
+  const handleRemoveList = (checked, id) => {
+    if (checked) {
+      setRemoveList([...removeList, id]);
+    } else {
+      setRemoveList(removeList.filter((r) => r !== id));
+    }
   };
 
   const onRemove = () => {
-    console.log(removeList);
+    let temp = quotationFile;
     removeList.map((r) => {
-      console.log(r);
-      setQuotationFile(quotationFile.filter((q) => q.id !== r));
+      temp = temp.filter((q) => q.id !== r);
     });
+    setQuotationFile([...temp]);
     setRemoveList([]);
   };
 
   useDidMountEffect(() => {
     onCreate();
   }, [isAdd]);
+
+  useDidMountEffect(() => {
+    console.log(quotationFile);
+  }, [quotationFile]);
 
   // fileTable row추가
   const onCreate = () => {
@@ -105,6 +104,7 @@ function BidWrite() {
     };
     setQuotationFile([...quotationFile, newFile]);
   };
+
   // file content 내용 등록
   const handleFileContent = (key, value) => {
     setQuotationFile(
