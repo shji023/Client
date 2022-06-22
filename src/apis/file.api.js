@@ -18,13 +18,8 @@ export const uploadFiles = async (sendData) => {
 };
 
 // 파일 정보를 DB에 저장
-export const uploadContent = async (file, content) => {
+export const uploadContent = async (sendData) => {
   try {
-    const sendData = {
-      file: file,
-      content: content,
-    };
-    console.log("sendData", sendData);
     const resvData = await serverAxios.post(`${PREFIX_URL}/content`, sendData).then((res) => {
       console.log("content data : ", res.data);
       return res.data;
@@ -33,18 +28,6 @@ export const uploadContent = async (file, content) => {
   } catch (err) {
     throw new Error("Failed to load \n" + err);
   }
-};
-
-// RFQ 생성, BiddingRule 설정
-export const getStatusLov1 = () => {
-  const data = ["약관", "구입사양서", "기타"];
-  return data;
-};
-
-// 응찰서 작성
-export const getStatusLov2 = () => {
-  const data = ["기타"];
-  return data;
 };
 
 export const uploadFile = async (formData) => {
