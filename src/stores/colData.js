@@ -45,8 +45,6 @@ export const prSelectColFields = [
 export const prCreateColDef = {
   editable: true,
   sortable: true,
-  enablePivot: true,
-  enableValue: true,
   flex: 1,
   minWidth: 100,
   filter: true,
@@ -70,9 +68,9 @@ export const rfqColumn = [
 
 // #region 팝업
 export const popUpStaffColFields = [
-  { colId:1,  field:"num",  headerName: "직번", minWidth:100},
+  { colId:1,  field:"id",  headerName: "직번", minWidth:100},
   { colId:2,  field:"name", headerName: "성명", minWidth:150},
-  { colId:3,  field:"dept", headerName: "부서", minWidth:150},
+  { colId:3,  field:"dept_name", headerName: "부서", minWidth:150},
 ];
 
 export const popUpVendorColFields = [
@@ -96,6 +94,7 @@ export const popUpVendorColFields = [
   { colId: 2, field: "contact_name", headerName: "담당자", minWidth: 150 },
   { colId: 3, field: "contact_email_address", headerName: "email", minWidth: 150 },
   { colId: 3, field: "contact_mobile", headerName: "연락처", minWidth: 150 },
+  { colId: 3, field: "vendor_location", headerName: "위치", minWidth: 80 },
 ];
 
 export const popUpBuyerColFields = [

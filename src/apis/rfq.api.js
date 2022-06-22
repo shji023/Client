@@ -67,7 +67,7 @@ export const getSearchVendorList = async (id) => {
     // console.log("id!!!",id);
     const sendData = {rfq_no : id}
     const { data } = await serverAxios.post(`${PREFIX_URL}/vendorInfo`, sendData);
-    console.log("vendor result", data);
+    // console.log("vendor result", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

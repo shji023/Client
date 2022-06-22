@@ -28,18 +28,30 @@ import FileManager from "fileUpload/FileManager";
 function RfqCreate() {
   const { rfq_no } = useParams();
 
-  const [disabled, setDisabled] = useState(true);
-  const [hide, setHide] = useState(true);
-  const [buttonDisplay, setButtonDisplay] = useState("none");
+  const [disabled, setDisabled] = useState(false);
+  const [hide, setHide] = useState(false);
+  const [buttonDisplay, setButtonDisplay] = useState("inline-block");
+  const [buttonDisplayToggle, setButtonDisplayToggle] = useState("none");
 
-  const toggleHide = ()=>{
-    setHide(!hide);
+  const showDisplay = (isDisplay)=>{
+    isDisplay ? setButtonDisplay("inline-block") : setButtonDisplay("none");
   }
-  const toggleDisabled = ()=>{
-    setDisabled(!disabled);
+  const showDisplayToggle = (isDisplay)=>{
+    isDisplay ? setButtonDisplayToggle("inline-block") : setButtonDisplayToggle("none");
   }
-  const toggleButtonDisplay = ()=>{
-    buttonDisplay === "inline-block" ? setButtonDisplay("none") : setButtonDisplay("inline-block");
+
+  const setReadOnly = (isReadOnly) => {
+    if(isReadOnly){
+      setDisabled(true);
+      setHide(true);
+      showDisplay(false);
+      showDisplayToggle(true);
+    } else {
+      setDisabled(false);
+      setHide(false);
+      showDisplay(true);
+      showDisplayToggle(false);
+    }
   }
 
   const testConditions = {
@@ -209,10 +221,7 @@ function RfqCreate() {
       // RFQ Create로 넘어온 경우
       selectBuyerInfo("17278");
       getRfqInfo(rfq_no);
-      // setDisabled(true);
-      toggleButtonDisplay();
-      toggleHide();
-      toggleDisabled();
+      setReadOnly(true);
 
     } else {
       // * RFQ 생성
@@ -220,7 +229,7 @@ function RfqCreate() {
       selectBuyerInfo("17278");
       selectProductInfo();
       setRfqListData({...rfqListData, rfq_no : rfq_no });
-      setDisabled(false);
+      setReadOnly(false);
     }
 
   }
@@ -404,7 +413,7 @@ const onClickDeleteRfq = async () => {
     if(data) {
       alert("삭제가 완료되었습니다.");
       // reload();
-      navigate(`/rfqCreate`);
+      navigate(`/selectPrList`);
     } else {
       alert("삭제가 되지 않았습니다.");
       
@@ -417,17 +426,18 @@ const onClickUpdateRfq = async () => {
   if(res){
     // TODO : 필수 입력사항 입력했는지 체크하기
     const data = await updateRfqInfo(rfqListData, selectedVendorList, productInfoData, deletedVendorIdList, deletedProductIdList);
-    // if(data) {
-      //   alert("수정이 완료되었습니다.");
-      //   reload();
-      // } else {
-        //   alert("수정이 되지 않았습니다.");
-        // }
-        
-    // toggleHide();
-    // toggleDisabled();
-    // toggleButtonDisplay();
+    
+    if(data) {
+        alert("수정이 완료되었습니다.");
+        reload();
+    } else {
+        alert("수정이 되지 않았습니다.");
+    }
   }
+}
+
+const onClickChangeReadOnly = () => {
+  setReadOnly(false);
 }
 
 const ButtonSelector = () => {
@@ -435,8 +445,9 @@ const ButtonSelector = () => {
   if(rfq_no) {
       // 수정
     return <section>
-      <Button onClick={onClickUpdateRfq}>수정</Button>
-      <Button onClick={onClickDeleteRfq}>삭제</Button>
+      <Button style={{display: buttonDisplayToggle}} onClick={onClickChangeReadOnly}>수정</Button>
+      <Button style={{display: buttonDisplay}} onClick={onClickUpdateRfq}>저장</Button>
+      <Button style={{display: buttonDisplay}} onClick={onClickDeleteRfq}>삭제</Button>
     </section>
 
   } else {
@@ -584,7 +595,7 @@ const handleCondition = (key, value) => {
           ></CustomModal>
           <ButtonWrapper>
           <SubTitle>공급사선정</SubTitle>
-            <Button onClick={() => {
+            <Button style={{display : buttonDisplay}} onClick={() => {
                 setVisible(true);
             }}>공급사선정</Button>
           </ButtonWrapper>
