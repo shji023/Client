@@ -12,6 +12,7 @@ import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import { uploadFile } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
+
 function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
@@ -22,6 +23,7 @@ function BidWrite() {
     main_currency: "",
   });
   const [itemListData, setItemListData] = useState([]);
+  // RenderingData
   const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
     vendor_site_id: "822",
@@ -50,15 +52,16 @@ function BidWrite() {
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
-
     setQuotationFile(
       quotationFile.map((q) =>
         q.id === nextId.current
           ? {
               ...q,
-              fileName: returnData[0].originFile,
-              size: "123byte",
-              registerDate: "202206021",
+              origin_name: returnData[0].originFile,
+              save_name: returnData[0].saveFile,
+              size: returnData[0].size + "Bytes",
+              upload_date: returnData[0].uploadDate,
+              file_path: returnData[0].saveFolder,
             }
           : q,
       ),
@@ -83,23 +86,19 @@ function BidWrite() {
     setRemoveList([]);
   };
 
-  useDidMountEffect(() => {
-    onCreate();
-  }, [isAdd]);
-
-  useDidMountEffect(() => {
-    console.log(quotationFile);
-  }, [quotationFile]);
-
   // fileTable row추가
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
       id: nextId.current,
-      fileType: "기타",
-      fileName: "",
+      type: "기타",
+      origin_name: "",
+      save_name: "",
       size: "",
-      registerDate: "",
+      upload_date: "",
+      file_path: "",
+      bidding_no: id,
+      vendor_site_id: "822",
     };
     setQuotationFile([...quotationFile, newFile]);
   };
@@ -150,6 +149,10 @@ function BidWrite() {
   useEffect(() => {
     getItemList();
   }, []);
+
+  useDidMountEffect(() => {
+    onCreate();
+  }, [isAdd]);
 
   useEffect(() => {
     // * 헤더 총 금액 계산
@@ -204,7 +207,6 @@ function BidWrite() {
         <SubmitQuotationContainer>
           <QuotationSubmitTable
             quotationFile={quotationFile}
-            onCreate={onCreate}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
             handleRemoveList={handleRemoveList}
