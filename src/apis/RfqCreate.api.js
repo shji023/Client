@@ -57,6 +57,7 @@ export const getshipToLov = async () => {
 
 export const getProductInfoList = async (reqNumList) => {
     try {
+      console.log("000000000000000000000")
       const sendData = {"reqNum" : reqNumList}
       const { data } = await serverAxios.post(`${PREFIX_URL}/ProductInfoList`, sendData);
       console.log("ProductInfoList :::::::: ", data);
@@ -110,14 +111,16 @@ export const getProductInfoList = async (reqNumList) => {
       throw new Error("Failed to load " + err);
     }
   };
-  export const updateRfqInfo = async (conditions, vendorList, productList) => {
+  export const updateRfqInfo = async (conditions, vendorList, productList, deletedVendorIdList, deletedProductIdList) => {
     try {
       const sendData = {
         conditions : conditions,
         vendorList : vendorList,
         productList : productList,
+        deletedVendorIdList : deletedVendorIdList,
+        deletedProductIdList : deletedProductIdList,
       }
-      console.log(sendData);
+      console.log("sendData", sendData);
       const { data } = await serverAxios.post(`${PREFIX_URL}/updateRfqInfo`,sendData);
       console.log("updateRfqInfo : ", data);
       return data;
