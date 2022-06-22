@@ -1,185 +1,101 @@
 import { colors } from "assets/styles/color";
-import React, { useEffect, useRef, useState } from "react";
+import QuotationSelect from "components/bidWrite/QuotationSelect";
+import { UploadButton } from "components/common/CustomButton";
+import React, { useRef } from "react";
 import styled from "styled-components";
-import BidInputSelect from "components/bid/BidInputSelect";
-import { uploadContent, uploadFiles, getStatusLov1 } from "apis/file.api";
-import { forwardRef } from "react";
-import { useImperativeHandle } from "react";
 
-function FileManager({sendFile}) {
-// function FileManager({sendFile}, myRef) {
-  const [fileList, setFileList] = useState([]);
-  const [content, setContent] = useState(sendFile);
-  const [stateTypeLov, setStateTypeLov] = useState([]);
-  const [fileInfoList, setFileInfoList] = useState([]);
-
-  // const inputRef = useRef();
-
-  const getLov = () => {
-    const stateTypeLov = getStatusLov1();
-    stateTypeLov && setStateTypeLov(stateTypeLov);
+function FileManager({
+  quotationFile,
+  handleRemoveList,
+  handleFileContent,
+  handleInputChange,
+}) {
+  const lov = ["약관", "구입사양서", "기타"];
+  const inputRef = useRef(null);
+  const handleButton = () => {
+    if (inputRef.current !== null) {
+      inputRef.current.click();
+    }
   };
-
-  const handleCondition = (key, value) => {
-    const tempBidCondition = { ...content };
-    tempBidCondition[key] = value;
-    setContent(tempBidCondition);
-  };
-
-
-  // 파일을 서버에 저장
-  const handleInputChange = async (e) => {
-    // formData : 파일을 담는 객체
-    const formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    const fileInfo = await uploadFiles(formData);
-    setFileInfoList(fileInfo[0]);
-    console.log("fileInfoList : ", fileInfoList);
-
-    // const DBInfo = uploadContent(fileInfoList, content);
-  };
-
-  // function FancyInput(props, ref) {
-  //   const inputRef = useRef();
-  //   useImperativeHandle(ref, () => ({
-  //     focus: () => {
-  //       inputRef.current.focus();
-  //     }
-  //   }));
-  //   return <input ref={inputRef} ... />;
-  // }
-  // FancyInput = forwardRef(FancyInput);
-
-  // const saveFileInfo = useImperativeHandle(
-  //   inputRef,() => { 
-  //         // const DBInfo = uploadContent(fileInfoList, content);
-  //         alert("하위 컴포넌트 호출");
-  //         }
-  //   )
-
-  // const child = 
-  //   useImperativeHandle(ref, () => ({
-  //     saveDB() {
-  //       alert("하위 컴포넌트 호출🧯");
-  //     },
-  //   }));
-
-  // 파일을 DB에 저장
-  const saveDB = async () => {
-    // const DBInfo = uploadContent(fileInfoList, content);
-    alert("하위 컴포넌트 호출");
-  }
-  // console.log("myRef : ", myRef);
-  // myRef.current.saveDB = saveDB();
-
-  useEffect(() => {
-    getLov(); 
-  }, []);
-
   return (
-    <>
-      <ButtonWrapper>
-        <SubTitle>RFQ 첨부1 (공급사 배포)</SubTitle>
-      </ButtonWrapper>
-      <section>
-        <UploadContainer>
-          <Label htmlFor="check">선택</Label>
-          <Label htmlFor="type">유형</Label>
-          <Label htmlFor="file">첨부</Label>
-          <Label htmlFor="title">첨부 파일명</Label>
-          <Label htmlFor="size">Size</Label>
-          <Label htmlFor="createDate">등록일</Label>
-          <p>체크박스 표시</p>
-          <BidInputSelect
-              id="type"
-              inputLabel="입찰유형"
-              handleCondition={handleCondition}
-              lov={stateTypeLov}
-            />
-          <InputFile
-            type="file"
-            name="file"
-            id="file"
-            placeholder="Select a file for upload"
-            onChange={handleInputChange}
-            valid={true}
-          />
-          <p>{fileInfoList.originFile}</p>
-          <p>{fileInfoList.size} Byte</p>
-          <p>{fileInfoList.uploadDate}</p>
-        </UploadContainer>
-      </section>
-    </>
+    <Table>
+      <thead>
+        <Tr>
+          <Th>선택</Th>
+          <Th>유형</Th>
+          <Th>첨부</Th>
+          <Th>첨부파일명</Th>
+          <Th>Size</Th>
+          <Th>등록일</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        {quotationFile ? (
+          quotationFile.map((q) => (
+            <Tr key={q.id}>
+              <Td>
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleRemoveList(e.currentTarget.checked, q.id)}
+                />
+              </Td>
+              <Td>
+                <QuotationSelect
+                  id="type"
+                  handleFileContent={handleFileContent}
+                  lov={lov}
+                  isDisabled={false}
+                ></QuotationSelect>
+              </Td>
+              <Td>
+                <input
+                  hidden={true}
+                  ref={(el) => {
+                    inputRef.current = el;
+                  }}
+                  type="file"
+                  onChange={handleInputChange}
+                />
+                <UploadButton onClick={handleButton}>업로드</UploadButton>
+              </Td>
+              <Td>{q.origin_name}</Td>
+              <Td>{q.size}</Td>
+              <Td>{q.upload_date}</Td>
+            </Tr>
+          ))
+        ) : (
+          <Tr>
+            <Td>조회된 건이 없습니다.</Td>
+          </Tr>
+        )}
+      </tbody>
+    </Table>
   );
 }
 
 export default FileManager;
 
-const StyledRoot = styled.main`
-  display: flex;
-  flex-direction: column;
+const Table = styled.table`
   width: 100%;
-  height: 100%;
+  border: 1px solid ${colors.tableLineGray};
+  border-collapse: collapse;
+  font-size: 1.4rem;
+  table-layout: auto;
 `;
 
-const InputContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 2rem 2rem 0.5rem;
-  gap: 1rem;
+const Th = styled.th`
+  border: 1px solid ${colors.tableLineGray};
+  padding: 1rem;
+  background-color: ${colors.tableBlue};
+  font-family: "Pretendard-SemiBold";
 `;
 
-const UploadContainer = styled.div`
-  display: grid;
-  grid-template-columns: 0.3fr 0.5fr 1fr 1.5fr 0.5fr 0.5fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 0rem 0.5rem;
-  gap: 1rem;
+const Tr = styled.tr`
+  border: 1px solid ${colors.tableLineGray};
 `;
 
-const Button = styled.button`
-  width: 10rem;
-  height: 4rem;
-  background-color: ${colors.mainBlue};
-  color: white;
-  font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
-  border-radius: 0.7rem;
-  :hover {
-    cursor: pointer;
-  }
-  margin-bottom: 1rem;
-  // margin-top: 1.5rem;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const SubTitle = styled.p`
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  width: 90%;
-  height: 100%;
-`;
-
-const Label = styled.label`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  width: 90%;
-  height: 100%;
-`;
-
-const InputFile = styled.input`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  // margin-top: 1rem;
-  width: 90%;
-  height: 100%;
+const Td = styled.td`
+  border: 1px solid ${colors.tableLineGray};
+  text-align: center;
+  padding: 1rem;
 `;

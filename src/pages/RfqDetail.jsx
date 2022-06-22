@@ -14,7 +14,9 @@ import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-
+import useDidMountEffect from "hooks/useDidMountEffect";
+import { uploadFile } from "apis/file.api";
+import { DeleteButton } from "components/common/CustomButton";
 function RfqDetail() {
   const {id} = useParams();
   console.log("id : ", id);
@@ -40,9 +42,6 @@ function RfqDetail() {
   });
   const [rfqListData, setRfqListData] = useState({}); 
   const [ruleInfoData, setRuleInfoData] = useState([]);
-  const [sendFile, setSendFile] = useState({
-    "rfq_no" : id,
-  });
 
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
   const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
@@ -80,14 +79,118 @@ function RfqDetail() {
     setBidCondition(tempBidCondition);
   };
 
+
+  // file upload
+  // const [content, setContent] = useState({
+  //   "rfq_no" : id,
+  // });
+  // const [fileInfoList, setFileInfoList] = useState([]);
+
+  // const handleInputChange = async (e) => {
+  //   // formData : 파일을 담는 객체
+  //   const formData = new FormData();
+  //   formData.append("file", e.target.files[0]);
+  //   const fileInfo = await uploadFiles(formData);
+  //   setFileInfoList(fileInfo[0]);
+  //   console.log("fileInfoList : ", fileInfoList);
+
+  //   // const DBInfo = uploadContent(fileInfoList, content);
+  // };
+
+  // const handleFileCondition = (key, value) => {
+  //   const tempBidCondition = { ...content };
+  //   tempBidCondition[key] = value;
+  //   setContent(tempBidCondition);
+  // };
+
+//------------------------------------------------------
+  const [quotationFile, setQuotationFile] = useState([]);
+  const [removeList, setRemoveList] = useState([]);
+  const [isAdd, setIsAdd] = useState(false);
+  const nextId = useRef(0);
+
+ // file 변경 내용 입력
+  const handleInputChange = async (e) => {
+    const formData = new FormData();
+    e.target.files[0] && formData.append("file", e.target.files[0]);
+
+    const returnData = await uploadFile(formData);
+    setQuotationFile(
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              origin_name: returnData[0].originFile,
+              save_name: returnData[0].saveFile,
+              size: returnData[0].size + "Bytes",
+              upload_date: returnData[0].uploadDate,
+              file_path: returnData[0].saveFolder,
+            }
+          : q,
+      ),
+    );
+    setIsAdd(!isAdd);
+  };
+
+  const handleRemoveList = (checked, id) => {
+    if (checked) {
+      setRemoveList([...removeList, id]);
+    } else {
+      setRemoveList(removeList.filter((r) => r !== id));
+    }
+  };
+
+  const onRemove = () => {
+    let temp = quotationFile;
+    removeList.map((r) => {
+      temp = temp.filter((q) => q.id !== r);
+    });
+    setQuotationFile([...temp]);
+    setRemoveList([]);
+  };
+
+  // fileTable row추가
+  const onCreate = () => {
+    nextId.current += 1;
+    const newFile = {
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
+      rfq_no: id,
+    };
+    setQuotationFile([...quotationFile, newFile]);
+  };
+
+    
+  // file content 내용 등록
+  const handleFileContent = (key, value) => {
+    setQuotationFile(
+      quotationFile.map((q) =>
+        q.id === nextId.current
+          ? {
+              ...q,
+              type: value,
+            }
+          : q,
+      ),
+    );
+  };
+  
+  useDidMountEffect(() => {
+    onCreate();
+  }, [isAdd]);
+
+  useDidMountEffect(() => {
+    console.log(quotationFile);
+  }, [quotationFile]);
+//--------------------------------------------------------------
   const saveContents = async () => {
     console.log("onSaveContents called");
 
-    // myRef.current.saveDB();
-    // <myRef className="current saveDB"></myRef>;
-    // const myRef = useRef();
-
-    // !: axios 비동기
     const data = await insertOneBid(bidCondition);
 
     console.log("완료 : ", data);
@@ -118,7 +221,6 @@ function RfqDetail() {
           <Title>입찰룰</Title>
           <Button onClick={ () =>{ 
             onSaveContents(); 
-            // myRef.current.saveDB(); 
           }}>저장</Button>
         </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>
@@ -199,8 +301,17 @@ function RfqDetail() {
           </BidInfoContainer>
         </section>
         <RfqSelectVendorContainer>
-          <FileManager sendFile={sendFile}/>
-          {/* <FileManager sendFile={sendFile} ref={myRef}/> */}
+          {/* <FileManager content={content} handleFileCondition={handleFileCondition} fileInfoList={fileInfoList}/> */}
+          <SubmitQuotationContainer>
+          <DeleteButton onClick={onRemove}>삭제</DeleteButton>
+          <FileManager
+            // fileInfoList={fileInfoList}
+            quotationFile={quotationFile}
+            handleFileContent={handleFileContent}
+            handleInputChange={handleInputChange}
+            handleRemoveList={handleRemoveList}
+          ></FileManager>
+        </SubmitQuotationContainer>
         </RfqSelectVendorContainer>
     </StyledRoot>
   );
@@ -212,6 +323,10 @@ const StyledRoot = styled.main`
   flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+const SubmitQuotationContainer = styled.div`
+  padding: 2rem 2rem 2rem 0.5rem;
 `;
 
 const RfqInfoContainer = styled.div`
