@@ -50,7 +50,6 @@ function BidWrite() {
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
-    console.log(returnData);
 
     setQuotationFile(
       quotationFile.map((q) =>
