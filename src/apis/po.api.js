@@ -66,6 +66,7 @@ export const getPoTypeLov = async () => {
 
 // #region Po 저장 페이지
 
+// PoRegist Lov 
 export const getPoRegistLov = async (key) => {
   try {
     const sendData = {"cd_v" : key}
@@ -74,6 +75,24 @@ export const getPoRegistLov = async (key) => {
     return data;
   } catch (err) {
     throw new Error("Failed to load");
+  }
+};
+
+// PoRegist Create
+export const insertOnePo = async (conditions, lines) => {
+  try {
+    
+    const sendData = { conditions, lines };
+    console.log("sendData : ", sendData);
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/poCreate`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    return resvData;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
   }
 };
 
