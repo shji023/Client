@@ -41,7 +41,7 @@ function QuotationSubmitTable({
               </Td>
               <Td>
                 <QuotationSelect
-                  id="fileType"
+                  id="type"
                   handleFileContent={handleFileContent}
                   lov={lov}
                   isDisabled={false}
@@ -58,9 +58,9 @@ function QuotationSubmitTable({
                 />
                 <UploadButton onClick={handleButton}>업로드</UploadButton>
               </Td>
-              <Td>{q.fileName}</Td>
+              <Td>{q.origin_name}</Td>
               <Td>{q.size}</Td>
-              <Td>{q.registerDate}</Td>
+              <Td>{q.upload_date}</Td>
             </Tr>
           ))
         ) : (
