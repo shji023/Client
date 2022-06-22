@@ -1,21 +1,14 @@
-import { getRfqInfo, getSearchVendorList } from "apis/rfq.api";
+import { getRfqInfo} from "apis/rfq.api";
 import { getBidTypeLov, getBidPriceMethodLov, getBidMethodTypeLov, getBidMaxRoundLov, getBidCurrencyCodeLov, insertOneBid} from "apis/bid.api";
 import { colors } from "assets/styles/color";
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
 import FileManager from "fileUpload/FileManager";
-import RuleTextArea from "components/bid/RuleTextArea";
 import BidInsertTextArea from "components/bid/BidInsertTextArea";
-
-import InputSelect from "components/common/InputSelect";
-import InputDate from "components/common/InputDate";
-import InputInfo from "components/common/InputInfo";
-import BidInputSelect from "components/bid/BidInputSelect";
 import RfqSelectVendor from "components/rfq/RfqSelectVendor";
-import BidInputInfo from "components/bid/BidInputInfo";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
@@ -47,6 +40,9 @@ function RfqDetail() {
   });
   const [rfqListData, setRfqListData] = useState({}); 
   const [ruleInfoData, setRuleInfoData] = useState([]);
+  const [sendFile, setSendFile] = useState({
+    "rfq_no" : id,
+  });
 
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
   const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
@@ -87,8 +83,13 @@ function RfqDetail() {
   const saveContents = async () => {
     console.log("onSaveContents called");
 
+    // myRef.current.saveDB();
+    // <myRef className="current saveDB"></myRef>;
+    // const myRef = useRef();
+
     // !: axios 비동기
     const data = await insertOneBid(bidCondition);
+
     console.log("완료 : ", data);
 
     if(data === 'success'){
@@ -104,55 +105,8 @@ function RfqDetail() {
     ) ? saveContents() : null;
   }
 
-  // 파일 업로드
-  const pageSize = 10;
-  const initMetaDataPaged = {
-      content: [],
-      totalSize: 0,
-      page: 0
-  };
-
-  const [fileUplaod, setFileUpload] = useState({
-    file: "",
-    title: "",
-    details: "",
-    error: "",
-    metaDataPaged: initMetaDataPaged,
-    modalMessage: "",
-    modal: false,
-    blocking: false
-  });
-
-  const onUpload = async () => {
-    try {
-        const result = await uploadFile(fileUplaod.file, fileUplaod.title, fileUplaod.details)
-        console.log("result : : ", result);
-        if (!result) this.displayTheError('No user found');
-    } catch (e) {
-        await this.toggleErrorAsync(e.message);
-        return;
-    }
-    await this.fetchMetadata(0, pageSize);
-  }
-
-  const handleInputChange = (e) => {
-    const target = e.target;
-    console.log("target : ", target); // target
-    console.log("type : ", e.target.type); // text
-    // console.log("files : ", e.target.files[0]);
-    console.log("value : ", target.value); // 사용자가 입력한 파일명
-    console.log("name : ", target.name); // title
-
-    const value = target.type === 'file' ? e.target.files[0] : target.value;
-    const name = target.name;
-    this.setState({
-        [name]: value, error: ""
-    });
-  };
-
   useEffect(() => {
     selectRFQDetail(id);
-    // selectVendorList(id);
     getLov(); 
   }, []);
 
@@ -162,13 +116,15 @@ function RfqDetail() {
     <StyledRoot>  
         <HeaderWrapper> 
           <Title>입찰룰</Title>
-          <Button onClick={onSaveContents}>저장</Button>
+          <Button onClick={ () =>{ 
+            onSaveContents(); 
+            // myRef.current.saveDB(); 
+          }}>저장</Button>
         </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
         <RfqInfoContainer>
           <BidInfo label="RFQ 번호" value={id}/>
-          {/* <BidInfo label="RFQ 번호" value={rfqListData.rfq_no}/> */}
           <BidInfo label="단계" value={stage}/>
           <BidInfo label="Status" value={rfqListData.cd_v_meaning_status}/>
           <BidInfo label="Type" value={rfqListData.cd_v_meaning_type}/>
@@ -177,7 +133,6 @@ function RfqDetail() {
           <BidInfo label="정산주기" value={rfqListData.po_payment_cycle}/>
           <BidInfo label="협업 유형" value={rfqListData.po_collabo_type}/>
           <BidInfo label="계약 기간(BPA)" value={rfqListData.start_date}/>
-          {/* <BidInfo label="계약 기간(BPA)" value={rfqCondition.END_DATE}/> */}
           <BidInfo label="Amount Limit" value={rfqListData.amount_limit}/>
           <BidInfo label="납품 지역" value={rfqListData.rfq_ship_to}/>
           <BidInfo label="지불 조건" value={rfqListData.rfq_payment_terms}/>
@@ -221,7 +176,6 @@ function RfqDetail() {
               inputLabel="라운드 시작/마감"
               handleCondition={handleCondition}
             />
-            {/* <BidInfo label='라운드 시작/마감' value={roundPeriod}></BidInfo> */}
             <RfqInputSelect
               id="main_currency"
               inputLabel="통화"
@@ -245,7 +199,8 @@ function RfqDetail() {
           </BidInfoContainer>
         </section>
         <RfqSelectVendorContainer>
-          <FileManager/>
+          <FileManager sendFile={sendFile}/>
+          {/* <FileManager sendFile={sendFile} ref={myRef}/> */}
         </RfqSelectVendorContainer>
     </StyledRoot>
   );

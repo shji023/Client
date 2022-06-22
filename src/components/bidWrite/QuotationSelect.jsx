@@ -3,21 +3,18 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function BidInputSelect({ id, inputLabel, handleCondition, lov, isDisabled }) {
+function QuotationSelect({ id, handleFileContent, lov, isDisabled }) {
   return (
     <StyledRoot>
-      <Label htmlFor={id}>{inputLabel}</Label>
       <StyledSelect>
         <Select
-          defaultValue="선택"
-          id={id}
+          defaultValue="기타"
           onChange={(e) => {
-            handleCondition(id, e);
+            handleFileContent(id, e);
           }}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           disabled={isDisabled}
         >
-          <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
             <Select.Option key={option} value={option}>
               {option}
@@ -28,26 +25,12 @@ function BidInputSelect({ id, inputLabel, handleCondition, lov, isDisabled }) {
     </StyledRoot>
   );
 }
-export default BidInputSelect;
+export default QuotationSelect;
 
 const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Label = styled.label`
-  font-size: 1.4rem;
-  min-width: 14rem;
-  height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
-  font-family:"Pretendard-SemiBold"
 `;
 
 const StyledSelect = styled.div`
@@ -57,8 +40,6 @@ const StyledSelect = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ${colors.tableLineGray};
   border-right: none;
   border-bottom: none;
-  
 `;

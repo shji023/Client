@@ -58,6 +58,16 @@ const AgGridRFQ = ({ listData, colData }) => {
         excelExport(column, listData);
     };
 
+    // const gridOptions = {
+    //   columnDefs: [
+    //       {
+    //           headerName: colData,
+    //           field: colData,
+    //           columnStyle: {color: 'red', 'background-color': 'green'}
+    //       }
+    //     ]
+    //   };
+
     useEffect(() => {
         // rfqDetail();
       }, []);
@@ -80,6 +90,7 @@ const AgGridRFQ = ({ listData, colData }) => {
                     ref={gridRef}
                     rowData={listData}
                     columnDefs={colData}
+                    // columnDefs={gridOptions.columnDefs}
                     defcol
                     getRowStyle={getRowStyle}
                     // headerStyle = {headerClass}
@@ -149,14 +160,6 @@ const StyleDatagrid = styled(AgGridReact)`
     background-color: rgba(0, 0, 0, 0);
   }
 
-  .MuiDataGrid-row:nth-child(even){
-    background-color: aliceblue;
-  }
-
-  .MuiDataGrid-columnHeaders{
-    background-color: #005386;
-    color:white;
-  }
 `;
 
 
