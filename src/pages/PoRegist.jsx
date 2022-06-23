@@ -15,9 +15,10 @@ import { getBuyerList, getItemList, getStaffList, getVendorList } from "apis/pub
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import InputOneDate from "components/common/InputOneDate";
-import { getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
+import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import { reload } from "hooks/CommonFunction";
 
 
 function PoRegist() {
@@ -231,7 +232,7 @@ function PoRegist() {
       temp.po_num = data;
       setConditions({...temp});
       navigate(`/poRegist/${temp.po_num}`)
-      
+      reload()
     } else {
       alert("구매 계약 등록이 실패했습니다.");
     }
@@ -248,12 +249,12 @@ function PoRegist() {
 
     // !: axios 비동기
     const data = await updateOnePo(conditions, rowData, deletedIdList);
-    if(data === 'Success Update'){
+    if(data){
       alert("구매 계약 수정이 완료되었습니다.");
       const temp = conditions;
       temp.po_num = data;
       setConditions({...temp});
-      navigate(`/poRegist/${temp.po_num}`)
+      reload();
     } else {
       alert("구매 계약 수정이 실패했습니다.");
     }
@@ -270,9 +271,10 @@ function PoRegist() {
     console.log("onDeleteContents called");
 
     // !: axios 비동기
-    const data = await deleteOnePr(conditions.po_num);
+    const data = await deleteOnePo(conditions.po_num);
     if(data){
       alert("구매 계약 삭제가 완료되었습니다.");
+      navigate(`/selectPoList`)
     } else {
       alert("구매 계약 삭제가 실패했습니다.");
     }
