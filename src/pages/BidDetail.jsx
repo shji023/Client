@@ -58,11 +58,11 @@ function BidDetail() {
           ></BidInfo>
           <BidInfo label="정산주기" value={rfqInfoData.po_payment_cycle}></BidInfo>
           <BidInfo label="협업유형" value={rfqInfoData.po_collabo_type}></BidInfo>
-          <BidInfo label="계약기간(BPA)" value={rfqInfoData.start_date}></BidInfo>
+          <BidInfo label="계약기간(BPA)" value={rfqInfoData.end_date}></BidInfo>
           <BidInfo label="Amount Limit" value={rfqInfoData.amount_limit}></BidInfo>
           <BidInfo label="납품지역" value={rfqInfoData.rfq_ship_to}></BidInfo>
           <BidInfo label="지불조건" value={rfqInfoData.rfq_payment_terms}></BidInfo>
-          <BidInfo label="인도조건" value={rfqInfoData.bidding_fob}></BidInfo>
+          <BidInfo label="인도조건" value={rfqInfoData.fob_lookup_code}></BidInfo>
           <BidInfo label="" value=""></BidInfo>
         </RfqInfoContainer>
       </section>
