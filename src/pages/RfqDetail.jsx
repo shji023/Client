@@ -4,7 +4,7 @@ import { colors } from "assets/styles/color";
 import React, { useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
 import FileManager from "fileUpload/FileManager";
 import BidInsertTextArea from "components/bid/BidInsertTextArea";
@@ -20,6 +20,8 @@ import { DeleteButton } from "components/common/CustomButton";
 function RfqDetail() {
   const {id} = useParams();
   console.log("id : ", id);
+
+  const navigate = useNavigate();
 
   const [bidCondition, setBidCondition] = useState({
     "rfq_no" : id,
@@ -175,6 +177,8 @@ function RfqDetail() {
 
     if(data === 'success' && returnData === 'success'){
       alert("입찰룰이 완료되었습니다.");
+      navigate(`/bidList`);
+      
     } else {
       alert("입찰룰이 실패했습니다.");
     }
