@@ -218,7 +218,7 @@ function RfqDetail() {
           <BidInfo label="Amount Limit" value={rfqListData.amount_limit}/>
           <BidInfo label="납품 지역" value={rfqListData.rfq_ship_to}/>
           <BidInfo label="지불 조건" value={rfqListData.rfq_payment_terms}/>
-          <BidInfo label="인도 조건" value={rfqListData.bidding_fob}/>
+          <BidInfo label="인도 조건" value={rfqListData.fob_lookup_code}/>
           <BidInfo label="" value={null}/>
         </RfqInfoContainer>
       </section>
