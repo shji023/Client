@@ -5,6 +5,7 @@ const PREFIX_URL = "/bid";
 // 전체 불러오기 사용x
 export const getBidList = async (bidCondition) => {
   try {
+    console.log("sendData", bidCondition);
     const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`, bidCondition);
     // const { lectures, category, skill } = data.data;
 

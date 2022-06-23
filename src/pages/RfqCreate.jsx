@@ -400,6 +400,7 @@ const onClickSaveRfq = async () => {
       
       navigate(`/rfqCreate/${data}`/* , { replace: true} */)
       reload();
+      setReadOnly(true);
     } else {
       alert("저장 되지 않았습니다.");
     }
