@@ -3,11 +3,12 @@ import { colors } from "assets/styles/color";
 import BidInfo from "components/bid/BidInfo";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 import RuleTextArea from "components/bid/RuleTextArea";
 import RfqAttachTable from "components/bid/RfqAttachTable";
 import ItemInfoTable from "components/bid/ItemInfoTable";
 import { Button } from "components/common/CustomButton";
+import { getVendorFileList } from "apis/file.api";
 
 function BidDetail() {
   const { id } = useParams();
@@ -15,20 +16,24 @@ function BidDetail() {
   const [ruleInfoData, setRuleInfoData] = useState([]);
   const [rfqInfoData, setRfqInfoData] = useState([]);
   const [itemInfoList, setItemInfoList] = useState([]);
-
+  const [vendorFileList, setVendorFileList] = useState([]);
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(id);
     const rfqInfo = await getRfqInfo(id);
     const itemInfo = await getItemInfo(id);
+    //const fileInfo = await getVendorFileList(id);
     ruleInfo && setRuleInfoData(ruleInfo[0]);
     rfqInfo && setRfqInfoData(rfqInfo[0]);
     itemInfo && setItemInfoList(itemInfo);
+
+    const fileInfo = await getVendorFileList(rfqInfo[0].rfq_no);
+    fileInfo && setVendorFileList(fileInfo);
   };
-  const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
-  const stage = rfqInfoData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
-  useEffect(()=>{
+  const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
+  const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
+  useEffect(() => {
     selectInfo();
-  },[]);
+  }, []);
 
   return (
     <StyledRoot>
@@ -36,40 +41,49 @@ function BidDetail() {
       <section>
         <SubTitle>RFQ정보</SubTitle>
         <RfqInfoContainer>
-          <BidInfo label='RFQ번호' value={rfqInfoData.rfq_no}></BidInfo>
-          <BidInfo label='단계' value={stage}></BidInfo>
-          <BidInfo label='Status' value={rfqInfoData.cd_v_meaning_status}></BidInfo>
-          <BidInfo label='Type' value={rfqInfoData.cd_v_meaning_type}></BidInfo>
-          <BidInfo label='건명' value={rfqInfoData.rfq_description}></BidInfo>
-          <BidInfo label='담당자' value={rfqInfoData.buyer_name +" / "+rfqInfoData.buyer_dept_name +" / "+rfqInfoData.buyer_contact}></BidInfo>
-          <BidInfo label='정산주기' value={rfqInfoData.po_payment_cycle}></BidInfo>
-          <BidInfo label='협업유형' value={rfqInfoData.po_collabo_type}></BidInfo>
-          <BidInfo label='계약기간(BPA)' value={rfqInfoData.start_date}></BidInfo>
-          <BidInfo label='Amount Limit' value={rfqInfoData.amount_limit}></BidInfo>
-          <BidInfo label='납품지역' value={rfqInfoData.rfq_ship_to}></BidInfo>
-          <BidInfo label='지불조건' value={rfqInfoData.rfq_payment_terms}></BidInfo>
-          <BidInfo label='인도조건' value={rfqInfoData.bidding_fob}></BidInfo>
-          <BidInfo label='' value=""></BidInfo>
+          <BidInfo label="RFQ번호" value={rfqInfoData.rfq_no}></BidInfo>
+          <BidInfo label="단계" value={stage}></BidInfo>
+          <BidInfo label="Status" value={rfqInfoData.cd_v_meaning_status}></BidInfo>
+          <BidInfo label="Type" value={rfqInfoData.cd_v_meaning_type}></BidInfo>
+          <BidInfo label="건명" value={rfqInfoData.rfq_description}></BidInfo>
+          <BidInfo
+            label="담당자"
+            value={
+              rfqInfoData.buyer_name +
+              " / " +
+              rfqInfoData.buyer_dept_name +
+              " / " +
+              rfqInfoData.buyer_contact
+            }
+          ></BidInfo>
+          <BidInfo label="정산주기" value={rfqInfoData.po_payment_cycle}></BidInfo>
+          <BidInfo label="협업유형" value={rfqInfoData.po_collabo_type}></BidInfo>
+          <BidInfo label="계약기간(BPA)" value={rfqInfoData.start_date}></BidInfo>
+          <BidInfo label="Amount Limit" value={rfqInfoData.amount_limit}></BidInfo>
+          <BidInfo label="납품지역" value={rfqInfoData.rfq_ship_to}></BidInfo>
+          <BidInfo label="지불조건" value={rfqInfoData.rfq_payment_terms}></BidInfo>
+          <BidInfo label="인도조건" value={rfqInfoData.bidding_fob}></BidInfo>
+          <BidInfo label="" value=""></BidInfo>
         </RfqInfoContainer>
       </section>
       <section>
         <SubTitle>RFQ첨부(공급사배포)</SubTitle>
         <RfqAttachContainer>
-          <RfqAttachTable></RfqAttachTable>
+          <RfqAttachTable vendorFileList={vendorFileList}></RfqAttachTable>
         </RfqAttachContainer>
       </section>
       <section>
         <SubTitle>입찰 룰</SubTitle>
         <BidInfoContainer>
-          <BidInfo label='입찰번호' value={ruleInfoData.bidding_no}></BidInfo>
-          <BidInfo label='입찰유형' value={ruleInfoData.bid_type_code}></BidInfo>
-          <BidInfo label='단가입력방식' value={ruleInfoData.bid_price_method}></BidInfo>
-          <BidInfo label='낙찰제도' value={ruleInfoData.bid_method_type}></BidInfo>
-          <BidInfo label='라운드' value={ruleInfoData.max_round}></BidInfo>
-          <BidInfo label='라운드 시작/마감' value={roundPeriod}></BidInfo>
-          <BidInfo label='통화' value={ruleInfoData.main_currency}></BidInfo>
-          <BidInfo label='부가조건' value={ruleInfoData.side_conditions}></BidInfo>
-          <RuleTextArea label='안내사항' value={ruleInfoData.note_to_bidder}></RuleTextArea>
+          <BidInfo label="입찰번호" value={ruleInfoData.bidding_no}></BidInfo>
+          <BidInfo label="입찰유형" value={ruleInfoData.bid_type_code}></BidInfo>
+          <BidInfo label="단가입력방식" value={ruleInfoData.bid_price_method}></BidInfo>
+          <BidInfo label="낙찰제도" value={ruleInfoData.bid_method_type}></BidInfo>
+          <BidInfo label="라운드" value={ruleInfoData.max_round}></BidInfo>
+          <BidInfo label="라운드 시작/마감" value={roundPeriod}></BidInfo>
+          <BidInfo label="통화" value={ruleInfoData.main_currency}></BidInfo>
+          <BidInfo label="부가조건" value={ruleInfoData.side_conditions}></BidInfo>
+          <RuleTextArea label="안내사항" value={ruleInfoData.note_to_bidder}></RuleTextArea>
         </BidInfoContainer>
       </section>
       <section>
@@ -117,7 +131,7 @@ const RfqInfoContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+11):nth-child(-n+14){
+  & > div:nth-child(n + 11):nth-child(-n + 14) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

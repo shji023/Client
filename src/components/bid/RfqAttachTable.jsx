@@ -1,41 +1,8 @@
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
-const mockData = [
-  {
-    id: "1",
-    type: "구입사양서",
-    attach: "ㅎㅎ.pdf",
-    attachName: "이거는 첨부파일명 엄청 긴 첨부파일명",
-    size: "164kb",
-    registerDate: "2022-06-13",
-  },
-  {
-    id: "2",
-    type: "구입사양서",
-    attach: "qq.pdf",
-    attachName: "초콜릿",
-    size: "164kb",
-    registerDate: "2022-06-13",
-  },
-  {
-    id: "3",
-    type: "구입사양서",
-    attach: "ㅎㅎ.pdf",
-    attachName: "뀨",
-    size: "164kb",
-    registerDate: "2022-06-13 14:00 (GMT +9:00)",
-  },
-  {
-    id: "4",
-    type: "구입사양서",
-    attach: "qq.pdf",
-    attachName: "브",
-    size: "164kb",
-    registerDate: "2022-06-13",
-  },
-];
-function RfqAttachTable() {
+
+function RfqAttachTable({ vendorFileList }) {
   return (
     <Table>
       <thead>
@@ -48,14 +15,14 @@ function RfqAttachTable() {
         </Tr>
       </thead>
       <tbody>
-        {mockData ? (
-          mockData.map((m) => (
-            <Tr key={m.id}>
-              <Td>{m.type}</Td>
-              <Td>{m.attach}</Td>
-              <Td>{m.attachName}</Td>
-              <Td>{m.size}</Td>
-              <Td>{m.registerDate}</Td>
+        {vendorFileList ? (
+          vendorFileList.map((v, index) => (
+            <Tr key={index}>
+              <Td>{v.type}</Td>
+              <Td>다운로드</Td>
+              <Td>{v.origin_name}</Td>
+              <Td>{v.size}</Td>
+              <Td>{v.upload_date}</Td>
             </Tr>
           ))
         ) : (
