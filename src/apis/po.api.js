@@ -113,4 +113,23 @@ export const updateOnePo = async (conditions, lines, deletedIdList) => {
   }
 };
 
+export const deleteOnePo = async (po_num) => {
+  try {
+    
+    const sendData = {"po_num" : po_num};
+    console.log("sendData : ", sendData);
+
+    const resvData = await serverAxios.post(`${PREFIX_URL}/poDelete`, sendData)
+    .then((res)=>{
+      console.log("data : " , res.data);
+      return res.data;
+    })
+    console.log("resvData ", resvData);
+    // return resvData;
+    return resvData;
+  } catch (err) {
+    throw new Error("Failed to load \n" + err);
+  }
+};
+
 // #endregion Po 저장 페이지
