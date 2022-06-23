@@ -254,8 +254,9 @@ function RfqCreate() {
     // 기존 목록 삭제
     let temp = [];
     selectedVendorList.forEach((element)=>{
-      temp.push(element.rfq_vendor_id);
+      temp.push(element.vendor_id);
     })
+    console.log("temp !!!", temp , selectedRows);
     setDeletedVendorIdList([...temp]);
 
     // 새 목록 갱신
