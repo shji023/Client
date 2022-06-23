@@ -41,6 +41,7 @@ function RfqDetail() {
     "simple_quotation_flag" : "null",
     "category_id": 0,
     "bidding_fob": "",
+    "side_conditions":"",
   });
   const [rfqListData, setRfqListData] = useState({}); 
   const [ruleInfoData, setRuleInfoData] = useState([]);
@@ -176,8 +177,11 @@ function RfqDetail() {
     console.log("bid 저장 완료 : ", data);
 
     if(data === 'success' && returnData === 'success'){
-      alert("입찰룰이 완료되었습니다.");
-      navigate(`/bidList`);
+      confirm(
+        "입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?"
+      ) ? navigate(`/bidList`) : null;
+      
+      
       
     } else {
       alert("입찰룰이 실패했습니다.");
