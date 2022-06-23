@@ -207,6 +207,7 @@ function RfqDetail() {
         <RfqInfoContainer>
           <BidInfo label="RFQ 번호" value={id}/>
           <BidInfo label="단계" value={stage}/>
+          {/* <BidInfo label="Status" value={rfqListData.rfq_status}/> */}
           <BidInfo label="Status" value={rfqListData.cd_v_meaning_status}/>
           <BidInfo label="Type" value={rfqListData.cd_v_meaning_type}/>
           <BidInfo label='건명' value={rfqListData.rfq_description}/> 
