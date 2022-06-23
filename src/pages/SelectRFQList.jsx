@@ -84,7 +84,13 @@ function SelectRfqList() {
         <Button onClick={selectRFQList}>조회</Button>
       </HeaderWrapper>
       <section>
-        <InputContainer>    
+        <InputContainer> 
+          <RfqInputInfo
+            id="rfq_no"
+            inputLabel="RFQ 번호"
+            handleCondition={handleRFQCondition}
+            inputValue={rfqCondition.rfq_no}
+          />   
           <BuyerInputSearch
             id="buyer_id"
             title="바이어선택"

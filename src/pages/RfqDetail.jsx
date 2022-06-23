@@ -170,14 +170,14 @@ function RfqDetail() {
     const returnData = await uploadContent(vendorFile);
     const data = await insertOneBid(bidCondition);
 
-    console.log("완료 : ", returnData);
-    // console.log("완료 : ", data);
+    console.log("file info db 저장 완료 : ", returnData);
+    console.log("bid 저장 완료 : ", data);
 
-    // if(data === 'success'){
-    //   alert("입찰룰이 완료되었습니다.");
-    // } else {
-    //   alert("입찰룰이 실패했습니다.");
-    // }
+    if(data === 'success' && returnData === 'success'){
+      alert("입찰룰이 완료되었습니다.");
+    } else {
+      alert("입찰룰이 실패했습니다.");
+    }
   };
 
   const onSaveContents = () => {
@@ -214,7 +214,7 @@ function RfqDetail() {
           <BidInfo label='담당자' value={rfqListData.buyer_name +" / "+rfqListData.buyer_dept_name +" / "+rfqListData.buyer_contact}/>
           <BidInfo label="정산주기" value={rfqListData.po_payment_cycle}/>
           <BidInfo label="협업 유형" value={rfqListData.po_collabo_type}/>
-          <BidInfo label="계약 기간(BPA)" value={rfqListData.start_date}/>
+          <BidInfo label="계약 기간(BPA)" value={rfqListData.end_date}/>
           <BidInfo label="Amount Limit" value={rfqListData.amount_limit}/>
           <BidInfo label="납품 지역" value={rfqListData.rfq_ship_to}/>
           <BidInfo label="지불 조건" value={rfqListData.rfq_payment_terms}/>
@@ -226,7 +226,7 @@ function RfqDetail() {
         <RfqSelectVendorContainer>
           <RfqSelectVendor id={id} ></RfqSelectVendor>
         </RfqSelectVendorContainer>
-      <SubTitle>입찰 룰 (승인상태 : 미승인)</SubTitle>
+      <SubTitle>입찰 룰</SubTitle>
         <section>
           <BidInfoContainer>
             <RfqInputSelect
