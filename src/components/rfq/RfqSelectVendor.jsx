@@ -20,7 +20,7 @@ function RfqSelectVendor({id}) {
     } 
 
     // console.log("Vendor Column Data ", colData);
-    // console.log("Vendor List Data ", vendorListData);
+    console.log("Vendor List Data ", vendorListData);
     
     const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
