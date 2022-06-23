@@ -25,9 +25,23 @@ import FileVendor from "fileUpload/FileVendor";
 import FileInner from "fileUpload/FileInner";
 import FileManager from "fileUpload/FileManager";
 import { reload } from "hooks/CommonFunction";
+import useDidMountEffect from "hooks/useDidMountEffect";
+import { uploadFile, uploadFileContent } from "apis/file.api";
+
 
 function RfqCreate() {
   const { rfq_no } = useParams();
+
+  const [vendorFile, setVendorFile] = useState([]);  
+  const [innerFile, setInnerFile] = useState([]); 
+
+  const [isAdd, setIsAdd] = useState(false); 
+  const [isAdd2, setIsAdd2] = useState(false); 
+  const [removeList, setRemoveList] = useState([]);
+  const [removeList2, setRemoveList2] = useState([]);
+  const nextId = useRef(0);
+  const nextId2 = useRef(0);
+
 
   const [disabled, setDisabled] = useState(false);
   const [hide, setHide] = useState(false);
@@ -118,10 +132,9 @@ function RfqCreate() {
   const getRfqInfo = async (rfq_no) => {
     
     const data = await selectRfq(rfq_no);
-
     // Rfq Header
     const rfqList = data;
-    const po1 = data.po1List[0];
+    const po1 = data.po1List[0]; 
     const bid1 = data.bid1List[0];
 
     const temp = 
@@ -154,16 +167,13 @@ function RfqCreate() {
     productList.forEach((element)=>{
       tempProductList.push({...element, rfq_id: element.id, query_type: "update"});
     });
-    console.log("productList", productList);
     setProductInfoData([...tempProductList]);
     
   }
 
   const selectProductInfo = async () => {
     const reqNumList = pageData.getPrNumList();
-    console.log("@#@# req", reqNumList);
     const data = await getProductInfoList(reqNumList);
-    console.log("@#@#@#@", data);
 
     const tempList = [];
     data.forEach((element)=>{
@@ -187,12 +197,10 @@ function RfqCreate() {
   const selectBuyerInfo = async (buyerId) => {
     //TODO: 로그인 한 buyer_id 받아와서 넣기 
     const data = await getBuyerInfo(buyerId);
-    console.log("받아오는 바이어인포   :   ", data);
     setBuyerInfoData(data);
   };
 
   const handleRfqInfoCondition = (key, value) => {
-    console.log(key, value);
     const tempRfqInfoCondition = { ...rfqListData };
 
     tempRfqInfoCondition[key] = value;
@@ -257,12 +265,8 @@ function RfqCreate() {
   }
   const onHandleSearch= async (value)=>{
 
-    console.log("value : ", value);
-
     const sendData = {"vendor_name" : value};
     const resultList = await getVendorList(sendData);
-
-    console.log("resultList", resultList);
 
     return resultList;
     
@@ -329,7 +333,6 @@ function RfqCreate() {
 
   })
   const copyRow = () => {
-    console.log("copyRow called" );
     let id = 1;
     const tempData = [];
     const ids = [];
@@ -351,7 +354,6 @@ function RfqCreate() {
 
   // 그리드 행 삭제
   const deleteRow = useCallback( () => {
-    console.log("deleteRow called" );
     const rowData = productInfoData;
     const setRowData = setProductInfoData;
 
@@ -360,7 +362,6 @@ function RfqCreate() {
 
     const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
     const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
-    console.log("selectedData :::", selectedData);
 
     // * 삭제한 행의 정보를 담는다.
     const tempList = deletedProductIdList;
@@ -378,7 +379,6 @@ function RfqCreate() {
 
   // 그리드 체크항목 유지
   const onRowDataChanged = () => {
-    console.log("row changed!!", selectedIds);
 
     gridRef.current.api.forEachNode( 
       node => selectedIds.includes(node.data.id) && node.setSelected(true)
@@ -442,7 +442,6 @@ const onClickChangeReadOnly = () => {
 }
 
 const ButtonSelector = () => {
-  console.log("rfq_no", rfq_no);
   if(rfq_no) {
       // 수정
     return <section>
@@ -458,11 +457,151 @@ const ButtonSelector = () => {
 }
 // #endregion 버튼
 const handleCondition = (key, value) => {
-  const tempCondition = { ...conditions };
-  tempCondition[key] = value;
-  setConditions({ ...tempCondition });
+  // const tempCondition = { ...conditions };
+  // tempCondition[key] = value;
+  // setConditions({ ...tempCondition });
 };
 
+const handleInputChange = async (e) => {
+  const formData = new FormData();
+  e.target.files[0] && formData.append("file", e.target.files[0]);
+
+  const returnData = await uploadFile(formData);
+  setVendorFile(
+    vendorFile.map((q) =>
+      q.id === nextId.current
+        ? {
+            ...q,
+            origin_name: returnData[0].originFile,
+            save_name: returnData[0].saveFile,
+            size: returnData[0].size + "Bytes",
+            upload_date: returnData[0].uploadDate,
+            file_path: returnData[0].saveFolder,
+          }
+        : q,
+    ),
+  );
+  setIsAdd(!isAdd);
+};
+const handleInputChange2 = async (e) => {
+  const formData = new FormData();
+  e.target.files[0] && formData.append("file", e.target.files[0]);
+
+  const returnData = await uploadFile(formData);
+  setInnerFile(
+    innerFile.map((q) =>
+      q.id === nextId.current
+        ? {
+            ...q,
+            origin_name: returnData[0].originFile,
+            save_name: returnData[0].saveFile,
+            size: returnData[0].size + "Bytes",
+            upload_date: returnData[0].uploadDate,
+            file_path: returnData[0].saveFolder,
+          }
+        : q,
+    ),
+  );
+  setIsAdd2(!isAdd2);
+};
+
+const handleRemoveList = (checked, id) => {
+  if (checked) {
+    setRemoveList([...removeList, id]);
+  } else {
+    setRemoveList(removeList.filter((r) => r !== id));
+  }
+};
+const handleRemoveList2 = (checked, id) => {
+  if (checked) {
+    setRemoveList2([...removeList2, id]);
+  } else {
+    setRemoveList2(removeList2.filter((r) => r !== id));
+  }
+};
+
+const onRemove = () => {
+  let temp = vendorFile;
+  removeList.map((r) => {
+    temp = temp.filter((q) => q.id !== r);
+  });
+  setVendorFile([...temp]);
+  setRemoveList([]);
+};
+const onRemove2 = () => {
+  let temp = innerFile;
+  removeList2.map((r) => {
+    temp = temp.filter((q) => q.id !== r);
+  });
+  setInnerFile([...temp]);
+  setRemoveList2([]);
+};
+
+// fileTable row추가
+const onCreate = () => {
+  nextId.current += 1;
+  const newFile = {
+    id: nextId.current,
+    type: "",
+    origin_name: "",
+    save_name: "",
+    size: "",
+    upload_date: "",
+    file_path: "",
+  };
+  setVendorFile([...vendorFile, newFile]);
+};
+// fileTable row추가
+const onCreate2 = () => {
+  nextId2.current += 1;
+  const newFile = {
+    id: nextId2.current,
+    type: "",
+    origin_name: "",
+    save_name: "",
+    size: "",
+    upload_date: "",
+    file_path: "",
+  };
+  setInnerFile([...innerFile, newFile]);
+};
+
+// file content 내용 등록
+const handleFileContent = (key, value) => {
+  setVendorFile(
+    vendorFile.map((q) =>
+      q.id === nextId.current
+        ? {
+            ...q,
+            type: value,
+          }
+        : q,
+    ),
+  );
+};
+const handleFileContent2 = (key, value) => {
+  setInnerFile(
+    innerFile.map((q) =>
+      q.id === nextId2.current
+        ? {
+            ...q,
+            type: value,
+          }
+        : q,
+    ),
+  );
+};
+
+useDidMountEffect(() => {
+  onCreate();
+}, [isAdd]);
+useDidMountEffect(() => {
+  onCreate2();
+  
+}, [isAdd2]);
+useEffect(()=>{
+  console.log(vendorFile);
+},[vendorFile]);
     return (
       <StyledRoot>        
 
@@ -603,38 +742,40 @@ const handleCondition = (key, value) => {
           <AgVendorSelect   selectedVendorList={selectedVendorList} hide={hide}/>
         </section>
 
-        {/* <section>
+        <section>
           <ButtonWrapper>
             <SubTitle>RFQ첨부(공급사배포)</SubTitle>
-            <Button onClick={() => {
-              let del = confirm("삭제 하시겠습니까?");
-              if(del == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>삭제</Button>
+            <Button onClick={
+              onRemove
+            }>삭제</Button>
           </ButtonWrapper>
           <RfqSelectVendorContainer>
-            <FileManager/>
+            <FileManager
+              quotationFile={vendorFile}
+              handleFileContent={handleFileContent}
+              handleInputChange={handleInputChange}
+              handleRemoveList={handleRemoveList}
+            ></FileManager>
           </RfqSelectVendorContainer>
-        </section> */}
+        </section>
 
 
-        {/* <section>
+        <section>
           <ButtonWrapper>
-            <SubTitle>RFQ첨부(내부결제)</SubTitle>
-            <Button onClick={() => {
-              let del = confirm("삭제 하시겠습니까?");
-              if(del == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>삭제</Button>
+            <SubTitle>RFQ첨부(내부결재)</SubTitle>
+            <Button onClick={
+              onRemove2
+            }>삭제</Button>
           </ButtonWrapper>
           <RfqSelectVendorContainer>
-            <FileManager/>
+            <FileManager
+              quotationFile={innerFile}
+              handleFileContent={handleFileContent2}
+              handleInputChange={handleInputChange2}
+              handleRemoveList={handleRemoveList2}
+            ></FileManager>
           </RfqSelectVendorContainer>
-        </section> */}
+        </section>
 
 
         <section>
