@@ -2,18 +2,16 @@ import { colors } from "assets/styles/color";
 import LabelInfo from "components/common/LabelInfo";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { getBidResult, getSuccessBid} from "apis/SuccessBid.api";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { getBidResult, getSuccessBid } from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useParams } from "react-router-dom";
 
-
-
 function SuccessBid(props) {
-  const {rfq_no} = useParams(/* "6455407" */);
+  const { bidding_no } = useParams(/* "6455407" */);
 
   const [successBidCondition, setSuccessBidCondition] = useState({
     rfq_description: "",
@@ -29,78 +27,74 @@ function SuccessBid(props) {
   //   QUOTATION_COMMENT: "",
   // });
   const [bidResultData, setBidResultData] = useState([]);
-  
+
   const selectSuccessBid = async () => {
-    const data = await getSuccessBid({rfq_no: rfq_no});
-    
+    const data = await getSuccessBid({ rfq_no: bidding_no });
+
     console.log(data);
     setSuccessBidCondition(data);
     console.log();
   };
   const selectBidResult = async () => {
-    const data = await getBidResult({rfq_no: rfq_no});
-    console.log("여기가 찍히는거냐?" );
+    const data = await getBidResult({ rfq_no: bidding_no });
+    console.log("여기가 찍히는거냐?");
     console.log(data);
     setBidResultData(data);
   };
-  
+
   useEffect(() => {
     selectSuccessBid();
     selectBidResult();
   }, []);
 
-    return (
+  return (
     <StyledRoot>
-
-        <section>
-          <HeaderWrapper>
-            <Title>낙찰처리</Title>
-            <Button onClick={() => {
+      <section>
+        <HeaderWrapper>
+          <Title>낙찰처리</Title>
+          <Button
+            onClick={() => {
               let nakchal = confirm("최종낙찰 하시겠습니까?");
-              if(nakchal == true)
-                alert("확인 누름") 
-              else
-                alert("취소 누름")
-            }}>낙찰확정</Button>
-          </HeaderWrapper>
+              if (nakchal == true) alert("확인 누름");
+              else alert("취소 누름");
+            }}
+          >
+            낙찰확정
+          </Button>
+        </HeaderWrapper>
 
-          <InputContainer>
-            <BidInfo
-              label="건명"
-              value={successBidCondition.rfq_description}
-            />
-            <BidInfo
-              //id="BIDDING_NO"
-              label="입찰번호"
-              value={successBidCondition.bidding_no}
-            />
-            <BidInfo
-              //id="RFQ_NO"
-              label="RFQ번호"
-              value={successBidCondition.rfq_no}
-            />
-            <BidInfo
-              //id="BID_TYPE_CODE"
-              label="입찰방법"
-              value={successBidCondition.bid_type_code}
-            />
-            <BidInfo
-              //id="TARGET_PRICE"
-              label="TargetPrice"
-              value={successBidCondition.target_price}
-            />
-            </InputContainer>
+        <InputContainer>
+          <BidInfo label="건명" value={successBidCondition.rfq_description} />
+          <BidInfo
+            //id="BIDDING_NO"
+            label="입찰번호"
+            value={successBidCondition.bidding_no}
+          />
+          <BidInfo
+            //id="RFQ_NO"
+            label="RFQ번호"
+            value={successBidCondition.rfq_no}
+          />
+          <BidInfo
+            //id="BID_TYPE_CODE"
+            label="입찰방법"
+            value={successBidCondition.bid_type_code}
+          />
+          <BidInfo
+            //id="TARGET_PRICE"
+            label="TargetPrice"
+            value={successBidCondition.target_price}
+          />
+        </InputContainer>
+      </section>
 
-        </section>
+      <SubTitle>공급사별 투찰결과</SubTitle>
 
-        <SubTitle>공급사별 투찰결과</SubTitle>
-        
-        <section>
-            <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
-        </section>
-
+      <section>
+        <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
+      </section>
     </StyledRoot>
-    );
+  );
 }
 
 export default SuccessBid;
@@ -141,7 +135,7 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+4):nth-child(-n+5){
+  & > div:nth-child(n + 4):nth-child(-n + 5) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

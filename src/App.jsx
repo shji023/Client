@@ -36,8 +36,8 @@ function App() {
 
   const item1 = [
     {
-      type: 'group',
-      label: '구매신청',
+      type: "group",
+      label: "구매신청",
       icon: <EditFilled />,
       children: [
         {
@@ -46,7 +46,7 @@ function App() {
               구매신청등록
             </a>
           ),
-          key: 'setting:1',
+          key: "setting:1",
         },
         {
           label: (
@@ -54,13 +54,13 @@ function App() {
               구매신청조회
             </a>
           ),
-          key: 'setting:2',
+          key: "setting:2",
         },
       ],
     },
     {
-      type: 'group',
-      label: 'RFQ',
+      type: "group",
+      label: "RFQ",
       icon: <ScheduleFilled />,
       children: [
         {
@@ -69,13 +69,13 @@ function App() {
               RFQ조회
             </a>
           ),
-          key: 'setting:3',
+          key: "setting:3",
         },
       ],
     },
     {
-      type: 'group',
-      label: '입찰',
+      type: "group",
+      label: "입찰",
       icon: <SoundFilled />,
       children: [
         {
@@ -84,13 +84,13 @@ function App() {
               입찰진행현황조회
             </a>
           ),
-          key: 'setting:4',
+          key: "setting:4",
         },
       ],
     },
     {
-      type: 'group',
-      label: '구매계약',
+      type: "group",
+      label: "구매계약",
       icon: <ReconciliationFilled />,
       children: [
         {
@@ -99,7 +99,7 @@ function App() {
               구매계약등록
             </a>
           ),
-          key: 'setting:5',
+          key: "setting:5",
         },
         {
           label: (
@@ -107,20 +107,20 @@ function App() {
               구매계약조회
             </a>
           ),
-          key: 'setting:6',
+          key: "setting:6",
         },
       ],
     },
-  ]
+  ];
 
   const item2 = [
     {
-      label: '구매신청',
-      key: 'PrSubMenu',
+      label: "구매신청",
+      key: "PrSubMenu",
       icon: <EditFilled />,
       children: [
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/createPr" rel="noopener noreferrer">
               구매신청등록
@@ -128,7 +128,7 @@ function App() {
           ),
         },
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/selectPrList" rel="noopener noreferrer">
               구매신청조회
@@ -138,12 +138,12 @@ function App() {
       ],
     },
     {
-      label: 'RFQ',
-      key: 'RfqSubMenu',
+      label: "RFQ",
+      key: "RfqSubMenu",
       icon: <ScheduleFilled />,
       children: [
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/selectRFQList" rel="noopener noreferrer">
               RFQ조회
@@ -153,12 +153,12 @@ function App() {
       ],
     },
     {
-      label: '입찰',
-      key: 'BidSubMenu',
+      label: "입찰",
+      key: "BidSubMenu",
       icon: <SoundFilled />,
       children: [
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/bidList" rel="noopener noreferrer">
               입찰진행현황조회
@@ -168,12 +168,12 @@ function App() {
       ],
     },
     {
-      label: '구매계약',
-      key: 'PoSubMenu',
+      label: "구매계약",
+      key: "PoSubMenu",
       icon: <ReconciliationFilled />,
       children: [
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/poRegist" rel="noopener noreferrer">
               구매계약등록
@@ -181,7 +181,7 @@ function App() {
           ),
         },
         {
-          type: 'group',
+          type: "group",
           label: (
             <a href="/selectPoList" rel="noopener noreferrer">
               구매계약조회
@@ -190,7 +190,7 @@ function App() {
         },
       ],
     },
-  ]
+  ];
 
   return (
     <>
@@ -199,15 +199,9 @@ function App() {
         <Sider trigger={null} collapsible collapsed={collapsed}>
           {/* <div className="logo" /> */}
           <Logo>
-          <img  className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
+            <img className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
           </Logo>
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            items={item2}
-          />
-          
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]} items={item2} />
         </Sider>
         <Layout className="site-layout">
           <Header
@@ -238,7 +232,7 @@ function App() {
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
                 <Route path="/poRegist/:id" element={<PoRegist />} />
-                <Route path="/successBid/:rfq_no" element={<SuccessBid />} />
+                <Route path="/successBid/:bidding_no" element={<SuccessBid />} />
                 <Route path="/selectPrList" element={<SelectPrList />} />
                 <Route path="/createPr" element={<CreatePr />} />
                 <Route path="/createPr/:id" element={<CreatePr />} />
@@ -270,4 +264,3 @@ const Logo = styled.div`
   justify-content: center;
   margin-bottom: 25px;
 `;
-
