@@ -73,25 +73,25 @@ function RfqCreate() {
     amount_limit: "1",
     bidding_fob: "당사지정장소",
     buyer_id: "17278",
-    category_segment: "자재",
+    category_segment: "Q",
     end_date: "2022-06-01",
     po_collabo_type: "Consignment",
     po_payment_cycle: "15 Days",
     rfq_description: "테스트1",
-    rfq_detail_status: "1",
+    rfq_detail_status: "N",
     rfq_no: "",
     rfq_payment_terms: "10000",
     rfq_ship_to: "837",
-    simple_quotation_flag: "1"  ,
+    simple_quotation_flag: "null"  ,
   }
   const defaultConditions = {
     rfq_no: "-",
-    simple_quotation_flag:"1", 
-    rfq_detail_status:"1",
+    simple_quotation_flag:"null", 
+    rfq_detail_status:"N",//작성중
 
     // cd_v_meaning_status:"",
     // cd_v_meaning_type:"",
-    category_segment:"자재",
+    category_segment:"Q",//자재
     // line_type_id :"",
 
     rfq_description:"",
@@ -139,19 +139,20 @@ function RfqCreate() {
 
     const temp = 
     {
-      rfq_no: data.rfq_no,
-      simple_quotation_flag: data.simple_quotation_flag, 
-      rfq_detail_status: data.rfq_detail_status,
-      category_segment:data.category_segment,
-      rfq_description:data.rfq_description,
-      buyer_id: data.buyer_id,
+      rfq_no: rfqList.rfq_no,
+      simple_quotation_flag: rfqList.simple_quotation_flag, 
+      rfq_detail_status: rfqList.rfq_detail_status,
+      category_segment:rfqList.category_segment,
+      rfq_description:rfqList.rfq_description,
+      buyer_id: rfqList.buyer_id,
       po_payment_cycle: po1.po_payment_cycle,
       po_collabo_type: po1.po_collabo_type,
       end_date: po1.end_date,
       amount_limit:po1.amount_limit,
-      rfq_ship_to: data.rfq_ship_to,
-      rfq_payment_terms: data.rfq_payment_terms,
-      bidding_fob:bid1.bidding_fob,
+      rfq_ship_to: rfqList.rfq_ship_to,
+      rfq_payment_terms: rfqList.rfq_payment_terms,
+      // bidding_fob:bid1.bidding_fob,
+      bidding_fob:rfqList.fob_lookup_code,
     }
     setRfqListData({...temp});
 
@@ -693,6 +694,7 @@ useEffect(()=>{
             handlePoCondition={handleRfqInfoCondition}
             lov={shipToLov}
             disabled={disabled}
+            spanCnt = {2}
           />
           <InputSelect
             id="rfq_payment_terms"
@@ -710,10 +712,7 @@ useEffect(()=>{
             lov={FobLov}
             disabled={disabled}
           />
-          <BidInfo
-            label= "" 
-            value= ""
-          />
+          
         </RfqInfoContainer>
 
         </section>
@@ -739,7 +738,7 @@ useEffect(()=>{
                 setVisible(true);
             }}>공급사선정</Button>
           </ButtonWrapper>
-          <AgVendorSelect   selectedVendorList={selectedVendorList} hide={hide}/>
+          <AgVendorSelect selectedVendorList={selectedVendorList} hide={hide}/>
         </section>
 
         <section>
