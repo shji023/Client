@@ -228,7 +228,8 @@ function App() {
           >
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="/" element={<SelectPrList />} />
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
                 <Route path="/poRegist/:id" element={<PoRegist />} />
