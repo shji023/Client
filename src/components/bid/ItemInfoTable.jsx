@@ -1,50 +1,8 @@
 import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
-const mockData = [
-  {
-    line: "1",
-    groupName: "Posco",
-    category: "Q-Dummy Bar",
-    description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-    uom: "set",
-    quantity: "1",
-    needByDate: "2022-06-13",
-    requestPerson: "손영일",
-  },
-  {
-    line: "2",
-    groupName: "Posco",
-    category: "Q-Dummy Bar",
-    description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-    uom: "set",
-    quantity: "1",
-    needByDate: "2022-06-13",
-    requestPerson: "손영일",
-  },
-  {
-    line: "3",
-    groupName: "Posco",
-    category: "Q-Dummy Bar",
-    description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-    uom: "set",
-    quantity: "1",
-    needByDate: "2022-06-13",
-    requestPerson: "손영일",
-  },
-  {
-    line: "4",
-    groupName: "Posco",
-    category: "Q-Dummy Bar",
-    description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-    uom: "set",
-    quantity: "1",
-    needByDate: "2022-06-13",
-    requestPerson: "손영일",
-  },
-];
-function ItemInfoTable({itemInfoList}) {
-  console.log(itemInfoList);
+
+function ItemInfoTable({ itemInfoList }) {
   return (
     <Table>
       <thead>
@@ -61,9 +19,9 @@ function ItemInfoTable({itemInfoList}) {
       </thead>
       <tbody>
         {itemInfoList ? (
-          itemInfoList.map((itemInfo,index) => (
-            <Tr key={itemInfo.id}>
-              <Td>{index+1}</Td>
+          itemInfoList.map((itemInfo, index) => (
+            <Tr key={index}>
+              <Td>{index + 1}</Td>
               <Td>{itemInfo.group_name}</Td>
               <Td>{itemInfo.category}</Td>
               <Td>{itemInfo.description}</Td>
@@ -111,6 +69,6 @@ const Td = styled.td`
   max-width: 45rem;
   height: 3.5rem;
   white-space: nowrap;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
   overflow: hidden;
 `;
