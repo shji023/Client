@@ -319,6 +319,7 @@ function PoRegist() {
       requisition : "",
       req_line : "",
       requester : "",
+      requester_id : "",
       deliver_to_location : "",
       subinventory : "",
       charge_account : "",
@@ -415,16 +416,14 @@ function PoRegist() {
     const temp = rowData;
     console.log(row);
     temp[idx].item_id = row.item_id;
-    temp[idx].item_name = row.item;
+    temp[idx].item = row.item;
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;
     temp[idx].description = row.description;
-    temp[idx].uom = row.uom;
-    // temp[idx].unit = row.unit;
 
     setRowData([...temp]);
     
-    return temp[idx].item_name;
+    return temp[idx].item;
   }
 
     const onHandleCancelItem = ({}) => {
@@ -454,6 +453,14 @@ function PoRegist() {
     
     return temp[idx].requester;
   }
+
+  const onHandleCanceRequester = ({}) => {
+    const temp = conditions;
+    temp.item_id = "";
+    temp.item = "";
+    temp.category = "";
+    setConditions(temp);
+  }
   // #endregion Line Requester 이벤트
 
 
@@ -465,7 +472,7 @@ function PoRegist() {
     { field: "item",              headerName:"Item",               minWidth: 150,  editable: false,
       cellRendererSelector : params => {
         const idx = params.node.rowIndex;
-        const initValue = rowData[idx] ? rowData[idx].item_name : "";
+        const initValue = rowData[idx] ? rowData[idx].item : "";
         return {
           component: InputSearch,
           params : {
@@ -628,6 +635,7 @@ cellRendererSelector : params => {
       initValue : initValue,
       onHandleSearch : onHandleSearchRequester,
       onHandleOk : onHandleOkRequester,
+      onHandleCancel : onHandleCanceRequester,
       gridOptions: {
         columnDefs : popUpStaffColFields,
         rowSelection : "single",
@@ -752,6 +760,7 @@ cellRendererSelector : params => {
         acceptance_due_date : data[0].acceptance_due_date,
         fob_lookup_code : data[0].fob_lookup_code,
         terms_id : "10010",
+        vendor_location : data[0].vendor_location,
         // terms_id : data[0].terms_id,
         blanket_total_amount : data[0].blanket_total_amount,
         currency_code : data[0].currency_code,
