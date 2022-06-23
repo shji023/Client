@@ -4,7 +4,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { bidColFields } from "stores/colData";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const BidDataGrid = ({ listData }) => {
   const navigate = useNavigate();
   return (
@@ -39,29 +39,15 @@ const BidDataGrid = ({ listData }) => {
             paginationPageSize={10}
             onRowClicked={(e) => navigate(`/bidList/${e.data.bidding_no}`)}
           >
-            <AgGridColumn
-              headerName="..HELLO."
-              headerCheckboxSelection={true}
-              checkboxSelection={true}
-              floatingFilter={false}
-              suppressMenu={true}
-              minWidth={50}
-              maxWidth={50}
-              width={50}
-              flex={0}
-              resizable={false}
-              sortable={false}
-              editable={false}
-              filter={false}
-              suppressColumnsToolPanel={true}
-            />
-            {bidColFields.map((data)=><AgGridColumn 
-              key={data.colId} 
-              field={data.field} 
-              headerName={data.headerName} 
-              minWidth={data.minWidth} 
-              // onCellClicked={() => navigate(`/bidList/${data.colId}`)}
-              />)}
+            {bidColFields.map((data) => (
+              <AgGridColumn
+                key={data.colId}
+                field={data.field}
+                headerName={data.headerName}
+                minWidth={data.minWidth}
+                // onCellClicked={() => navigate(`/bidList/${data.colId}`)}
+              />
+            ))}
           </AgGridReact>
         </div>
       </div>
