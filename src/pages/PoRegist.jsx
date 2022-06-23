@@ -270,13 +270,13 @@ function PoRegist() {
     console.log("onDeleteContents called");
 
     // !: axios 비동기
-    // const data = await deleteOnePr(conditions.req_num);
-    if(data.res){
+    const data = await deleteOnePr(conditions.po_num);
+    if(data){
       alert("구매 계약 삭제가 완료되었습니다.");
     } else {
       alert("구매 계약 삭제가 실패했습니다.");
     }
-    navigate(`/createPr`);
+    // navigate.replace(`/createPr`);
   }
 
   // #region 그리드 관련 이벤트
@@ -447,12 +447,12 @@ function PoRegist() {
 
     const temp = rowData;
     console.log(row);
+    temp[idx].requester = row.name;
     temp[idx].requester_id = row.id;
-    temp[idx].requester_name = row.name;
 
     setRowData([...temp]);
     
-    return temp[idx].requester_name;
+    return temp[idx].requester;
   }
   // #endregion Line Requester 이벤트
 
@@ -619,7 +619,7 @@ function PoRegist() {
 { field: "requester",                  headerName:"Requester",                   minWidth:200, editable: false, 
 cellRendererSelector : params => {
   const idx = params.node.rowIndex;
-  const initValue = rowData[idx] ? rowData[idx].requester_name : "";
+  const initValue = rowData[idx] ? rowData[idx].requester : "";
   return {
     component: InputSearch,
     params : {
@@ -795,7 +795,8 @@ cellRendererSelector : params => {
           distribution : 1,
           requisition : element.req_distribution_id,
           req_line : 1,
-          requester : element.request_person_id,
+          requester : element.request,
+          requester_id : element.request_person_id,
           deliver_to_location : element.deliver_to_location_id,
           subinventory : element.destination_subinventory,
           charge_account : element.account_nm,
@@ -990,6 +991,7 @@ cellRendererSelector : params => {
           <InputOneDate
             id="contract_date"
             inputLabel="PO 계약일"
+            initValue={conditions.contract_date}
             handleCondition={handleCondition}
             spanCnt={2}
           />
