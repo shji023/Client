@@ -168,7 +168,7 @@ function RfqDetail() {
     console.log("onSaveContents called");
 
     const returnData = await uploadContent(vendorFile);
-    // const data = await insertOneBid(bidCondition);
+    const data = await insertOneBid(bidCondition);
 
     console.log("완료 : ", returnData);
     // console.log("완료 : ", data);
