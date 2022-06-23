@@ -184,6 +184,7 @@ function RfqCreate() {
         description : element.description,
         group_name : element.group_name,
         item_name : element.item,
+        item_id : element.item_id,
         request_name : element.name,
         requisition_num : element.requisition_num + "-" + element.requisition_line_number,
         request_phone : element.staff_contact_number,
