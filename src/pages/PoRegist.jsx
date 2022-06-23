@@ -733,6 +733,8 @@ cellRendererSelector : params => {
       // const data = ...
       const data = await getPoSearch(id);
 
+      console.log("resv Data ", data);
+
       // * Header 데이터 정리
       const temp_conditions = {
         po_num : data[0].po_num,
@@ -741,7 +743,9 @@ cellRendererSelector : params => {
         attribute_category : data[0].attribute_category,
         comments : data[0].comments,
         vendor_id : data[0].vendor_id,
+        vendor_name : data[0].vendor_name,
         buyer_id : data[0].buyer_id,
+        buyer_name : data[0].buyer_name,
         approved_date : data[0].approved_date,
         authorization_status : data[0].authorization_status,
         contract_date : data[0].contract_date,
@@ -990,6 +994,7 @@ cellRendererSelector : params => {
           <InputOneDate
             id="contract_date"
             inputLabel="PO 계약일"
+            initValue={conditions.contract_date}
             handleCondition={handleCondition}
             spanCnt={2}
           />
