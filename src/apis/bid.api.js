@@ -107,11 +107,14 @@ export const getBidTypeLov = async () => {
 export const getBidPriceMethodLov = async () => {
   try {
     const { data } = await serverAxios.get(`${PREFIX_URL}/bidPriceMethodLov`);
+    console.log("getBidPriceMethodLov",data);
     return data;
+
   } catch (err) {
     throw new Error("Failed to load");
   }
 };
+
 
 // 낙찰제도
 export const getBidMethodTypeLov = async () => {
@@ -122,6 +125,8 @@ export const getBidMethodTypeLov = async () => {
     throw new Error("Failed to load");
   }
 };
+
+
 
 // Max 라운드
 export const getBidMaxRoundLov = async () => {
