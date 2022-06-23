@@ -54,7 +54,7 @@ export const getRfqInfo = async (id) => {
     // console.log("id!!!",id);
     const sendData = {id : id}
     const { data } = await serverAxios.post(`${PREFIX_URL}/rfqInfo`, sendData);
-    // console.log("!!!", data);
+    console.log("!!!", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

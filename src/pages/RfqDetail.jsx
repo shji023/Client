@@ -80,7 +80,7 @@ function RfqDetail() {
   };
 
 //------------------------------------------------------
-  const [quotationFile, setQuotationFile] = useState([]);
+  const [vendorFile, setvendorFile] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [isAdd, setIsAdd] = useState(false);
   const nextId = useRef(0);
@@ -91,8 +91,8 @@ function RfqDetail() {
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
-    setQuotationFile(
-      quotationFile.map((q) =>
+    setvendorFile(
+      vendorFile.map((q) =>
         q.id === nextId.current
           ? {
               ...q,
@@ -117,11 +117,11 @@ function RfqDetail() {
   };
 
   const onRemove = () => {
-    let temp = quotationFile;
+    let temp = vendorFile;
     removeList.map((r) => {
       temp = temp.filter((q) => q.id !== r);
     });
-    setQuotationFile([...temp]);
+    setvendorFile([...temp]);
     setRemoveList([]);
   };
 
@@ -138,14 +138,14 @@ function RfqDetail() {
       file_path: "",
       rfq_no: id,
     };
-    setQuotationFile([...quotationFile, newFile]);
+    setvendorFile([...vendorFile, newFile]);
   };
 
     
   // file content 내용 등록
   const handleFileContent = (key, value) => {
-    setQuotationFile(
-      quotationFile.map((q) =>
+    setvendorFile(
+      vendorFile.map((q) =>
         q.id === nextId.current
           ? {
               ...q,
@@ -161,14 +161,14 @@ function RfqDetail() {
   }, [isAdd]);
 
   useDidMountEffect(() => {
-    console.log(quotationFile);
-  }, [quotationFile]);
+    console.log(vendorFile);
+  }, [vendorFile]);
 //--------------------------------------------------------------
   const saveContents = async () => {
     console.log("onSaveContents called");
 
-    const returnData = await uploadContent(quotationFile);
-    // const data = await insertOneBid(bidCondition);
+    const returnData = await uploadContent(vendorFile);
+    const data = await insertOneBid(bidCondition);
 
     console.log("완료 : ", returnData);
     // console.log("완료 : ", data);
@@ -207,6 +207,7 @@ function RfqDetail() {
         <RfqInfoContainer>
           <BidInfo label="RFQ 번호" value={id}/>
           <BidInfo label="단계" value={stage}/>
+          {/* <BidInfo label="Status" value={rfqListData.rfq_status}/> */}
           <BidInfo label="Status" value={rfqListData.cd_v_meaning_status}/>
           <BidInfo label="Type" value={rfqListData.cd_v_meaning_type}/>
           <BidInfo label='건명' value={rfqListData.rfq_description}/> 
@@ -285,7 +286,7 @@ function RfqDetail() {
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
           <FileManager
             // fileInfoList={fileInfoList}
-            quotationFile={quotationFile}
+            vendorFile={vendorFile}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
             handleRemoveList={handleRemoveList}
