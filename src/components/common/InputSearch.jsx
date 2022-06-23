@@ -103,7 +103,8 @@ function InputSearch({
         <Input.Search
           type="text"
           id={id}
-          value={searchedWord}
+          // value={searchedWord}
+          value={initValue}
           onSearch = {showModal}  // modal     
           style={{ width: '100%' }}
           allowClear={false}

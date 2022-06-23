@@ -80,9 +80,9 @@ export const getPr = async (reqNum) => {
         const pr2 = {
           requisition_line_id : element.requisitionLineId,
           // line: element.1, // !
-          item_name: element.itemName, // !
+          item_name: element.itemName,
           item_id: element.itemId,
-          category: element.categoryName, // !
+          category: element.categoryName,
           category_id: element.categoryId,
           description: element.itemDescription,
           uom: element.unitMeasLookupCode,
@@ -90,12 +90,12 @@ export const getPr = async (reqNum) => {
           unit_price: element.unitPrice,
           // total_amount: element., // !
           tax_code: element.taxCode,
-          buyer_name: element.buyerName, // !
+          buyer_name: element.buyerName,
           buyer_id: element.buyerId, 
           note_to_buyer: element.noteToAgent,
-          requester_name: element.requesterName, // !
+          requester_name: element.requesterName,
           requester_id: element.requestPersonId,
-          // need_to_date: element., // !
+          need_to_date: element.needByDate,
           destination_type: element.destinationTypeCode,
           organization: element.organizationCode,
           location: element.deliverToLocationId,
