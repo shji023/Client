@@ -36,7 +36,7 @@ function RfqDetail() {
     "note_to_bidder" : "",
     "bidding_rule_approval_comment" : "",
     
-    "simple_quotation_flag" : "",
+    "simple_quotation_flag" : "null",
     "category_id": 0,
     "bidding_fob": "",
   });

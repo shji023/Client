@@ -78,10 +78,10 @@ const AgVendorSelect = ({selectedVendorList, hide}) => {
                 hide={hide}
                 />
              
-                <AgGridColumn field="vendor_name" headerName="공급사" minWidth={10} maxWidth= {500} />
-                <AgGridColumn field="contact_name" headerName="담당자" minWidth={10} maxWidth={150} />
+                <AgGridColumn field="vendor_name" headerName="공급사" minWidth={10} maxWidth= {800} />
+                <AgGridColumn field="contact_name" headerName="담당자" minWidth={10} maxWidth={200} />
                 <AgGridColumn field="contact_email_address" headerName="e-mail" minWidth={10} maxWidth={300}/>
-                <AgGridColumn field="contact_mobile" headerName="연락처" minWidth={10} maxWidth={170} />                
+                <AgGridColumn field="contact_mobile" headerName="연락처" minWidth={10} maxWidth={300} />                
                 
             </AgGridReact>
             </div>
