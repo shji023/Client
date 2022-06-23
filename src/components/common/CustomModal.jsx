@@ -192,7 +192,7 @@ function CustomModal({
         >
           <div 
           ref={draggleRef}
-          style={{ opacity: Opacity ? "0.6" : "1" }}
+          // style={{ opacity: Opacity ? "0.6" : "1" }}
           >
             {modal}
           </div>
