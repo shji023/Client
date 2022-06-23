@@ -65,7 +65,7 @@ function QuotationSubmitTable({
           ))
         ) : (
           <Tr>
-            <Td>조회된 건이 없습니다.</Td>
+            <Td6>조회된 건이 없습니다.</Td6>
           </Tr>
         )}
       </tbody>
@@ -95,6 +95,14 @@ const Tr = styled.tr`
 `;
 
 const Td = styled.td`
+  border: 1px solid ${colors.tableLineGray};
+  text-align: center;
+  padding: 1rem;
+`;
+
+const Td6 = styled.td.attrs({
+  colSpan: 6,
+})`
   border: 1px solid ${colors.tableLineGray};
   text-align: center;
   padding: 1rem;

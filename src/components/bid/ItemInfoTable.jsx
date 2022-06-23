@@ -18,7 +18,7 @@ function ItemInfoTable({ itemInfoList }) {
         </Tr>
       </thead>
       <tbody>
-        {itemInfoList ? (
+        {itemInfoList.length !== 0 ? (
           itemInfoList.map((itemInfo, index) => (
             <Tr key={index}>
               <Td>{index + 1}</Td>
@@ -33,7 +33,7 @@ function ItemInfoTable({ itemInfoList }) {
           ))
         ) : (
           <Tr>
-            <Td>조회된 건이 없습니다.</Td>
+            <Td8>조회된 건이 없습니다.</Td8>
           </Tr>
         )}
       </tbody>
@@ -71,4 +71,12 @@ const Td = styled.td`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const Td8 = styled.td.attrs({
+  colSpan: 8,
+})`
+  border: 1px solid ${colors.tableLineGray};
+  text-align: center;
+  padding: 1rem;
 `;
