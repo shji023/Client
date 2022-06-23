@@ -50,3 +50,12 @@ export const uploadFileContent = async (content) => {
     throw new Error("Failed to load");
   }
 };
+
+export const getVendorFileList = async (bidding_no) => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/vendor/${bidding_no}`);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};

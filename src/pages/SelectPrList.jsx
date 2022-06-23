@@ -266,7 +266,7 @@ function selectPrList() {
             id="item_id"
             title="물품선택"
             inputLabel="Item"
-            initValue={conditions.item_description}
+            initValue={conditions.item_name}
             onHandleSearch={onHandleSearchItem}
             onHandleOk={onHandleOkItem}
             onHandleCancel={null}
@@ -285,6 +285,7 @@ function selectPrList() {
           <InputSelect
             id="type_lookup_code"
             inputLabel="진행상태"
+            initValue={conditions.type_lookup_code}
             handlePoCondition={handlePoCondition}
             lov={prStatusLov}
           />
