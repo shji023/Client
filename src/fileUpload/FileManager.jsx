@@ -5,7 +5,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 
 function FileManager({
-  quotationFile,
+  vendorFile,
   handleRemoveList,
   handleFileContent,
   handleInputChange,
@@ -30,8 +30,8 @@ function FileManager({
         </Tr>
       </thead>
       <tbody>
-        {quotationFile ? (
-          quotationFile.map((q) => (
+        {vendorFile ? (
+          vendorFile.map((q) => (
             <Tr key={q.id}>
               <Td>
                 <input
