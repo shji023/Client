@@ -17,6 +17,9 @@ function BidDetail() {
   const [rfqInfoData, setRfqInfoData] = useState([]);
   const [itemInfoList, setItemInfoList] = useState([]);
   const [vendorFileList, setVendorFileList] = useState([]);
+  const [bidType, setBidType] = useState("");
+  const [bidMethod, setBidMethod] = useState("");
+
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(id);
     const rfqInfo = await getRfqInfo(id);
@@ -28,6 +31,22 @@ function BidDetail() {
 
     const fileInfo = await getVendorFileList(rfqInfo[0].rfq_no);
     fileInfo && setVendorFileList(fileInfo);
+
+    const tempBidType = ruleInfo[0].bid_type_code === "NEGO" ? "수의" : "경쟁";
+    setBidType(tempBidType);
+    const tempBidMethod =
+      ruleInfo[0].bid_method_type === "A"
+        ? "낙찰하한제"
+        : ruleInfo[0].bid_method_type === "Y"
+        ? "제한적 최저가"
+        : ruleInfo[0].bid_method_type === "B"
+        ? "저가제한"
+        : ruleInfo[0].bid_method_type === "C"
+        ? "최저가입찰"
+        : ruleInfo[0].bid_method_type === "D"
+        ? "TCO"
+        : "시장가경쟁";
+    setBidMethod(tempBidMethod);
   };
   const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
   const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
@@ -76,9 +95,9 @@ function BidDetail() {
         <SubTitle>입찰 룰</SubTitle>
         <BidInfoContainer>
           <BidInfo label="입찰번호" value={ruleInfoData.bidding_no}></BidInfo>
-          <BidInfo label="입찰유형" value={ruleInfoData.bid_type_code}></BidInfo>
+          <BidInfo label="입찰유형" value={bidType}></BidInfo>
           <BidInfo label="단가입력방식" value={ruleInfoData.bid_price_method}></BidInfo>
-          <BidInfo label="낙찰제도" value={ruleInfoData.bid_method_type}></BidInfo>
+          <BidInfo label="낙찰제도" value={bidMethod}></BidInfo>
           <BidInfo label="라운드" value={ruleInfoData.max_round}></BidInfo>
           <BidInfo label="라운드 시작/마감" value={roundPeriod}></BidInfo>
           <BidInfo label="통화" value={ruleInfoData.main_currency}></BidInfo>
