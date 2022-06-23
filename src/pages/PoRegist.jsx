@@ -250,7 +250,7 @@ function PoRegist() {
 
     // !: axios 비동기
     const data = await updateOnePo(conditions, rowData, deletedIdList);
-    if(data.res){
+    if(data === 'Success Update'){
       alert("구매 계약 수정이 완료되었습니다.");
     } else {
       alert("구매 계약 수정이 실패했습니다.");
@@ -340,7 +340,14 @@ function PoRegist() {
       tempData.push({...node.data, id: id++});
       if(node.isSelected()){
         ids.push(id-1);
-        tempData.push({...node.data, id: id++, query_type: "insert"});
+        tempData.push({
+          ...node.data, 
+          id: id++, 
+          po_line_id: null, 
+          po_line_location_id : null, 
+          po_distribution_id : null, 
+          query_type: "insert"
+        });
       }
     });
 
