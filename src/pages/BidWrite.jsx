@@ -17,7 +17,7 @@ function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [updateItem, setUpdateItem] = useState({
-    vendor_site_id: "822",
+    vendor_site_id: "861",
     quotation_total_price: "",
     rfq_no: "",
     main_currency: "",
@@ -26,7 +26,7 @@ function BidWrite() {
   // RenderingData
   const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
-    vendor_site_id: "822",
+    vendor_site_id: "861",
     rfq_no: "",
     bidding_no: "",
     quotation_comment: "",
@@ -98,7 +98,7 @@ function BidWrite() {
       upload_date: "",
       file_path: "",
       bidding_no: id,
-      vendor_site_id: "822",
+      vendor_site_id: "861",
     };
     setQuotationFile([...quotationFile, newFile]);
   };
