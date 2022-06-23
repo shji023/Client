@@ -15,7 +15,7 @@ function RfqAttachTable({ vendorFileList }) {
         </Tr>
       </thead>
       <tbody>
-        {vendorFileList ? (
+        {vendorFileList.length !== 0 ? (
           vendorFileList.map((v, index) => (
             <Tr key={index}>
               <Td>{v.type}</Td>
@@ -27,7 +27,7 @@ function RfqAttachTable({ vendorFileList }) {
           ))
         ) : (
           <Tr>
-            <Td>조회된 건이 없습니다.</Td>
+            <Td5>조회된 건이 없습니다.</Td5>
           </Tr>
         )}
       </tbody>
@@ -57,6 +57,14 @@ const Tr = styled.tr`
 `;
 
 const Td = styled.td`
+  border: 1px solid ${colors.tableLineGray};
+  text-align: center;
+  padding: 1rem;
+`;
+
+const Td5 = styled.td.attrs({
+  colSpan: 5,
+})`
   border: 1px solid ${colors.tableLineGray};
   text-align: center;
   padding: 1rem;
