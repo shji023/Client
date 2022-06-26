@@ -29,6 +29,16 @@ import moment from "moment";
 
  }
 
- export const reload = () => {
-    document.location.reload();
-  }
+export const reload = () => {
+   document.location.reload();
+}
+
+export const getReg = (type) => {
+   let reg = "";
+   switch(type) {
+      case "number" : reg = /^\d*?$/; break;
+      case "decimal" : reg = /^\d*(\.\d*)?$/; break;
+      case "text" : reg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/; break;
+   }
+   return reg;
+}
