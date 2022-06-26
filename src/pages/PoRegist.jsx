@@ -754,6 +754,7 @@ cellRendererSelector : params => {
         comments : data[0].comments,
         vendor_id : data[0].vendor_id,
         vendor_name : data[0].vendor_name,
+        vendor_location : data[0].vendor_location,
         buyer_id : data[0].buyer_id,
         buyer_name : data[0].buyer_name,
         approved_date : data[0].approved_date,
