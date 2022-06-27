@@ -101,6 +101,7 @@ function Login() {
             onChange={idInputChange}
             isConditionMet={isConditionMet.email}
             errorMsg={errMsg.email}
+            isPw={false}
           />
           <StyledInput
             placeHolder="비밀번호를 입력해 주세요"

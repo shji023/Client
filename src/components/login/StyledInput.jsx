@@ -59,7 +59,6 @@ export default StyledInput;
 
 const Input = Styled.input`
   border: none;
-  /* ${ifProp("readOnly", theme("font.subhead3"), theme("font.body3"))}; */
   color: ${ifProp({ readOnly: true }, "#8b8b8b", "#0d0d0d")};
   background: ${ifProp("readOnly", "#dfdfdf")}; 
   width: 100%;
@@ -67,12 +66,12 @@ const Input = Styled.input`
   padding: 18px 20px;
   border-radius: 4px;
   font-size: 1.4rem;
-  //border: 1px solid #c1c1c1;
-  :placeholder{
-    color: '#c1c1c1';
-  }
+
   :focus{
     outline: none;
+  }
+  :placeholder{
+    color: '#c1c1c1';
   }
   transition: background-color 600000s 0s, color 600000s 0s;
 `;
