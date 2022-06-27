@@ -50,7 +50,7 @@ function App() {
         {
           label: (
             <a href="/selectPrList" rel="noopener noreferrer">
-              구매신청조회
+              ⦁ 구매신청조회
             </a>
           ),
           key: "setting:2",
@@ -65,7 +65,7 @@ function App() {
         {
           label: (
             <a href="/selectRFQList" rel="noopener noreferrer">
-              RFQ조회
+              ⦁ RFQ조회
             </a>
           ),
           key: "setting:3",
@@ -80,7 +80,7 @@ function App() {
         {
           label: (
             <a href="/bidList" rel="noopener noreferrer">
-              입찰진행현황조회
+              ⦁ &nbsp;입찰진행현황조회
             </a>
           ),
           key: "setting:4",
@@ -95,7 +95,7 @@ function App() {
         {
           label: (
             <a href="/poRegist" rel="noopener noreferrer">
-              구매계약등록
+              ⦁ &nbsp;구매계약등록
             </a>
           ),
           key: "setting:5",
@@ -103,7 +103,7 @@ function App() {
         {
           label: (
             <a href="/selectPoList" rel="noopener noreferrer">
-              구매계약조회
+              ⦁ &nbsp;구매계약조회
             </a>
           ),
           key: "setting:6",
@@ -122,7 +122,7 @@ function App() {
           type: "group",
           label: (
             <a href="/createPr" rel="noopener noreferrer">
-              구매신청등록
+              ⦁ &nbsp;구매신청등록
             </a>
           ),
         },
@@ -130,7 +130,7 @@ function App() {
           type: "group",
           label: (
             <a href="/selectPrList" rel="noopener noreferrer">
-              구매신청조회
+              ⦁ &nbsp;구매신청조회
             </a>
           ),
         },
@@ -145,7 +145,7 @@ function App() {
           type: "group",
           label: (
             <a href="/selectRFQList" rel="noopener noreferrer">
-              RFQ조회
+              ⦁ &nbsp;RFQ조회
             </a>
           ),
         },
@@ -160,7 +160,7 @@ function App() {
           type: "group",
           label: (
             <a href="/bidList" rel="noopener noreferrer">
-              입찰진행현황조회
+              ⦁ &nbsp;입찰진행현황조회
             </a>
           ),
         },
@@ -175,7 +175,7 @@ function App() {
           type: "group",
           label: (
             <a href="/poRegist" rel="noopener noreferrer">
-              구매계약등록
+              ⦁ &nbsp;구매계약등록
             </a>
           ),
         },
@@ -183,7 +183,7 @@ function App() {
           type: "group",
           label: (
             <a href="/selectPoList" rel="noopener noreferrer">
-              구매계약조회
+              ⦁ &nbsp;구매계약조회
             </a>
           ),
         },

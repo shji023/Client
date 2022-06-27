@@ -26,18 +26,34 @@
   /* color: red !important;
   border-bottom: 2px solid red; */
 }
-
+/* 메인 메뉴 글자색 */
+.ant-menu {
+  color: white !important;
+}
 .ant-menu .ant-menu-sub .ant-menu-inline {
   
 }
 
+/* .ant-menu li:hover {
+  background: #01446e !important;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 5px 5px rgba(0, 0, 0, 0.1);
+} */
 
 .ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open::selection {
-  background: red;
+  /* background: red !important; */
 }
-
+/* 메인메뉴 배경색 */
+.ant-menu-submenu:hover {
+  background: #01446e !important;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+/* 서브 메뉴 글자색 */
+/* .ant-menu-item-group-title {
+  color: white !important;
+} */
+/* 서브 메뉴 */
 .ant-menu-item-group-title:hover {
-  color: rgba(255, 255, 255, 0.884);
+  color: rgba(255, 255, 255);
 }
 .ant-menu-item-group-title a:hover {
   color: white !important;
