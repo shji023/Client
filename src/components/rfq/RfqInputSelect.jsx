@@ -14,7 +14,7 @@ function RfqInputSelect({ id, inputLabel, handleCondition, lov }) {
           onChange={(e) => {
             handleCondition(id, e);
           }}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         >
           <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
@@ -33,19 +33,6 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const TitleWrapper = styled.div`
-  font-size: 1.4rem;
-  min-width: 14rem;
-  height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
 `;
 
 const Label = styled.label`
