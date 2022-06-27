@@ -15,9 +15,10 @@ import { getBuyerList, getItemList, getStaffList, getVendorList } from "apis/pub
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import InputOneDate from "components/common/InputOneDate";
-import { getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
+import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import { reload } from "hooks/CommonFunction";
 
 
 function PoRegist() {
@@ -172,7 +173,7 @@ function PoRegist() {
     contract_date : "",
     acceptance_due_date : "",
     fob_lookup_code : "",
-    terms_id : "10010",
+    terms_id : "",
     blanket_total_amount : "",
     currency_code : "",
     bid_method_type : "",
@@ -231,7 +232,7 @@ function PoRegist() {
       temp.po_num = data;
       setConditions({...temp});
       navigate(`/poRegist/${temp.po_num}`)
-      
+      reload()
     } else {
       alert("구매 계약 등록이 실패했습니다.");
     }
@@ -248,12 +249,12 @@ function PoRegist() {
 
     // !: axios 비동기
     const data = await updateOnePo(conditions, rowData, deletedIdList);
-    if(data === 'Success Update'){
+    if(data){
       alert("구매 계약 수정이 완료되었습니다.");
       const temp = conditions;
       temp.po_num = data;
       setConditions({...temp});
-      navigate(`/poRegist/${temp.po_num}`)
+      reload();
     } else {
       alert("구매 계약 수정이 실패했습니다.");
     }
@@ -270,9 +271,10 @@ function PoRegist() {
     console.log("onDeleteContents called");
 
     // !: axios 비동기
-    const data = await deleteOnePr(conditions.po_num);
+    const data = await deleteOnePo(conditions.po_num);
     if(data){
       alert("구매 계약 삭제가 완료되었습니다.");
+      navigate(`/selectPoList`)
     } else {
       alert("구매 계약 삭제가 실패했습니다.");
     }
@@ -319,6 +321,7 @@ function PoRegist() {
       requisition : "",
       req_line : "",
       requester : "",
+      requester_id : "",
       deliver_to_location : "",
       subinventory : "",
       charge_account : "",
@@ -415,16 +418,14 @@ function PoRegist() {
     const temp = rowData;
     console.log(row);
     temp[idx].item_id = row.item_id;
-    temp[idx].item_name = row.item;
+    temp[idx].item = row.item;
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;
     temp[idx].description = row.description;
-    temp[idx].uom = row.uom;
-    // temp[idx].unit = row.unit;
 
     setRowData([...temp]);
     
-    return temp[idx].item_name;
+    return temp[idx].item;
   }
 
     const onHandleCancelItem = ({}) => {
@@ -454,6 +455,14 @@ function PoRegist() {
     
     return temp[idx].requester;
   }
+
+  const onHandleCanceRequester = ({}) => {
+    const temp = conditions;
+    temp.item_id = "";
+    temp.item = "";
+    temp.category = "";
+    setConditions(temp);
+  }
   // #endregion Line Requester 이벤트
 
 
@@ -465,7 +474,7 @@ function PoRegist() {
     { field: "item",              headerName:"Item",               minWidth: 150,  editable: false,
       cellRendererSelector : params => {
         const idx = params.node.rowIndex;
-        const initValue = rowData[idx] ? rowData[idx].item_name : "";
+        const initValue = rowData[idx] ? rowData[idx].item : "";
         return {
           component: InputSearch,
           params : {
@@ -628,6 +637,7 @@ cellRendererSelector : params => {
       initValue : initValue,
       onHandleSearch : onHandleSearchRequester,
       onHandleOk : onHandleOkRequester,
+      onHandleCancel : onHandleCanceRequester,
       gridOptions: {
         columnDefs : popUpStaffColFields,
         rowSelection : "single",
@@ -744,6 +754,7 @@ cellRendererSelector : params => {
         comments : data[0].comments,
         vendor_id : data[0].vendor_id,
         vendor_name : data[0].vendor_name,
+        vendor_location : data[0].vendor_location,
         buyer_id : data[0].buyer_id,
         buyer_name : data[0].buyer_name,
         approved_date : data[0].approved_date,
@@ -751,8 +762,8 @@ cellRendererSelector : params => {
         contract_date : data[0].contract_date,
         acceptance_due_date : data[0].acceptance_due_date,
         fob_lookup_code : data[0].fob_lookup_code,
-        terms_id : "10010",
-        // terms_id : data[0].terms_id,
+        vendor_location : data[0].vendor_location,
+        terms_id : data[0].terms_id,
         blanket_total_amount : data[0].blanket_total_amount,
         currency_code : data[0].currency_code,
         bid_method_type : data[0].bid_method_type,

@@ -2,10 +2,12 @@ import { Input } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
+import { getReg } from "hooks/CommonFunction";
 
-function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, disabled }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, disabled, type }) {
 
   if(!disabled) disabled = false;
+
 
   const InputLabel = (props) => {
     if(props.inputLabel) {
@@ -29,7 +31,14 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, dis
         type="text"
         id={id}
         value={inputValue}
-        onChange={(e) => handlePoCondition(id, e.target.value)}
+        onChange={(e) => {
+          
+          const v = e.target.value;
+          if(!type || (type && getReg(type).test(v)) || v === ''){
+            return handlePoCondition(id, v);
+          }
+          
+        }}
         style={{ width: '100%' }}
         disabled={disabled}
         />

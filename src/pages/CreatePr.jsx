@@ -23,59 +23,87 @@ function selectPrList() {
 
   const testData = [
     {
-      buyer_id: 37152,
-      buyer_name: "김상남",
-      category: "Q.Electrical & Electron...",
-      category_id: 19103,
-      charge_account: "123-123-123123",
-      cnt: 10,
-      cnt_dept: 30,
-      description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-      destination_type: "EXPENSE",
-      dist_num: 1,
-      item_id: 242339,
-      item_name: "Q1051234",
-      location: "로케이션1",
-      note_to_buyer: "노트 투 바이어1",
-      organization: "PM",
+      buyer_id: 0,
+      buyer_name: "",
+      category: "",
+      category_id: 0,
+      charge_account: "",
+      cnt: 0,
+      cnt_dept: 0,
+      description: "",
+      destination_type: "",
+      dist_num: 0,
+      item_id: 0,
+      item_name: "",
+      location: "",
+      note_to_buyer: "",
+      organization: "",
       query_type: "update",
-      requester_id: 3228,
-      requester_name: "이윤성",
-      requisition_line_id: 1598,
-      tax_code: "P영세율매입",
-      unit_price: 20,
-      uom: "each",
-      warehouse: "창고1",
+      requester_id: 0,
+      requester_name: "",
+      requisition_line_id: 0,
+      tax_code: "",
+      unit_price: 0,
+      uom: "",
+      warehouse: "",
       total_amount: 0,
-      need_to_date: "2022-06-30",
+      need_to_date: "",
     },
-    {
-      buyer_id: 26833,
-      buyer_name: "김성웅",
-      category: "Q.Manual Valve...",
-      category_id: 19236,
-      charge_account: "321-321-321321",
-      cnt: 11,
-      cnt_dept: 33,
-      description: "Safety Valve 20A,10Bar,(S),BC,LOW LIFT,KCS CERTIFICATE",
-      destination_type: "INVENTORY",
-      dist_num: 1,
-      item_id: 253357,
-      item_name: "Q1118925",
-      location: "로케이션2",
-      note_to_buyer: "노트 투 바이어2",
-      organization: "KM",
-      query_type: "update",
-      requester_id: 3451,
-      requester_name: "임지연",
-      requisition_line_id: 1599,
-      tax_code: "P매입세불공제",
-      unit_price: 22,
-      uom: "each",
-      warehouse: "창고2",
-      total_amount: 0,
-      need_to_date: "2022-06-30",
-    }
+    // {
+    //   buyer_id: 37152,
+    //   buyer_name: "김상남",
+    //   category: "Q.Electrical & Electron...",
+    //   category_id: 19103,
+    //   charge_account: "123-123-123123",
+    //   cnt: 10,
+    //   cnt_dept: 30,
+    //   description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
+    //   destination_type: "EXPENSE",
+    //   dist_num: 1,
+    //   item_id: 242339,
+    //   item_name: "Q1051234",
+    //   location: "로케이션1",
+    //   note_to_buyer: "노트 투 바이어1",
+    //   organization: "PM",
+    //   query_type: "update",
+    //   requester_id: 3228,
+    //   requester_name: "이윤성",
+    //   requisition_line_id: 1598,
+    //   tax_code: "P영세율매입",
+    //   unit_price: 20,
+    //   uom: "each",
+    //   warehouse: "창고1",
+    //   total_amount: 0,
+    //   need_to_date: "2022-06-30",
+    // },
+    // {
+    //   buyer_id: 26833,
+    //   buyer_name: "김성웅",
+    //   category: "Q.Manual Valve...",
+    //   category_id: 19236,
+    //   charge_account: "321-321-321321",
+    //   cnt: 11,
+    //   cnt_dept: 33,
+    //   description: "Safety Valve 20A,10Bar,(S),BC,LOW LIFT,KCS CERTIFICATE",
+    //   destination_type: "INVENTORY",
+    //   dist_num: 1,
+    //   item_id: 253357,
+    //   item_name: "Q1118925",
+    //   location: "로케이션2",
+    //   note_to_buyer: "노트 투 바이어2",
+    //   organization: "KM",
+    //   query_type: "update",
+    //   requester_id: 3451,
+    //   requester_name: "임지연",
+    //   requisition_line_id: 1599,
+    //   tax_code: "P매입세불공제",
+    //   unit_price: 22,
+    //   uom: "each",
+    //   warehouse: "창고2",
+    //   total_amount: 0,
+    //   need_to_date: "2022-06-30",
+    // }
+
     // {
     //   line: 3, 
     //   item_name: "Q2065363", 
@@ -107,14 +135,22 @@ function selectPrList() {
   const [deletedIdList, setDeletedIdList] = useState([]);
 
   const [conditions, setConditions] = useState({
+        // req_num       : id,          // requisition_number : pr 번호
+        // preparer_name : "이동현",    // preparer_name : Preparer
+        // preparer_id   : 1685,      // preparer_id : Preparer
+        // auth_date     : "",          // date : PR 승인일
+        // description   : "PR명", // PR명
+        // amount        : 0,           // 금액 (Line들의 amount 합)
+        // currency_code : "KRW",       // currencyCode : 단위
+        // pur_pct_agm_rsn : "calculated",      // pur_pct_agm_rsn : 수의사유
         req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "이동현",    // preparer_name : Preparer
-        preparer_id   : 1685,      // preparer_id : Preparer
+        preparer_name : "",    // preparer_name : Preparer
+        preparer_id   : 0,      // preparer_id : Preparer
         auth_date     : "",          // date : PR 승인일
-        description   : "PR명", // PR명
+        description   : "", // PR명
         amount        : 0,           // 금액 (Line들의 amount 합)
         currency_code : "KRW",       // currencyCode : 단위
-        pur_pct_agm_rsn : "calculated",      // pur_pct_agm_rsn : 수의사유
+        pur_pct_agm_rsn : "",      // pur_pct_agm_rsn : 수의사유
 
   });
 
@@ -318,7 +354,7 @@ function selectPrList() {
 
     const temp = rowData;
     console.log(row);
-    temp[idx].item_id = row.id;
+    temp[idx].item_id = row.item_id;
     temp[idx].item_name = row.item;
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;

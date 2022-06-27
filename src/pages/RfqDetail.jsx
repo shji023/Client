@@ -41,17 +41,47 @@ function RfqDetail() {
     "simple_quotation_flag" : "null",
     "category_id": 0,
     "bidding_fob": "",
+    "side_conditions":"",
   });
   const [rfqListData, setRfqListData] = useState({}); 
+  const rfqNull = {
+    rfq_no : "",
+    simple_quotation_flag : "",
+    rfq_detail_status : "",
+    cd_v_meaning_status : "",
+    cd_v_meaning_type : "",
+
+    rfq_description : "",
+    buyer_name : "",
+    buyer_dept_name : "",
+    buyer_contact : "",
+    po_payment_cycle : "",
+
+    po_collabo_type : "",
+    end_date : "",
+    amount_limit : 0,
+
+    rfq_ship_to : "",
+    rfq_payment_terms : "",
+    po_payment_term : "",
+    fob_lookup_code : "",
+  };
   const [ruleInfoData, setRuleInfoData] = useState([]);
 
   const roundPeriod = ruleInfoData.round_start_date + ' - ' + ruleInfoData.round_end_date;
-  const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
+  // const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
+  const stage = rfqListData?.simple_quotation_flag === '1'? '단순견적':'입찰';
 
   const selectRFQDetail = async (id) => {
     const data = await getRfqInfo(id);
-    console.log("rfq select data",data);
-    setRfqListData(data[0]);
+    // console.log("rfq select data : ",data);
+    if(data.length==0){
+      console.log("rfqDetail List : 빈 값");
+      setRfqListData(rfqNull);
+    }else{
+      setRfqListData(data[0]);
+    }
+    // setRfqListData(data);
   };
 
   // Lov
@@ -176,8 +206,11 @@ function RfqDetail() {
     console.log("bid 저장 완료 : ", data);
 
     if(data === 'success' && returnData === 'success'){
-      alert("입찰룰이 완료되었습니다.");
-      navigate(`/bidList`);
+      confirm(
+        "입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?"
+      ) ? navigate(`/bidList`) : null;
+      
+      
       
     } else {
       alert("입찰룰이 실패했습니다.");
