@@ -11,7 +11,6 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
-import Home from "pages/Home";
 import SelectPoList from "pages/SelectPoList";
 import PoRegist from "pages/PoRegist";
 import SuccessBid from "pages/SuccessBid";
@@ -26,9 +25,9 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
-import { Ping } from "assets/images";
-import { POSCO_ICT_CI_ENG } from "assets/images";
-import { POSCO_ICT_CI_ENG_new } from "assets/images";
+import { POSCO_ICT_CI_ENG, ProfileIcon, SearchIcon, NoticeIcon } from "assets/images";
+import Login from "pages/Login";
+import { Header } from "antd/lib/layout/layout";
 
 function App() {
   const { Header, Sider, Content } = Layout;
@@ -204,7 +203,7 @@ function App() {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]} items={item2} />
         </Sider>
         <Layout className="site-layout">
-          <Header
+          <StyledHeader
             className="site-layout-background"
             style={{
               padding: 0,
@@ -215,7 +214,14 @@ function App() {
               className: "trigger",
               onClick: () => setCollapsed(!collapsed),
             })}
-          </Header>
+            <IconWrapper>
+              <img src={SearchIcon} alt="search"></img>
+              <img src={NoticeIcon} alt="notice"></img>
+              <a href="/login" rel="noopener noreferrer">
+                <img src={ProfileIcon} alt="profile"></img>
+              </a>
+            </IconWrapper>
+          </StyledHeader>
           <Content
             className="site-layout-background"
             style={{
@@ -244,6 +250,7 @@ function App() {
                 <Route path="/bidWrite/:id" element={<BidWrite />} />
                 <Route path="/rfqCreate" element={<RfqCreate />} />
                 <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>
@@ -264,4 +271,31 @@ const Logo = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 25px;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  img {
+    width: 2rem;
+    height: 2rem;
+    z-index: 5;
+    margin-right: 2rem;
+    transition: all 0.2s linear;
+    :hover {
+      cursor: pointer;
+      transform: scale(1.4);
+    }
+  }
+  a {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const StyledHeader = styled(Header)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
