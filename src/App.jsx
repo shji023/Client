@@ -235,22 +235,32 @@ function App() {
             <BrowserRouter>
               <Routes>
                 {/* <Route path="/" element={<Home />} /> */}
+                {/* 사용부서 */}
                 <Route path="/" element={<SelectPrList />} />
+                <Route path="/createPr" element={<CreatePr />} />
+                <Route path="/createPr/:id" element={<CreatePr />} />
+                <Route path="/selectPrList" element={<SelectPrList />} />
+                {/* 바이어 */}
+                <Route path="/rfqCreate" element={<RfqCreate />} />
+                <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
+                <Route path="/selectRFQList" element={<SelectRFQList />} />
+                <Route path="/selectRFQList/:id" element={<RfqDetail />} />
+
+                <Route path="/successBid/:bidding_no" element={<SuccessBid />} />
+
                 <Route path="/selectPoList" element={<SelectPoList />} />
                 <Route path="/poRegist" element={<PoRegist />} />
                 <Route path="/poRegist/:id" element={<PoRegist />} />
-                <Route path="/successBid/:bidding_no" element={<SuccessBid />} />
-                <Route path="/selectPrList" element={<SelectPrList />} />
-                <Route path="/createPr" element={<CreatePr />} />
-                <Route path="/createPr/:id" element={<CreatePr />} />
-                <Route path="/selectRFQList" element={<SelectRFQList />} />
-                <Route path="/selectRFQList/:id" element={<RfqDetail />} />
-                <Route path="/bidList" element={<SelectBidList />} />
+
+                {/* 공급사 */}
                 <Route path="/bidList/:id" element={<BidDetail />} />
                 <Route path="/bidWrite/:id" element={<BidWrite />} />
-                <Route path="/rfqCreate" element={<RfqCreate />} />
-                <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
+
+                {/* 공통 */}
+                <Route path="/bidList" element={<SelectBidList />} />
+
                 <Route path="/login" element={<Login />} />
+
                 <Route path="/*" element={<p>Page Not Found</p>} />
               </Routes>
             </BrowserRouter>

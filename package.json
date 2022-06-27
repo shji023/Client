@@ -20,6 +20,7 @@
     "mobx": "^6.6.0",
     "mobx-react": "^7.5.0",
     "react": "^18.1.0",
+    "react-cookie": "^4.1.1",
     "react-data-grid": "^7.0.0-beta.13",
     "react-dom": "^18.1.0",
     "react-draggable": "^4.4.5",

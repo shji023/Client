@@ -1,9 +1,11 @@
+import { getUserData } from "apis/user.api";
 import { PoscoLogo } from "assets/images";
 import { colors } from "assets/styles/color";
 import StyledInput from "components/login/StyledInput";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Styled from "styled-components";
+import { setCookie } from "util/cookie";
 function Login() {
   const navigate = useNavigate();
 
@@ -14,6 +16,7 @@ function Login() {
   });
   // const [userStatusData, setUserStatusData] = useRecoilState(userStatusState);
   // const [userData, setUserData] = useRecoilState(userState);
+  const [userData, setUserData] = useState(null);
   const [isConditionMet, setIsConditionMet] = useState({
     email: true,
     pwd: true,
@@ -30,47 +33,48 @@ function Login() {
   const pwdInputChange = (value) => {
     if (typeof value === "string") setLoginData({ ...loginData, password: value });
   };
-  // const handleLoginBtn = async () => {
-  //   const token = await getUserStatusData();
-  //   const isSuccess = await getUserDetailData(token);
-  //   isSuccess && navigate("/");
-  // };
-  // const getUserStatusData = async () => {
-  //   const data = await postLogin(loginData);
-  //   if (data) {
-  //     if (data.status === 200) {
-  //       setUserStatusData({
-  //         token: data.token,
-  //         userType: data.data.userState,
-  //         totalGeneration: data.data.totalGeneration,
-  //         registGeneration: data.data.registGeneration,
-  //         progressGeneration: data.data.progressGeneration ? data.data.progressGeneration : 0,
-  //       });
-  //       return data.token;
-  //     } else {
-  //       if (data.message === "아이디가 존재하지 않습니다") {
-  //         setIsConditionMet({ email: false, pwd: true });
-  //       } else if (data.message === "비밀번호가 틀렸습니다") {
-  //         setIsConditionMet({ email: true, pwd: false });
-  //       }
-  //     }
-  //   } else {
-  //     alert("네트워크가 좋지 않습니다");
-  //   }
-  //   return "";
-  // };
-  // const getUserDetailData = async (token) => {
-  //   if (token) {
-  //     const data = await getUserData(token);
-  //     if (data !== undefined) {
-  //       setUserData(data);
-  //       return true;
-  //     } else {
-  //       alert("네트워크가 좋지 않습니다");
-  //     }
-  //   }
-  //   return false;
-  // };
+
+  const handleLoginBtn = async () => {
+    const token = await getUserStatusData();
+    const isSuccess = await getUserDetailData(token);
+    isSuccess && navigate("/");
+  };
+
+  const getUserStatusData = async () => {
+    const data = await postLogin(loginData);
+    if (data) {
+      if (data.status === 200) {
+        setCookie("loginToken", data.token, {
+          path: "/",
+          secure: true,
+          sameSite: "none",
+        });
+        return data.token;
+      } else {
+        if (data.message === "아이디가 존재하지 않습니다") {
+          setIsConditionMet({ email: false, pwd: true });
+        } else if (data.message === "비밀번호가 틀렸습니다") {
+          setIsConditionMet({ email: true, pwd: false });
+        }
+      }
+    } else {
+      alert("네트워크가 좋지 않습니다");
+    }
+    return "";
+  };
+
+  const getUserDetailData = async (token) => {
+    if (token) {
+      const data = await getUserData(token);
+      if (data !== undefined) {
+        setUserData(data);
+        return true;
+      } else {
+        alert("네트워크가 좋지 않습니다");
+      }
+    }
+    return false;
+  };
 
   // const handleLoginEnter = async (e) => {
   //   if (e.keyCode === 13) {
@@ -80,12 +84,12 @@ function Login() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   if (userStatusData && userData) {
-  //     alert("이미 로그인이 되어있습니다. ");
-  //     history.push("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (userData) {
+      alert("이미 로그인이 되어있습니다. ");
+      navigate("/");
+    }
+  }, []);
   return (
     <LoginContainer>
       <LogoWrapper>
@@ -115,8 +119,8 @@ function Login() {
           />
         </Form>
       </LoginformWrapper>
-      <LoginBtn>로그인</LoginBtn>
-      {/* <LoginBtn onClick={handleLoginBtn}>로그인</LoginBtn> */}
+      {/* <LoginBtn>로그인</LoginBtn> */}
+      <LoginBtn onClick={handleLoginBtn}>로그인</LoginBtn>
     </LoginContainer>
   );
 }
