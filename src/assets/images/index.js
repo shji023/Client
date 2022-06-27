@@ -5,3 +5,5 @@ export { default as Alert } from "./confirmAlert.svg";
 export { default as ProfileIcon } from "./profile.png";
 export { default as SearchIcon } from "./search.png";
 export { default as NoticeIcon } from "./bell-ring.png";
+export { default as ErrorIcon } from "./errIcon.svg";
+export { default as PoscoLogo } from "./posco.png";

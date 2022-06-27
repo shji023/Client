@@ -29,6 +29,7 @@
     "reactstrap": "^9.1.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.1",
+    "styled-tools": "^1.7.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
