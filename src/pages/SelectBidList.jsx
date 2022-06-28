@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 function SelectBidList() {
-  const [user, setUser] = useState(1);
+  const [user, setUser] = useState(0);
   // 공급사
   const [bidCondition, setBidCondition] = useState({
     RFQ_NO: "",

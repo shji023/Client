@@ -1,11 +1,12 @@
-import { getUserData } from "apis/user.api";
+import { postLogin } from "apis/auth.api";
+import { getTest, getUserData } from "apis/member.api";
 import { PoscoLogo } from "assets/images";
 import { colors } from "assets/styles/color";
 import StyledInput from "components/login/StyledInput";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Styled from "styled-components";
-import { setCookie } from "util/cookie";
+import { getCookie, setCookie } from "util/cookie";
 function Login() {
   const navigate = useNavigate();
 
@@ -35,28 +36,31 @@ function Login() {
   };
 
   const handleLoginBtn = async () => {
-    const token = await getUserStatusData();
-    const isSuccess = await getUserDetailData(token);
-    isSuccess && navigate("/");
+    await getTest();
+
+    // const token = await getUserStatusData();
+    // console.log(getCookie("loginToken"));
+    // const isSuccess = await getUserData(token);
+    // console.log(isSuccess);
+    // isSuccess && alert("로그인이 성공되었습니다");
   };
 
   const getUserStatusData = async () => {
     const data = await postLogin(loginData);
+
     if (data) {
-      if (data.status === 200) {
-        setCookie("loginToken", data.token, {
-          path: "/",
-          secure: true,
-          sameSite: "none",
-        });
-        return data.token;
-      } else {
-        if (data.message === "아이디가 존재하지 않습니다") {
-          setIsConditionMet({ email: false, pwd: true });
-        } else if (data.message === "비밀번호가 틀렸습니다") {
-          setIsConditionMet({ email: true, pwd: false });
-        }
-      }
+      setCookie("loginToken", data.accessToken, {
+        path: "/",
+        secure: true,
+        sameSite: "none",
+      });
+      return data.accessToken;
+
+      // if (data.message === "아이디가 존재하지 않습니다") {
+      //   setIsConditionMet({ email: false, pwd: true });
+      // } else if (data.message === "비밀번호가 틀렸습니다") {
+      //   setIsConditionMet({ email: true, pwd: false });
+      // }
     } else {
       alert("네트워크가 좋지 않습니다");
     }
@@ -66,6 +70,7 @@ function Login() {
   const getUserDetailData = async (token) => {
     if (token) {
       const data = await getUserData(token);
+      console.log(data);
       if (data !== undefined) {
         setUserData(data);
         return true;
@@ -90,6 +95,7 @@ function Login() {
       navigate("/");
     }
   }, []);
+
   return (
     <LoginContainer>
       <LogoWrapper>

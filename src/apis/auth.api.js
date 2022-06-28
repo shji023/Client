@@ -1,10 +1,10 @@
-import { serverAxios } from "apis/axios";
+import { serverAxiosLogin } from "apis/axios";
 
 const PREFIX_URL = "/auth";
 
 export const postLogin = async (loginData) => {
   try {
-    const data = await serverAxios.post(`${PREFIX_URL}/signin`, loginData);
+    const data = await serverAxiosLogin.post(`${PREFIX_URL}/login`, loginData);
     if (data !== undefined) {
       return data.data;
     }
