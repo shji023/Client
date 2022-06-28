@@ -1,7 +1,21 @@
-import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, getPr, } from "apis/pr.api";
+import {
+  getPrReasonLov,
+  insertOnePr,
+  deleteOnePr,
+  getOrgLov,
+  getDestLov,
+  getTaxCodeLov,
+  updateOnePr,
+  getPr,
+} from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
-import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields, popUpItemColFields } from "stores/colData";
+import {
+  prCreateColDef,
+  popUpStaffColFields,
+  popUpBuyerColFields,
+  popUpItemColFields,
+} from "stores/colData";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
@@ -12,7 +26,7 @@ import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { reload } from "hooks/CommonFunction";
@@ -105,14 +119,14 @@ function selectPrList() {
     // }
 
     // {
-    //   line: 3, 
-    //   item_name: "Q2065363", 
+    //   line: 3,
+    //   item_name: "Q2065363",
     //   item_id: 333333,
-    //   category: "Q.Burnt Chaff_B", 
-    //   category_id: 555555, 
-    //   description: "Thermal Insulation 1400...", 
-    //   uom: "kilogram", 
-    //   cnt: 100000, 
+    //   category: "Q.Burnt Chaff_B",
+    //   category_id: 555555,
+    //   description: "Thermal Insulation 1400...",
+    //   uom: "kilogram",
+    //   cnt: 100000,
     //   unit_price: 1000,
     //   total_amount: 0,
     //   tax_code: "P영세율매입",
@@ -135,23 +149,22 @@ function selectPrList() {
   const [deletedIdList, setDeletedIdList] = useState([]);
 
   const [conditions, setConditions] = useState({
-        // req_num       : id,          // requisition_number : pr 번호
-        // preparer_name : "이동현",    // preparer_name : Preparer
-        // preparer_id   : 1685,      // preparer_id : Preparer
-        // auth_date     : "",          // date : PR 승인일
-        // description   : "PR명", // PR명
-        // amount        : 0,           // 금액 (Line들의 amount 합)
-        // currency_code : "KRW",       // currencyCode : 단위
-        // pur_pct_agm_rsn : "calculated",      // pur_pct_agm_rsn : 수의사유
-        req_num       : id,          // requisition_number : pr 번호
-        preparer_name : "",    // preparer_name : Preparer
-        preparer_id   : 0,      // preparer_id : Preparer
-        auth_date     : "",          // date : PR 승인일
-        description   : "", // PR명
-        amount        : 0,           // 금액 (Line들의 amount 합)
-        currency_code : "KRW",       // currencyCode : 단위
-        pur_pct_agm_rsn : "",      // pur_pct_agm_rsn : 수의사유
-
+    // req_num       : id,          // requisition_number : pr 번호
+    // preparer_name : "이동현",    // preparer_name : Preparer
+    // preparer_id   : 1685,      // preparer_id : Preparer
+    // auth_date     : "",          // date : PR 승인일
+    // description   : "PR명", // PR명
+    // amount        : 0,           // 금액 (Line들의 amount 합)
+    // currency_code : "KRW",       // currencyCode : 단위
+    // pur_pct_agm_rsn : "calculated",      // pur_pct_agm_rsn : 수의사유
+    req_num: id, // requisition_number : pr 번호
+    preparer_name: "", // preparer_name : Preparer
+    preparer_id: 0, // preparer_id : Preparer
+    auth_date: "", // date : PR 승인일
+    description: "", // PR명
+    amount: 0, // 금액 (Line들의 amount 합)
+    currency_code: "KRW", // currencyCode : 단위
+    pur_pct_agm_rsn: "", // pur_pct_agm_rsn : 수의사유
   });
 
   const [selectedIds, setSelectedIds] = useState([]);
@@ -162,7 +175,6 @@ function selectPrList() {
   const [destLov, setDestLov] = useState([]);
   const [taxCodeLov, setTaxCodeLov] = useState([]);
 
-
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
     const tempCondition = { ...conditions };
@@ -172,10 +184,8 @@ function selectPrList() {
 
   // PR 저장 버튼 이벤트
   const onSaveContents = () => {
-    confirm(
-      "구매 신청서 작성을 완료하시겠습니까?"
-    ) ? saveContents() : null;
-  }
+    confirm("구매 신청서 작성을 완료하시겠습니까?") ? saveContents() : null;
+  };
 
   const saveContents = async () => {
     console.log("onSaveContents called!!!!!!!!!!!");
@@ -183,24 +193,21 @@ function selectPrList() {
 
     // !: axios 비동기
     const data = await insertOnePr(conditions, rowData);
-    if(data){
+    if (data) {
       alert("구매 신청이 완료되었습니다.");
       const temp = conditions;
       temp.req_num = data;
-      setConditions({...temp});
-      navigate(`/createPr/${temp.req_num}`)
+      setConditions({ ...temp });
+      navigate(`/createPr/${temp.req_num}`);
       reload();
-      
     } else {
       alert("구매 신청이 실패했습니다.");
     }
   };
 
   const onUpdateContents = async () => {
-    confirm(
-      "구매 신청서 수정을 완료하시겠습니까?"
-      ) ? updateContent() : null;
-  }
+    confirm("구매 신청서 수정을 완료하시겠습니까?") ? updateContent() : null;
+  };
 
   const updateContent = async () => {
     console.log("onUpdateContents called");
@@ -209,7 +216,7 @@ function selectPrList() {
 
     // !: axios 비동기
     const data = await updateOnePr(conditions, rowData, deletedIdList);
-    if(data){
+    if (data) {
       console.log(data);
       alert("구매 신청 수정이 완료되었습니다.");
       reload();
@@ -217,51 +224,51 @@ function selectPrList() {
     } else {
       alert("구매 신청 수정이 실패했습니다.");
     }
-  }
-  
+  };
+
   // PR 삭제 버튼 이벤트
   const onDeleteContents = () => {
-    confirm(
-      "삭제 시 해당 신청서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"
-      ) ? deleteContent() : null;
-  }
-  
+    confirm("삭제 시 해당 신청서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?")
+      ? deleteContent()
+      : null;
+  };
+
   const deleteContent = async () => {
     console.log("onDeleteContents called");
 
     // !: axios 비동기
     const data = await deleteOnePr(conditions.req_num);
-    if(data){
+    if (data) {
       alert("구매 신청 삭제가 완료되었습니다.");
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
     }
     navigate(`/createPr`);
-  }
+  };
 
   // #region 그리드 관련 이벤트
   const gridRef = useRef();
 
   // 그리드 행 추가
   // TODO: 체크항목 유지하기
-  const onInsertOne = useCallback( ()=>{
-    console.log("onInsertOne called!")
-    
+  const onInsertOne = useCallback(() => {
+    console.log("onInsertOne called!");
+
     const newRecord = createOneRecord();
-    const records = [ ...rowData, newRecord];
+    const records = [...rowData, newRecord];
     setRowData(records);
-  } )
+  });
 
   const createOneRecord = () => {
     return {
-      line: 1, 
-      item_name: "", 
+      line: 1,
+      item_name: "",
       item_id: 0,
-      category: "", 
-      category_id: 0, 
-      description: "", 
-      uom: "", 
-      cnt: 0, 
+      category: "",
+      category_id: 0,
+      description: "",
+      uom: "",
+      cnt: 0,
       unit_price: 0,
       total_amount: 0,
       tax_code: "",
@@ -280,76 +287,73 @@ function selectPrList() {
       charge_account: "",
       // * 사용될 DB 쿼리 종류
       query_type: "insert",
-    }
-  }
-  
+    };
+  };
 
   // 그리드 행 복사
-  const onCopySelected = useCallback( ()=>{
+  const onCopySelected = useCallback(() => {
     copyRow();
-
-  })
+  });
   const copyRow = () => {
-    console.log("copyRow called" );
+    console.log("copyRow called");
     let id = 1;
     const tempData = [];
     const ids = [];
 
     gridRef.current.api.forEachNode(function (node) {
-      tempData.push({...node.data, id: id++});
-      if(node.isSelected()){
-        ids.push(id-1);
+      tempData.push({ ...node.data, id: id++ });
+      if (node.isSelected()) {
+        ids.push(id - 1);
         // * id, query_type 새로 부여
-        tempData.push({...node.data, id: id++, query_type: "insert"});
+        tempData.push({ ...node.data, id: id++, query_type: "insert" });
       }
     });
 
     setRowData([...tempData]);
     setSelectedIds([...ids]);
-  }
-  
+  };
 
   // 그리드 행 삭제
-  const deleteRow = useCallback( () => {
-    console.log("deleteRow called" );
+  const deleteRow = useCallback(() => {
+    console.log("deleteRow called");
 
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
-    if(selectedRowNodes.length === 0) return;
+    if (selectedRowNodes.length === 0) return;
 
-    const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
-    const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
+    const selectedIds = selectedRowNodes.map((rowNode) => rowNode.data.id);
+    const selectedData = rowData.filter((dataItem) => selectedIds.indexOf(dataItem.id) >= 0);
     console.log("selectedData :::", selectedData);
 
     // * 삭제한 행의 정보를 담는다.
     const tempList = deletedIdList;
-    selectedData.forEach((element)=>{
+    selectedData.forEach((element) => {
       // * 기존 행인 경우에만 담는다.
-      if(element.query_type === "update") tempList.push(element.requisition_line_id);
+      if (element.query_type === "update") tempList.push(element.requisition_line_id);
     });
-    setDeletedIdList([ ...tempList ]);
+    setDeletedIdList([...tempList]);
 
-    const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
+    const filteredData = rowData.filter((dataItem) => selectedIds.indexOf(dataItem.id) < 0);
     setRowData([...filteredData]);
     setSelectedIds([]);
-  } );
+  });
 
   // 그리드 체크항목 유지
   const onRowDataChanged = () => {
     // console.log("row changed!!", selectedIds);
 
-    gridRef.current.api.forEachNode( 
-      node => selectedIds.includes(node.data.id) && node.setSelected(true)
-    )
-  }
-// #endregion 그리드 관련 이벤트
+    gridRef.current.api.forEachNode(
+      (node) => selectedIds.includes(node.data.id) && node.setSelected(true),
+    );
+  };
+  // #endregion 그리드 관련 이벤트
 
-// #region Line 아이템 이벤트
+  // #region Line 아이템 이벤트
   const onHandleSearchItem = async (searchWord) => {
     const resultList = await getItemList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkItem = ({selectedRows, idx}) => {
+  const onHandleOkItem = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
 
     const temp = rowData;
@@ -363,19 +367,18 @@ function selectPrList() {
     // temp[idx].unit = row.unit;
 
     setRowData([...temp]);
-    
+
     return temp[idx].item_name;
-  }
+  };
   // #endregion Line 아이템 이벤트
 
-  
-// #region Line 바이어 이벤트
+  // #region Line 바이어 이벤트
   const onHandleSearchBuyer = async (searchWord) => {
     const resultList = await getBuyerList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkBuyer = ({selectedRows, idx}) => {
+  const onHandleOkBuyer = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
 
     const temp = rowData;
@@ -384,29 +387,28 @@ function selectPrList() {
     temp[idx].buyer_name = row.buyer_name;
 
     setRowData([...temp]);
-    
+
     return temp[idx].buyer_name;
-  }
+  };
 
-  const onHandleCancelBuyer = ({idx}) => {
-
+  const onHandleCancelBuyer = ({ idx }) => {
     const temp = rowData;
     temp[idx].buyer_id = "";
     temp[idx].buyer_name = "";
 
     setRowData([...temp]);
-    
+
     return temp[idx].buyer_name;
-  }
+  };
   // #endregion Line 바이어 이벤트
 
-// #region Line Requester 이벤트
+  // #region Line Requester 이벤트
   const onHandleSearchRequester = async (searchWord) => {
     const resultList = await getStaffList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkRequester = ({selectedRows, idx}) => {
+  const onHandleOkRequester = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
 
     const temp = rowData;
@@ -415,67 +417,109 @@ function selectPrList() {
     temp[idx].requester_name = row.name;
 
     setRowData([...temp]);
-    
+
     return temp[idx].requester_name;
-  }
+  };
   // #endregion Line Requester 이벤트
 
-
   // 그리드 컬럼
-  const prCreateColFields = ([
-    { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
-    { field: "line",              headerName:"Line",               maxWidth: 80, pinned:"left", editable: false,},
-    { field: "item",              headerName:"Item",               minWidth: 200, pinned:"left", editable: false,
-      cellRendererSelector : params => {
+  const prCreateColFields = [
+    {
+      field: null,
+      headerCheckboxSelection: true,
+      maxWidth: 50,
+      pinned: "left",
+      checkboxSelection: true,
+    },
+    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", editable: false },
+    {
+      field: "item",
+      headerName: "Item",
+      minWidth: 200,
+      pinned: "left",
+      editable: false,
+      cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].item_name : "";
         return {
           component: InputSearch,
-          params : {
+          params: {
             idx: idx,
-            title : "아이템 선택",
-            initValue : initValue,
-            onHandleSearch : onHandleSearchItem,
-            onHandleOk : onHandleOkItem,
+            title: "아이템 선택",
+            initValue: initValue,
+            onHandleSearch: onHandleSearchItem,
+            onHandleOk: onHandleOkItem,
             gridOptions: {
-              columnDefs : popUpItemColFields,
-              rowSelection : "single",
-              suppressRowClickSelection : false,
+              columnDefs: popUpItemColFields,
+              rowSelection: "single",
+              suppressRowClickSelection: false,
             },
-          }
-        }
-      }
+          },
+        };
+      },
     },
-    { field: "category",          headerName:"Category",           minWidth:110,   maxWidth:120, pinned:"left", editable: false, },
-    { field: "description",       headerName:"사양",               minWidth:110,   maxWidth:120, pinned:"left", editable: false, },
-    { field: "uom",              headerName:"단위",               minWidth:110, editable: false, },
-    { field: "cnt",               headerName:"수량",               minWidth:110, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "category",
+      headerName: "Category",
+      minWidth: 110,
+      maxWidth: 120,
+      pinned: "left",
+      editable: false,
+    },
+    {
+      field: "description",
+      headerName: "사양",
+      minWidth: 110,
+      maxWidth: 120,
+      pinned: "left",
+      editable: false,
+    },
+    { field: "uom", headerName: "단위", minWidth: 110, editable: false },
+    {
+      field: "cnt",
+      headerName: "수량",
+      minWidth: 110,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "unit_price",        headerName:"단가",               minWidth:110, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "unit_price",
+      headerName: "단가",
+      minWidth: 110,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "total_amount",      headerName:"금액",               minWidth:110, editable: false,
-      valueGetter: params => params.data.cnt * params.data.unit_price
+    {
+      field: "total_amount",
+      headerName: "금액",
+      minWidth: 110,
+      editable: false,
+      valueGetter: (params) => params.data.cnt * params.data.unit_price,
     },
-    { field: "tax_code",          headerName:"Tax Code",           minWidth:180, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "tax_code",
+      headerName: "Tax Code",
+      minWidth: 180,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -483,76 +527,99 @@ function selectPrList() {
             lov: taxCodeLov,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "buyer",             headerName:"Buyer",              minWidth:200, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "buyer",
+      headerName: "Buyer",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].buyer_name : "";
         return {
           component: InputSearch,
-          params : {
+          params: {
             idx: idx,
-            title : "바이어 선택",
-            initValue : initValue,
-            onHandleSearch : onHandleSearchBuyer,
-            onHandleOk : onHandleOkBuyer,
-            onHandleCancel : onHandleCancelBuyer,
+            title: "바이어 선택",
+            initValue: initValue,
+            onHandleSearch: onHandleSearchBuyer,
+            onHandleOk: onHandleOkBuyer,
+            onHandleCancel: onHandleCancelBuyer,
             gridOptions: {
-              columnDefs : popUpBuyerColFields,
-              rowSelection : "single",
-              suppressRowClickSelection : false,
+              columnDefs: popUpBuyerColFields,
+              rowSelection: "single",
+              suppressRowClickSelection: false,
             },
-          }
-        }
-      }  
+          },
+        };
+      },
     },
-    { field: "note_to_buyer",     headerName:"Note to Buyer",      minWidth:300, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "note_to_buyer",
+      headerName: "Note to Buyer",
+      minWidth: 300,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "requester",         headerName:"Requester",          minWidth:200, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "requester",
+      headerName: "Requester",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].requester_name : "";
         return {
           component: InputSearch,
-          params : {
+          params: {
             idx: idx,
-            title : "직원 선택",
-            initValue : initValue,
-            onHandleSearch : onHandleSearchRequester,
-            onHandleOk : onHandleOkRequester,
+            title: "직원 선택",
+            initValue: initValue,
+            onHandleSearch: onHandleSearchRequester,
+            onHandleOk: onHandleOkRequester,
             gridOptions: {
-              columnDefs : popUpStaffColFields,
-              rowSelection : "single",
-              suppressRowClickSelection : false,
+              columnDefs: popUpStaffColFields,
+              rowSelection: "single",
+              suppressRowClickSelection: false,
             },
-          }
-        }
-      }  
+          },
+        };
+      },
     },
-    { field: "need_to_date",      headerName:"요청납기일",         minWidth:150, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "need_to_date",
+      headerName: "요청납기일",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "destination_type",  headerName:"Destination Type",   minWidth:200, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "destination_type",
+      headerName: "Destination Type",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -560,11 +627,16 @@ function selectPrList() {
             lov: destLov,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "organization",      headerName:"Organization",       minWidth:300, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "organization",
+      headerName: "Organization",
+      minWidth: 300,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -572,56 +644,76 @@ function selectPrList() {
             lov: orgLov,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "location",          headerName:"Location",           minWidth:200, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "location",
+      headerName: "Location",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "warehouse",         headerName:"창고",               minWidth:150, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "warehouse",
+      headerName: "창고",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "cnt_dept",               headerName:"수량",               minWidth:110, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "cnt_dept",
+      headerName: "수량",
+      minWidth: 110,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "dist_num",          headerName:"Dist Num",           minWidth:120, editable: false, },
-    { field: "charge_account",    headerName:"Charge Account",     minWidth:250, editable: false, 
-      cellRendererSelector : params => {
+    { field: "dist_num", headerName: "Dist Num", minWidth: 120, editable: false },
+    {
+      field: "charge_account",
+      headerName: "Charge Account",
+      minWidth: 250,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    ]);
-
+  ];
 
   // Init Page
   useEffect(() => {
@@ -634,61 +726,57 @@ function selectPrList() {
     const tempConditions = conditions;
     const tempRowData = rowData;
     let total = 0;
-    tempRowData.forEach(element => {
+    tempRowData.forEach((element) => {
       total += element.cnt * element.unit_price;
     });
     tempConditions.amount = total;
-    setConditions({...tempConditions});
-
-  }, [rowData])
+    setConditions({ ...tempConditions });
+  }, [rowData]);
 
   const getLov = async () => {
     const resvReasonLov = await getPrReasonLov();
-    const resvOrgLov = await getOrgLov(); 
+    const resvOrgLov = await getOrgLov();
     const resvDestLov = await getDestLov();
     const resvTaxCodeLov = await getTaxCodeLov();
-    
+
     resvReasonLov && setPrReasonLov([...resvReasonLov]);
     resvOrgLov && setOrgLov([...resvOrgLov]);
     resvDestLov && setDestLov([...resvDestLov]);
     resvTaxCodeLov && setTaxCodeLov([...resvTaxCodeLov]);
-
   };
 
   const getPrInit = async () => {
-    if( id ) {
+    if (id) {
       console.log("id : ", id);
       const data = await getPr(id);
       console.log("resvData : ", data);
       console.log("data pr1:::::::::: : ", data.pr1);
 
-      setConditions({...data.pr1});
+      setConditions({ ...data.pr1 });
       setRowData([...data.pr2]);
     }
-  }
+  };
 
   // #region 팝업 이벤트
   const onHandleSearch = async (value) => {
-    
     // const resultList = await getStaffList(sendData);
     const resultList = await getStaffList(value);
     return resultList;
-  }
+  };
 
-  const onHandleOk = ({selectedRows}) => {
+  const onHandleOk = ({ selectedRows }) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
 
     const row = selectedRows[0];
-    
+
     const temp = conditions;
     temp.preparer_id = row.id;
     temp.preparer_name = row.name;
     setConditions(temp);
-    
-    return temp.preparer_name;
 
-  }
+    return temp.preparer_name;
+  };
 
   const onHandleCancel = () => {
     console.log("called onHandleCancel");
@@ -697,24 +785,24 @@ function selectPrList() {
     temp.preparer_id = "";
     temp.preparer_name = "";
     setConditions(temp);
-    
-    return temp.preparer_name;
 
-  }
+    return temp.preparer_name;
+  };
   // #endregion 팝업 이벤트
 
   const ButtonSelector = () => {
-    if(id) {
-      return <section>
-        <Button onClick={onUpdateContents}>저장</Button>
-        <Button onClick={onDeleteContents}>삭제</Button>
-      </section>
-
+    if (id) {
+      return (
+        <section>
+          <Button onClick={onUpdateContents}>저장</Button>
+          <Button onClick={onDeleteContents}>삭제</Button>
+        </section>
+      );
     } else {
       // 수정
-      return <Button onClick={onSaveContents}>저장</Button>     
+      return <Button onClick={onSaveContents}>저장</Button>;
     }
-  }
+  };
 
   return (
     <StyledRoot>
@@ -742,9 +830,9 @@ function selectPrList() {
             onHandleOk={onHandleOk}
             onHandleCancel={onHandleCancel}
             gridOptions={{
-              columnDefs : popUpStaffColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpStaffColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputInfo
@@ -781,18 +869,18 @@ function selectPrList() {
       <section>
         <ButtonWrapperLine>
           {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
-          <Button onClick = { onInsertOne }>Line 추가</Button>
-          <Button onClick = { onCopySelected }>행 복사</Button>
-          <Button onClick = { deleteRow }>행 삭제</Button>
+          <Button onClick={onInsertOne}>Line 추가</Button>
+          <Button onClick={onCopySelected}>행 복사</Button>
+          <Button onClick={deleteRow}>행 삭제</Button>
         </ButtonWrapperLine>
       </section>
       <section>
-        <AgGrid 
-          resvRef           = { gridRef }
-          resvRowData       = { rowData }
-          resvDefaultColDef = { prCreateColDef }
-          resvColumnDefs    = { prCreateColFields }
-          onRowDataChanged  = { onRowDataChanged }
+        <AgGrid
+          resvRef={gridRef}
+          resvRowData={rowData}
+          resvDefaultColDef={prCreateColDef}
+          resvColumnDefs={prCreateColFields}
+          onRowDataChanged={onRowDataChanged}
         />
       </section>
     </StyledRoot>
@@ -807,14 +895,6 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-// const InputContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr;
-//   border: 1px solid rgb(225 225 225 / 87%);
-//   border-radius: 0.5rem;
-//   padding: 2rem 0.5rem;
-//   gap: 1rem;
-// `;
 
 const InputContainer = styled.div`
   display: grid;
@@ -830,20 +910,14 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+4):nth-child(-n+6){
+  & > div:nth-child(n + 4):nth-child(-n + 6) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
 
 const ButtonWrapperLine = styled.div`
   display: flex;
-  justify-content: flex-end;  
-`;
-
-const ListCount = styled.p`
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
+  justify-content: flex-end;
 `;
 
 const Title = styled.p`
