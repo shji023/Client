@@ -5,5 +5,5 @@ export const serverAxios = axios.create({
 });
 
 export const serverAxiosLogin = axios.create({
-  baseURL: "http://192.168.0.12:8086/",
+  baseURL: "http://localhost:8086/",
 });

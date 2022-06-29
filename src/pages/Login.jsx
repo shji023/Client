@@ -1,5 +1,5 @@
 import { postLogin } from "apis/auth.api";
-import { getTest, getUserData } from "apis/member.api";
+import { getUserData } from "apis/member.api";
 import { PoscoLogo } from "assets/images";
 import { colors } from "assets/styles/color";
 import StyledInput from "components/login/StyledInput";
@@ -36,18 +36,14 @@ function Login() {
   };
 
   const handleLoginBtn = async () => {
-    await getTest();
-
-    // const token = await getUserStatusData();
-    // console.log(getCookie("loginToken"));
-    // const isSuccess = await getUserData(token);
-    // console.log(isSuccess);
-    // isSuccess && alert("로그인이 성공되었습니다");
+    await getUserStatusData();
+    const isSuccess = await getUserData();
+    isSuccess && alert("로그인이 성공되었습니다");
   };
 
   const getUserStatusData = async () => {
     const data = await postLogin(loginData);
-
+    console.log(data);
     if (data) {
       setCookie("loginToken", data.accessToken, {
         path: "/",
@@ -70,7 +66,6 @@ function Login() {
   const getUserDetailData = async (token) => {
     if (token) {
       const data = await getUserData(token);
-      console.log(data);
       if (data !== undefined) {
         setUserData(data);
         return true;
