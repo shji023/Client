@@ -122,17 +122,6 @@ function App() {
     }
   };
 
-  // const checkLogin = async () => {
-  //   if (getCookie("loginToken")) {
-  //     const userRole = await getUserData();
-  //     console.log(userRole);
-  //     setUserData(userRole);
-  //   }
-  // };
-
-  // useDidMountEffect(() => {
-  //   checkLogin();
-  // }, []);
   return (
     <>
       <GlobalStyle />

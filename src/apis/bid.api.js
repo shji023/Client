@@ -195,8 +195,7 @@ export const postQuotationInfo = async (quotationInfo) => {
 
 export const getBidListBuyer = async (bidConditionBuyer) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearchBuyer`, bidConditionBuyer);
-
+    const { data } = await serverAxios.post(`${PREFIX_URL}/bidBuyerSearch`, bidConditionBuyer);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

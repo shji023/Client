@@ -150,13 +150,8 @@ export const RfqSelectVendorColFields = [
 export const bidBuyerColFields = [
   { colId: 1, field: "rfq_no", headerName: "RFQ번호", minWidth: 150, headerClass: "header-black" },
   { colId: 2, field: "rfq_description", headerName: "건명", minWidth: 300 },
-  { colId: 3, field: "buyer_id", headerName: "바이어", minWidth: 100 },
-  { colId: 4, field: "register_date", headerName: "등록일", minWidth: 150 },
-  { colId: 5, field: "simple_quotation_flag", headerName: "진행단계", minWidth: 150 },
-  { colId: 6, field: "itb", headerName: "ITB", minWidth: 100 },
-  { colId: 7, field: "open", headerName: "공개구매", minWidth: 150 },
-  { colId: 8, field: "simple", headerName: "단순견적", minWidth: 150 },
-  { colId: 9, field: "bid", headerName: "입찰", minWidth: 100 },
-  { colId: 10, field: "budget", headerName: "예산", minWidth: 100 },
-  { colId: 11, field: "due_date", headerName: "납기(최대)", minWidth: 150 },
+  { colId: 3, field: "buyer_name", headerName: "바이어", minWidth: 100 },
+  { colId: 4, field: "bid_status", headerName: "진행단계", minWidth: 150 },
+  { colId: 5, field: "bidding_end_date", headerName: "입찰", minWidth: 100 },
+  { colId: 6, field: "need_by_date", headerName: "납기(최대)", minWidth: 150 },
 ];

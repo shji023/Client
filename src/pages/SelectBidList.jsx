@@ -12,9 +12,11 @@ import { popUpBuyerColFields } from "stores/colData";
 import InputDate from "components/common/InputDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getCookie } from "util/cookie";
 
 function SelectBidList() {
   const [user, setUser] = useState(0);
+
   // 공급사
   const [bidCondition, setBidCondition] = useState({
     RFQ_NO: "",
@@ -71,7 +73,7 @@ function SelectBidList() {
 
   // 바이어 입찰진행현황 조회 데이터
   const selectBidListBuyer = async () => {
-    const data = await getBidListBuyer(bidCondition);
+    const data = await getBidListBuyer(bidConditionBuyer);
     setBidListBuyerData(data);
   };
 
@@ -94,6 +96,9 @@ function SelectBidList() {
 
   useEffect(() => {
     getLov();
+    if (getCookie("authority") === "ROLE_BUYER") {
+      setUser(1);
+    }
   }, []);
 
   return (
