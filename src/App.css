@@ -29,6 +29,7 @@
 /* 메인 메뉴 글자색 */
 .ant-menu {
   color: white !important;
+  font-size: 1.6rem;
 }
 .ant-menu .ant-menu-sub .ant-menu-inline {
   
@@ -48,9 +49,13 @@
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 5px 5px rgba(0, 0, 0, 0.1);
 }
 /* 서브 메뉴 글자색 */
-/* .ant-menu-item-group-title {
-  color: white !important;
-} */
+.ant-menu-item-group-title {
+  /* color: white !important; */
+  font-size: 1.3rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+}
 /* 서브 메뉴 */
 .ant-menu-item-group-title:hover {
   color: rgba(255, 255, 255);
