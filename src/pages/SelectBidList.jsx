@@ -73,6 +73,7 @@ function SelectBidList() {
 
   // 바이어 입찰진행현황 조회 데이터
   const selectBidListBuyer = async () => {
+    console.log(bidConditionBuyer);
     const data = await getBidListBuyer(bidConditionBuyer);
     setBidListBuyerData(data);
   };
@@ -83,7 +84,8 @@ function SelectBidList() {
     const temp = bidConditionBuyer;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
-    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp });
+    console.log(temp.buyer_id);
+    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp.buyer_id });
     return temp.buyer_name;
   };
 
