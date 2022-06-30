@@ -22,96 +22,20 @@ import RfqDetail from "pages/RfqDetail";
 import BidDetail from "pages/BidDetail";
 import RfqCreate from "pages/RfqCreate";
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
 import { POSCO_ICT_CI_ENG, ProfileIcon, SearchIcon, NoticeIcon } from "assets/images";
 import Login from "pages/Login";
 import { Header } from "antd/lib/layout/layout";
+import Home from "pages/Home";
+import { getCookie, removeCookie } from "util/cookie";
+import PrivateRoute from "pages/PrivateRoute";
 
 function App() {
   const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
-
-  const item1 = [
-    {
-      type: "group",
-      label: "구매신청",
-      icon: <EditFilled />,
-      children: [
-        {
-          label: (
-            <a href="/createPr" rel="noopener noreferrer">
-              구매신청등록
-            </a>
-          ),
-          key: "setting:1",
-        },
-        {
-          label: (
-            <a href="/selectPrList" rel="noopener noreferrer">
-              ⦁ 구매신청조회
-            </a>
-          ),
-          key: "setting:2",
-        },
-      ],
-    },
-    {
-      type: "group",
-      label: "RFQ",
-      icon: <ScheduleFilled />,
-      children: [
-        {
-          label: (
-            <a href="/selectRFQList" rel="noopener noreferrer">
-              ⦁ RFQ조회
-            </a>
-          ),
-          key: "setting:3",
-        },
-      ],
-    },
-    {
-      type: "group",
-      label: "입찰",
-      icon: <SoundFilled />,
-      children: [
-        {
-          label: (
-            <a href="/bidList" rel="noopener noreferrer">
-              ⦁ &nbsp;입찰진행현황조회
-            </a>
-          ),
-          key: "setting:4",
-        },
-      ],
-    },
-    {
-      type: "group",
-      label: "구매계약",
-      icon: <ReconciliationFilled />,
-      children: [
-        {
-          label: (
-            <a href="/poRegist" rel="noopener noreferrer">
-              ⦁ &nbsp;구매계약등록
-            </a>
-          ),
-          key: "setting:5",
-        },
-        {
-          label: (
-            <a href="/selectPoList" rel="noopener noreferrer">
-              ⦁ &nbsp;구매계약조회
-            </a>
-          ),
-          key: "setting:6",
-        },
-      ],
-    },
-  ];
-
+  const navigate = useNavigate();
   const item2 = [
     {
       label: "구매신청",
@@ -190,7 +114,25 @@ function App() {
       ],
     },
   ];
+  const handleLogout = () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      removeCookie("loginToken");
+      removeCookie("authority");
+      navigate("/");
+    }
+  };
 
+  // const checkLogin = async () => {
+  //   if (getCookie("loginToken")) {
+  //     const userRole = await getUserData();
+  //     console.log(userRole);
+  //     setUserData(userRole);
+  //   }
+  // };
+
+  // useDidMountEffect(() => {
+  //   checkLogin();
+  // }, []);
   return (
     <>
       <GlobalStyle />
@@ -217,9 +159,13 @@ function App() {
             <IconWrapper>
               <img src={SearchIcon} alt="search"></img>
               <img src={NoticeIcon} alt="notice"></img>
-              <a href="/login" rel="noopener noreferrer">
-                <img src={ProfileIcon} alt="profile"></img>
-              </a>
+              {getCookie("loginToken") ? (
+                <img src={ProfileIcon} alt="profile" onClick={handleLogout}></img>
+              ) : (
+                <a href="/login" rel="noopener noreferrer">
+                  Login
+                </a>
+              )}
             </IconWrapper>
           </StyledHeader>
           <Content
@@ -232,38 +178,135 @@ function App() {
               boxShadow: "0px 0px 10px -5px gray",
             }}
           >
-            <BrowserRouter>
-              <Routes>
-                {/* <Route path="/" element={<Home />} /> */}
-                {/* 사용부서 */}
-                <Route path="/" element={<SelectPrList />} />
-                <Route path="/createPr" element={<CreatePr />} />
-                <Route path="/createPr/:id" element={<CreatePr />} />
-                <Route path="/selectPrList" element={<SelectPrList />} />
-                {/* 바이어 */}
-                <Route path="/rfqCreate" element={<RfqCreate />} />
-                <Route path="/rfqCreate/:rfq_no" element={<RfqCreate />} />
-                <Route path="/selectRFQList" element={<SelectRFQList />} />
-                <Route path="/selectRFQList/:id" element={<RfqDetail />} />
+            {/* <BrowserRouter> */}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              {/* 사용부서 */}
+              <Route
+                path="/createPr"
+                element={
+                  <PrivateRoute role1="ROLE_USER" role2="" role3="">
+                    <CreatePr />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/createPr/:id"
+                element={
+                  <PrivateRoute role1="ROLE_USER" role2="" role3="">
+                    <CreatePr />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/selectPrList"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="ROLE_USER" role3="">
+                    <SelectPrList />
+                  </PrivateRoute>
+                }
+              />
+              {/* 바이어 */}
+              <Route
+                path="/rfqCreate"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <RfqCreate />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/rfqCreate/:rfq_no"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <RfqCreate />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/selectRFQList"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <SelectRFQList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/selectRFQList/:id"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <RfqDetail />
+                  </PrivateRoute>
+                }
+              />
 
-                <Route path="/successBid/:bidding_no" element={<SuccessBid />} />
+              <Route
+                path="/successBid/:bidding_no"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <SuccessBid />
+                  </PrivateRoute>
+                }
+              />
 
-                <Route path="/selectPoList" element={<SelectPoList />} />
-                <Route path="/poRegist" element={<PoRegist />} />
-                <Route path="/poRegist/:id" element={<PoRegist />} />
+              <Route
+                path="/selectPoList"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <SelectPoList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/poRegist"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <PoRegist />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/poRegist/:id"
+                element={
+                  <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
+                    <PoRegist />
+                  </PrivateRoute>
+                }
+              />
 
-                {/* 공급사 */}
-                <Route path="/bidList/:id" element={<BidDetail />} />
-                <Route path="/bidWrite/:id" element={<BidWrite />} />
+              {/* 공급사 */}
+              <Route
+                path="/bidWrite/:id"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="" role3="">
+                    <BidWrite />
+                  </PrivateRoute>
+                }
+              />
 
-                {/* 공통 */}
-                <Route path="/bidList" element={<SelectBidList />} />
+              {/* 공통 */}
+              <Route
+                path="/bidList"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
+                    <SelectBidList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/bidList/:id"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
+                    <BidDetail />
+                  </PrivateRoute>
+                }
+              />
 
-                <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
 
-                <Route path="/*" element={<p>Page Not Found</p>} />
-              </Routes>
-            </BrowserRouter>
+              <Route path="/*" element={<p>Page Not Found</p>} />
+            </Routes>
+            {/* </BrowserRouter> */}
           </Content>
         </Layout>
       </StyledRoot>
@@ -301,6 +344,14 @@ const IconWrapper = styled.div`
   a {
     display: flex;
     align-items: center;
+    margin-right: 2rem;
+    font-size: 1.6rem;
+    color: #666565;
+    font-family: "Pretendard-Bold";
+    :hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
   }
 `;
 

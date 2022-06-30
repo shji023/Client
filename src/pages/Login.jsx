@@ -15,9 +15,7 @@ function Login() {
     email: "",
     password: "",
   });
-  // const [userStatusData, setUserStatusData] = useRecoilState(userStatusState);
-  // const [userData, setUserData] = useRecoilState(userState);
-  const [userData, setUserData] = useState(null);
+
   const [isConditionMet, setIsConditionMet] = useState({
     email: true,
     pwd: true,
@@ -37,8 +35,15 @@ function Login() {
 
   const handleLoginBtn = async () => {
     await getUserStatusData();
-    const isSuccess = await getUserData();
-    isSuccess && alert("로그인이 성공되었습니다");
+    const userAuthority = await getUserData(getCookie("loginToken"));
+    if (userAuthority) {
+      setCookie("authority", userAuthority, {
+        path: "/",
+        secure: true,
+        sameSite: "Lax",
+      });
+    }
+    userAuthority && navigate("/");
   };
 
   const getUserStatusData = async () => {
@@ -48,7 +53,7 @@ function Login() {
       setCookie("loginToken", data.accessToken, {
         path: "/",
         secure: true,
-        sameSite: "none",
+        sameSite: "Lax",
       });
       return data.accessToken;
 
@@ -58,22 +63,9 @@ function Login() {
       //   setIsConditionMet({ email: true, pwd: false });
       // }
     } else {
-      alert("네트워크가 좋지 않습니다");
+      alert("존재하지 않는 계정입니다");
     }
     return "";
-  };
-
-  const getUserDetailData = async (token) => {
-    if (token) {
-      const data = await getUserData(token);
-      if (data !== undefined) {
-        setUserData(data);
-        return true;
-      } else {
-        alert("네트워크가 좋지 않습니다");
-      }
-    }
-    return false;
   };
 
   // const handleLoginEnter = async (e) => {
@@ -85,7 +77,7 @@ function Login() {
   // };
 
   useEffect(() => {
-    if (userData) {
+    if (getCookie("loginToken")) {
       alert("이미 로그인이 되어있습니다. ");
       navigate("/");
     }

@@ -11,10 +11,11 @@ export const getUserData = async () => {
         Authorization: `Bearer ${getCookie("loginToken")}`,
       },
     });
+
     console.log(data);
-    return data;
+    return data.data.authority;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
   return null;
 };
