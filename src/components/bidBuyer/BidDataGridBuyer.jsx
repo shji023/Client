@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { bidColFields } from "stores/colData";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-const BidDataGrid = ({ listData }) => {
+import { bidBuyerColFields } from "stores/colData";
+const BidDataGridBuyer = ({ listData }) => {
   const navigate = useNavigate();
   return (
     <StyledRoot>
@@ -38,21 +38,16 @@ const BidDataGrid = ({ listData }) => {
             pagination={true}
             paginationPageSize={10}
             onRowClicked={(e) => {
-              // if (e.data.bid_search_type === "완료") {
-              //   // navigate(`/successBid/${e.data.bidding_no}`);
-              //   navigate(`/successBid/${e.data.rfq_no}`);
-              // } else {
+              console.log(e);
               navigate(`/bidList/${e.data.bidding_no}`);
-              // }
             }}
           >
-            {bidColFields.map((data) => (
+            {bidBuyerColFields.map((data) => (
               <AgGridColumn
                 key={data.colId}
                 field={data.field}
                 headerName={data.headerName}
                 minWidth={data.minWidth}
-                // onCellClicked={() => navigate(`/bidList/${data.colId}`)}
               />
             ))}
           </AgGridReact>
@@ -62,7 +57,7 @@ const BidDataGrid = ({ listData }) => {
   );
 };
 
-export default BidDataGrid;
+export default BidDataGridBuyer;
 
 const StyledRoot = styled.section`
   margin-top: 3rem;

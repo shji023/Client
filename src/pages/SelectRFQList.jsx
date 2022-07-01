@@ -3,7 +3,7 @@ import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
 import BuyerInputSearch from "components/rfq/BuyerInputSearch";
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
@@ -12,7 +12,6 @@ import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 
-
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({});
 
@@ -20,7 +19,6 @@ function SelectRfqList() {
   const [rfqCategoryLov, setRfqCategoryLov] = useState([]);
   const [rfqListData, setRfqListData] = useState([]);
   const [buyerRowData, setBuyerRowData] = useState([]);
-
 
   const handleRFQCondition = (key, value) => {
     const tempRfqCondition = { ...rfqCondition };
@@ -42,11 +40,10 @@ function SelectRfqList() {
     // rfqBuyer && setRfqBuyerLov(rfqBuyer);
     rfqStatusLov && setRfqStatusLov(rfqStatusLov);
     rfqCategoryLov && setRfqCategoryLov(rfqCategoryLov);
-
   };
 
   // 바이어 검색 버튼 이벤트
-  const HandleSearch = async (searchWord) => {    
+  const HandleSearch = async (searchWord) => {
     // axios로 데이터불러오기
     const data = await getSearchBuyerList(searchWord);
 
@@ -55,9 +52,9 @@ function SelectRfqList() {
     setBuyerRowData(data);
 
     return data;
-  }
+  };
 
-  const onHandleOk = ({selectedRows}) => {
+  const onHandleOk = ({ selectedRows }) => {
     console.log("ok event called!!");
     console.log("selectedRows", selectedRows);
 
@@ -69,9 +66,9 @@ function SelectRfqList() {
     temp.buyer_name = row.buyer_name;
     // temp.buyer_dept_name = row.buyer_dept_name;
     setRfqCondition(temp);
-    
+
     return temp.buyer_name;
-  }
+  };
 
   useEffect(() => {
     getLov();
@@ -79,18 +76,18 @@ function SelectRfqList() {
 
   return (
     <StyledRoot>
-      <HeaderWrapper  >  
+      <HeaderWrapper>
         <Title>RFQ 목록조회</Title>
         <Button onClick={selectRFQList}>조회</Button>
       </HeaderWrapper>
       <section>
-        <InputContainer> 
+        <InputContainer>
           <RfqInputInfo
             id="rfq_no"
             inputLabel="RFQ 번호"
             handleCondition={handleRFQCondition}
             inputValue={rfqCondition.rfq_no}
-          />   
+          />
           <BuyerInputSearch
             id="buyer_id"
             title="바이어선택"
@@ -99,10 +96,10 @@ function SelectRfqList() {
             onHandleOk={onHandleOk}
             onHandleCancel={null}
             gridOptions={{
-              columnDefs : popUpBuyerColFields, // 컬럼
-              rowData : buyerRowData, // 검색 결과 State
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false, // 선택 방지
+              columnDefs: popUpBuyerColFields, // 컬럼
+              rowData: buyerRowData, // 검색 결과 State
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false, // 선택 방지
             }}
           />
           <RfqInputSelect
@@ -132,9 +129,8 @@ function SelectRfqList() {
       </section>
       {/* TO-DO : select count 로 변경 */}
       {/* <ListCount>건수: 2,164</ListCount> */}
-    
-        <AgGridRFQ listData={rfqListData} colData={rfqColumn}/>
-      
+
+      <AgGridRFQ listData={rfqListData} colData={rfqColumn} />
     </StyledRoot>
   );
 }
@@ -152,16 +148,16 @@ const InputContainer = styled.div`
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
   padding: 2rem 0rem;
   & > div:nth-of-type(3) {
-    & > div:nth-of-type(2) {
+    & > div:nth-of-type(1) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(5) {
-    & > div:nth-of-type(2) {
+  & > div:nth-of-type(6) {
+    & > div:nth-of-type(1) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+3):nth-child(-n+5){
+  & > div:nth-child(n + 4):nth-child(-n + 6) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

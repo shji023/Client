@@ -7,5 +7,10 @@ export const colors = {
   tableGray: "#F5F5F5",
   lineGray: "#C8C8C8",
   tableBlue: "#EDF2F8",
-  tableLineGray: "rgb(225 225 225 / 87%)", 
+  tableLineGray: "rgb(225 225 225 / 87%)",
+  themeBlue1: "#B9CDF9",
+  themeBlue2: "#A2BAF1",
+  themeBlue3: "#6888CE",
+  themeBlue4: "#375699",
+  themeBlue5: "#10285D",
 };

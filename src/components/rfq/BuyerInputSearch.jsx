@@ -1,5 +1,5 @@
 import { Input, Button, Modal } from "antd";
-import React, { useState, useRef }  from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
@@ -20,80 +20,78 @@ import { colors } from "assets/styles/color";
  *                                                              rowData : rowData,
  *                                                              rowSelection : "single", "multiple",
  *                                                              suppressRowClickSelection : true, false }
- * @returns 
+ * @returns
  */
-function BuyerInputSearch({ 
+function BuyerInputSearch({
   // Input 관련
   id,
-  idx,  
+  idx,
   inputLabel,
   initValue,
 
   // PopUp 관련
   title,
   labelTitle,
-  
+
   // Button 이벤트
   onHandleSearch,
   onHandleOk,
   onHandleCancel,
-  
+
   // DataGrid
   gridOptions,
 }) {
-  
-  !onHandleSearch && (onHandleSearch = (value) => {
-    console.log("value : ", value);
-    
-  });
+  !onHandleSearch &&
+    (onHandleSearch = (value) => {
+      console.log("value : ", value);
+    });
 
-  !onHandleOk && (onHandleOk = () => {
-    console.log("called onHandleOk");
+  !onHandleOk &&
+    (onHandleOk = () => {
+      console.log("called onHandleOk");
 
-    return "검색단어";
+      return "검색단어";
+    });
 
-  });
-
-  !onHandleCancel && (onHandleCancel = () => {
-    console.log("called onHandleCancel");
-
-  })
+  !onHandleCancel &&
+    (onHandleCancel = () => {
+      console.log("called onHandleCancel");
+    });
   // 검색어
   const [searchedWord, setSearchedWord] = useState(initValue);
- 
+
   // modal
   const [visible, setVisible] = useState(false);
 
   // const handleInputChange = (id, value) => {
   //   setSearchedWord(value);
   // }
-  
+
   const showModal = () => {
     setVisible(true);
-};
+  };
 
   const InputLabel = (props) => {
-    if(props.inputLabel) {
-      return <Label htmlFor={props.id}>{props.inputLabel}</Label>
-
+    if (props.inputLabel) {
+      return <Label htmlFor={props.id}>{props.inputLabel}</Label>;
     }
-  }
+  };
 
   return (
     <>
-     <CustomModal
-      title={title}
-      idx={idx}
-      labelTitle={labelTitle}
-      searchedWord={searchedWord}
-      setSearchedWord={setSearchedWord}
-      onHandleOk ={onHandleOk}
-      onHandleCancel={onHandleCancel}
-      onHandleSearch={onHandleSearch}
-      gridOptions={gridOptions}
-      visible={visible}
-      setVisible={setVisible}
-     />
+      <CustomModal
+        title={title}
+        idx={idx}
+        labelTitle={labelTitle}
+        searchedWord={searchedWord}
+        setSearchedWord={setSearchedWord}
+        onHandleOk={onHandleOk}
+        onHandleCancel={onHandleCancel}
+        onHandleSearch={onHandleSearch}
+        gridOptions={gridOptions}
+        visible={visible}
+        setVisible={setVisible}
+      />
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
@@ -106,8 +104,8 @@ function BuyerInputSearch({
             id={id}
             value={searchedWord}
             // onChange={(e) => handleInputChange(e.target.value)}
-            onSearch = {showModal}  // modal     
-            style={{ width: '100%' , height: '100%'}}
+            onSearch={showModal} // modal
+            style={{ width: "100%", height: "100%" }}
             allowClear={false}
             readOnly
           />
@@ -150,13 +148,6 @@ const Label = styled.label`
   border-right: none;
   border-bottom: none;
   font-family: "Pretendard-SemiBold";
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
 `;
 
 const StyledSelect = styled.div`

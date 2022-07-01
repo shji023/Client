@@ -7,7 +7,12 @@ import InputSelect from "components/po/PoInputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
-import { ItemInfoColFields, popUpBuyerColFields, popUpItemColFields, popUpVendorColFields } from "stores/colData";
+import {
+  ItemInfoColFields,
+  popUpBuyerColFields,
+  popUpItemColFields,
+  popUpVendorColFields,
+} from "stores/colData";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 
@@ -39,7 +44,7 @@ function SelectPoList() {
 
   const selectPoList = async () => {
     const data = await getSearchPoList(poCondition);
-    
+
     setPoListData(data);
   };
 
@@ -58,82 +63,77 @@ function SelectPoList() {
   // #region 팝업
   const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
 
-  const onHandleSearchVendor= async (value)=>{
-
+  const onHandleSearchVendor = async (value) => {
     console.log("value : ", value);
 
-    const sendData = {"vendor_name" : value};
+    const sendData = { vendor_name: value };
     const resultList = await getVendorList(sendData);
 
     console.log("resultList", resultList);
 
     return resultList;
-    
-  }
+  };
 
-  const onHandleOkVendor = ({selectedRows, idx}) => {
+  const onHandleOkVendor = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
     const temp = poCondition;
     console.log(row);
 
     temp.VENDOR_ID = row.vendor_id;
     setPoCondition(temp);
-    
+
     return temp.vendor_name;
-  }
+  };
   const onHandleCanceVendor = ({}) => {
     const temp = poCondition;
     temp.VENDOR_ID = "";
     setPoCondition(temp);
-  }
-
+  };
 
   const onHandleSearchItem = async (searchWord) => {
     const resultList = await getItemList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkItem = ({selectedRows}) => {
+  const onHandleOkItem = ({ selectedRows }) => {
     const row = selectedRows[0];
 
     const temp = poCondition;
     console.log(row);
     temp.ITEM_ID = row.item_id;
     setPoCondition(temp);
-    
+
     return row.item;
-  }
+  };
   const onHandleCancelItem = ({}) => {
     const temp = poCondition;
     temp.ITEM_ID = "";
     setPoCondition(temp);
-  }
+  };
 
   const onHandleSearchBuyer = async (value) => {
-    
     const resultList = await getBuyerList(value);
     return resultList;
-  }
+  };
 
-  const onHandleOkBuyer = ({selectedRows}) => {
+  const onHandleOkBuyer = ({ selectedRows }) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
 
     const row = selectedRows[0];
-    
+
     const temp = poCondition;
     temp.BUYER_ID = row.buyer_id;
     setPoCondition(temp);
-    
-    return row.buyer_name;
 
-  }
+    return row.buyer_name;
+  };
 
   const onHandleCanceBuyer = ({}) => {
     const temp = poCondition;
     temp.BUYER_ID = "";
     setPoCondition(temp);
-  }
+  };
   // #endregion 팝업
 
   useEffect(() => {
@@ -164,10 +164,10 @@ function SelectPoList() {
             onHandleOk={onHandleOkVendor}
             onHandleCancel={onHandleCanceVendor}
             gridOptions={{
-              columnDefs : popUpVendorColFields,
-              rowData : popUpPreparerRowData,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpVendorColFields,
+              rowData: popUpPreparerRowData,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputSelect
@@ -198,9 +198,9 @@ function SelectPoList() {
             onHandleOk={onHandleOkItem}
             onHandleCancel={onHandleCancelItem}
             gridOptions={{
-              columnDefs : popUpItemColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpItemColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputInfo
@@ -225,9 +225,9 @@ function SelectPoList() {
             onHandleOk={onHandleOkBuyer}
             onHandleCancel={onHandleCanceBuyer}
             gridOptions={{
-              columnDefs : popUpBuyerColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpBuyerColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputSelect
@@ -264,7 +264,6 @@ const StyledRoot = styled.main`
 //   gap: 1rem;
 // `;
 
-
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
@@ -279,7 +278,12 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+4):nth-child(-n+12){
+  & > div:nth-of-type(10) {
+    & > div:nth-of-type(2) {
+      border-right: 1px solid ${colors.tableLineGray};
+    }
+  }
+  & > div:nth-child(n + 4):nth-child(-n + 12) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;

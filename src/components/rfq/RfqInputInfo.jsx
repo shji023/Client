@@ -13,10 +13,9 @@ function RfqInputInfo({ id, inputLabel, handleCondition, inputValue }) {
           id={id}
           value={inputValue}
           onChange={(e) => handleCondition(id, e.target.value)}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
       </StyledInput>
-      
     </StyledRoot>
   );
 }
@@ -28,20 +27,6 @@ const StyledRoot = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const TitleWrapper = styled.div`
-  font-size: 1.4rem;
-  min-width: 14rem;
-  height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.tableGray};
-  border-right: none;
-  border-bottom: none;
-`;
-
 
 const Label = styled.label`
   font-size: 1.4rem;

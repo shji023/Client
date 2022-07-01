@@ -8,21 +8,20 @@ function BidInputDate({ id, inputLabel, handleCondition }) {
   const { RangePicker } = DatePicker;
   return (
     <StyledRoot>
-      <TitleWrapper>
-        <Label htmlFor={id}>{inputLabel}</Label>
-      </TitleWrapper>
-      <RangePicker
-        id={id}
-        onChange={(date) =>{
-            handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"))
-          }
-        }
-        style={{ width: '100%' }}
-        ranges={{
-          Today: [moment(), moment()],
-          "This Month": [moment().startOf("month"), moment().endOf("month")],
-        }}
-      />
+      <Label htmlFor={id}>{inputLabel}</Label>
+      <RangePickerWrapper>
+        <RangePicker
+          id={id}
+          onChange={(date) => {
+            handleCondition(id, date[0].format("YYYY-MM-DD") + date[1].format("YYYY-MM-DD"));
+          }}
+          style={{ width: "100%" }}
+          ranges={{
+            Today: [moment(), moment()],
+            "This Month": [moment().startOf("month"), moment().endOf("month")],
+          }}
+        />
+      </RangePickerWrapper>
     </StyledRoot>
   );
 }
@@ -35,7 +34,7 @@ const StyledRoot = styled.div`
   align-items: center;
 `;
 
-const TitleWrapper = styled.div`
+const Label = styled.label`
   font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
@@ -46,11 +45,17 @@ const TitleWrapper = styled.div`
   background-color: ${colors.tableGray};
   border-right: none;
   border-bottom: none;
+  font-family: "Pretendard-SemiBold";
 `;
 
-const Label = styled.label`
+const RangePickerWrapper = styled.div`
   font-size: 1.4rem;
-  width: 8rem;
-  text-align: center;
-  font-family: "Pretendard-SemiBold";
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.tableLineGray};
+  border-right: none;
+  border-bottom: none;
 `;

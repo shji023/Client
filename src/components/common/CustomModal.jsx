@@ -6,14 +6,14 @@ import DataGridModal from "components/common/DataGridModal";
 import Draggable from "react-draggable";
 
 /**
- * 
- * @param {*} title 
- * @param {*} labelTitle 
- * @param {*} onHandleOk 
- * @param {*} onHandleCancel 
- * @param {*} onHandleSearch 
- * @param {*} gridOptions 
- * @returns 
+ *
+ * @param {*} title
+ * @param {*} labelTitle
+ * @param {*} onHandleOk
+ * @param {*} onHandleCancel
+ * @param {*} onHandleSearch
+ * @param {*} gridOptions
+ * @returns
  */
 function CustomModal({
   title,
@@ -30,9 +30,8 @@ function CustomModal({
   gridOptions,
 
   visible,
-  setVisible
+  setVisible,
 }) {
-
   // #region 마우스 드래그
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({
@@ -64,28 +63,20 @@ function CustomModal({
 
   const onStop = () => {
     setOpacity(false);
-  }
+  };
   // #endregion 마우스 드래그
 
   !title && (title = "선택");
   !labelTitle && (labelTitle = "검색어");
 
-  !onHandleSearch && (onHandleSearch = (value) => {
-    console.log("value : ", value);
+  !onHandleSearch && (onHandleSearch = (value) => {});
 
-  });
+  !onHandleOk &&
+    (onHandleOk = () => {
+      return "검색단어";
+    });
 
-  !onHandleOk && (onHandleOk = () => {
-    console.log("called onHandleOk");
-
-    return "검색단어";
-
-  });
-
-  !onHandleCancel && (onHandleCancel = () => {
-    console.log("called onHandleCancel");
-
-  })
+  !onHandleCancel && (onHandleCancel = () => {});
 
   // 검색어
   const [searchWord, setSearchWord] = useState("");
@@ -95,33 +86,27 @@ function CustomModal({
   const gridRef = useRef();
   const [gridRowData, setGridRowData] = useState([]);
 
-
   // const [modalText, setModalText] = useState('Content of the modal');
 
   // 팝업 검색 버튼 이벤트
   const handleSearch = async () => {
-    console.log('Clicked search button');
-
     const resultList = await onHandleSearch(searchWord);
-    console.log("resultList  : :::::", resultList);
-    setGridRowData([...resultList]);
-  }
 
+    setGridRowData([...resultList]);
+  };
 
   // 팝업 OK 버튼 이벤트
   const handleOk = () => {
-    console.log('Clicked ok button');
     // setModalText('The modal will be closed after two seconds');
 
     // setConfirmLoading(true);
     // const rows = gridRef.current.api.getSelectedNodes();
     const selectedRows = gridRef.current.api.getSelectedRows();
-    console.log("selectedRows", selectedRows);
 
     if (setSearchedWord) {
       onHandleOk && setSearchedWord(onHandleOk({ selectedRows, idx }));
     } else {
-      onHandleOk && (onHandleOk({ selectedRows }));
+      onHandleOk && onHandleOk({ selectedRows });
     }
 
     // ! 비동기
@@ -135,8 +120,6 @@ function CustomModal({
 
   // 팝업 취소 버튼 이벤트
   const handleCancel = () => {
-    console.log('Clicked cancel button');
-
     onHandleCancel && onHandleCancel({ idx });
     if (setSearchedWord) setSearchedWord("");
 
@@ -147,29 +130,31 @@ function CustomModal({
 
   const initPopUp = () => {
     setSearchWord("");
-  }
+  };
 
   // #region 마우스 드래그
   const Title = (props) => {
-    return <div
-      style={{
-        width: '100%',
-        cursor: 'move',
-      }}
-      onMouseOver={() => {
-        if (disabled) {
-          setDisabled(false);
-        }
-      }}
-      onMouseOut={() => {
-        setDisabled(true);
-      }}
-      onFocus={() => { }}
-      onBlur={() => { }}
-    >
-      {props.title}
-    </div>
-  }
+    return (
+      <div
+        style={{
+          width: "100%",
+          cursor: "move",
+        }}
+        onMouseOver={() => {
+          if (disabled) {
+            setDisabled(false);
+          }
+        }}
+        onMouseOut={() => {
+          setDisabled(true);
+        }}
+        onFocus={() => {}}
+        onBlur={() => {}}
+      >
+        {props.title}
+      </div>
+    );
+  };
   // #endregion 마우스 드래그
 
   return (
@@ -188,19 +173,20 @@ function CustomModal({
           bounds={bounds}
           // onDrag={(e, data) => trackPos(data)}
           onStart={(event, uiData) => onStart(event, uiData)}
-          onStop={() => {onStop()}}
+          onStop={() => {
+            onStop();
+          }}
         >
-          <div 
-          ref={draggleRef}
-          // style={{ opacity: Opacity ? "0.6" : "1" }}
+          <div
+            ref={draggleRef}
+            // style={{ opacity: Opacity ? "0.6" : "1" }}
           >
             {modal}
           </div>
         </Draggable>
       )}
-    // #endregion 마우스 드래그
+      // #endregion 마우스 드래그
     >
-
       {/* modal 창 안의 내용> */}
       {/* <p>{modalText}</p> */}
       <ModalHeader>
@@ -214,18 +200,13 @@ function CustomModal({
       </ModalHeader>
 
       <section>
-        <DataGridModal
-          gridRef={gridRef}
-          gridRowData={gridRowData}
-          gridOptions={gridOptions}
-        />
+        <DataGridModal gridRef={gridRef} gridRowData={gridRowData} gridOptions={gridOptions} />
       </section>
     </Modal>
-  )
+  );
 }
 
 export default CustomModal;
-
 
 const ModalHeader = styled.div`
   display: flex;
@@ -233,4 +214,3 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 1rem;
 `;
-

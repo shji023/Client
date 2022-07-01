@@ -1,5 +1,5 @@
 import { Input, Button, Modal } from "antd";
-import React, { useState, useRef, useEffect }  from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
@@ -20,97 +20,94 @@ import { colors } from "assets/styles/color";
  *                                                              rowData : rowData,
  *                                                              rowSelection : "single", "multiple",
  *                                                              suppressRowClickSelection : true, false }
- * @returns 
+ * @returns
  */
-function InputSearch({ 
+function InputSearch({
   // Input 관련
   id,
-  idx,  
+  idx,
   inputLabel,
   initValue,
 
   // PopUp 관련
   title,
   labelTitle,
-  
+
   // Button 이벤트
   onHandleSearch,
   onHandleOk,
   onHandleCancel,
-  
+
   // DataGrid
   gridOptions,
 }) {
-  
-  !onHandleSearch && (onHandleSearch = (value) => {
-    console.log("value : ", value);
-    
-  });
+  !onHandleSearch &&
+    (onHandleSearch = (value) => {
+      console.log("value : ", value);
+    });
 
-  !onHandleOk && (onHandleOk = () => {
-    console.log("called onHandleOk");
+  !onHandleOk &&
+    (onHandleOk = () => {
+      console.log("called onHandleOk");
 
-    return "검색단어";
+      return "검색단어";
+    });
 
-  });
-
-  !onHandleCancel && (onHandleCancel = () => {
-    console.log("called onHandleCancel");
-
-  })
+  !onHandleCancel &&
+    (onHandleCancel = () => {
+      console.log("called onHandleCancel");
+    });
   // 검색어
   const [searchedWord, setSearchedWord] = useState(initValue);
- 
+
   // modal
   const [visible, setVisible] = useState(false);
-  
+
   const showModal = () => {
     setVisible(true);
-};
+  };
 
   const InputLabel = (props) => {
-    if(props.inputLabel) {
-
-      return <TitleWrapper>
-        <Title htmlFor={props.id}>{props.inputLabel}</Title>
-      </TitleWrapper>
-
+    if (props.inputLabel) {
+      return (
+        <TitleWrapper>
+          <Title htmlFor={props.id}>{props.inputLabel}</Title>
+        </TitleWrapper>
+      );
     }
-  }
+  };
 
   return (
     <>
-     <CustomModal
-      title={title}
-      idx={idx}
-      labelTitle={labelTitle}
-      searchedWord={searchedWord}
-      setSearchedWord={setSearchedWord}
-      onHandleOk ={onHandleOk}
-      onHandleCancel={onHandleCancel}
-      onHandleSearch={onHandleSearch}
-      gridOptions={gridOptions}
-      visible={visible}
-      setVisible={setVisible}
-     />
+      <CustomModal
+        title={title}
+        idx={idx}
+        labelTitle={labelTitle}
+        searchedWord={searchedWord}
+        setSearchedWord={setSearchedWord}
+        onHandleOk={onHandleOk}
+        onHandleCancel={onHandleCancel}
+        onHandleSearch={onHandleSearch}
+        gridOptions={gridOptions}
+        visible={visible}
+        setVisible={setVisible}
+      />
 
       {/* 화면에 보여지는 코드 */}
       <StyledRoot>
-      
         <InputLabel id={id} inputLabel={inputLabel} />
         <DataWrapper>
-
-        <Input.Search
-          type="text"
-          id={id}
-          // value={searchedWord}
-          value={initValue}
-          onSearch = {showModal}  // modal     
-          style={{ width: '100%' }}
-          allowClear={false}
-          readOnly
+          <Input.Search
+            type="text"
+            id={id}
+            // value={searchedWord}
+            value={initValue}
+            onSearch={showModal} // modal
+            style={{ width: "100%" }}
+            allowClear={false}
+            readOnly
           />
-          </DataWrapper>
+        </DataWrapper>
       </StyledRoot>
     </>
   );
@@ -124,22 +121,8 @@ const StyledRoot = styled.div`
   align-items: center;
 `;
 
-const Label = styled.label`
-  font-size: 1.6rem;
-  width: 8rem;
-  text-align: center;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-
-
 const TitleWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
@@ -152,7 +135,7 @@ const TitleWrapper = styled.div`
 `;
 
 const DataWrapper = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   width: 100%;
   height: 3.5rem;
   display: flex;
@@ -163,7 +146,7 @@ const DataWrapper = styled.div`
   border-bottom: none;
 `;
 const Title = styled.p`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   text-align: center;
   font-family: "Pretendard-SemiBold";
 `;

@@ -1,7 +1,22 @@
-import { getPrReasonLov, insertOnePr, deleteOnePr, getOrgLov, getDestLov, getTaxCodeLov, updateOnePr, getPr, } from "apis/pr.api";
+import {
+  getPrReasonLov,
+  insertOnePr,
+  deleteOnePr,
+  getOrgLov,
+  getDestLov,
+  getTaxCodeLov,
+  updateOnePr,
+  getPr,
+} from "apis/pr.api";
 import { colors } from "assets/styles/color";
 import AgGrid from "components/pr/PrGrid";
-import { prCreateColDef, popUpStaffColFields, popUpBuyerColFields, popUpItemColFields, popUpVendorColFields } from "stores/colData";
+import {
+  prCreateColDef,
+  popUpStaffColFields,
+  popUpBuyerColFields,
+  popUpItemColFields,
+  popUpVendorColFields,
+} from "stores/colData";
 // import InputInfo from "components/po/PoInputInfo";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
@@ -13,90 +28,89 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getStaffList, getVendorList } from "apis/public.api";
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import InputOneDate from "components/common/InputOneDate";
 import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { reload } from "hooks/CommonFunction";
 
-
 function PoRegist() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const testData = [
-  //   {
-  //     action: "Warning",
-  //     category: "test",
-  //     category_id: 1111111,
-  //     charge_account: "123",
-  //     closed_code: "",
-  //     deliver_to_location: "123",
-  //     description: "test",
-  //     distribution: "",
-  //     id: 1,
-  //     item: "",
-  //     item_id: 2225850,
-  //     item_name: "test",
-  //     line: 1,
-  //     match_option: "2-way",
-  //     need_by_date: "2022-06-19",
-  //     organization: "POSCO 포항자재/외주/투자(PM)",
-  //     over_receipt_tol: "12",
-  //     promised_date: "2022-06-22",
-  //     quantity: "111",
-  //     quantity_accepted: "",
-  //     quantity_billed: "",
-  //     quantity_cancelled: "",
-  //     quantity_recevied: "",
-  //     quantity_rejected: "",
-  //     req_line: "",
-  //     requester: "",
-  //     requester_id: 1685,
-  //     requester_name: "이동현",
-  //     requisition: "",
-  //     ship_quantity: "333",
-  //     ship_total_amount: 999,
-  //     shipment: "",
-  //     subinventory: "123",
-  //     tax_code: "P영세율매입",
-  //     total_amount: 333,
-  //     unit_price: "3",
-  //     uom: "each",
-  // }
+    //   {
+    //     action: "Warning",
+    //     category: "test",
+    //     category_id: 1111111,
+    //     charge_account: "123",
+    //     closed_code: "",
+    //     deliver_to_location: "123",
+    //     description: "test",
+    //     distribution: "",
+    //     id: 1,
+    //     item: "",
+    //     item_id: 2225850,
+    //     item_name: "test",
+    //     line: 1,
+    //     match_option: "2-way",
+    //     need_by_date: "2022-06-19",
+    //     organization: "POSCO 포항자재/외주/투자(PM)",
+    //     over_receipt_tol: "12",
+    //     promised_date: "2022-06-22",
+    //     quantity: "111",
+    //     quantity_accepted: "",
+    //     quantity_billed: "",
+    //     quantity_cancelled: "",
+    //     quantity_recevied: "",
+    //     quantity_rejected: "",
+    //     req_line: "",
+    //     requester: "",
+    //     requester_id: 1685,
+    //     requester_name: "이동현",
+    //     requisition: "",
+    //     ship_quantity: "333",
+    //     ship_total_amount: 999,
+    //     shipment: "",
+    //     subinventory: "123",
+    //     tax_code: "P영세율매입",
+    //     total_amount: 333,
+    //     unit_price: "3",
+    //     uom: "each",
+    // }
     {
-      closed_code : "",
-      line : "",
-      item : "",
-      category : "",
-      description : "",
-      uom : "",
-      quantity : "",
-      unit_price : "",
-      total_amount : "",
-      shipment : "",
-      ship_quantity : "",
-      ship_total_amount : "",
-      need_by_date : "",
-      promised_date : "",
-      organization : "",
-      tax_code : "",
-      match_option : "",
-      over_receipt_tol : "",
-      action : "",
-      quantity_recevied : "",
-      quantity_accepted : "",
-      quantity_rejected : "",
-      quantity_billed : "",
-      quantity_cancelled : "",
-      distribution : "",
-      requisition : "",
-      req_line : "",
-      requester : "",
-      deliver_to_location : "",
-      subinventory : "",
-      charge_account : "",
+      closed_code: "",
+      line: "",
+      item: "",
+      category: "",
+      description: "",
+      uom: "",
+      quantity: "",
+      unit_price: "",
+      total_amount: "",
+      shipment: "",
+      ship_quantity: "",
+      ship_total_amount: "",
+      need_by_date: "",
+      promised_date: "",
+      organization: "",
+      tax_code: "",
+      match_option: "",
+      over_receipt_tol: "",
+      action: "",
+      quantity_recevied: "",
+      quantity_accepted: "",
+      quantity_rejected: "",
+      quantity_billed: "",
+      quantity_cancelled: "",
+      distribution: "",
+      requisition: "",
+      req_line: "",
+      requester: "",
+      deliver_to_location: "",
+      subinventory: "",
+      charge_account: "",
     },
   ];
   const [rowData, setRowData] = useState([...testData]);
@@ -145,44 +159,43 @@ function PoRegist() {
   // }
   const [conditions, setConditions] = useState({
     // lov
-    attributeCategory : "",
-    fobLookupCodeLov : "",
-    termsIdLov : "",
-    bidMethodTypeLov : "",
-    invoiceTypeLov : "",
-    replyMethodLookupCode1Lov : "",
-    controlConfirmFlagLov : "",
-    organizationLov : "",
-    taxCodeLov : "",
-    matchOptionLov : "",
-    actionLov : "",
-    
-    // input
-    po_num : "",
-    revision_num : "",
-    type_lookup_code : "",
-    attribute_category : "",
-    comments : "",
-    vendor_location : "",
-    vendor_name : "",
-    vendor_id : "",
-    buyer_id : "",
-    buyer_name: "",
-    approved_date : "",
-    authorization_status : "",
-    contract_date : "",
-    acceptance_due_date : "",
-    fob_lookup_code : "",
-    terms_id : "",
-    blanket_total_amount : "",
-    currency_code : "",
-    bid_method_type : "",
-    invoice_type : "",
-    reply_method_lookup_code1 : "",
-    note_to_vendor : "",
-    note_to_receiver : "",
-    control_confirm_flag : "",
+    attributeCategory: "",
+    fobLookupCodeLov: "",
+    termsIdLov: "",
+    bidMethodTypeLov: "",
+    invoiceTypeLov: "",
+    replyMethodLookupCode1Lov: "",
+    controlConfirmFlagLov: "",
+    organizationLov: "",
+    taxCodeLov: "",
+    matchOptionLov: "",
+    actionLov: "",
 
+    // input
+    po_num: "",
+    revision_num: "",
+    type_lookup_code: "",
+    attribute_category: "",
+    comments: "",
+    vendor_location: "",
+    vendor_name: "",
+    vendor_id: "",
+    buyer_id: "",
+    buyer_name: "",
+    approved_date: "",
+    authorization_status: "",
+    contract_date: "",
+    acceptance_due_date: "",
+    fob_lookup_code: "",
+    terms_id: "",
+    blanket_total_amount: "",
+    currency_code: "",
+    bid_method_type: "",
+    invoice_type: "",
+    reply_method_lookup_code1: "",
+    note_to_vendor: "",
+    note_to_receiver: "",
+    control_confirm_flag: "",
   });
 
   const [selectedIds, setSelectedIds] = useState([]);
@@ -200,8 +213,6 @@ function PoRegist() {
   const [matchOptionLov, setMatchOptionLov] = useState([]);
   const [actionLov, setActionLov] = useState([]);
 
-
-
   // 팝업 그리드 행 정보
   const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
 
@@ -216,203 +227,197 @@ function PoRegist() {
 
   // PO 저장 버튼 이벤트
   const onSaveContents = () => {
-    confirm(
-      "구매계약 등록을 완료 하시겠습니까?"
-    ) ? saveContents() : null;
-  }
+    confirm("구매계약 등록을 완료 하시겠습니까?") ? saveContents() : null;
+  };
 
   const saveContents = async () => {
     console.log("onSaveContents called!!!!!!!!!!!");
 
     // !: axios 비동기
     const data = await insertOnePo(conditions, rowData);
-    if(data){
+    if (data) {
       alert("구매계약 등록이 완료되었습니다.");
       const temp = conditions;
       temp.po_num = data;
-      setConditions({...temp});
-      navigate(`/poRegist/${temp.po_num}`)
-      reload()
+      setConditions({ ...temp });
+      navigate(`/poRegist/${temp.po_num}`);
+      reload();
     } else {
       alert("구매 계약 등록이 실패했습니다.");
     }
   };
 
   const onUpdateContents = async () => {
-    confirm(
-      "구매 계약서 수정을 완료하시겠습니까?"
-      ) ? updateContent() : null;
-  }
+    confirm("구매 계약서 수정을 완료하시겠습니까?") ? updateContent() : null;
+  };
 
   const updateContent = async () => {
     console.log("onUpdateContents called");
 
     // !: axios 비동기
     const data = await updateOnePo(conditions, rowData, deletedIdList);
-    if(data){
+    if (data) {
       alert("구매 계약 수정이 완료되었습니다.");
       const temp = conditions;
       temp.po_num = data;
-      setConditions({...temp});
+      setConditions({ ...temp });
       reload();
     } else {
       alert("구매 계약 수정이 실패했습니다.");
     }
-  }
-  
+  };
+
   // PR 삭제 버튼 이벤트
   const onDeleteContents = () => {
-    confirm(
-      "삭제 시 해당 계약서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"
-      ) ? deleteContent() : null;
-  }
-  
+    confirm("삭제 시 해당 계약서를 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?")
+      ? deleteContent()
+      : null;
+  };
+
   const deleteContent = async () => {
     console.log("onDeleteContents called");
 
     // !: axios 비동기
     const data = await deleteOnePo(conditions.po_num);
-    if(data){
+    if (data) {
       alert("구매 계약 삭제가 완료되었습니다.");
-      navigate(`/selectPoList`)
+      navigate(`/selectPoList`);
     } else {
       alert("구매 계약 삭제가 실패했습니다.");
     }
     // navigate.replace(`/createPr`);
-  }
+  };
 
   // #region 그리드 관련 이벤트
   // 그리드 행 추가
   // TODO: 체크항목 유지하기
-  const onInsertOne = useCallback( ()=>{
-    console.log("onInsertOne called!")
-    
+  const onInsertOne = useCallback(() => {
+    console.log("onInsertOne called!");
+
     const newRecord = createOneRecord();
-    const records = [ ...rowData, newRecord];
+    const records = [...rowData, newRecord];
     setRowData(records);
-  } )
+  });
   const createOneRecord = () => {
     return {
-      closed_code : "",
-      line : "",
-      item : "",
-      category : "",
-      description : "",
-      uom : "",
-      quantity : "",
-      unit_price : "",
-      total_amount : "",
-      shipment : "",
-      ship_quantity : "",
-      ship_total_amount : "",
-      need_by_date : "",
-      promised_date : "",
-      organization : "",
-      tax_code : "",
-      match_option : "",
-      over_receipt_tol : "",
-      action : "",
-      quantity_recevied : "",
-      quantity_accepted : "",
-      quantity_rejected : "",
-      quantity_billed : "",
-      quantity_cancelled : "",
-      distribution : "",
-      requisition : "",
-      req_line : "",
-      requester : "",
-      requester_id : "",
-      deliver_to_location : "",
-      subinventory : "",
-      charge_account : "",
+      closed_code: "",
+      line: "",
+      item: "",
+      category: "",
+      description: "",
+      uom: "",
+      quantity: "",
+      unit_price: "",
+      total_amount: "",
+      shipment: "",
+      ship_quantity: "",
+      ship_total_amount: "",
+      need_by_date: "",
+      promised_date: "",
+      organization: "",
+      tax_code: "",
+      match_option: "",
+      over_receipt_tol: "",
+      action: "",
+      quantity_recevied: "",
+      quantity_accepted: "",
+      quantity_rejected: "",
+      quantity_billed: "",
+      quantity_cancelled: "",
+      distribution: "",
+      requisition: "",
+      req_line: "",
+      requester: "",
+      requester_id: "",
+      deliver_to_location: "",
+      subinventory: "",
+      charge_account: "",
       query_type: "insert",
-    }
-  }
-  
+    };
+  };
 
   // 그리드 행 복사
-  const onCopySelected = useCallback( ()=>{
+  const onCopySelected = useCallback(() => {
     copyRow();
-  })
-  
+  });
+
   const copyRow = () => {
-    console.log("copyRow called" );
+    console.log("copyRow called");
     let id = 1;
     const tempData = [];
     const ids = [];
 
     gridRef.current.api.forEachNode(function (node) {
-      tempData.push({...node.data, id: id++});
-      if(node.isSelected()){
-        ids.push(id-1);
+      tempData.push({ ...node.data, id: id++ });
+      if (node.isSelected()) {
+        ids.push(id - 1);
         tempData.push({
-          ...node.data, 
-          id: id++, 
-          po_line_id: null, 
-          po_line_location_id : null, 
-          po_distribution_id : null, 
-          query_type: "insert"
+          ...node.data,
+          id: id++,
+          po_line_id: null,
+          po_line_location_id: null,
+          po_distribution_id: null,
+          query_type: "insert",
         });
       }
     });
 
     setRowData([...tempData]);
     setSelectedIds([...ids]);
-  }
-  
+  };
 
   // 그리드 행 삭제
-  const deleteRow = useCallback( () => {
-    console.log("deleteRow called" );
+  const deleteRow = useCallback(() => {
+    console.log("deleteRow called");
 
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
-    if(selectedRowNodes.length === 0) return;
+    if (selectedRowNodes.length === 0) return;
 
-    const selectedIds = selectedRowNodes.map( rowNode => rowNode.data.id );
-    const selectedData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) >= 0 );
+    const selectedIds = selectedRowNodes.map((rowNode) => rowNode.data.id);
+    const selectedData = rowData.filter((dataItem) => selectedIds.indexOf(dataItem.id) >= 0);
     console.log("selectedData :::", selectedData);
 
-     // * 삭제한 행의 정보를 담는다.
+    // * 삭제한 행의 정보를 담는다.
     //  const tempList = deletedIdList;
-     const tempLineList = deletedIdList.line;
-     const tempLocationList = deletedIdList.location;
-     const tempDistList = deletedIdList.distribution;
-     selectedData.forEach((element)=>{
-       // * 기존 행인 경우에만 담는다.
-       if(element.query_type === "update") {
+    const tempLineList = deletedIdList.line;
+    const tempLocationList = deletedIdList.location;
+    const tempDistList = deletedIdList.distribution;
+    selectedData.forEach((element) => {
+      // * 기존 행인 경우에만 담는다.
+      if (element.query_type === "update") {
         tempLineList.push(element.po_line_id);
         tempLocationList.push(element.po_line_location_id);
         tempDistList.push(element.po_distribution_id);
-       }
-     });
-     setDeletedIdList({
-      line : [...tempLineList],
-      location : [...tempLocationList],
-      distribution : [...tempDistList],
-     });
+      }
+    });
+    setDeletedIdList({
+      line: [...tempLineList],
+      location: [...tempLocationList],
+      distribution: [...tempDistList],
+    });
 
-    const filteredData = rowData.filter( dataItem => selectedIds.indexOf(dataItem.id) < 0 );
+    const filteredData = rowData.filter((dataItem) => selectedIds.indexOf(dataItem.id) < 0);
     setRowData([...filteredData]);
     setSelectedIds([]);
-  } );
+  });
 
   // 그리드 체크항목 유지
   const onRowDataChanged = () => {
     // console.log("row changed!!", selectedIds);
 
-    gridRef.current.api.forEachNode( 
-      node => selectedIds.includes(node.data.id) && node.setSelected(true)
-    )
-  }
-// #endregion 그리드 관련 이벤트
+    gridRef.current.api.forEachNode(
+      (node) => selectedIds.includes(node.data.id) && node.setSelected(true),
+    );
+  };
+  // #endregion 그리드 관련 이벤트
 
-// #region Line 아이템 이벤트
+  // #region Line 아이템 이벤트
   const onHandleSearchItem = async (searchWord) => {
     const resultList = await getItemList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkItem = ({selectedRows, idx}) => {
+  const onHandleOkItem = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
 
     const temp = rowData;
@@ -424,26 +429,26 @@ function PoRegist() {
     temp[idx].description = row.description;
 
     setRowData([...temp]);
-    
-    return temp[idx].item;
-  }
 
-    const onHandleCancelItem = ({}) => {
+    return temp[idx].item;
+  };
+
+  const onHandleCancelItem = ({}) => {
     const temp = conditions;
     temp.item_id = "";
     temp.item = "";
     temp.category = "";
     setConditions(temp);
-  }
+  };
   // #endregion Line 아이템 이벤트
 
-// #region Line Requester 이벤트
+  // #region Line Requester 이벤트
   const onHandleSearchRequester = async (searchWord) => {
     const resultList = await getStaffList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkRequester = ({selectedRows, idx}) => {
+  const onHandleOkRequester = ({ selectedRows, idx }) => {
     const row = selectedRows[0];
 
     const temp = rowData;
@@ -452,9 +457,9 @@ function PoRegist() {
     temp[idx].requester_id = row.id;
 
     setRowData([...temp]);
-    
+
     return temp[idx].requester;
-  }
+  };
 
   const onHandleCanceRequester = ({}) => {
     const temp = conditions;
@@ -462,104 +467,156 @@ function PoRegist() {
     temp.item = "";
     temp.category = "";
     setConditions(temp);
-  }
+  };
   // #endregion Line Requester 이벤트
 
-
   // 그리드 컬럼
-  const prCreateColFields = ([
-    { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
-    { field: "closed_code",              headerName:"상태",               maxWidth: 100, pinned:"left", editable: false,},
-    { field: "line",              headerName:"Line",               maxWidth: 80, pinned:"left", editable: false,},
-    { field: "item",              headerName:"Item",               minWidth: 150,  editable: false,
-      cellRendererSelector : params => {
+  const prCreateColFields = [
+    {
+      field: null,
+      headerCheckboxSelection: true,
+      maxWidth: 50,
+      pinned: "left",
+      checkboxSelection: true,
+    },
+    { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", editable: false },
+    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", editable: false },
+    {
+      field: "item",
+      headerName: "Item",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].item : "";
         return {
           component: InputSearch,
-          params : {
+          params: {
             idx: idx,
-            title : "아이템 선택",
-            initValue : initValue,
-            onHandleSearch : onHandleSearchItem,
-            onHandleOk : onHandleOkItem,
-            onHandleCancel : onHandleCancelItem,
+            title: "아이템 선택",
+            initValue: initValue,
+            onHandleSearch: onHandleSearchItem,
+            onHandleOk: onHandleOkItem,
+            onHandleCancel: onHandleCancelItem,
             gridOptions: {
-              columnDefs : popUpItemColFields,
-              rowSelection : "single",
-              suppressRowClickSelection : false,
+              columnDefs: popUpItemColFields,
+              rowSelection: "single",
+              suppressRowClickSelection: false,
             },
-          }
-        }
-      }
+          },
+        };
+      },
     },
-    { field: "category",          headerName:"Category",           minWidth:150, editable: false, },
-    { field: "description",       headerName:"사양",               minWidth:400, editable: false, },
-    { field: "uom",              headerName:"단위",               minWidth:80, editable: false, },
-    { field: "quantity",               headerName:"수량",               minWidth:100, editable: false,
-      cellRendererSelector : params => {
+    { field: "category", headerName: "Category", minWidth: 150, editable: false },
+    { field: "description", headerName: "사양", minWidth: 400, editable: false },
+    { field: "uom", headerName: "단위", minWidth: 80, editable: false },
+    {
+      field: "quantity",
+      headerName: "수량",
+      minWidth: 100,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "unit_price",        headerName:"단가",               minWidth:100, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "unit_price",
+      headerName: "단가",
+      minWidth: 100,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "total_amount",      headerName:"금액",               minWidth:100, editable: false,
-      valueGetter: params => params.data.quantity * params.data.unit_price
+    {
+      field: "total_amount",
+      headerName: "금액",
+      minWidth: 100,
+      editable: false,
+      valueGetter: (params) => params.data.quantity * params.data.unit_price,
     },
-    { field: "shipment",          headerName:"shipment",           minWidth:120, editable: false, valueGetter: params => 1},
-    { field: "ship_quantity",               headerName:"수량",               minWidth:100, editable: false,
-      cellRendererSelector : params => {
+    {
+      field: "shipment",
+      headerName: "shipment",
+      minWidth: 120,
+      editable: false,
+      valueGetter: (params) => 1,
+    },
+    {
+      field: "ship_quantity",
+      headerName: "수량",
+      minWidth: 100,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "ship_total_amount",      headerName:"금액",               minWidth:100, editable: false,
-      valueGetter: params => params.data.ship_quantity * params.data.unit_price
+    {
+      field: "ship_total_amount",
+      headerName: "금액",
+      minWidth: 100,
+      editable: false,
+      valueGetter: (params) => params.data.ship_quantity * params.data.unit_price,
     },
-    { field: "need_by_date",      headerName:"Need By Date",         minWidth:150, editable: false, 
-    cellRendererSelector : params => {
-      return {
-        component: InputOneDateGrid,
-        params: {
-          params: params,
-          stateValue: rowData,
-          setStateValue: setRowData,
-        }
-    }}
-  },
-  { field: "promised_date",      headerName:"Promised Date",         minWidth:150, editable: false, 
-  cellRendererSelector : params => {
-    return {
-      component: InputOneDateGrid,
-      params: {
-        params: params,
-        stateValue: rowData,
-        setStateValue: setRowData,
-      }
-  }}
-},
-{ field: "organization",      headerName:"Organization",       minWidth:200, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "need_by_date",
+      headerName: "Need By Date",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputOneDateGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "promised_date",
+      headerName: "Promised Date",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputOneDateGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "organization",
+      headerName: "Organization",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -567,11 +624,16 @@ function PoRegist() {
             lov: organizationLov,
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "tax_code",          headerName:"Tax Code",           minWidth:180, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "tax_code",
+      headerName: "Tax Code",
+      minWidth: 180,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -579,11 +641,16 @@ function PoRegist() {
             lov: taxCodeLov, // TODO : 바꾸기
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
+          },
+        };
+      },
     },
-    { field: "match_option",          headerName:"Match Option",           minWidth:180, editable: false, 
-      cellRendererSelector : params => {
+    {
+      field: "match_option",
+      headerName: "Match Option",
+      minWidth: 180,
+      editable: false,
+      cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
           params: {
@@ -591,97 +658,168 @@ function PoRegist() {
             lov: matchOptionLov, // TODO : 바꾸기
             stateValue: rowData,
             setStateValue: setRowData,
-          }
-      }}
-    },
-    { field: "over_receipt_tol",               headerName:"Over Receipt Tolerance",               minWidth:110, editable: false,
-    cellRendererSelector : params => {
-      return {
-        component: InputInfoGrid,
-        params: {
-          params: params,
-          stateValue: rowData,
-          setStateValue: setRowData,
-        }
-    }}
-  },
-  { field: "action",          headerName:"action",           minWidth:180, editable: false, 
-  cellRendererSelector : params => {
-    return {
-      component: InputSelectGrid,
-      params: {
-        params: params,
-        lov: actionLov, // TODO : 바꾸기
-        stateValue: rowData,
-        setStateValue: setRowData,
-      }
-  }}
-},
-{ field: "quantity_recevied",          headerName:"Quantity Recevied",           minWidth:180, editable: false, valueGetter: params => 0 },
-{ field: "quantity_accepted",          headerName:"Quantity Accepted",           minWidth:180, editable: false, valueGetter: params => 0 },
-{ field: "quantity_rejected",          headerName:"Quantity Rejected",           minWidth:180, editable: false, valueGetter: params => 0 },
-{ field: "quantity_billed",            headerName:"Quantity Billed",             minWidth:180, editable: false, valueGetter: params => 0 },
-{ field: "quantity_cancelled",         headerName:"Quantity Cancelled",          minWidth:180, editable: false, valueGetter: params => 0 },
-{ field: "distribution",               headerName:"Distribution",                minWidth:180, editable: false, valueGetter: params => 1 },
-{ field: "requisition",                headerName:"Requisition",                 minWidth:180, editable: false, },
-{ field: "req_line",                   headerName:"Req Line",                    minWidth:180, editable: false, valueGetter: params => 1 },
-{ field: "requester",                  headerName:"Requester",                   minWidth:200, editable: false, 
-cellRendererSelector : params => {
-  const idx = params.node.rowIndex;
-  const initValue = rowData[idx] ? rowData[idx].requester : "";
-  return {
-    component: InputSearch,
-    params : {
-      idx: idx,
-      title : "직원 선택",
-      initValue : initValue,
-      onHandleSearch : onHandleSearchRequester,
-      onHandleOk : onHandleOkRequester,
-      onHandleCancel : onHandleCanceRequester,
-      gridOptions: {
-        columnDefs : popUpStaffColFields,
-        rowSelection : "single",
-        suppressRowClickSelection : false,
+          },
+        };
       },
-    }
-  }
-}  
-},
-{ field: "deliver_to_location",          headerName:"Deliver To Location",           minWidth:200, editable: false, 
-cellRendererSelector : params => {
-  return {
-    component: InputInfoGrid,
-    params: {
-      params: params,
-      stateValue: rowData,
-      setStateValue: setRowData,
-    }
-}}
-},
-{ field: "subinventory",         headerName:"Subinventory",               minWidth:150, editable: false, 
-cellRendererSelector : params => {
-  return {
-    component: InputInfoGrid,
-    params: {
-      params: params,
-      stateValue: rowData,
-      setStateValue: setRowData,
-    }
-}}
-},
-{ field: "charge_account",    headerName:"Charge Account",     minWidth:250, editable: false, 
-cellRendererSelector : params => {
-  return {
-    component: InputInfoGrid,
-    params: {
-      params: params,
-      stateValue: rowData,
-      setStateValue: setRowData,
-    }
-}}
-},
-    ]);
-
+    },
+    {
+      field: "over_receipt_tol",
+      headerName: "Over Receipt Tolerance",
+      minWidth: 110,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputInfoGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "action",
+      headerName: "action",
+      minWidth: 180,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputSelectGrid,
+          params: {
+            params: params,
+            lov: actionLov, // TODO : 바꾸기
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "quantity_recevied",
+      headerName: "Quantity Recevied",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 0,
+    },
+    {
+      field: "quantity_accepted",
+      headerName: "Quantity Accepted",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 0,
+    },
+    {
+      field: "quantity_rejected",
+      headerName: "Quantity Rejected",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 0,
+    },
+    {
+      field: "quantity_billed",
+      headerName: "Quantity Billed",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 0,
+    },
+    {
+      field: "quantity_cancelled",
+      headerName: "Quantity Cancelled",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 0,
+    },
+    {
+      field: "distribution",
+      headerName: "Distribution",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 1,
+    },
+    { field: "requisition", headerName: "Requisition", minWidth: 180, editable: false },
+    {
+      field: "req_line",
+      headerName: "Req Line",
+      minWidth: 180,
+      editable: false,
+      valueGetter: (params) => 1,
+    },
+    {
+      field: "requester",
+      headerName: "Requester",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
+        const idx = params.node.rowIndex;
+        const initValue = rowData[idx] ? rowData[idx].requester : "";
+        return {
+          component: InputSearch,
+          params: {
+            idx: idx,
+            title: "직원 선택",
+            initValue: initValue,
+            onHandleSearch: onHandleSearchRequester,
+            onHandleOk: onHandleOkRequester,
+            onHandleCancel: onHandleCanceRequester,
+            gridOptions: {
+              columnDefs: popUpStaffColFields,
+              rowSelection: "single",
+              suppressRowClickSelection: false,
+            },
+          },
+        };
+      },
+    },
+    {
+      field: "deliver_to_location",
+      headerName: "Deliver To Location",
+      minWidth: 200,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputInfoGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "subinventory",
+      headerName: "Subinventory",
+      minWidth: 150,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputInfoGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+    {
+      field: "charge_account",
+      headerName: "Charge Account",
+      minWidth: 250,
+      editable: false,
+      cellRendererSelector: (params) => {
+        return {
+          component: InputInfoGrid,
+          params: {
+            params: params,
+            stateValue: rowData,
+            setStateValue: setRowData,
+          },
+        };
+      },
+    },
+  ];
 
   // Init Page
   useEffect(() => {
@@ -704,40 +842,37 @@ cellRendererSelector : params => {
       total += ship_total_amount + total_amount;
     });
     tempConditions.blanket_total_amount = total;
-    setConditions({...tempConditions});
-
-  }, [rowData])
+    setConditions({ ...tempConditions });
+  }, [rowData]);
 
   const getLov = async () => {
-
-    const resv1  = await getPoRegistLov("PO_ATTRIBUTE_CATEGORY");
-    const resv2  = await getPoRegistLov("PO_FOB"); 
-    const resv3  = await getPoRegistLov("PO_PAYMENT_TERM");
-    const resv4  = await getPoRegistLov("BID_METHOD_TYPE");
-    const resv5  = await getPoRegistLov("PAY_ON_Pay");
-    const resv6  = await getPoRegistLov("PO_PURCHASE_METHOD"); 
-    const resv7  = await getPoRegistLov("ACCEPTANCE_REQUIRED_FLAG");
-    const resv8  = await getPoRegistLov("SASO");
-    const resv9  = await getPoRegistLov("TAX_CODE");
-    const resv10 = await getPoRegistLov("MATCH_OPTION"); 
+    const resv1 = await getPoRegistLov("PO_ATTRIBUTE_CATEGORY");
+    const resv2 = await getPoRegistLov("PO_FOB");
+    const resv3 = await getPoRegistLov("PO_PAYMENT_TERM");
+    const resv4 = await getPoRegistLov("BID_METHOD_TYPE");
+    const resv5 = await getPoRegistLov("PAY_ON_Pay");
+    const resv6 = await getPoRegistLov("PO_PURCHASE_METHOD");
+    const resv7 = await getPoRegistLov("ACCEPTANCE_REQUIRED_FLAG");
+    const resv8 = await getPoRegistLov("SASO");
+    const resv9 = await getPoRegistLov("TAX_CODE");
+    const resv10 = await getPoRegistLov("MATCH_OPTION");
     const resv11 = await getPoRegistLov("ACTION_LOV");
-    
-    resv1  && setAttributeCategory([...resv1]);
-    resv2  && setFobLookupCodeLov([...resv2]);
-    resv3  && setTermsIdLov([...resv3]);
-    resv4  && setBidMethodTypeLov([...resv4]);
-    resv5  && setInvoiceTypeLov([...resv5]);
-    resv6  && setReplyMethodLookupCode1Lov([...resv6]);
-    resv7  && setControlConfirmFlagLov([...resv7]);
-    resv8  && setOrganizationLov([...resv8]);
-    resv9  && setTaxCodeLov([...resv9]);
+
+    resv1 && setAttributeCategory([...resv1]);
+    resv2 && setFobLookupCodeLov([...resv2]);
+    resv3 && setTermsIdLov([...resv3]);
+    resv4 && setBidMethodTypeLov([...resv4]);
+    resv5 && setInvoiceTypeLov([...resv5]);
+    resv6 && setReplyMethodLookupCode1Lov([...resv6]);
+    resv7 && setControlConfirmFlagLov([...resv7]);
+    resv8 && setOrganizationLov([...resv8]);
+    resv9 && setTaxCodeLov([...resv9]);
     resv10 && setMatchOptionLov([...resv10]);
     resv11 && setActionLov([...resv11]);
-
   };
 
   const getPoInit = async () => {
-    if( id ) {
+    if (id) {
       console.log("id : ", id);
       // TODO : axios로 불러온다.
       // const data = ...
@@ -747,120 +882,117 @@ cellRendererSelector : params => {
 
       // * Header 데이터 정리
       const temp_conditions = {
-        po_num : data[0].po_num,
-        revision_num : data[0].revision_num,
-        type_lookup_code : data[0].type_lookup_code,
-        attribute_category : data[0].attribute_category,
-        comments : data[0].comments,
-        vendor_id : data[0].vendor_id,
-        vendor_name : data[0].vendor_name,
-        vendor_location : data[0].vendor_location,
-        buyer_id : data[0].buyer_id,
-        buyer_name : data[0].buyer_name,
-        approved_date : data[0].approved_date,
-        authorization_status : data[0].authorization_status,
-        contract_date : data[0].contract_date,
-        acceptance_due_date : data[0].acceptance_due_date,
-        fob_lookup_code : data[0].fob_lookup_code,
-        vendor_location : data[0].vendor_location,
-        terms_id : data[0].terms_id,
-        blanket_total_amount : data[0].blanket_total_amount,
-        currency_code : data[0].currency_code,
-        bid_method_type : data[0].bid_method_type,
-        invoice_type : data[0].invoice_type,
-        reply_method_lookup_code1 : data[0].reply_method_lookup_code1,
-        note_to_vendor : data[0].note_to_vendor,
-        note_to_receiver : data[0].note_to_receiver,
-        control_confirm_flag : data[0].control_confirm_flag,
-      }
+        po_num: data[0].po_num,
+        revision_num: data[0].revision_num,
+        type_lookup_code: data[0].type_lookup_code,
+        attribute_category: data[0].attribute_category,
+        comments: data[0].comments,
+        vendor_id: data[0].vendor_id,
+        vendor_name: data[0].vendor_name,
+        vendor_location: data[0].vendor_location,
+        buyer_id: data[0].buyer_id,
+        buyer_name: data[0].buyer_name,
+        approved_date: data[0].approved_date,
+        authorization_status: data[0].authorization_status,
+        contract_date: data[0].contract_date,
+        acceptance_due_date: data[0].acceptance_due_date,
+        fob_lookup_code: data[0].fob_lookup_code,
+        vendor_location: data[0].vendor_location,
+        terms_id: data[0].terms_id,
+        blanket_total_amount: data[0].blanket_total_amount,
+        currency_code: data[0].currency_code,
+        bid_method_type: data[0].bid_method_type,
+        invoice_type: data[0].invoice_type,
+        reply_method_lookup_code1: data[0].reply_method_lookup_code1,
+        note_to_vendor: data[0].note_to_vendor,
+        note_to_receiver: data[0].note_to_receiver,
+        control_confirm_flag: data[0].control_confirm_flag,
+      };
       console.log("temp:", temp_conditions);
-      setConditions({...conditions, ...temp_conditions});
+      setConditions({ ...conditions, ...temp_conditions });
 
       // Line 데이터 정리
-      const temp_lines = []
-      data.forEach(( element )=>{
-        
+      const temp_lines = [];
+      data.forEach((element) => {
         let temp_line = {
           // TODO: id 가져오기
-          closed_code : element.closed_code,
-          line : element.po_line_num,
-          item : element.test,
+          closed_code: element.closed_code,
+          line: element.po_line_num,
+          item: element.test,
           //category : element.category_id,
-          category : element.category,
-          description : element.item_description,
-          uom : element.unit_meas_lookup_code,
-          quantity : element.mat_bpa_agree_qt,
-          unit_price : element.unit_price,
-          total_amount : element.contract_amount,
-          shipment : 1, //po_shipment_num,
-          ship_quantity : element.quantity,
-          ship_total_amount : element.amount,
-          need_by_date : element.need_by_date,
-          promised_date : element.promised_date,
-          organization : element.ship_to_organization_id,
-          tax_code : element.tax_code,
-          match_option : element.inspection_required_flag,
-          over_receipt_tol : element.qty_rcv_tolerance,
-          action : element.qty_rcv_exception_code,
-          quantity_recevied : element.quantity_received,
-          quantity_accepted : element.quantity_accepted,
-          quantity_rejected : element.quantity_rejected,
-          quantity_billed : element.quantity_billed,
-          quantity_cancelled : element.quantity_cancelled,
-          distribution : 1,
-          requisition : element.req_distribution_id,
-          req_line : 1,
-          requester : element.request,
-          requester_id : element.request_person_id,
-          deliver_to_location : element.deliver_to_location_id,
-          subinventory : element.destination_subinventory,
-          charge_account : element.account_nm,
+          category: element.category,
+          description: element.item_description,
+          uom: element.unit_meas_lookup_code,
+          quantity: element.mat_bpa_agree_qt,
+          unit_price: element.unit_price,
+          total_amount: element.contract_amount,
+          shipment: 1, //po_shipment_num,
+          ship_quantity: element.quantity,
+          ship_total_amount: element.amount,
+          need_by_date: element.need_by_date,
+          promised_date: element.promised_date,
+          organization: element.ship_to_organization_id,
+          tax_code: element.tax_code,
+          match_option: element.inspection_required_flag,
+          over_receipt_tol: element.qty_rcv_tolerance,
+          action: element.qty_rcv_exception_code,
+          quantity_recevied: element.quantity_received,
+          quantity_accepted: element.quantity_accepted,
+          quantity_rejected: element.quantity_rejected,
+          quantity_billed: element.quantity_billed,
+          quantity_cancelled: element.quantity_cancelled,
+          distribution: 1,
+          requisition: element.req_distribution_id,
+          req_line: 1,
+          requester: element.request,
+          requester_id: element.request_person_id,
+          deliver_to_location: element.deliver_to_location_id,
+          subinventory: element.destination_subinventory,
+          charge_account: element.account_nm,
           query_type: "update",
           po_line_id: element.po_line_id,
           po_line_location_id: element.po_line_location_id,
           po_distribution_id: element.po_distribution_id,
-        }
+        };
         temp_lines.push(temp_line);
-      })
-      
+      });
+
       setRowData([...temp_lines]);
 
       console.log("condididi ::: ", conditions);
 
       // TODO : 불러온 데이터를 state에 넣어준다.
       // setState([...]);
-
     }
-  }
+  };
 
   const ButtonSelector = () => {
-    if(id) {
-        // 수정 페이지
-      return <section>
-        <Button onClick={onUpdateContents}>저장</Button>
-        <Button onClick={onDeleteContents}>삭제</Button>
-      </section>
-
+    if (id) {
+      // 수정 페이지
+      return (
+        <section>
+          <Button onClick={onUpdateContents}>저장</Button>
+          <Button onClick={onDeleteContents}>삭제</Button>
+        </section>
+      );
     } else {
       // 생성 페이지
-      return <Button onClick={onSaveContents}>저장</Button>     
+      return <Button onClick={onSaveContents}>저장</Button>;
     }
-  }
+  };
 
   // #region 팝업 이벤트
-  const onHandleSearchVendor= async (value)=>{
-
+  const onHandleSearchVendor = async (value) => {
     console.log("value : ", value);
 
-    const sendData = {"vendor_name" : value};
+    const sendData = { vendor_name: value };
     const resultList = await getVendorList(sendData);
 
     console.log("resultList", resultList);
 
     return resultList;
-    
-  }
-  const onHandleOkVendor = ({selectedRows}) => {
+  };
+  const onHandleOkVendor = ({ selectedRows }) => {
     const row = selectedRows[0];
     const temp = conditions;
     console.log(row);
@@ -868,22 +1000,22 @@ cellRendererSelector : params => {
     temp.vendor_location = row.vendor_location;
     temp.vendor_name = row.vendor_name;
     temp.vendor_id = row.vendor_id;
-    setConditions({...temp});
-    
+    setConditions({ ...temp });
+
     return temp.vendor_location;
-  }
+  };
   const onHandleCanceVendor = ({}) => {
     const temp = conditions;
     temp.vendor_location = "";
     temp.vendor_name = "";
-    setConditions({...temp});
-  }
+    setConditions({ ...temp });
+  };
 
   const onHandleSearchBuyer = async (searchWord) => {
     const resultList = await getBuyerList(searchWord);
     return resultList;
-  }
-  const onHandleOkBuyer = ({selectedRows}) => {
+  };
+  const onHandleOkBuyer = ({ selectedRows }) => {
     const row = selectedRows[0];
 
     const temp = conditions;
@@ -891,16 +1023,16 @@ cellRendererSelector : params => {
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
 
-    setConditions({...temp});
-    
+    setConditions({ ...temp });
+
     return temp.buyer_name;
-  }
+  };
   const onHandleCanceBuyer = ({}) => {
     const temp = conditions;
     temp.buyer_id = "";
     temp.buyer_name = "";
-    setConditions({...temp});
-  }
+    setConditions({ ...temp });
+  };
   // #endregion 팝업 이벤트
 
   return (
@@ -963,10 +1095,10 @@ cellRendererSelector : params => {
             onHandleOk={onHandleOkVendor}
             onHandleCancel={onHandleCanceVendor}
             gridOptions={{
-              columnDefs : popUpVendorColFields,
-              rowData : popUpPreparerRowData,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpVendorColFields,
+              rowData: popUpPreparerRowData,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputSearch
@@ -978,10 +1110,10 @@ cellRendererSelector : params => {
             onHandleOk={onHandleOkBuyer}
             onHandleCancel={onHandleCanceBuyer}
             gridOptions={{
-              columnDefs : popUpBuyerColFields,
+              columnDefs: popUpBuyerColFields,
               //rowData : popUpPreparerRowData,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputInfo
@@ -1024,7 +1156,7 @@ cellRendererSelector : params => {
             initValue={conditions.fob_lookup_code}
             handlePoCondition={handleCondition}
             lov={fobLookupCodeLov}
-            spanCnt={2}            
+            spanCnt={2}
           />
           <InputSelect
             id="terms_id"
@@ -1101,18 +1233,18 @@ cellRendererSelector : params => {
       <section>
         <ButtonWrapperLine>
           {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
-          <Button onClick = { onInsertOne }>Line 추가</Button>
-          <Button onClick = { onCopySelected }>행 복사</Button>
-          <Button onClick = { deleteRow }>행 삭제</Button>
+          <Button onClick={onInsertOne}>Line 추가</Button>
+          <Button onClick={onCopySelected}>행 복사</Button>
+          <Button onClick={deleteRow}>행 삭제</Button>
         </ButtonWrapperLine>
       </section>
       <section>
-        <AgGrid 
-          resvRef           = { gridRef }
-          resvRowData       = { rowData }
-          resvDefaultColDef = { prCreateColDef }
-          resvColumnDefs    = { prCreateColFields }
-          onRowDataChanged  = { onRowDataChanged }
+        <AgGrid
+          resvRef={gridRef}
+          resvRowData={rowData}
+          resvDefaultColDef={prCreateColDef}
+          resvColumnDefs={prCreateColFields}
+          onRowDataChanged={onRowDataChanged}
         />
       </section>
     </StyledRoot>
@@ -1127,14 +1259,6 @@ const StyledRoot = styled.main`
   width: 100%;
   height: 100%;
 `;
-// const InputContainer = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr;
-//   border: 1px solid rgb(225 225 225 / 87%);
-//   border-radius: 0.5rem;
-//   padding: 2rem 0.5rem;
-//   gap: 1rem;
-// `;
 
 const InputContainer = styled.div`
   display: grid;
@@ -1170,16 +1294,15 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+20):nth-child(-n+22){
+  & > div:nth-child(n + 20):nth-child(-n + 22) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
 
 const ButtonWrapperLine = styled.div`
   display: flex;
-  justify-content: flex-end;  
+  justify-content: flex-end;
 `;
-
 
 const ListCount = styled.p`
   font-size: 1.4rem;
