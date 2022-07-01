@@ -232,7 +232,7 @@ function RfqDetail() {
           저장
         </Button>
       </HeaderWrapper>
-      <SubTitle>RFQ 정보</SubTitle>
+      <SubTitle>🔹 RFQ 정보</SubTitle>
       <section>
         <RfqInfoContainer>
           <BidInfo label="RFQ 번호" value={id} />
@@ -261,12 +261,12 @@ function RfqDetail() {
           <BidInfo label="" value={null} />
         </RfqInfoContainer>
       </section>
-      <SubTitle>공급사 선정</SubTitle>
+      <SubTitle>🔹 공급사 선정</SubTitle>
       <br />
       <RfqSelectVendorContainer>
         <RfqSelectVendor id={id}></RfqSelectVendor>
       </RfqSelectVendorContainer>
-      <SubTitle>입찰 룰</SubTitle>
+      <SubTitle>🔹 입찰 룰</SubTitle>
       <section>
         <BidInfoContainer>
           <RfqInputSelect

@@ -30,15 +30,11 @@ function SuccessBid(props) {
 
   const selectSuccessBid = async () => {
     const data = await getSuccessBid({ rfq_no: bidding_no });
-
-    console.log(data);
     setSuccessBidCondition(data);
-    console.log();
   };
   const selectBidResult = async () => {
     const data = await getBidResult({ rfq_no: bidding_no });
-    console.log("여기가 찍히는거냐?");
-    console.log(data);
+
     setBidResultData(data);
   };
 
@@ -55,7 +51,7 @@ function SuccessBid(props) {
           <Button
             onClick={() => {
               let nakchal = confirm("최종낙찰 하시겠습니까?");
-              if (nakchal == true) alert("확인 누름");
+              if (nakchal == true) alert("낙찰 처리 되었습니다.");
               else alert("취소 누름");
             }}
           >
@@ -88,7 +84,7 @@ function SuccessBid(props) {
         </InputContainer>
       </section>
 
-      <SubTitle>공급사별 투찰결과</SubTitle>
+      <SubTitle>🔹 공급사별 투찰결과</SubTitle>
 
       <section>
         <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
@@ -112,8 +108,8 @@ const Title = styled.p`
   margin-top: 1.5rem;
 `;
 const SubTitle = styled.p`
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
   margin-top: 1.5rem;
 `;
 const InputContainer = styled.div`
