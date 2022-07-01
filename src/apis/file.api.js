@@ -13,7 +13,7 @@ export const uploadFiles = async (sendData) => {
     console.log("file resvData ", resvData);
     return resvData;
   } catch (err) {
-    throw new Error("Failed to load \n" + err);
+    console.log(err);
   }
 };
 
@@ -26,7 +26,7 @@ export const uploadContent = async (sendData) => {
     });
     return resvData;
   } catch (err) {
-    throw new Error("Failed to load \n" + err);
+    console.log(err);
   }
 };
 
@@ -35,7 +35,7 @@ export const uploadFile = async (formData) => {
     const { data } = await serverAxios.post(`${PREFIX_URL}/upload`, formData);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    console.log(err);
   }
 };
 
@@ -47,7 +47,7 @@ export const uploadFileContent = async (content) => {
     }
     return false;
   } catch (err) {
-    throw new Error("Failed to load");
+    console.log(err);
   }
 };
 
@@ -56,6 +56,31 @@ export const getVendorFileList = async (bidding_no) => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/vendor/${bidding_no}`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    console.log(err);
+  }
+};
+
+export const downloadFile = async (path) => {
+  try {
+    const sendData = { path : path }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/download`, sendData, { responseType: 'blob' })
+    .then((response) => {
+      console.log("response ::: ", response);
+      const name = response.headers['content-disposition'].split('fileName=')[1]
+      console.log(response.headers)
+      console.log(name)
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', name)
+      link.style.cssText = 'display:none'
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    })
+
+    return data;
+  } catch (err) {
+    console.log(err);
   }
 };
