@@ -182,7 +182,7 @@ function BidWrite() {
     <StyledRoot>
       <Title>응찰서 작성</Title>
       <section>
-        <SubTitle>견적정보</SubTitle>
+        <SubTitle>🔹 견적정보</SubTitle>
         <QuotationInfoContainer>
           <InputWrapper>
             <BidInputSelect
@@ -210,7 +210,7 @@ function BidWrite() {
       </section>
       <section>
         <SubmitTitle>
-          <p>견적서 제출</p>
+          <p>🔹 견적서 제출</p>
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
@@ -223,7 +223,7 @@ function BidWrite() {
         </SubmitQuotationContainer>
       </section>
       <section>
-        <SubTitle>공급사 의견</SubTitle>
+        <SubTitle>🔹 공급사 의견</SubTitle>
         <VendorCommentContainer>
           <TextAreaWrapper>
             <TextArea
@@ -310,7 +310,7 @@ const Title = styled.p`
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;
@@ -326,5 +326,5 @@ const SubmitTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-right: 2rem;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
 `;

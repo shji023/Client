@@ -9,6 +9,7 @@ import RfqAttachTable from "components/bid/RfqAttachTable";
 import ItemInfoTable from "components/bid/ItemInfoTable";
 import { Button } from "components/common/CustomButton";
 import { getVendorFileList } from "apis/file.api";
+import { getCookie } from "util/cookie";
 
 function BidDetail() {
   const { id } = useParams();
@@ -19,6 +20,9 @@ function BidDetail() {
   const [vendorFileList, setVendorFileList] = useState([]);
   const [bidType, setBidType] = useState("");
   const [bidMethod, setBidMethod] = useState("");
+  const [rfqNo, setRfqNo] = useState("");
+  // 사용부서:0, 공급사:1, 바이어:2
+  const [user, setUser] = useState(0);
 
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(id);
@@ -31,6 +35,7 @@ function BidDetail() {
 
     const fileInfo = await getVendorFileList(rfqInfo[0].rfq_no);
     fileInfo && setVendorFileList(fileInfo);
+    setRfqNo(rfqInfo[0].rfq_no);
 
     const tempBidType = ruleInfo[0].bid_type_code === "NEGO" ? "수의" : "경쟁";
     setBidType(tempBidType);
@@ -52,13 +57,18 @@ function BidDetail() {
   const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
   useEffect(() => {
     selectInfo();
+    if (getCookie("authority") === "ROLE_VENDOR") {
+      setUser(1);
+    } else if (getCookie("authority") === "ROLE_BUYER") {
+      setUser(2);
+    }
   }, []);
 
   return (
     <StyledRoot>
       <Title>입찰정보조회</Title>
       <section>
-        <SubTitle>RFQ정보</SubTitle>
+        <SubTitle>🔹 RFQ정보</SubTitle>
         <RfqInfoContainer>
           <BidInfo label="RFQ번호" value={rfqInfoData.rfq_no}></BidInfo>
           <BidInfo label="단계" value={stage}></BidInfo>
@@ -86,13 +96,13 @@ function BidDetail() {
         </RfqInfoContainer>
       </section>
       <section>
-        <SubTitle>RFQ첨부(공급사배포)</SubTitle>
+        <SubTitle>🔹 RFQ첨부(공급사배포)</SubTitle>
         <RfqAttachContainer>
           <RfqAttachTable vendorFileList={vendorFileList}></RfqAttachTable>
         </RfqAttachContainer>
       </section>
       <section>
-        <SubTitle>입찰 룰</SubTitle>
+        <SubTitle>🔹 입찰 룰</SubTitle>
         <BidInfoContainer>
           <BidInfo label="입찰번호" value={ruleInfoData.bidding_no}></BidInfo>
           <BidInfo label="입찰유형" value={bidType}></BidInfo>
@@ -106,14 +116,22 @@ function BidDetail() {
         </BidInfoContainer>
       </section>
       <section>
-        <SubTitle>품목정보</SubTitle>
+        <SubTitle>🔹 품목정보</SubTitle>
         <ItemInfoContainer>
           <ItemInfoTable itemInfoList={itemInfoList}></ItemInfoTable>
         </ItemInfoContainer>
       </section>
-      <ButtonWrapper>
-        <Button onClick={() => navigate(`/bidWrite/${id}`)}>응찰서 작성</Button>
-      </ButtonWrapper>
+      {user === 1 ? (
+        <ButtonWrapper>
+          <Button onClick={() => navigate(`/bidWrite/${id}`)}>응찰서 작성</Button>
+        </ButtonWrapper>
+      ) : user === 2 ? (
+        <ButtonWrapper>
+          <Button onClick={() => navigate(`/successBid/${rfqNo}`)}>낙찰 처리</Button>
+        </ButtonWrapper>
+      ) : (
+        <></>
+      )}
     </StyledRoot>
   );
 }
@@ -191,7 +209,7 @@ const Title = styled.p`
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
 `;

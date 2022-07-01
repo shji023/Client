@@ -154,4 +154,5 @@ export const bidBuyerColFields = [
   { colId: 4, field: "bid_status", headerName: "진행단계", minWidth: 150 },
   { colId: 5, field: "bidding_end_date", headerName: "입찰", minWidth: 100 },
   { colId: 6, field: "need_by_date", headerName: "납기(최대)", minWidth: 150 },
+  { colId: 7, field: "bidding_no", headerName: "입찰번호", minWidth: 150 },
 ];

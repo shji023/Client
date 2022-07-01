@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { getCookie } from "util/cookie";
 
 function SelectBidList() {
+  // 공급사, 사용부서:0, 바이어:1
   const [user, setUser] = useState(0);
 
   // 공급사

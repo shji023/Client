@@ -38,7 +38,8 @@ const BidDataGridBuyer = ({ listData }) => {
             pagination={true}
             paginationPageSize={10}
             onRowClicked={(e) => {
-              navigate(`/successBid/${e.data.rfq_no}`);
+              console.log(e);
+              navigate(`/bidList/${e.data.bidding_no}`);
             }}
           >
             {bidBuyerColFields.map((data) => (

@@ -38,12 +38,12 @@ const BidDataGrid = ({ listData }) => {
             pagination={true}
             paginationPageSize={10}
             onRowClicked={(e) => {
-              if (e.data.bid_search_type === "완료") {
-                // navigate(`/successBid/${e.data.bidding_no}`);
-                navigate(`/successBid/${e.data.rfq_no}`);
-              } else {
-                navigate(`/bidList/${e.data.bidding_no}`);
-              }
+              // if (e.data.bid_search_type === "완료") {
+              //   // navigate(`/successBid/${e.data.bidding_no}`);
+              //   navigate(`/successBid/${e.data.rfq_no}`);
+              // } else {
+              navigate(`/bidList/${e.data.bidding_no}`);
+              // }
             }}
           >
             {bidColFields.map((data) => (

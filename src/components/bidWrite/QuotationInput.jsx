@@ -3,7 +3,14 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function QuotationInput({ id, priceLabel, currencyLabel, handleCondition, inputValue, isDisabled }) {
+function QuotationInput({
+  id,
+  priceLabel,
+  currencyLabel,
+  handleCondition,
+  inputValue,
+  isDisabled,
+}) {
   return (
     <StyledRoot>
       <StyledInput>
@@ -12,11 +19,14 @@ function QuotationInput({ id, priceLabel, currencyLabel, handleCondition, inputV
           id={id}
           value={inputValue}
           onChange={(e) => handleCondition(id, e.target.value)}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           disabled={isDisabled}
         />
       </StyledInput>
-      <Label htmlFor={id}>{priceLabel}{currencyLabel}</Label>
+      <Label htmlFor={id}>
+        {priceLabel}
+        {currencyLabel}
+      </Label>
     </StyledRoot>
   );
 }
