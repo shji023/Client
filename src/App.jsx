@@ -119,6 +119,7 @@ function App() {
       removeCookie("loginToken");
       removeCookie("authority");
       removeCookie("email");
+      removeCookie("site_id");
       navigate("/");
     }
   };

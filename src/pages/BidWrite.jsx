@@ -12,12 +12,13 @@ import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import { uploadFile, uploadFileContent } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
+import { getCookie } from "util/cookie";
 
 function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [updateItem, setUpdateItem] = useState({
-    vendor_site_id: "861",
+    vendor_site_id: getCookie("site_id"),
     quotation_total_price: "",
     rfq_no: "",
     main_currency: "",
@@ -26,7 +27,7 @@ function BidWrite() {
   // RenderingData
   const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
-    vendor_site_id: "861",
+    vendor_site_id: getCookie("site_id"),
     rfq_no: "",
     bidding_no: "",
     quotation_comment: "",
@@ -98,7 +99,7 @@ function BidWrite() {
       upload_date: "",
       file_path: "",
       bidding_no: id,
-      vendor_site_id: "861",
+      vendor_site_id: getCookie("site_id"),
     };
     setQuotationFile([...quotationFile, newFile]);
   };
@@ -134,6 +135,7 @@ function BidWrite() {
 
   const postVendorInfo = async () => {
     // 공급사 의견 insert
+    console.log(vendorComment);
     const data = await postVendorComment(vendorComment);
     if (data === true) {
       setIsSubmit(true);

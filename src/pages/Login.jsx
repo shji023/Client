@@ -47,6 +47,11 @@ function Login() {
         secure: true,
         sameSite: "Lax",
       });
+      setCookie("site_id", userAuthority.site_id, {
+        path: "/",
+        secure: true,
+        sameSite: "Lax",
+      });
     }
     userAuthority && navigate("/");
   };
@@ -84,6 +89,11 @@ function Login() {
           sameSite: "Lax",
         });
         setCookie("email", userAuthority.email, {
+          path: "/",
+          secure: true,
+          sameSite: "Lax",
+        });
+        setCookie("site_id", userAuthority.site_id, {
           path: "/",
           secure: true,
           sameSite: "Lax",
