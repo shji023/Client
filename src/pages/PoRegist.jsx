@@ -1262,7 +1262,7 @@ const StyledRoot = styled.main`
 
 const InputContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, minmax(27rem, 1fr));
+  grid-template-columns: repeat(6, minmax(20.7rem, 1fr));
   padding: 2rem 2rem 2rem 0.5rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
