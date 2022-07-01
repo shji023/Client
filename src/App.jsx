@@ -118,10 +118,16 @@ function App() {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       removeCookie("loginToken");
       removeCookie("authority");
+      removeCookie("email");
       navigate("/");
     }
   };
-
+  const userRole =
+    getCookie("authority") === "ROLE_USER"
+      ? "사용부서"
+      : getCookie("authority") === "ROLE_BUYER"
+      ? "바이어"
+      : "공급사";
   return (
     <>
       <GlobalStyle />
@@ -149,7 +155,13 @@ function App() {
               <img src={SearchIcon} alt="search"></img>
               <img src={NoticeIcon} alt="notice"></img>
               {getCookie("loginToken") ? (
-                <img src={ProfileIcon} alt="profile" onClick={handleLogout}></img>
+                <>
+                  <p>
+                    {getCookie("email")}&#40;{userRole}&#41;님, 안녕하세요
+                  </p>
+                  <img src={ProfileIcon} alt="profile" onClick={handleLogout}></img>
+                  <p onClick={handleLogout}>Logout</p>
+                </>
               ) : (
                 <a href="/login" rel="noopener noreferrer">
                   Login
@@ -333,6 +345,22 @@ const IconWrapper = styled.div`
   a {
     display: flex;
     align-items: center;
+    margin-right: 2rem;
+    font-size: 1.6rem;
+    color: #666565;
+    font-family: "Pretendard-Bold";
+    :hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+  p:nth-of-type(1) {
+    margin-right: 2rem;
+    font-size: 1.6rem;
+    color: #666565;
+    font-family: "Pretendard-SemiBold";
+  }
+  p:nth-of-type(2) {
     margin-right: 2rem;
     font-size: 1.6rem;
     color: #666565;

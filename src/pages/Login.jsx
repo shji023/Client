@@ -37,7 +37,12 @@ function Login() {
     await getUserStatusData();
     const userAuthority = await getUserData(getCookie("loginToken"));
     if (userAuthority) {
-      setCookie("authority", userAuthority, {
+      setCookie("authority", userAuthority.authority, {
+        path: "/",
+        secure: true,
+        sameSite: "Lax",
+      });
+      setCookie("email", userAuthority.email, {
         path: "/",
         secure: true,
         sameSite: "Lax",
@@ -73,7 +78,12 @@ function Login() {
       await getUserStatusData();
       const userAuthority = await getUserData(getCookie("loginToken"));
       if (userAuthority) {
-        setCookie("authority", userAuthority, {
+        setCookie("authority", userAuthority.authority, {
+          path: "/",
+          secure: true,
+          sameSite: "Lax",
+        });
+        setCookie("email", userAuthority.email, {
           path: "/",
           secure: true,
           sameSite: "Lax",
@@ -98,7 +108,7 @@ function Login() {
       <LoginformWrapper>
         <Form>
           <StyledInput
-            placeHolder="이메일을 입력해 주세요"
+            placeHolder="아이디를 입력해 주세요"
             width="40.6rem"
             height="6rem"
             margin="0 0 0.9rem 0"
