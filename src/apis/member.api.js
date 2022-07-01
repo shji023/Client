@@ -15,7 +15,7 @@ export const getUserData = async () => {
     });
 
     console.log(data);
-    return data.data.authority;
+    return data.data;
   } catch (e) {
     console.log(e);
   }
