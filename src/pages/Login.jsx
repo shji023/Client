@@ -68,13 +68,20 @@ function Login() {
     return "";
   };
 
-  // const handleLoginEnter = async (e) => {
-  //   if (e.keyCode === 13) {
-  //     const token = await getUserStatusData();
-  //     const isSuccess = await getUserDetailData(token);
-  //     isSuccess && history.push("/");
-  //   }
-  // };
+  const handleLoginEnter = async (e) => {
+    if (e.keyCode === 13) {
+      await getUserStatusData();
+      const userAuthority = await getUserData(getCookie("loginToken"));
+      if (userAuthority) {
+        setCookie("authority", userAuthority, {
+          path: "/",
+          secure: true,
+          sameSite: "Lax",
+        });
+      }
+      userAuthority && navigate("/");
+    }
+  };
 
   useEffect(() => {
     if (getCookie("loginToken")) {
@@ -108,7 +115,7 @@ function Login() {
             onChange={pwdInputChange}
             isConditionMet={isConditionMet.pwd}
             errorMsg={errMsg.pwd}
-            //onKeyUp={handleLoginEnter}
+            onKeyUp={handleLoginEnter}
           />
         </Form>
       </LoginformWrapper>
