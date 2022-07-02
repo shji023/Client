@@ -87,8 +87,8 @@ function BidWrite() {
   };
 
   const onDownload = async () => {
-    const filePath = "dedecaa0-3fd5-4915-9a49-3c3a0e4487a7SCC.postman_collection.json";
-    const returnData = await downloadFile(filePath);
+    const fileId = 2138;
+    const returnData = await downloadFile(fileId);
 
   }
 
