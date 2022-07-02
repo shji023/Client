@@ -60,9 +60,9 @@ export const getVendorFileList = async (bidding_no) => {
   }
 };
 
-export const downloadFile = async (path) => {
+export const downloadFile = async (fileId) => {
   try {
-    const sendData = { path : path }
+    const sendData = { file_id : fileId }
     const { data } = await serverAxios.post(`${PREFIX_URL}/download`, sendData, { responseType: 'blob' })
     .then((response) => {
       console.log("response ::: ", response);
