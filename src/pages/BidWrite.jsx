@@ -10,7 +10,7 @@ import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { uploadFile, uploadFileContent } from "apis/file.api";
+import { downloadFile, uploadFile, uploadFileContent } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
 
@@ -86,6 +86,12 @@ function BidWrite() {
     setQuotationFile([...temp]);
     setRemoveList([]);
   };
+
+  const onDownload = async () => {
+    const fileId = 2138;
+    const returnData = await downloadFile(fileId);
+
+  }
 
   // fileTable row추가
   const onCreate = () => {
@@ -214,6 +220,7 @@ function BidWrite() {
         <SubmitTitle>
           <p>🔹 견적서 제출</p>
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
+          <DeleteButton onClick={onDownload}>다운로드</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
           <QuotationSubmitTable
