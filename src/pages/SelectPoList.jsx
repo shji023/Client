@@ -1,9 +1,9 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList, getPoTypeLov } from "apis/po.api";
 import { colors } from "assets/styles/color";
 import PoListAgGrid from "components/po/PoListAgGrid";
-import InputInfo from "components/po/PoInputInfo";
+import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
-import InputSelect from "components/po/PoInputSelect";
+import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
@@ -168,7 +168,6 @@ function SelectPoList() {
             inputLabel="계약명"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.COMMENTS}
-            mySize={200}
           />
           <InputSearch
             id="VENDOR_ID"
@@ -188,12 +187,14 @@ function SelectPoList() {
           <InputSelect
             id="ATTRIBUTE_CATEGORY"
             inputLabel="계약구분"
+            initValue={poCondition.ATTRIBUTE_CATEGORY}
             handlePoCondition={handlePoCondition}
             lov={poCategoryLov}
           />
           <InputSelect
             id="AUTHORIZATION_STATUS"
             inputLabel="PO 승인"
+            initValue={poCondition.AUTHORIZATION_STATUS}
             handlePoCondition={handlePoCondition}
             lov={poApproveLov}
           />
@@ -228,6 +229,7 @@ function SelectPoList() {
           <InputSelect
             id="ORGANIZATION_CODE"
             inputLabel="사소"
+            initValue={poCondition.ORGANIZATION_CODE}
             handlePoCondition={handlePoCondition}
             lov={sasoLov}
           />
@@ -248,6 +250,7 @@ function SelectPoList() {
           <InputSelect
             id="TYPE_LOOKUP_CODE"
             inputLabel="Type"
+            initValue={poCondition.TYPE_LOOKUP_CODE}
             handlePoCondition={handlePoCondition}
             lov={poTypeLov}
           />

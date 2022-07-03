@@ -862,5 +862,5 @@ const SubTitle = styled.p`
 `;
 
 const RfqSelectVendorContainer = styled.div`
-  padding: 1rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
 `;
