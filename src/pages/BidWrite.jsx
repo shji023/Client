@@ -81,7 +81,9 @@ function BidWrite() {
   const onRemove = () => {
     let temp = quotationFile;
     removeList.map((r) => {
-      temp = temp.filter((q) => q.id !== r);
+      temp = temp.filter((q, idx) => { 
+        return (q.id !== r || idx === (temp.length -1))
+      });  
     });
     setQuotationFile([...temp]);
     setRemoveList([]);
