@@ -20,7 +20,7 @@ function ConfirmModal({ isModalOpen, setIsModalOpen, postVendorInfo }) {
           <NoticeIcon>
             <img src={Alert} alt="confirmAlert"></img>
           </NoticeIcon>
-          <NoticeDetail>승인요청 하시겠습니까?</NoticeDetail>
+          <NoticeDetail>응찰서 작성을 확정하시겠습니까?</NoticeDetail>
         </Notice>
         <ButtonContainer>
           <CancelButton onClick={handleClose}>취소</CancelButton>
@@ -36,13 +36,13 @@ function ConfirmModal({ isModalOpen, setIsModalOpen, postVendorInfo }) {
 export default ConfirmModal;
 
 const Notice = styled.div`
-  padding: 0px 80px 0px 80px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const NoticeIcon = styled.div`
   display: flex;
-  margin: auto;
-  margin-left: 12rem;
+  justify-content: center;
   margin-top: -4rem;
 `;
 
@@ -55,9 +55,9 @@ const NoticeDetail = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  padding: 5rem 10rem 0 10rem;
+  padding: 5rem 0 0 0;
   text-align: center;
-  justify-content: space-between;
+  justify-content: space-around;
   display: flex;
   margin-top: 2rem;
 `;
