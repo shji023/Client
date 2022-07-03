@@ -1,8 +1,6 @@
 import { Input, Button, Modal } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import ModalSearch from "components/common/ModalSearch";
-import DataGridModal from "components/common/DataGridModal";
 import CustomModal from "components/common/CustomModal";
 import { colors } from "assets/styles/color";
 
