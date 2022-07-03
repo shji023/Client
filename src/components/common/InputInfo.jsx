@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { colors } from "assets/styles/color";
 import { getReg } from "hooks/CommonFunction";
 
-function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, disabled, type }) {
+function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, disabled, type, readOnly }) {
   if (!disabled) disabled = false;
 
   const InputLabel = (props) => {
@@ -36,6 +36,7 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, dis
           }}
           style={{ width: "100%" }}
           disabled={disabled}
+          readOnly={readOnly}
         />
       </DataWrapper>
     </StyledRoot>

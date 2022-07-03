@@ -128,17 +128,18 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
 const TitleWrapper = styled.div`
   font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${colors.tableGray};
+  border: 1px solid ${colors.tableLineGray};
   border-right: none;
   border-bottom: none;
 `;

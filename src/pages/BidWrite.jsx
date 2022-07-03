@@ -87,12 +87,6 @@ function BidWrite() {
     setRemoveList([]);
   };
 
-  const onDownload = async () => {
-    const fileId = 2138;
-    const returnData = await downloadFile(fileId);
-
-  }
-
   // fileTable row추가
   const onCreate = () => {
     nextId.current += 1;
@@ -207,6 +201,7 @@ function BidWrite() {
               handleCondition={handleCondition}
               inputValue={updateItem.quotation_total_price}
               isDisabled={isSubmit}
+              readOnly={true}
             />
           </InputWrapper>
           <BidWriteDataGrid
@@ -220,7 +215,6 @@ function BidWrite() {
         <SubmitTitle>
           <p>🔹 견적서 제출</p>
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
-          <DeleteButton onClick={onDownload}>다운로드</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
           <QuotationSubmitTable

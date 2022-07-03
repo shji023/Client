@@ -21,7 +21,7 @@ function InputInfoGrid({ params, stateValue, setStateValue, disabled }) {
           setStateValue( state => [...state] )
         }}
         disabled={disabled}
-        style={{ width: 200, height: '39px' }}
+        style={{ width: 200, height: '3.3rem' }}
       />
     </StyledRoot>
   );
@@ -33,6 +33,8 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  
 `;
 
 const Label = styled.label`
