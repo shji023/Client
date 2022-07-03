@@ -359,7 +359,7 @@ function selectPrList() {
     const temp = rowData;
     console.log(row);
     temp[idx].item_id = row.item_id;
-    temp[idx].item_name = row.item;
+    temp[idx].item_name = row.item_name;
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;
     temp[idx].description = row.description;
