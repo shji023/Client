@@ -60,9 +60,19 @@ function InputSearch({
 
   // modal
   const [visible, setVisible] = useState(false);
+  const inputRef = useRef();
 
   const showModal = () => {
     setVisible(true);
+    // focus
+    try{
+      // * display visible 되는 시간이 있어서 시간차를 줌
+      setTimeout(()=> {inputRef.current.focus()}
+      , 200);
+    } catch(e) {
+      console.log(e);
+    }
+    
   };
 
   const InputLabel = (props) => {
@@ -89,6 +99,7 @@ function InputSearch({
         gridOptions={gridOptions}
         visible={visible}
         setVisible={setVisible}
+        inputRef={inputRef}
       />
 
       {/* 화면에 보여지는 코드 */}

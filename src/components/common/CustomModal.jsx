@@ -31,6 +31,7 @@ function CustomModal({
 
   visible,
   setVisible,
+  inputRef
 }) {
   // #region 마우스 드래그
   const [disabled, setDisabled] = useState(false);
@@ -190,6 +191,7 @@ function CustomModal({
       {/* <p>{modalText}</p> */}
       <ModalHeader>
         <ModalSearch
+          inputRef={inputRef}
           inputLabel={labelTitle}
           id="id"
           inputValue={searchWord}
