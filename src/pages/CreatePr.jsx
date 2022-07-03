@@ -48,7 +48,7 @@ function selectPrList() {
       destination_type: "",
       dist_num: 0,
       item_id: 0,
-      item_name: "",
+      item: "",
       location: "",
       note_to_buyer: "",
       organization: "",
@@ -75,7 +75,7 @@ function selectPrList() {
     //   destination_type: "EXPENSE",
     //   dist_num: 1,
     //   item_id: 242339,
-    //   item_name: "Q1051234",
+    //   item: "Q1051234",
     //   location: "로케이션1",
     //   note_to_buyer: "노트 투 바이어1",
     //   organization: "PM",
@@ -96,13 +96,13 @@ function selectPrList() {
     //   category: "Q.Manual Valve...",
     //   category_id: 19236,
     //   charge_account: "321-321-321321",
-    //   cnt: 11,
+    //   cnt: 11,W
     //   cnt_dept: 33,
     //   description: "Safety Valve 20A,10Bar,(S),BC,LOW LIFT,KCS CERTIFICATE",
     //   destination_type: "INVENTORY",
     //   dist_num: 1,
     //   item_id: 253357,
-    //   item_name: "Q1118925",
+    //   item: "Q1118925",
     //   location: "로케이션2",
     //   note_to_buyer: "노트 투 바이어2",
     //   organization: "KM",
@@ -120,7 +120,7 @@ function selectPrList() {
 
     // {
     //   line: 3,
-    //   item_name: "Q2065363",
+    //   item: "Q2065363",
     //   item_id: 333333,
     //   category: "Q.Burnt Chaff_B",
     //   category_id: 555555,
@@ -262,7 +262,7 @@ function selectPrList() {
   const createOneRecord = () => {
     return {
       line: 1,
-      item_name: "",
+      item: "",
       item_id: 0,
       category: "",
       category_id: 0,
@@ -359,7 +359,7 @@ function selectPrList() {
     const temp = rowData;
     console.log(row);
     temp[idx].item_id = row.item_id;
-    temp[idx].item_name = row.item_name;
+    temp[idx].item = row.item;
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;
     temp[idx].description = row.description;
@@ -368,7 +368,7 @@ function selectPrList() {
 
     setRowData([...temp]);
 
-    return temp[idx].item_name;
+    return temp[idx].item;
   };
   // #endregion Line 아이템 이벤트
 
@@ -440,7 +440,7 @@ function selectPrList() {
       editable: false,
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
-        const initValue = rowData[idx] ? rowData[idx].item_name : "";
+        const initValue = rowData[idx] ? rowData[idx].item : "";
         return {
           component: InputSearch,
           params: {
