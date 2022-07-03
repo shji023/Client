@@ -68,9 +68,6 @@ export const downloadFile = async (fileId) => {
       console.log("response ::: ", response);
       const name = response.headers['content-disposition'].split('fileName=')[1]
       const decodedName = decodeURIComponent(name);
-      console.log(response.headers)
-      console.log(name)
-      console.log(decodeURIComponent(name))
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
@@ -80,8 +77,8 @@ export const downloadFile = async (fileId) => {
       link.click()
       link.remove()
     })
-
     return data;
+
   } catch (err) {
     console.log(err);
   }

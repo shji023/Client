@@ -212,7 +212,7 @@ function RfqCreate() {
     const tempRfqInfoCondition = { ...rfqListData };
 
     tempRfqInfoCondition[key] = value;
-    setRfqListData(tempRfqInfoCondition);
+    setRfqListData({ ...tempRfqInfoCondition });
   };
 
   const getLov = async () => {
@@ -241,6 +241,7 @@ function RfqCreate() {
     } else {
       // * RFQ 생성
       // Pr에서 넘어온 경우
+      // TODO: Buyer id 넣어주기
       selectBuyerInfo("17278");
       selectProductInfo();
       setRfqListData({ ...rfqListData, rfq_no: rfq_no });
@@ -270,7 +271,6 @@ function RfqCreate() {
   const onHandleSearch = async (value) => {
     const sendData = { vendor_name: value };
     const resultList = await getVendorList(sendData);
-
     return resultList;
   };
   const columnDefs = [

@@ -43,7 +43,7 @@ function selectPrList() {
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...conditions };
     tempPoCondition[key] = value;
-    setConditions(tempPoCondition);
+    setConditions({ ...tempPoCondition });
   };
 
   // #region 헤더 팝업 이벤트
@@ -79,7 +79,7 @@ function selectPrList() {
     const temp = conditions;
     temp.requester_id = row.id;
     temp.requester_name = row.name;
-    setConditions(temp);
+    setConditions({ ...temp });
     
     return temp.requester_name;
 
@@ -100,7 +100,7 @@ function selectPrList() {
     const temp = conditions;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
-    setConditions(temp);
+    setConditions({ ...temp });
     
     return temp.buyer_name;
 

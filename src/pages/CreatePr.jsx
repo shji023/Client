@@ -758,9 +758,8 @@ function selectPrList() {
   };
 
   // #region 팝업 이벤트
-  const onHandleSearch = async (value) => {
-    // const resultList = await getStaffList(sendData);
-    const resultList = await getStaffList(value);
+  const onHandleSearch = async (searchWord) => {
+    const resultList = await getStaffList(searchWord);
     return resultList;
   };
 
@@ -769,11 +768,12 @@ function selectPrList() {
     console.log("selectedRows", selectedRows);
 
     const row = selectedRows[0];
+    console.log(row);
 
     const temp = conditions;
     temp.preparer_id = row.id;
     temp.preparer_name = row.name;
-    setConditions(temp);
+    setConditions({ ...temp });
 
     return temp.preparer_name;
   };
@@ -784,7 +784,7 @@ function selectPrList() {
     const temp = conditions;
     temp.preparer_id = "";
     temp.preparer_name = "";
-    setConditions(temp);
+    setConditions({ ...temp });
 
     return temp.preparer_name;
   };
