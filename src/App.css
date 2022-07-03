@@ -64,3 +64,10 @@
   color: white !important;
 }
 
+.ag-header {
+  background-color: #EDF2F8 !important;
+}
+
+.ant-picker-clear {
+  display: none !important;
+}
