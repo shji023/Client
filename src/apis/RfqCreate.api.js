@@ -86,9 +86,11 @@ export const getProductInfoList = async (reqNumList) => {
     try {
       // const sendData = conditions;
       const sendData = {
-        conditions : conditions,
-        vendorList : vendorList,
+        conditions  : conditions,
+        vendorList  : vendorList,
         productList : productList,
+        // vendorFile  : vendorFile, 
+        // innerFile   : innerFile
       }
       console.log("sendData", sendData);
 

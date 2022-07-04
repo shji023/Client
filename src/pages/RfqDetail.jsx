@@ -24,6 +24,8 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadContent, uploadFile } from "apis/file.api";
 import { DeleteButton } from "components/common/CustomButton";
+import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
+
 function RfqDetail() {
   const { id } = useParams();
 
@@ -127,6 +129,7 @@ function RfqDetail() {
     const formData = new FormData();
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
+    // 파일 정보를 db에 저장
     const returnData = await uploadFile(formData);
     setvendorFile(
       vendorFile.map((q) =>
@@ -199,10 +202,11 @@ function RfqDetail() {
   useDidMountEffect(() => {}, [vendorFile]);
   //--------------------------------------------------------------
   const saveContents = async () => {
+    // 서버에 파일저장
     const returnData = await uploadContent(vendorFile);
     const data = await insertOneBid(bidCondition);
 
-    if (data === "success" && returnData === "success") {
+    if (data === "success" && returnData) {
       confirm("입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?")
         ? navigate(`/bidList`)
         : null;
@@ -336,13 +340,13 @@ function RfqDetail() {
           <ButtonWrapper>
             <DeleteButton onClick={onRemove}>삭제</DeleteButton>
           </ButtonWrapper>
-          <FileManager
+          <QuotationSubmitTable
             // fileInfoList={fileInfoList}
-            vendorFile={vendorFile}
+            quotationFile={vendorFile}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
             handleRemoveList={handleRemoveList}
-          ></FileManager>
+          ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </RfqSelectVendorContainer>
     </StyledRoot>
