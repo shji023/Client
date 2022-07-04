@@ -143,4 +143,5 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;

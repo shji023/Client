@@ -542,21 +542,20 @@ function RfqCreate() {
 
   const onRemove = () => {
     let temp = vendorFile;
-    console.log("vendorFile", vendorFile)
+    console.log("vendorFile", vendorFile);
     removeList.map((r) => {
-      temp = temp.filter((q, idx) => { 
-        return (q.id !== r || idx === (temp.length -1))
-      });  
-    });  
+      temp = temp.filter((q, idx) => {
+        return q.id !== r || idx === temp.length - 1;
+      });
+    });
     setVendorFile([...temp]);
     setRemoveList([]);
-   
   };
   const onRemove2 = () => {
     let temp = innerFile;
     removeList2.map((r) => {
-      temp = temp.filter((q, idx) => { 
-        return (q.id !== r || idx === (temp.length -1))
+      temp = temp.filter((q, idx) => {
+        return q.id !== r || idx === temp.length - 1;
       });
     });
     setInnerFile([...temp]);
@@ -827,6 +826,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;
 // const SmallTitle = styled.p`
 //   font-size: 1.6rem;
