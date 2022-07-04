@@ -68,7 +68,7 @@ function BidDetail() {
     <StyledRoot>
       <Title>입찰정보조회</Title>
       <section>
-        <SubTitle>🔹 RFQ정보</SubTitle>
+        <SubTitle>RFQ정보</SubTitle>
         <RfqInfoContainer>
           <BidInfo label="RFQ번호" value={rfqInfoData.rfq_no}></BidInfo>
           <BidInfo label="단계" value={stage}></BidInfo>
@@ -96,13 +96,13 @@ function BidDetail() {
         </RfqInfoContainer>
       </section>
       <section>
-        <SubTitle>🔹 RFQ첨부(공급사배포)</SubTitle>
+        <SubTitle>RFQ첨부(공급사배포)</SubTitle>
         <RfqAttachContainer>
           <RfqAttachTable vendorFileList={vendorFileList}></RfqAttachTable>
         </RfqAttachContainer>
       </section>
       <section>
-        <SubTitle>🔹 입찰 룰</SubTitle>
+        <SubTitle>입찰 룰</SubTitle>
         <BidInfoContainer>
           <BidInfo label="입찰번호" value={ruleInfoData.bidding_no}></BidInfo>
           <BidInfo label="입찰유형" value={bidType}></BidInfo>
@@ -116,7 +116,7 @@ function BidDetail() {
         </BidInfoContainer>
       </section>
       <section>
-        <SubTitle>🔹 품목정보</SubTitle>
+        <SubTitle>품목정보</SubTitle>
         <ItemInfoContainer>
           <ItemInfoTable itemInfoList={itemInfoList}></ItemInfoTable>
         </ItemInfoContainer>
@@ -206,6 +206,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;
 
 const SubTitle = styled.p`

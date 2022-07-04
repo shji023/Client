@@ -42,7 +42,7 @@ function SelectPoList() {
     const tempPoCondition = { ...poCondition };
 
     tempPoCondition[key] = value;
-    setPoCondition({...tempPoCondition});
+    setPoCondition({ ...tempPoCondition });
   };
 
   const selectPoList = async () => {
@@ -316,4 +316,5 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;

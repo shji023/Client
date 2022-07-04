@@ -81,9 +81,9 @@ function BidWrite() {
   const onRemove = () => {
     let temp = quotationFile;
     removeList.map((r) => {
-      temp = temp.filter((q, idx) => { 
-        return (q.id !== r || idx === (temp.length -1))
-      });  
+      temp = temp.filter((q, idx) => {
+        return q.id !== r || idx === temp.length - 1;
+      });
     });
     setQuotationFile([...temp]);
     setRemoveList([]);
@@ -312,6 +312,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;
 
 const SubTitle = styled.p`

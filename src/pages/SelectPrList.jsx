@@ -7,7 +7,12 @@ import InputSelect from "components/common/InputSelect";
 import { getDiffDate, getNumberFormat } from "hooks/CommonFunction";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { popUpBuyerColFields, popUpItemColFields, popUpStaffColFields, prSelectColDef } from "stores/colData"
+import {
+  popUpBuyerColFields,
+  popUpItemColFields,
+  popUpStaffColFields,
+  prSelectColDef,
+} from "stores/colData";
 import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import moment from "moment";
 import { Button } from "components/common/CustomButton";
@@ -16,27 +21,26 @@ import { useNavigate } from "react-router-dom";
 import pageData from "stores/PageData";
 import { showGridLoading } from "components/common/CustomGrid";
 
-
 function selectPrList() {
   const navigate = useNavigate();
 
   // 조회 데이터
   const [conditions, setConditions] = useState({
-    "requisition_number" : "",
-    "description"        : "",
-    "requester_id"       : "",
-    "requester_name"     : "",
-    "item_id"            : "",
-    "item_name"          : "",
-    "item_description"   : "",
-    "type_lookup_code"   : "",
-    "buyer_id"           : "",
-    "buyer_name"         : "",
-    "category_id"        : "",
-    "category_name"      : "",
+    requisition_number: "",
+    description: "",
+    requester_id: "",
+    requester_name: "",
+    item_id: "",
+    item_name: "",
+    item_description: "",
+    type_lookup_code: "",
+    buyer_id: "",
+    buyer_name: "",
+    category_id: "",
+    category_name: "",
   });
 
-  const [selectedData, setSelectedData]   = useState([]);
+  const [selectedData, setSelectedData] = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
   const [dataGridCnt, setDataGridCnt] = useState("0");
 
@@ -50,90 +54,105 @@ function selectPrList() {
   const onHandleSearchItem = async (searchWord) => {
     const resultList = await getItemList(searchWord);
     return resultList;
-  }
+  };
 
-  const onHandleOkItem = ({selectedRows}) => {
+  const onHandleOkItem = ({ selectedRows }) => {
     const row = selectedRows[0];
 
     const temp = conditions;
     console.log(row);
     temp.item_id = row.id;
     temp.item_name = row.item;
-    setConditions({...temp});
-    
+    setConditions({ ...temp });
+
     return temp.item_name;
-  }
+  };
 
   const onHandleSearchRequester = async (value) => {
-    
     const resultList = await getStaffList(value);
     return resultList;
-  }
+  };
 
-  const onHandleOkRequester = ({selectedRows}) => {
+  const onHandleOkRequester = ({ selectedRows }) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
 
     const row = selectedRows[0];
-    
+
     const temp = conditions;
     temp.requester_id = row.id;
     temp.requester_name = row.name;
     setConditions({ ...temp });
-    
-    return temp.requester_name;
 
-  }
+    return temp.requester_name;
+  };
 
   const onHandleSearchBuyer = async (value) => {
-    
     const resultList = await getBuyerList(value);
     return resultList;
-  }
+  };
 
-  const onHandleOkBuyer = ({selectedRows}) => {
+  const onHandleOkBuyer = ({ selectedRows }) => {
     console.log("called onHandleOk1");
     console.log("selectedRows", selectedRows);
 
     const row = selectedRows[0];
-    
+
     const temp = conditions;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
     setConditions({ ...temp });
-    
-    return temp.buyer_name;
 
-  }
+    return temp.buyer_name;
+  };
   // #endregion 팝업 이벤트
 
   const selectPrList = async () => {
     showGridLoading(gridRef, true);
 
-    console.log("conditions : " , conditions);
+    console.log("conditions : ", conditions);
 
     // !: axios 비동기
     const data = await getSearchPrList(conditions);
     console.log("getSearchPrList called : ", data);
-    
+
     const tempList = [];
-    if(data) {
-      data.forEach(( element )=>{
+    if (data) {
+      data.forEach((element) => {
         // TODO: 나중에 DB에서 조인해서 가져와야됨
         // typeLookupCode
-        switch( element.typeLookupCode ) {
-          case "PR" : element.typeValue =	"구매신청"; break;
-          case "NT" : element.typeValue =	"엔투비이관"; break;
-          case "MT" : element.typeValue =	"발주방안검토"; break;
-          case "RQ" : element.typeValue =	"ITB"; break;
-          case "OP" : element.typeValue =	"공개구매"; break;
-          case "TP" : element.typeValue =	"단순견적"; break;
-          case "BD" : element.typeValue =	"업체선정중"; break;
-          case "PO" : element.typeValue =	"계약대기중"; break;
-          case "PA" : element.typeValue =	"계약완료"; break;
-          case "PC" : element.typeValue =	"계약취소"; break;
+        switch (element.typeLookupCode) {
+          case "PR":
+            element.typeValue = "구매신청";
+            break;
+          case "NT":
+            element.typeValue = "엔투비이관";
+            break;
+          case "MT":
+            element.typeValue = "발주방안검토";
+            break;
+          case "RQ":
+            element.typeValue = "ITB";
+            break;
+          case "OP":
+            element.typeValue = "공개구매";
+            break;
+          case "TP":
+            element.typeValue = "단순견적";
+            break;
+          case "BD":
+            element.typeValue = "업체선정중";
+            break;
+          case "PO":
+            element.typeValue = "계약대기중";
+            break;
+          case "PA":
+            element.typeValue = "계약완료";
+            break;
+          case "PC":
+            element.typeValue = "계약취소";
+            break;
         }
-
 
         let temp = {
           // Pr1
@@ -141,25 +160,23 @@ function selectPrList() {
           typeLookupCode: element.typeLookupCode,
           typeValue: element.typeValue,
           // purPctAgmRsn: element.purPctAgmRsn,
-          rfqNumber:element.rfqNumber,
+          rfqNumber: element.rfqNumber,
           requisitionNumber: element.requisitionNumber,
           currencyCode: element.currencyCode,
           description: element.description,
           requisitionHeaderId: element.requisitionHeaderId,
-  
+
           // Pr2
           categoryId: element.pr2VoList[0].categoryId,
           amount: element.pr2VoList[0].quantity * element.pr2VoList[0].unitPrice,
           needByDate: element.pr2VoList[0].needByDate,
           requestPersonId: element.pr2VoList[0].requestPersonId,
           organizationCode: element.pr2VoList[0].organizationCode,
-        }
+        };
         tempList.push(temp);
-      })
-  
+      });
     }
-    
-    
+
     setSelectedData([...tempList]);
     // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
     setDataGridCnt(getNumberFormat(data.length));
@@ -168,25 +185,22 @@ function selectPrList() {
   };
 
   const cerateRfq = async () => {
-
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
     const prNumList = [];
-    selectedRowNodes.forEach((element)=>{
+    selectedRowNodes.forEach((element) => {
       prNumList.push(element.data.requisitionNumber);
-    })
+    });
     console.log("selected", prNumList);
 
     // ! MobX
-    if(prNumList.length > 0) {
+    if (prNumList.length > 0) {
       pageData.setPrNumList(prNumList);
-      confirm(
-        "선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?"
-      ) ? navigate(`/rfqCreate`) : null;
-      
+      confirm("선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?")
+        ? navigate(`/rfqCreate`)
+        : null;
     } else {
       alert("구매신청을 선택해주세요.");
     }
-
   };
 
   const getLov = async () => {
@@ -202,23 +216,38 @@ function selectPrList() {
   const gridRef = useRef();
 
   const prSelectColFields = [
-    { field: null,                headerCheckboxSelection: true, maxWidth: 50, pinned:"left", checkboxSelection: true,},
-    { field: "line", headerName: "순번", minWidth: 100, },
-    { field: "typeValue", headerName: "Status", minWidth: 150 },
-    { field: "rfqNumber", headerName: "RFQ번호", minWidth: 150, 
-      valueGetter: params => (!params.data.rfqNumber) ? "-" : !params.data.rfqNumber
+    {
+      field: null,
+      headerCheckboxSelection: true,
+      maxWidth: 50,
+      pinned: "left",
+      checkboxSelection: true,
     },
-    { field: "dateInterval", headerName: "경과일", minWidth: 100,
-      valueGetter: params => {
-        const diff = getDiffDate(new moment(), params.data.needByDate, "day" );
+    { field: "line", headerName: "순번", minWidth: 100 },
+    { field: "typeValue", headerName: "Status", minWidth: 150 },
+    {
+      field: "rfqNumber",
+      headerName: "RFQ번호",
+      minWidth: 150,
+      valueGetter: (params) => (!params.data.rfqNumber ? "-" : !params.data.rfqNumber),
+    },
+    {
+      field: "dateInterval",
+      headerName: "경과일",
+      minWidth: 100,
+      valueGetter: (params) => {
+        const diff = getDiffDate(new moment(), params.data.needByDate, "day");
         return diff < 0 ? 0 : diff;
-      }
+      },
     },
     { field: "categoryId", headerName: "Category", minWidth: 140 },
-    { field: "requisitionNumber", headerName: "PR번호", minWidth: 140, },
+    { field: "requisitionNumber", headerName: "PR번호", minWidth: 140 },
     { field: "description", headerName: "건명", minWidth: 300 },
-    { field: "amount", headerName: "금액", minWidth: 150, 
-      valueGetter: params => getNumberFormat(params.data.amount)
+    {
+      field: "amount",
+      headerName: "금액",
+      minWidth: 150,
+      valueGetter: (params) => getNumberFormat(params.data.amount),
     },
     { field: "currencyCode", headerName: "단위", minWidth: 80 },
     { field: "needByDate", headerName: "요청납기일", minWidth: 200 },
@@ -226,7 +255,6 @@ function selectPrList() {
     { field: "organizationCode", headerName: "사용부서", minWidth: 200 },
   ];
   // #endregion 그리드
-
 
   return (
     <StyledRoot>
@@ -257,9 +285,9 @@ function selectPrList() {
             onHandleOk={onHandleOkRequester}
             onHandleCancel={null}
             gridOptions={{
-              columnDefs : popUpStaffColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpStaffColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputSearch
@@ -271,9 +299,9 @@ function selectPrList() {
             onHandleOk={onHandleOkItem}
             onHandleCancel={null}
             gridOptions={{
-              columnDefs : popUpItemColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpItemColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputInfo
@@ -298,9 +326,9 @@ function selectPrList() {
             onHandleOk={onHandleOkBuyer}
             onHandleCancel={null}
             gridOptions={{
-              columnDefs : popUpBuyerColFields,
-              rowSelection : "single", // single, multiple
-              suppressRowClickSelection : false,
+              columnDefs: popUpBuyerColFields,
+              rowSelection: "single", // single, multiple
+              suppressRowClickSelection: false,
             }}
           />
           <InputInfo
@@ -318,16 +346,15 @@ function selectPrList() {
         {/* <ListCount>건수: {dataGridCnt}</ListCount> */}
       </section>
       <section>
-        <AgGrid 
-          resvRef = {gridRef}
-          resvRowData = {selectedData}
-          resvDefaultColDef = { prSelectColDef }
-          resvColumnDefs = { prSelectColFields }
-          onRowClicked = {(e) => {
-            confirm(
-              "구매 신청을 조회하시겠습니까?"
-            ) ? navigate(`/createPr/${e.data.requisitionNumber}`) : null;
-            
+        <AgGrid
+          resvRef={gridRef}
+          resvRowData={selectedData}
+          resvDefaultColDef={prSelectColDef}
+          resvColumnDefs={prSelectColFields}
+          onRowClicked={(e) => {
+            confirm("구매 신청을 조회하시겠습니까?")
+              ? navigate(`/createPr/${e.data.requisitionNumber}`)
+              : null;
           }}
         />
       </section>
@@ -353,7 +380,6 @@ const StyledRoot = styled.main`
 //   gap: 1rem;
 // `;
 
-
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
@@ -368,7 +394,7 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-child(n+4):nth-child(-n+8){
+  & > div:nth-child(n + 4):nth-child(-n + 8) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
 `;
@@ -388,4 +414,5 @@ const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold";
 `;
