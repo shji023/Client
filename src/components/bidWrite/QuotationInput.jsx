@@ -10,6 +10,7 @@ function QuotationInput({
   handleCondition,
   inputValue,
   isDisabled,
+  readOnly
 }) {
   return (
     <StyledRoot>
@@ -21,6 +22,7 @@ function QuotationInput({
           onChange={(e) => handleCondition(id, e.target.value)}
           style={{ width: "100%" }}
           disabled={isDisabled}
+          readOnly={readOnly}
         />
       </StyledInput>
       <Label htmlFor={id}>

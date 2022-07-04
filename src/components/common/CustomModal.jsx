@@ -31,6 +31,7 @@ function CustomModal({
 
   visible,
   setVisible,
+  inputRef
 }) {
   // #region 마우스 드래그
   const [disabled, setDisabled] = useState(false);
@@ -91,7 +92,6 @@ function CustomModal({
   // 팝업 검색 버튼 이벤트
   const handleSearch = async () => {
     const resultList = await onHandleSearch(searchWord);
-
     setGridRowData([...resultList]);
   };
 
@@ -191,10 +191,12 @@ function CustomModal({
       {/* <p>{modalText}</p> */}
       <ModalHeader>
         <ModalSearch
+          inputRef={inputRef}
           inputLabel={labelTitle}
           id="id"
           inputValue={searchWord}
           setInputValue={setSearchWord}
+          onPressEnter={handleSearch}
         />
         <Button onClick={handleSearch}>검색</Button>
       </ModalHeader>

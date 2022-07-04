@@ -1,9 +1,9 @@
 import { getPoApproveLov, getPoLov, getSasoLov, getSearchPoList, getPoTypeLov } from "apis/po.api";
 import { colors } from "assets/styles/color";
 import PoListAgGrid from "components/po/PoListAgGrid";
-import InputInfo from "components/po/PoInputInfo";
+import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
-import InputSelect from "components/po/PoInputSelect";
+import InputSelect from "components/common/InputSelect";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
@@ -20,13 +20,16 @@ function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
     COMMENTS: "",
     VENDOR_ID: "",
+    VENDOR_NAME: "",
     ATTRIBUTE_CATEGORY: "",
     AUTHORIZATION_STATUS: "",
     PO_NUM: "",
     ITEM_ID: "",
+    ITEM_NAME: "",
     RFQ_NO: "",
     ORGANIZATION_CODE: "",
     BUYER_ID: "",
+    BUYER_NAME: "",
     TYPE_LOOKUP_CODE: "",
   });
   const [poCategoryLov, setPoCategoryLov] = useState([]);
@@ -39,7 +42,7 @@ function SelectPoList() {
     const tempPoCondition = { ...poCondition };
 
     tempPoCondition[key] = value;
-    setPoCondition(tempPoCondition);
+    setPoCondition({...tempPoCondition});
   };
 
   const selectPoList = async () => {
@@ -80,14 +83,18 @@ function SelectPoList() {
     console.log(row);
 
     temp.VENDOR_ID = row.vendor_id;
-    setPoCondition(temp);
+    temp.VENDOR_NAME = row.vendor_name;
+    setPoCondition({ ...temp });
 
-    return temp.vendor_name;
+    return row.vendor_name;
   };
   const onHandleCanceVendor = ({}) => {
     const temp = poCondition;
     temp.VENDOR_ID = "";
-    setPoCondition(temp);
+    temp.VENDOR_NAME = "";
+    setPoCondition({ ...temp });
+
+    return "";
   };
 
   const onHandleSearchItem = async (searchWord) => {
@@ -101,14 +108,18 @@ function SelectPoList() {
     const temp = poCondition;
     console.log(row);
     temp.ITEM_ID = row.item_id;
-    setPoCondition(temp);
+    temp.ITEM_NAME = row.item;
+    setPoCondition({ ...temp });
 
     return row.item;
   };
   const onHandleCancelItem = ({}) => {
     const temp = poCondition;
     temp.ITEM_ID = "";
-    setPoCondition(temp);
+    temp.ITEM_NAME = "";
+    setPoCondition({ ...temp });
+
+    return "";
   };
 
   const onHandleSearchBuyer = async (value) => {
@@ -124,7 +135,8 @@ function SelectPoList() {
 
     const temp = poCondition;
     temp.BUYER_ID = row.buyer_id;
-    setPoCondition(temp);
+    temp.BUYER_NAME = row.buyer_name;
+    setPoCondition({ ...temp });
 
     return row.buyer_name;
   };
@@ -132,7 +144,10 @@ function SelectPoList() {
   const onHandleCanceBuyer = ({}) => {
     const temp = poCondition;
     temp.BUYER_ID = "";
-    setPoCondition(temp);
+    temp.BUYER_NAME = "";
+    setPoCondition({ ...temp });
+
+    return "";
   };
   // #endregion 팝업
 
@@ -153,13 +168,12 @@ function SelectPoList() {
             inputLabel="계약명"
             handlePoCondition={handlePoCondition}
             inputValue={poCondition.COMMENTS}
-            mySize={200}
           />
           <InputSearch
             id="VENDOR_ID"
             title="공급사 선택"
             inputLabel="공급사"
-            initValue={poCondition.VENDOR_ID}
+            initValue={poCondition.VENDOR_NAME}
             onHandleSearch={onHandleSearchVendor}
             onHandleOk={onHandleOkVendor}
             onHandleCancel={onHandleCanceVendor}
@@ -173,12 +187,14 @@ function SelectPoList() {
           <InputSelect
             id="ATTRIBUTE_CATEGORY"
             inputLabel="계약구분"
+            initValue={poCondition.ATTRIBUTE_CATEGORY}
             handlePoCondition={handlePoCondition}
             lov={poCategoryLov}
           />
           <InputSelect
             id="AUTHORIZATION_STATUS"
             inputLabel="PO 승인"
+            initValue={poCondition.AUTHORIZATION_STATUS}
             handlePoCondition={handlePoCondition}
             lov={poApproveLov}
           />
@@ -193,7 +209,7 @@ function SelectPoList() {
             id="ITEM_ID"
             title="물품선택"
             inputLabel="Item"
-            initValue={poCondition.ITEM_ID}
+            initValue={poCondition.ITEM_NAME}
             onHandleSearch={onHandleSearchItem}
             onHandleOk={onHandleOkItem}
             onHandleCancel={onHandleCancelItem}
@@ -213,6 +229,7 @@ function SelectPoList() {
           <InputSelect
             id="ORGANIZATION_CODE"
             inputLabel="사소"
+            initValue={poCondition.ORGANIZATION_CODE}
             handlePoCondition={handlePoCondition}
             lov={sasoLov}
           />
@@ -220,7 +237,7 @@ function SelectPoList() {
             id="BUYER_ID"
             title="바이어선택"
             inputLabel="Buyer"
-            initValue={poCondition.BUYER_ID}
+            initValue={poCondition.BUYER_NAME}
             onHandleSearch={onHandleSearchBuyer}
             onHandleOk={onHandleOkBuyer}
             onHandleCancel={onHandleCanceBuyer}
@@ -233,6 +250,7 @@ function SelectPoList() {
           <InputSelect
             id="TYPE_LOOKUP_CODE"
             inputLabel="Type"
+            initValue={poCondition.TYPE_LOOKUP_CODE}
             handlePoCondition={handlePoCondition}
             lov={poTypeLov}
           />

@@ -333,7 +333,9 @@ function RfqDetail() {
       <RfqSelectVendorContainer>
         {/* <FileManager content={content} handleFileCondition={handleFileCondition} fileInfoList={fileInfoList}/> */}
         <SubmitQuotationContainer>
-          <DeleteButton onClick={onRemove}>삭제</DeleteButton>
+          <ButtonWrapper>
+            <DeleteButton onClick={onRemove}>삭제</DeleteButton>
+          </ButtonWrapper>
           <FileManager
             // fileInfoList={fileInfoList}
             vendorFile={vendorFile}
@@ -356,7 +358,7 @@ const StyledRoot = styled.main`
 `;
 
 const SubmitQuotationContainer = styled.div`
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
 `;
 
 const RfqInfoContainer = styled.div`
@@ -413,12 +415,19 @@ const RfqSelectVendorContainer = styled.div`
   padding: 1rem 2rem 2rem 0.5rem;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  // justify-content: space-between;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
+
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   gap: 1rem;
 `;
 
@@ -427,7 +436,7 @@ const InfoContainer = styled.div`
   grid-template-columns: repeat(4, minmax(27rem, 1fr));
   border: 1px solid rgb(225 225 225 / 87%);
   border-radius: 0.5rem;
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   gap: 1rem;
 `;
 

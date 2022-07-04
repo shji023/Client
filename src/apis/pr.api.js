@@ -80,7 +80,7 @@ export const getPr = async (reqNum) => {
         const pr2 = {
           requisition_line_id : element.requisitionLineId,
           // line: element.1, // !
-          item_name: element.itemName,
+          item: element.item,
           item_id: element.itemId,
           category: element.categoryName,
           category_id: element.categoryId,

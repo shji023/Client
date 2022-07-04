@@ -5,7 +5,7 @@ import styled from "styled-components";
 import DataGridModal from "./DataGridModal2";
 
 
-function ModalSearch({ inputLabel, id, inputValue, setInputValue }) {
+function ModalSearch({ inputLabel, id, inputValue, setInputValue, onPressEnter, inputRef }) {
 
   const handleChange = (/* key, */ value) => {
 
@@ -16,15 +16,22 @@ function ModalSearch({ inputLabel, id, inputValue, setInputValue }) {
     setInputValue(value);
   };
 
+  const handleEnter = (value) => {
+    setInputValue(value);
+    onPressEnter();
+  }
+
   return (
     <>
       <StyledRoot>
         <Label htmlFor={id}>{inputLabel}</Label>
         <Input
+          ref={inputRef}
           type="text"
           id={id}
           value={inputValue}
           onChange={(e) => handleChange(/* id, */ e.target.value)}
+          onPressEnter={(e) => handleEnter(/* id, */ e.target.value)}
           style={{ width: 200 }}
         />
       </StyledRoot>

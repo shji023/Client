@@ -25,7 +25,7 @@ function InputOneDateGrid({ params, stateValue, setStateValue, handleCondition, 
           stateValue[idx][field] = date.format("YYYY-MM-DD");
           setStateValue( state => [...state] )
         }}
-        style={{ width: 200 }}
+        style={{ width: "100%" }}
         allowClear={false}
         disabled={disabled}
       />
@@ -39,6 +39,7 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
 const Label = styled.label`

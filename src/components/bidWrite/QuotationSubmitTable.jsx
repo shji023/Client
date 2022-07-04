@@ -34,8 +34,9 @@ function QuotationSubmitTable({
           quotationFile.map((q) => (
             <Tr key={q.id}>
               <Td>
-                <input
+                <CheckBox
                   type="checkbox"
+                  className="ag-input-field-input ag-checkbox-input"
                   onChange={(e) => handleRemoveList(e.currentTarget.checked, q.id)}
                 />
               </Td>
@@ -96,8 +97,9 @@ const Tr = styled.tr`
 
 const Td = styled.td`
   border: 1px solid ${colors.tableLineGray};
+
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const Td6 = styled.td.attrs({
@@ -105,5 +107,10 @@ const Td6 = styled.td.attrs({
 })`
   border: 1px solid ${colors.tableLineGray};
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
+
+const CheckBox = styled.input`
+  width: 16px;
+  height: 16px;
+`

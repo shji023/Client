@@ -10,7 +10,7 @@ import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { uploadFile, uploadFileContent } from "apis/file.api";
+import { downloadFile, uploadFile, uploadFileContent } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
 
@@ -81,7 +81,9 @@ function BidWrite() {
   const onRemove = () => {
     let temp = quotationFile;
     removeList.map((r) => {
-      temp = temp.filter((q) => q.id !== r);
+      temp = temp.filter((q, idx) => { 
+        return (q.id !== r || idx === (temp.length -1))
+      });  
     });
     setQuotationFile([...temp]);
     setRemoveList([]);
@@ -201,6 +203,7 @@ function BidWrite() {
               handleCondition={handleCondition}
               inputValue={updateItem.quotation_total_price}
               isDisabled={isSubmit}
+              readOnly={true}
             />
           </InputWrapper>
           <BidWriteDataGrid

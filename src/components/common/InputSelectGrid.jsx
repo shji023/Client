@@ -22,7 +22,7 @@ function InputSelect({ params, stateValue, setStateValue, lov }) {
             setStateValue( state => [...state] )
           }
         }}
-        style={{ width: 200 }}
+        style={{ width: "100%"   }}
       >
         <Select.Option value="">선택</Select.Option>
         {lov.map((option) => (
@@ -40,6 +40,8 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const Label = styled.label`

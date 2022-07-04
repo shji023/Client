@@ -34,7 +34,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const UploadButton = styled.button`
-  width: 8rem;
+  width: 10rem;
   height: 3rem;
   background-color: ${colors.mainBlue};
   color: white;

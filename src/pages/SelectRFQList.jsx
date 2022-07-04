@@ -2,15 +2,15 @@ import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.a
 import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
-import BuyerInputSearch from "components/rfq/BuyerInputSearch";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
-import RfqInputSelect from "components/rfq/RfqInputSelect";
 import RfqInputDate from "components/rfq/RfqInputDate";
-import RfqInputInfo from "components/rfq/RfqInputInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import InputSearch from "components/common/InputSearch";
+import InputSelect from "components/common/InputSelect";
+import InputInfo from "components/common/InputInfo";
 
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({});
@@ -65,7 +65,7 @@ function SelectRfqList() {
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
     // temp.buyer_dept_name = row.buyer_dept_name;
-    setRfqCondition(temp);
+    setRfqCondition({ ...temp });
 
     return temp.buyer_name;
   };
@@ -82,16 +82,17 @@ function SelectRfqList() {
       </HeaderWrapper>
       <section>
         <InputContainer>
-          <RfqInputInfo
+          <InputInfo
             id="rfq_no"
             inputLabel="RFQ 번호"
-            handleCondition={handleRFQCondition}
+            handlePoCondition={handleRFQCondition}
             inputValue={rfqCondition.rfq_no}
           />
-          <BuyerInputSearch
+          <InputSearch
             id="buyer_id"
             title="바이어선택"
             inputLabel="Buyer"
+            initValue={rfqCondition.buyer_name}
             onHandleSearch={HandleSearch} // 검색 버튼 이벤트
             onHandleOk={onHandleOk}
             onHandleCancel={null}
@@ -102,22 +103,24 @@ function SelectRfqList() {
               suppressRowClickSelection: false, // 선택 방지
             }}
           />
-          <RfqInputSelect
+          <InputSelect
             id="rfq_status"
             inputLabel="Status"
-            handleCondition={handleRFQCondition}
+            initValue={rfqCondition.rfq_status}
+            handlePoCondition={handleRFQCondition}
             lov={rfqStatusLov}
           />
-          <RfqInputSelect
+          <InputSelect
             id="category_id"
             inputLabel="Category"
-            handleCondition={handleRFQCondition}
+            initValue={rfqCondition.category_id}
+            handlePoCondition={handleRFQCondition}
             lov={rfqCategoryLov}
           />
-          <RfqInputInfo
+          <InputInfo
             id="item_id"
             inputLabel="Item Code"
-            handleCondition={handleRFQCondition}
+            handlePoCondition={handleRFQCondition}
             inputValue={rfqCondition.item_id}
           />
           <RfqInputDate
@@ -127,9 +130,6 @@ function SelectRfqList() {
           />
         </InputContainer>
       </section>
-      {/* TO-DO : select count 로 변경 */}
-      {/* <ListCount>건수: 2,164</ListCount> */}
-
       <AgGridRFQ listData={rfqListData} colData={rfqColumn} />
     </StyledRoot>
   );

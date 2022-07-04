@@ -1,8 +1,6 @@
 import { Input, Button, Modal } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import ModalSearch from "components/common/ModalSearch";
-import DataGridModal from "components/common/DataGridModal";
 import CustomModal from "components/common/CustomModal";
 import { colors } from "assets/styles/color";
 
@@ -62,9 +60,19 @@ function InputSearch({
 
   // modal
   const [visible, setVisible] = useState(false);
+  const inputRef = useRef();
 
   const showModal = () => {
     setVisible(true);
+    // focus
+    try{
+      // * display visible 되는 시간이 있어서 시간차를 줌
+      setTimeout(()=> {inputRef.current.focus()}
+      , 200);
+    } catch(e) {
+      console.log(e);
+    }
+    
   };
 
   const InputLabel = (props) => {
@@ -91,6 +99,7 @@ function InputSearch({
         gridOptions={gridOptions}
         visible={visible}
         setVisible={setVisible}
+        inputRef={inputRef}
       />
 
       {/* 화면에 보여지는 코드 */}
@@ -119,17 +128,18 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
 const TitleWrapper = styled.div`
   font-size: 1.4rem;
   min-width: 14rem;
   height: 3.5rem;
-  border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${colors.tableGray};
+  border: 1px solid ${colors.tableLineGray};
   border-right: none;
   border-bottom: none;
 `;

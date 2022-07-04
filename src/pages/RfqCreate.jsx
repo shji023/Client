@@ -32,15 +32,15 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "components/common/CustomButton";
+import { Button, DeleteButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
 import FileVendor from "fileUpload/FileVendor";
 import FileInner from "fileUpload/FileInner";
-import FileManager from "fileUpload/FileManager";
 import { reload } from "hooks/CommonFunction";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadFile, uploadFileContent } from "apis/file.api";
+import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
@@ -212,7 +212,7 @@ function RfqCreate() {
     const tempRfqInfoCondition = { ...rfqListData };
 
     tempRfqInfoCondition[key] = value;
-    setRfqListData(tempRfqInfoCondition);
+    setRfqListData({ ...tempRfqInfoCondition });
   };
 
   const getLov = async () => {
@@ -241,6 +241,7 @@ function RfqCreate() {
     } else {
       // * RFQ 생성
       // Pr에서 넘어온 경우
+      // TODO: Buyer id 넣어주기
       selectBuyerInfo("17278");
       selectProductInfo();
       setRfqListData({ ...rfqListData, rfq_no: rfq_no });
@@ -270,7 +271,6 @@ function RfqCreate() {
   const onHandleSearch = async (value) => {
     const sendData = { vendor_name: value };
     const resultList = await getVendorList(sendData);
-
     return resultList;
   };
   const columnDefs = [
@@ -542,16 +542,22 @@ function RfqCreate() {
 
   const onRemove = () => {
     let temp = vendorFile;
+    console.log("vendorFile", vendorFile)
     removeList.map((r) => {
-      temp = temp.filter((q) => q.id !== r);
-    });
+      temp = temp.filter((q, idx) => { 
+        return (q.id !== r || idx === (temp.length -1))
+      });  
+    });  
     setVendorFile([...temp]);
     setRemoveList([]);
+   
   };
   const onRemove2 = () => {
     let temp = innerFile;
     removeList2.map((r) => {
-      temp = temp.filter((q) => q.id !== r);
+      temp = temp.filter((q, idx) => { 
+        return (q.id !== r || idx === (temp.length -1))
+      });
     });
     setInnerFile([...temp]);
     setRemoveList2([]);
@@ -752,30 +758,30 @@ function RfqCreate() {
       <section>
         <ButtonWrapper>
           <SubTitle>🔹 RFQ첨부(공급사배포)</SubTitle>
-          <Button onClick={onRemove}>삭제</Button>
+          <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </ButtonWrapper>
         <RfqSelectVendorContainer>
-          <FileManager
+          <QuotationSubmitTable
             quotationFile={vendorFile}
             handleFileContent={handleFileContent}
             handleInputChange={handleInputChange}
             handleRemoveList={handleRemoveList}
-          ></FileManager>
+          ></QuotationSubmitTable>
         </RfqSelectVendorContainer>
       </section>
 
       <section>
         <ButtonWrapper>
           <SubTitle>🔹 RFQ첨부(내부결재)</SubTitle>
-          <Button onClick={onRemove2}>삭제</Button>
+          <DeleteButton onClick={onRemove2}>삭제</DeleteButton>
         </ButtonWrapper>
         <RfqSelectVendorContainer>
-          <FileManager
+          <QuotationSubmitTable
             quotationFile={innerFile}
             handleFileContent={handleFileContent2}
             handleInputChange={handleInputChange2}
             handleRemoveList={handleRemoveList2}
-          ></FileManager>
+          ></QuotationSubmitTable>
         </RfqSelectVendorContainer>
       </section>
 
@@ -814,6 +820,7 @@ const StyledRoot = styled.main`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 `;
 
 const Title = styled.p`
@@ -862,5 +869,5 @@ const SubTitle = styled.p`
 `;
 
 const RfqSelectVendorContainer = styled.div`
-  padding: 1rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
 `;
