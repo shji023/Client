@@ -35,11 +35,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
-import FileVendor from "fileUpload/FileVendor";
-import FileInner from "fileUpload/FileInner";
 import { reload } from "hooks/CommonFunction";
 import useDidMountEffect from "hooks/useDidMountEffect";
-import { uploadFile, uploadFileContent } from "apis/file.api";
+import { uploadFile, uploadContent } from "apis/file.api";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 
 function RfqCreate() {
@@ -402,7 +400,26 @@ function RfqCreate() {
     let res = confirm("최종 저장 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
-      const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData);
+      // const data2 = await uploadContent(innerFile);
+      // console.log("data2", data2)
+      
+      const data = await insertRfqInfo(
+        rfqListData, 
+        selectedVendorList, 
+        productInfoData
+        // vendorFile 
+        // innerFile
+        );
+        
+      let temp = vendorFile;
+      temp.forEach((t) => {
+        t.rfq_no = data;
+      })
+      setVendorFile([...temp]);
+
+      const data1 = await uploadContent(vendorFile);
+
+
       if (data) {
         alert("저장이 완료되었습니다.");
 
@@ -487,6 +504,7 @@ function RfqCreate() {
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
+    console.log("returnData ::", returnData)
     setVendorFile(
       vendorFile.map((q) =>
         q.id === nextId.current
@@ -510,7 +528,7 @@ function RfqCreate() {
     const returnData = await uploadFile(formData);
     setInnerFile(
       innerFile.map((q) =>
-        q.id === nextId.current
+        q.id === nextId2.current
           ? {
               ...q,
               origin_name: returnData[0].originFile,
@@ -542,7 +560,6 @@ function RfqCreate() {
 
   const onRemove = () => {
     let temp = vendorFile;
-    console.log("vendorFile", vendorFile);
     removeList.map((r) => {
       temp = temp.filter((q, idx) => {
         return q.id !== r || idx === temp.length - 1;
@@ -769,7 +786,7 @@ function RfqCreate() {
         </RfqSelectVendorContainer>
       </section>
 
-      <section>
+      {/* <section>
         <ButtonWrapper>
           <SubTitle>🔹 RFQ첨부(내부결재)</SubTitle>
           <DeleteButton onClick={onRemove2}>삭제</DeleteButton>
@@ -782,7 +799,7 @@ function RfqCreate() {
             handleRemoveList={handleRemoveList2}
           ></QuotationSubmitTable>
         </RfqSelectVendorContainer>
-      </section>
+      </section> */}
 
       <section>
         <ButtonWrapper>

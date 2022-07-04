@@ -10,7 +10,7 @@ import { getQuotationItemInfo, postQuotationInfo, postVendorComment } from "apis
 import { Button, DeleteButton } from "components/common/CustomButton";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { downloadFile, uploadFile, uploadFileContent } from "apis/file.api";
+import { downloadFile, uploadContent, uploadFile } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
 
@@ -152,7 +152,7 @@ function BidWrite() {
     //   return true;
     // }
     // return false;
-    await uploadFileContent(quotationFile);
+    await uploadContent(quotationFile);
   };
 
   useEffect(() => {
