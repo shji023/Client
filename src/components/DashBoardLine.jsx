@@ -24,7 +24,7 @@ const DashBoardLine = () => {
       },
     },
 
-    colors: [`${colors.themeBlue1}`, `${colors.themeBlue5}`],
+    colors: [`#005386`, `${colors.themeBlue3}`],
     fill: {
       type: "solid",
       opacity: 1,
@@ -159,14 +159,14 @@ const DashBoardLine = () => {
                   mr: 1,
                 }}
               />
-              <Typography
+              {/* <Typography
                 variant="h6"
                 sx={{
                   color: "secondary.main",
                 }}
               >
                 Ample
-              </Typography>
+              </Typography> */}
             </Box>
             <Box
               sx={{
@@ -184,14 +184,14 @@ const DashBoardLine = () => {
                   mr: 1,
                 }}
               />
-              <Typography
+              {/* <Typography
                 variant="h6"
                 sx={{
                   color: "primary.main",
                 }}
               >
                 Pixel Admin
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
         </Box>
