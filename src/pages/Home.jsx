@@ -1,3 +1,4 @@
+import DashBoardCard from "components/DashBoardCard";
 import DashBoardGraph from "components/DashBoardGraph";
 import DashBoardLine from "components/DashBoardLine";
 import DashBoardProcess from "components/DashBoardProcess";
@@ -11,6 +12,7 @@ function Home() {
       <DashBoardLine></DashBoardLine>
       <DashBoardGraph></DashBoardGraph>
       {/* <DashBoardProcess></DashBoardProcess> */}
+      <DashBoardCard></DashBoardCard>
     </div>
   );
 }
