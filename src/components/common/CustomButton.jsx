@@ -47,4 +47,7 @@ export const UploadButton = styled.button`
   }
   margin-left: 1rem;
   // margin-bottom: 1rem;
+  :disabled {
+    background-color: ${colors.mildBlack};
+  }
 `;

@@ -119,34 +119,83 @@ function RfqDetail() {
   };
 
   //------------------------------------------------------
-  const [vendorFile, setvendorFile] = useState([]);
+  const [vendorFile, setVendorFile] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [isAdd, setIsAdd] = useState(false);
   const nextId = useRef(0);
+  const [deleteFileIdList, setDeleteFileIdList] = useState([]);
 
+
+  // #region File Input 관련 이벤트
   // file 변경 내용 입력
-  const handleInputChange = async (e) => {
+  const handleInputChange = async (e, id) => {
     const formData = new FormData();
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
-    // 파일 정보를 db에 저장
     const returnData = await uploadFile(formData);
-    setvendorFile(
-      vendorFile.map((q) =>
-        q.id === nextId.current
-          ? {
-              ...q,
-              origin_name: returnData[0].originFile,
-              save_name: returnData[0].saveFile,
-              size: returnData[0].size + "Bytes",
-              upload_date: returnData[0].uploadDate,
-              file_path: returnData[0].saveFolder,
-            }
-          : q,
-      ),
-    );
-    setIsAdd(!isAdd);
+
+    let tempList = vendorFile;
+    let tempIdx = tempList.length - 1;
+    tempList.forEach((e, idx) => {
+      if(e.id === id) tempIdx = idx;
+    });
+
+    if(tempList[tempIdx].file_id) {
+      // 기존 파일 변경
+      tempList[tempIdx] = {
+        ...tempList[tempIdx],
+        origin_name : returnData[0].originFile,
+        save_name   : returnData[0].saveFile,
+        size        : returnData[0].size + "Bytes",
+        upload_date : returnData[0].uploadDate,
+        file_path   : returnData[0].saveFolder,
+        query_type  : "update",
+      }
+    } else {
+      // 새 파일 추가
+      tempList[tempIdx] = {
+        ...tempList[tempIdx],
+        origin_name : returnData[0].originFile,
+        save_name   : returnData[0].saveFile,
+        size        : returnData[0].size + "Bytes",
+        upload_date : returnData[0].uploadDate,
+        file_path   : returnData[0].saveFolder,
+        query_type  : "insert",
+      }
+    }
+    
+    setVendorFile([...tempList]);
+
+    // 마지막 행에 파일이 추가된 경우, 새 줄 추가
+    if(tempIdx === tempList.length - 1) {
+      setIsAdd(!isAdd);
+    }
+
   };
+  
+  // const handleInputChange = async (e) => {
+  //   const formData = new FormData();
+  //   e.target.files[0] && formData.append("file", e.target.files[0]);
+
+  //   // 파일 정보를 db에 저장
+  //   const returnData = await uploadFile(formData);
+  //   setVendorFile(
+  //     vendorFile.map((q) =>
+  //       q.id === nextId.current
+  //         ? {
+  //             ...q,
+  //             origin_name: returnData[0].originFile,
+  //             save_name: returnData[0].saveFile,
+  //             size: returnData[0].size + "Bytes",
+  //             upload_date: returnData[0].uploadDate,
+  //             file_path: returnData[0].saveFolder,
+  //             query_type  : "insert",
+  //           }
+  //         : q,
+  //     ),
+  //   );
+  //   setIsAdd(!isAdd);
+  // };
 
   const handleRemoveList = (checked, id) => {
     if (checked) {
@@ -158,10 +207,13 @@ function RfqDetail() {
 
   const onRemove = () => {
     let temp = vendorFile;
+
     removeList.map((r) => {
-      temp = temp.filter((q) => q.id !== r);
+      temp = temp.filter((q, idx) => {
+        return q.id !== r || idx === temp.length - 1;
+      }); 
     });
-    setvendorFile([...temp]);
+    setVendorFile([...temp]);
     setRemoveList([]);
   };
 
@@ -169,23 +221,23 @@ function RfqDetail() {
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
-      id: nextId.current,
-      type: "",
-      origin_name: "",
-      save_name: "",
-      size: "",
-      upload_date: "",
-      file_path: "",
-      rfq_no: id,
+      id          : nextId.current,
+      type        : "",
+      origin_name : "",
+      save_name   : "",
+      size        : "",
+      upload_date : "",
+      file_path   : "",
     };
-    setvendorFile([...vendorFile, newFile]);
+    setVendorFile([...vendorFile, newFile]);
   };
 
   // file content 내용 등록
   const handleFileContent = (key, value) => {
-    setvendorFile(
+    setVendorFile(
       vendorFile.map((q) =>
-        q.id === nextId.current
+        // q.id === nextId.current
+        q.id === key
           ? {
               ...q,
               type: value,
@@ -194,6 +246,17 @@ function RfqDetail() {
       ),
     );
   };
+  // #endregion File Input 관련 이벤트
+
+
+
+  const onSaveContents = () => {
+    confirm("입찰룰 작성을 완료하시겠습니까?") ? saveContents() : null;
+  };
+
+
+
+  // #region useEffect
 
   useDidMountEffect(() => {
     onCreate();
@@ -202,11 +265,18 @@ function RfqDetail() {
   useDidMountEffect(() => {}, [vendorFile]);
   //--------------------------------------------------------------
   const saveContents = async () => {
-    // 서버에 파일저장
-    const returnData = await uploadContent(vendorFile);
     const data = await insertOneBid(bidCondition);
+    console.log("bidding no : ", data);
 
-    if (data === "success" && returnData) {
+    // 서버에 파일저장
+    let temp = vendorFile;
+    temp.forEach((t) => {
+      t.bidding_no = data;
+    })
+    setVendorFile([...temp]);
+    const returnData = await uploadContent(vendorFile, deleteFileIdList);
+    
+    if (data && returnData) {
       confirm("입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?")
         ? navigate(`/bidList`)
         : null;
@@ -215,14 +285,14 @@ function RfqDetail() {
     }
   };
 
-  const onSaveContents = () => {
-    confirm("입찰룰 작성을 완료하시겠습니까?") ? saveContents() : null;
-  };
-
   useEffect(() => {
     selectRFQDetail(id);
     getLov();
   }, []);
+
+  // #endregion useEffect
+
+
 
   return (
     <StyledRoot>

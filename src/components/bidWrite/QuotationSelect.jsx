@@ -3,12 +3,14 @@ import { colors } from "assets/styles/color";
 import React from "react";
 import styled from "styled-components";
 
-function QuotationSelect({ id, handleFileContent, lov, isDisabled }) {
+function QuotationSelect({ id, handleFileContent, lov, isDisabled, initValue }) {
+  if (!initValue) initValue = "선택";
+
   return (
     <StyledRoot>
       <StyledSelect>
         <Select
-          defaultValue="선택"
+          value={initValue}
           onChange={(e) => {
             handleFileContent(id, e);
           }}
