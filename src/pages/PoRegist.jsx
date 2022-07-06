@@ -34,6 +34,7 @@ import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } fr
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { reload } from "hooks/CommonFunction";
+import TimeLine from "components/common/TimeLine/timelines";
 
 function PoRegist() {
   const { id } = useParams();
@@ -1246,6 +1247,9 @@ function PoRegist() {
           resvColumnDefs={prCreateColFields}
           onRowDataChanged={onRowDataChanged}
         />
+      </section>
+      <section>
+        <TimeLine></TimeLine>
       </section>
     </StyledRoot>
   );

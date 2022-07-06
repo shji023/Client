@@ -2,7 +2,6 @@ import { colors } from "assets/styles/color";
 import LabelInfo from "components/common/LabelInfo";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { getBidResult, getSuccessBid } from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
