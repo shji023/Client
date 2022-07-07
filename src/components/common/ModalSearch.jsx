@@ -2,7 +2,6 @@ import { Input, Button, Modal } from "antd";
 import { getSearchBuyerList } from "apis/buyer.api";
 import React, { useEffect, useState }  from "react";
 import styled from "styled-components";
-import DataGridModal from "./DataGridModal2";
 
 
 function ModalSearch({ inputLabel, id, inputValue, setInputValue, onPressEnter, inputRef }) {
