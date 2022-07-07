@@ -1,16 +1,41 @@
+import { getBidListBuyer } from "apis/bid.api";
 import DashBoardCard from "components/dashboard/DashBoardCard";
 import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import DashBoardLine from "components/dashboard/DashBoardLine";
 import DashBoardPieChart from "components/dashboard/DashBoardPieChart";
-import React from "react";
+import useDidMountEffect from "hooks/useDidMountEffect";
+import React, { useState } from "react";
 import styled from "styled-components";
-function MyPage() {
+function DashBoard() {
+  const [bidListBuyerData, setBidListBuyerData] = useState([]);
+  const [prCount, setPrCount] = useState(0);
+  const selectBidListBuyer = async () => {
+    const data = await getBidListBuyer({
+      rfq_no: "",
+      bid_search_type: "",
+      rfq_description: "",
+      buyer_id: "",
+    });
+
+    let tempCount = 0;
+    data &&
+      data.map((b) => {
+        if (b.bidding_end_date === "") {
+          tempCount++;
+        }
+      });
+    setPrCount(tempCount);
+    setBidListBuyerData(data);
+  };
+  useDidMountEffect(() => {
+    selectBidListBuyer();
+  }, []);
   return (
     <StyledRoot>
       <Top>
-        <DashBoardCard></DashBoardCard>
-        <DashBoardCard></DashBoardCard>
-        <DashBoardCard></DashBoardCard>
+        <DashBoardCard title="구매신청" total={bidListBuyerData.length}></DashBoardCard>
+        <DashBoardCard title="RFQ" total={bidListBuyerData.length}></DashBoardCard>
+        <DashBoardCard title="입찰" total={bidListBuyerData.length} count={prCount}></DashBoardCard>
       </Top>
       <Middle>
         <Left>
@@ -28,7 +53,7 @@ function MyPage() {
   );
 }
 
-export default MyPage;
+export default DashBoard;
 
 const StyledRoot = styled.div`
   display: flex;

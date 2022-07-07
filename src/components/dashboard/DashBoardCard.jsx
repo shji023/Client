@@ -3,16 +3,21 @@ import styled from "styled-components";
 import { Refresh } from "assets/images";
 import { colors } from "assets/styles/color";
 
-function DashBoardCard() {
+function DashBoardCard({ title, total, count }) {
   return (
     <StyledRoot>
       <Top>
-        {/* <img src={Refresh} alt="refreshIcon" /> */}
-        {/* <TopText> */}
-        <p>구매신청</p>
-        <p>완료 pr / 전체 pr</p>
-        <p>6 / 312 건</p>
-        {/* </TopText> */}
+        <p>{title}</p>
+        {title === "구매신청" ? (
+          <p>RFQ생성 대기 PR / 전체 </p>
+        ) : title === "RFQ" ? (
+          <p>입찰 대기 RFQ / 전체 </p>
+        ) : (
+          <p> 낙찰 처리 대기 입찰 / 전체</p>
+        )}
+        <p>
+          {count} / {total} 건
+        </p>
       </Top>
       <Hr />
       <Bottom>
@@ -68,6 +73,9 @@ const Bottom = styled.div`
     width: 2rem;
     height: 2rem;
     margin-right: 1rem;
+    :hover {
+      cursor: pointer;
+    }
   }
   p {
     font-size: 1.2rem;
