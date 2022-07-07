@@ -2,6 +2,7 @@
 
 import { MONTHS_PER_YEAR } from './constants'
 
+// 배열에 숫자를 담는 함수
 export const fill = n => {
   const arr = []
   for (let i = 0; i < n; i += 1) {
@@ -260,3 +261,28 @@ const NOUNS = [
 
 export const randomTitle = () =>
   `${ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]} ${NOUNS[Math.floor(Math.random() * NOUNS.length)]}`
+
+
+const elementStyle = {
+  backgroundColor: `#005386`,
+  color: '#FFFFFF',
+  borderRadius: '4px',
+  boxShadow: '1px 1px 0px rgba(0, 0, 0, 0.25)',
+  textTransform: 'capitalize',
+}
+  
+export const tasks = [
+  {
+    id: "1",
+    title: "물품1",
+    elements: [
+      {
+        title: "물품1",
+        start: new Date("2021-08-31"),
+        end: new Date("2021-09-21"),
+        style: elementStyle,
+      }
+    ],
+    
+  }
+];

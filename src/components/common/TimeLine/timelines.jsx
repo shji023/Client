@@ -7,9 +7,9 @@ import { START_YEAR, NUM_OF_YEARS, NUM_OF_TRACKS } from './constants'
 
 import { buildTimebar, buildTrack } from './builders'
 
-import { fill } from './utils'
+import { fill, tasks } from './utils'
 
-const now = new Date('2021-01-01')
+const now = new Date()
 
 const timebar = buildTimebar()
 
@@ -23,6 +23,7 @@ class TimeLines extends Component {
   constructor(props) {
     super(props)
 
+    // 좌측 메인 컬럼 생성
     const tracksById = fill(NUM_OF_TRACKS).reduce((acc, i) => {
       const track = buildTrack(i + 1)
       acc[track.id] = track
@@ -38,6 +39,7 @@ class TimeLines extends Component {
     }
   }
 
+  // #region 이벤트
   handleToggleOpen = () => {
     this.setState(({ open }) => ({ open: !open }))
   }
@@ -66,14 +68,16 @@ class TimeLines extends Component {
       }
     })
   }
+  // #endregion 이벤트
 
   render() {
     const { open, zoom, tracks } = this.state
     const start = new Date(`${START_YEAR}`)
     const end = new Date(`${START_YEAR + NUM_OF_YEARS}`)
+
     return (
       <div className="app">
-        <h1 className="title">React Timelines</h1>
+        {/* <h1 className="title">React Timelines</h1> */}
         <Timeline
           scale={{
             start,
@@ -92,7 +96,8 @@ class TimeLines extends Component {
             alert(JSON.stringify(track))
           }}
           timebar={timebar}
-          tracks={tracks}
+          // tracks={tracks}
+          tracks={tasks}
           now={now}
           toggleTrackOpen={this.handleToggleTrackOpen}
           enableSticky
