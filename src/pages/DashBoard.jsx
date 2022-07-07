@@ -1,14 +1,18 @@
 import DashBoardCard from "components/dashboard/DashBoardCard";
+import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import React from "react";
 import styled from "styled-components";
 function MyPage() {
   return (
     <StyledRoot>
-      <CardWrapper>
+      <Top>
         <DashBoardCard></DashBoardCard>
         <DashBoardCard></DashBoardCard>
         <DashBoardCard></DashBoardCard>
-      </CardWrapper>
+      </Top>
+      <Middle>
+        <DashBoardDataGrid></DashBoardDataGrid>
+      </Middle>
     </StyledRoot>
   );
 }
@@ -20,7 +24,9 @@ const StyledRoot = styled.div`
   flex-direction: column;
 `;
 
-const CardWrapper = styled.div`
+const Top = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+const Middle = styled.div``;
