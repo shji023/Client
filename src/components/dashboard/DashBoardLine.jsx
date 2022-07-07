@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography, Box } from "@material-ui/core";
+import { Card, CardContent, Box } from "@material-ui/core";
 import { colors } from "assets/styles/color";
 import Chart from "react-apexcharts";
 
@@ -52,18 +52,18 @@ const DashBoardLine = () => {
     xaxis: {
       type: "category",
       categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "July",
-        "Aug",
-        "Sept",
-        "Oct",
-        "Nov",
-        "Dec",
+        "A_Raw",
+        "MRO내자",
+        "MRO외자",
+        "공사",
+        "기타(투자)",
+        "설비(내자)",
+        "설비(외자)",
+        "협력",
+        "장비성투자",
+        "컨소시엄",
+        "하자관리",
+        "용도품",
       ],
       labels: {
         style: {
