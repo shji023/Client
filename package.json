@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
-    "@delowar/react-circle-progressbar": "^1.0.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@material-ui/core": "^4.12.4",
@@ -25,7 +24,6 @@
     "mobx-react": "^7.5.0",
     "react": "^18.1.0",
     "react-apexcharts": "^1.4.0",
-    "react-circular-progressbar": "^2.1.0",
     "react-cookie": "^4.1.1",
     "react-data-grid": "^7.0.0-beta.13",
     "react-dom": "^18.1.0",
