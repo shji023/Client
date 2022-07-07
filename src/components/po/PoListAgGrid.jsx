@@ -86,7 +86,7 @@ const AgGrid = ({ poListData }) => {
                 <AgGridColumn field="blanket_total_amount" headerName="Amount" minWidth={130} />
                 <AgGridColumn field="type_lookup_code" headerName="Type" minWidth={110} />
                 <AgGridColumn field="attribute10" headerName="Buyer" minWidth={110} />
-                <AgGridColumn field="closed_code" headerName="Closuer Status" minWidth={100} />
+                <AgGridColumn field="closed_code" headerName="Closure Status" minWidth={100} />
                 <AgGridColumn field="cancel_flag" headerName="Cancelled" minWidth={100} />
                 <AgGridColumn field="line_count" headerName="품목수" minWidth={100} />
             </AgGridReact>
