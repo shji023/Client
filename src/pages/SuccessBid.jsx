@@ -83,7 +83,7 @@ function SuccessBid(props) {
         </InputContainer>
       </section>
 
-      <SubTitle>🔹 공급사별 투찰결과</SubTitle>
+      <SubTitle>공급사별 투찰결과</SubTitle>
 
       <section>
         <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>

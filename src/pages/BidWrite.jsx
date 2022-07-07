@@ -18,19 +18,19 @@ function BidWrite() {
   const { id } = useParams();
   const currencyLov = ["KRW", "USD", "JPY", "EUR"];
   const [updateItem, setUpdateItem] = useState({
-    vendor_site_id        : getCookie("site_id"),
-    quotation_total_price : "",
-    rfq_no                : "",
-    main_currency         : "",
+    vendor_site_id: getCookie("site_id"),
+    quotation_total_price: "",
+    rfq_no: "",
+    main_currency: "",
   });
   const [itemListData, setItemListData] = useState([]);
   // RenderingData
   const [quotationFile, setQuotationFile] = useState([]);
   const [vendorComment, setVendorComment] = useState({
-    vendor_site_id    : getCookie("site_id"),
-    rfq_no            : "",
-    bidding_no        : "",
-    quotation_comment : "",
+    vendor_site_id: getCookie("site_id"),
+    rfq_no: "",
+    bidding_no: "",
+    quotation_comment: "",
   });
   const [isSubmit, setIsSubmit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,8 +48,6 @@ function BidWrite() {
     setUpdateItem(tempUpdateItem);
   };
 
-
-
   // #region File Input 관련 이벤트
   // file 변경 내용 입력
   const handleInputChange = async (e, id) => {
@@ -61,40 +59,39 @@ function BidWrite() {
     let tempList = quotationFile;
     let tempIdx = tempList.length - 1;
     tempList.forEach((e, idx) => {
-      if(e.id === id) tempIdx = idx;
+      if (e.id === id) tempIdx = idx;
     });
 
-    if(tempList[tempIdx].file_id) {
+    if (tempList[tempIdx].file_id) {
       // 기존 파일 변경
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "update",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "update",
+      };
     } else {
       // 새 파일 추가
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "insert",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "insert",
+      };
     }
-    
+
     setQuotationFile([...tempList]);
 
     // 마지막 행에 파일이 추가된 경우, 새 줄 추가
-    if(tempIdx === tempList.length - 1) {
+    if (tempIdx === tempList.length - 1) {
       setIsAdd(!isAdd);
     }
-
   };
   // const handleInputChange = async (e) => {
   //   const formData = new FormData();
@@ -129,7 +126,7 @@ function BidWrite() {
 
   const onRemove = () => {
     let temp = quotationFile;
-    
+
     removeList.map((r) => {
       temp = temp.filter((q, idx) => {
         return q.id !== r || idx === temp.length - 1;
@@ -143,14 +140,14 @@ function BidWrite() {
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
-      id             : nextId.current,
-      type           : "기타",
-      origin_name    : "",
-      save_name      : "",
-      size           : "",
-      upload_date    : "",
-      file_path      : "",
-      vendor_site_id : getCookie("site_id"),
+      id: nextId.current,
+      type: "기타",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
+      vendor_site_id: getCookie("site_id"),
     };
     setQuotationFile([...quotationFile, newFile]);
   };
@@ -171,8 +168,6 @@ function BidWrite() {
   };
 
   // #endregion File Input 관련 이벤트
-
-
 
   // 공급사 의견 입력
   const handleVendorComment = (value) => {
@@ -212,12 +207,10 @@ function BidWrite() {
     let temp = quotationFile;
     temp.forEach((t) => {
       t.bid_vendor_id = data;
-    })
+    });
     setQuotationFile([...temp]);
     await uploadContent(quotationFile, deleteFileIdList);
   };
-
-
 
   // #region useEffect
   useEffect(() => {
@@ -253,52 +246,52 @@ function BidWrite() {
     <StyledRoot>
       <Title>응찰서 작성</Title>
       <section>
-        <SubTitle>🔹 견적정보</SubTitle>
+        <SubTitle>견적정보</SubTitle>
         <QuotationInfoContainer>
           <InputWrapper>
             <BidInputSelect
-              id              = "main_currency"
-              inputLabel      = "견적총금액"
-              handleCondition = {handleCondition}
-              lov             = {currencyLov}
-              isDisabled      = {isSubmit}
+              id="main_currency"
+              inputLabel="견적총금액"
+              handleCondition={handleCondition}
+              lov={currencyLov}
+              isDisabled={isSubmit}
             />
             <QuotationInput
               id="quotation_total_price"
-              priceLabel      = {result}
-              currencyLabel   = {updateItem.main_currency}
-              handleCondition = {handleCondition}
-              inputValue      = {updateItem.quotation_total_price}
-              isDisabled      = {isSubmit}
-              readOnly        = {true}
+              priceLabel={result}
+              currencyLabel={updateItem.main_currency}
+              handleCondition={handleCondition}
+              inputValue={updateItem.quotation_total_price}
+              isDisabled={isSubmit}
+              readOnly={true}
             />
           </InputWrapper>
           <BidWriteDataGrid
-            itemListData    = {itemListData}
-            setItemListData = {setItemListData}
-            isDisabled      = {isSubmit}
+            itemListData={itemListData}
+            setItemListData={setItemListData}
+            isDisabled={isSubmit}
           />
         </QuotationInfoContainer>
       </section>
       <section>
         <SubmitTitle>
-          <p>🔹 견적서 제출</p>
+          <p>견적서 제출</p>
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </SubmitTitle>
         <SubmitQuotationContainer>
           <QuotationSubmitTable
-            quotationFile     = {quotationFile}
-            handleFileContent = {handleFileContent}
-            handleInputChange = {handleInputChange}
-            handleRemoveList  = {handleRemoveList}
-            isCheckDisabled   = {isSubmit}
-            isSelectDisabled  = {isSubmit}
-            isBtnDisabled     = {isSubmit}
+            quotationFile={quotationFile}
+            handleFileContent={handleFileContent}
+            handleInputChange={handleInputChange}
+            handleRemoveList={handleRemoveList}
+            isCheckDisabled={isSubmit}
+            isSelectDisabled={isSubmit}
+            isBtnDisabled={isSubmit}
           ></QuotationSubmitTable>
         </SubmitQuotationContainer>
       </section>
       <section>
-        <SubTitle>🔹 공급사 의견</SubTitle>
+        <SubTitle>공급사 의견</SubTitle>
         <VendorCommentContainer>
           <TextAreaWrapper>
             <TextArea
@@ -320,9 +313,9 @@ function BidWrite() {
         </Button>
       </ButtonWrapper>
       <ConfirmModal
-        isModalOpen     = {isModalOpen}
-        setIsModalOpen  = {setIsModalOpen}
-        postVendorInfo  = {postVendorInfo}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        postVendorInfo={postVendorInfo}
       />
     </StyledRoot>
   );
