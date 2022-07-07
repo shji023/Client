@@ -75,3 +75,27 @@
 .ant-picker-clear {
   display: none !important;
 }
+
+/* 타임라인 */
+.rt {
+  display: flex;
+  flex-direction: column;
+}
+.rt-layout {
+  border: 1px solid #babfc7;
+}
+.rt-controls {
+  display: flex !important;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+#rtTitle {
+  font-size: 1.8rem;
+  /* margin-bottom: 1rem; */
+  /* margin-top: 1.5rem; */
+  font-family: "Pretendard-SemiBold";
+}
+.rt-controls__button {
+  border: 1px solid gray;
+  border-radius: 0.3rem;
+}

@@ -35,6 +35,7 @@ import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { reload } from "hooks/CommonFunction";
 import TimeLine from "components/common/TimeLine/timelines";
+import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 
 function PoRegist() {
   const { id } = useParams();
@@ -120,6 +121,24 @@ function PoRegist() {
     location: [],
     distribution: [],
   });
+  const [trackData, setTrackData] = useState([
+    {
+      id: "1",
+      title: "물품1",
+      start: new Date("2021-08-31"),
+      end: new Date("2021-09-21"),
+      style: TimeLineBuildStyle,
+      elements: [
+        {
+          id: "1",
+          title: "물품1",
+          start: new Date("2021-08-31"),
+          end: new Date("2021-09-21"),
+          style: TimeLineBuildStyle,
+        }
+      ],
+    }
+  ]);
 
   // const testCondition = {
   //   acceptance_due_date: "",
@@ -828,6 +847,31 @@ function PoRegist() {
     getPoInit();
   }, []);
 
+  useEffect(()=>{
+    let tempList = [];
+    rowData.forEach((e)=>{
+      console.log(e.id, e.item, e.need_by_date, e.promised_date);
+
+      let temp = {
+        id: e.id,
+        title: e.item,
+        elements: [
+          {
+            id: e.id,
+            title: e.item,
+            start: new Date(e.need_by_date),
+            end: new Date(e.promised_date),
+            style: TimeLineBuildStyle,
+          }
+        ],
+      }
+      tempList.push(temp);
+    })
+    console.log(tempList);
+
+    setTrackData([...tempList]);
+  }, [rowData])
+
   useEffect(() => {
     // * 헤더 총 금액 계산
     const tempConditions = conditions;
@@ -1249,7 +1293,7 @@ function PoRegist() {
         />
       </section>
       <section>
-        <TimeLine></TimeLine>
+        <TimeLine title={"물품 타임라인"} trackData={trackData}/>
       </section>
     </StyledRoot>
   );
