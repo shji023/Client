@@ -33,7 +33,7 @@ const StyledRoot = styled.div`
   background: linear-gradient(to right, #2b3254, #151928);
   width: 40rem;
   height: 17rem;
-  padding: 1.7rem;
+  padding: 2rem;
   margin-top: 2rem;
 `;
 
@@ -56,8 +56,8 @@ const Top = styled.div`
   }
   p:nth-of-type(2) {
     font-size: 1.4rem;
-    /* color: "#636363"; */
-    color: white;
+    color: ${colors.themeBlue2};
+    /* color: white; */
     font-family: "Pretendard-SemiBold";
     margin-left: auto;
   }
