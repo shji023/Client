@@ -84,7 +84,7 @@ function DashBoardPieChart() {
     <PieChart
       width={400}
       height={380}
-      style={{ fontSize: "1.6rem", fontFamily: "Pretendard-SemiBold" }}
+      style={{ fontSize: "1.4rem", fontFamily: "Pretendard-SemiBold" }}
     >
       <Pie
         activeIndex={activeIndex}
@@ -92,8 +92,8 @@ function DashBoardPieChart() {
         data={data}
         cx="50%"
         cy="50%"
-        innerRadius={60}
-        outerRadius={80}
+        innerRadius={70}
+        outerRadius={90}
         fill={colors.themeBlue2}
         dataKey="value"
         onMouseEnter={onPieEnter}
