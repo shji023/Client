@@ -7,11 +7,12 @@ function DashBoardCard() {
   return (
     <StyledRoot>
       <Top>
-        <img src={Refresh} alt="refreshIcon" />
-        <TopText>
-          <p>Capacity</p>
-          <p>$ 1,345</p>
-        </TopText>
+        {/* <img src={Refresh} alt="refreshIcon" /> */}
+        {/* <TopText> */}
+        <p>구매신청</p>
+        <p>완료 pr / 전체 pr</p>
+        <p>6 / 312 건</p>
+        {/* </TopText> */}
       </Top>
       <Hr />
       <Bottom>
@@ -30,19 +31,41 @@ const StyledRoot = styled.div`
   border-radius: 0.5rem;
   border: 1px solid "#636363";
   background: linear-gradient(to right, #2b3254, #151928);
-  width: 25rem;
-  height: 12.5rem;
+  width: 40rem;
+  height: 17rem;
   padding: 1.7rem;
   margin-top: 2rem;
 `;
 
 const Top = styled.div`
   display: flex;
-  justify-content: space-between;
-  height: 5.5rem;
-  img {
+  flex-direction: column;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  height: 10rem;
+  line-height: 1.3;
+  /* img {
     width: 4rem;
     height: 4rem;
+  } */
+  p:nth-of-type(1) {
+    font-size: 2.8rem;
+    /* color: "#636363"; */
+    color: white;
+    font-family: "Pretendard-SemiBold";
+  }
+  p:nth-of-type(2) {
+    font-size: 1.4rem;
+    /* color: "#636363"; */
+    color: white;
+    font-family: "Pretendard-SemiBold";
+    margin-left: auto;
+  }
+  p:nth-of-type(3) {
+    font-size: 2.8rem;
+    color: white;
+    font-family: "Pretendard-SemiBold";
+    margin-left: auto;
   }
 `;
 
@@ -52,13 +75,13 @@ const TopText = styled.div`
   align-items: flex-end;
   line-height: 1.3;
   p:nth-of-type(1) {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     /* color: "#636363"; */
     color: white;
     font-family: "Pretendard-SemiBold";
   }
   p:nth-of-type(2) {
-    font-size: 2.4rem;
+    font-size: 2.8rem;
     color: white;
     font-family: "Pretendard-SemiBold";
   }

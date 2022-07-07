@@ -1,5 +1,5 @@
-import DashBoardCard from "components/DashBoardCard";
-import DashBoardLine from "components/DashBoardLine";
+import DashBoardCard from "components/dashboard/DashBoardCard";
+import DashBoardLine from "components/dashboard/DashBoardLine";
 
 import React from "react";
 
