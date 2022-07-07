@@ -156,3 +156,12 @@ export const bidBuyerColFields = [
   { colId: 6, field: "need_by_date", headerName: "납기(최대)", minWidth: 150 },
   { colId: 7, field: "bidding_no", headerName: "입찰번호", minWidth: 150 },
 ];
+
+// dashboard
+export const dashboardColFields = [
+  { colId: 1, field: "rfq_no", headerName: "RFQ번호", minWidth: 120 },
+  { colId: 2, field: "bidding_no", headerName: "입찰번호", minWidth: 120 },
+  { colId: 3, field: "rfq_description", headerName: "건명", minWidth: 300 },
+  { colId: 4, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 200 },
+  { colId: 5, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 200 },
+];

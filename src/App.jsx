@@ -8,6 +8,7 @@ import {
   ScheduleFilled,
   SoundFilled,
   ReconciliationFilled,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
@@ -25,6 +26,7 @@ import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
+import DashBoard from "pages/DashBoard";
 import { POSCO_ICT_CI_ENG, ProfileIcon, SearchIcon, NoticeIcon } from "assets/images";
 import Login from "pages/Login";
 import { Header } from "antd/lib/layout/layout";
@@ -108,6 +110,21 @@ function App() {
           label: (
             <a href="/selectPoList" rel="noopener noreferrer">
               ⦁ &nbsp;구매계약조회
+            </a>
+          ),
+        },
+      ],
+    },
+    {
+      label: "DashBoard",
+      key: "DashBoardSubMenu",
+      icon: <BarChartOutlined />,
+      children: [
+        {
+          type: "group",
+          label: (
+            <a href="/dashboard" rel="noopener noreferrer">
+              ⦁ &nbsp;대시보드 조회
             </a>
           ),
         },
@@ -303,7 +320,14 @@ function App() {
                   </PrivateRoute>
                 }
               />
-
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
+                    <DashBoard />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/login" element={<Login />} />
 
               <Route path="/*" element={<p>Page Not Found</p>} />
