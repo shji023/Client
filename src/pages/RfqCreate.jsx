@@ -1,14 +1,10 @@
 import { colors } from "assets/styles/color";
-import LabelInfo from "components/common/LabelInfo";
 import InputInfo from "components/common/InputInfo";
 import InputSelect from "components/common/InputSelect";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import InputSearch from "components/common/InputSearch";
 import AgVendorSelect from "components/common/AgVendorSelect";
-import AgRfqInsert from "components/common/AgRfqInsert";
 import AgProductInfo from "components/common/AgProductInfo";
-import BidInfo from "components/common/BidInfo";
 import {
   getProductInfoList,
   getBuyerInfo,
@@ -35,18 +31,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
-import FileVendor from "fileUpload/FileVendor";
-import FileInner from "fileUpload/FileInner";
 import { reload } from "hooks/CommonFunction";
 import useDidMountEffect from "hooks/useDidMountEffect";
-import { uploadFile, uploadFileContent } from "apis/file.api";
+import { uploadFile, uploadContent, getRfqFileList } from "apis/file.api";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
+  const navigate = useNavigate();
 
   const [vendorFile, setVendorFile] = useState([]);
   const [innerFile, setInnerFile] = useState([]);
+  const [deleteFileIdList, setDeleteFileIdList] = useState([]);
 
   const [isAdd, setIsAdd] = useState(false);
   const [isAdd2, setIsAdd2] = useState(false);
@@ -142,6 +138,7 @@ function RfqCreate() {
   const [FobLov, setFobLov] = useState([]);
 
   const getRfqInfo = async (rfq_no) => {
+    // #region RFQ
     const data = await selectRfq(rfq_no);
     // Rfq Header
     const rfqList = data;
@@ -149,20 +146,20 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no: rfqList.rfq_no,
-      simple_quotation_flag: rfqList.simple_quotation_flag,
-      rfq_detail_status: rfqList.rfq_detail_status,
-      category_segment: rfqList.category_segment,
-      rfq_description: rfqList.rfq_description,
-      buyer_id: rfqList.buyer_id,
-      po_payment_cycle: po1.po_payment_cycle,
-      po_collabo_type: po1.po_collabo_type,
-      end_date: po1.end_date,
-      amount_limit: po1.amount_limit,
-      rfq_ship_to: rfqList.rfq_ship_to,
-      rfq_payment_terms: rfqList.rfq_payment_terms,
-      // bidding_fob:bid1.bidding_fob,
-      bidding_fob: rfqList.fob_lookup_code,
+      rfq_no                : rfqList.rfq_no,
+      simple_quotation_flag : rfqList.simple_quotation_flag,
+      rfq_detail_status     : rfqList.rfq_detail_status,
+      category_segment      : rfqList.category_segment,
+      rfq_description       : rfqList.rfq_description,
+      buyer_id              : rfqList.buyer_id,
+      po_payment_cycle      : po1.po_payment_cycle,
+      po_collabo_type       : po1.po_collabo_type,
+      end_date              : po1.end_date,
+      amount_limit          : po1.amount_limit,
+      rfq_ship_to           : rfqList.rfq_ship_to,
+      rfq_payment_terms     : rfqList.rfq_payment_terms,
+      // bidding_fob        : bid1.bidding_fob,
+      bidding_fob           : rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
@@ -177,6 +174,30 @@ function RfqCreate() {
       tempProductList.push({ ...element, rfq_id: element.id, query_type: "update" });
     });
     setProductInfoData([...tempProductList]);
+    // #endregion RFQ
+
+
+    // #region File
+    const fileData = await getRfqFileList(rfq_no);
+    console.log("fileData", fileData);
+    fileData.forEach(element => {
+      element.id = nextId.current++;
+      // element.query_type = "update";
+    });
+
+    const newFile = {
+      id          : nextId.current,
+      type        : "",
+      origin_name : "",
+      save_name   : "",
+      size        : "",
+      upload_date : "",
+      file_path   : "",
+    };
+    setVendorFile([ ...fileData, newFile ]);
+    console.log("nextId.current", nextId.current);
+    // #endregion File
+
   };
 
   const selectProductInfo = async () => {
@@ -186,15 +207,15 @@ function RfqCreate() {
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept: element.dept_name,
-        description: element.description,
-        group_name: element.group_name,
-        item_name: element.item,
-        item_id: element.item_id,
-        request_name: element.name,
-        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
-        request_phone: element.staff_contact_number,
-        unit_meas_lookup_code: element.uom,
+        request_dept          : element.dept_name,
+        description           : element.description,
+        group_name            : element.group_name,
+        item_name             : element.item,
+        item_id               : element.item_id,
+        request_name          : element.name,
+        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
+        request_phone         : element.staff_contact_number,
+        unit_meas_lookup_code : element.uom,
       };
       tempList.push(temp);
     });
@@ -206,6 +227,12 @@ function RfqCreate() {
     //TODO: 로그인 한 buyer_id 받아와서 넣기
     const data = await getBuyerInfo(buyerId);
     setBuyerInfoData(data);
+  };
+
+  const handleCondition = (key, value) => {
+    // const tempCondition = { ...conditions };
+    // tempCondition[key] = value;
+    // setConditions({ ...tempCondition });
   };
 
   const handleRfqInfoCondition = (key, value) => {
@@ -275,25 +302,25 @@ function RfqCreate() {
   };
   const columnDefs = [
     {
-      headerName: "",
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      floatingFilter: false,
-      suppressMenu: true,
-      minWidth: 10,
-      maxWidth: 100,
-      width: 50,
-      flex: 0,
-      resizable: false,
-      sortable: false,
-      editable: false,
-      filter: false,
-      suppressColumnsToolPanel: true,
-      hide: hide,
+      headerName               : "",
+      headerCheckboxSelection  : true,
+      checkboxSelection        : true,
+      floatingFilter           : false,
+      suppressMenu             : true,
+      minWidth                 : 10,
+      maxWidth                 : 100,
+      width                    : 50,
+      flex                     : 0,
+      resizable                : false,
+      sortable                 : false,
+      editable                 : false,
+      filter                   : false,
+      suppressColumnsToolPanel : true,
+      hide                     : hide,
     },
-    { field: "item_name", headerName: "Item", minWidth: 10 },
-    { field: "description", headerName: "Description", minWidth: 10, maxWidth: 150 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 10, maxWidth: 80 },
+    { field: "item_name",             headerName: "Item",        minWidth: 10 },
+    { field: "description",           headerName: "Description", minWidth: 10, maxWidth: 150 },
+    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 80 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
@@ -328,11 +355,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept", headerName: "사용부서", minWidth: 10, maxWidth: 120 },
-    { field: "group_name", headerName: "그룹사", minWidth: 10, maxWidth: 100 },
-    { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
-    { field: "request_name", headerName: "신청자", minWidth: 10, maxWidth: 100 },
-    { field: "request_phone", headerName: "연락처", minWidth: 10, maxWidth: 120 },
+    { field: "request_dept",    headerName: "사용부서",     minWidth: 10, maxWidth: 120 },
+    { field: "group_name",      headerName: "그룹사",       minWidth: 10, maxWidth: 100 },
+    { field: "requisition_num", headerName: "PR번호-Line",  minWidth: 10, maxWidth: 140 },
+    { field: "request_name",    headerName: "신청자",       minWidth: 10, maxWidth: 100 },
+    { field: "request_phone",   headerName: "연락처",       minWidth: 10, maxWidth: 120 },
   ];
 
   // #region 그리드 관련 이벤트
@@ -395,18 +422,36 @@ function RfqCreate() {
   };
   // #endregion 그리드 관련 이벤트
 
-  const navigate = useNavigate();
-
+  // #region 버튼
   // 저장 button
   const onClickSaveRfq = async () => {
     let res = confirm("최종 저장 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
-      const data = await insertRfqInfo(rfqListData, selectedVendorList, productInfoData);
-      if (data) {
+      // const data2 = await uploadContent(innerFile);
+      // console.log("data2", data2)
+      
+      const data = await insertRfqInfo(
+        rfqListData, 
+        selectedVendorList, 
+        productInfoData
+        // vendorFile 
+        // innerFile
+        );
+
+      const rfqNum = data;
+        
+      let temp = vendorFile;
+      temp.forEach((t) => {
+        t.rfq_no = rfqNum;
+      })
+      setVendorFile([...temp]);
+      const data1 = await uploadContent(vendorFile, deleteFileIdList);
+
+      if (rfqNum) {
         alert("저장이 완료되었습니다.");
 
-        navigate(`/rfqCreate/${data}` /* , { replace: true} */);
+        navigate(`/rfqCreate/${rfqNum}` /* , { replace: true} */);
         reload();
         setReadOnly(true);
       } else {
@@ -441,7 +486,16 @@ function RfqCreate() {
         deletedProductIdList,
       );
 
-      if (data) {
+      const rfqNum = data;
+
+      let temp = vendorFile;
+      temp.forEach((t) => {
+        t.rfq_no = rfqNum;
+      })
+      setVendorFile([...temp]);
+      const data1 = await uploadContent(vendorFile, deleteFileIdList);
+
+      if (rfqNum) {
         alert("수정이 완료되었습니다.");
         reload();
       } else {
@@ -476,54 +530,55 @@ function RfqCreate() {
     }
   };
   // #endregion 버튼
-  const handleCondition = (key, value) => {
-    // const tempCondition = { ...conditions };
-    // tempCondition[key] = value;
-    // setConditions({ ...tempCondition });
-  };
 
-  const handleInputChange = async (e) => {
+ 
+
+  // #region File Input 관련 이벤트
+  const handleInputChange = async (e, id) => {
     const formData = new FormData();
     e.target.files[0] && formData.append("file", e.target.files[0]);
 
     const returnData = await uploadFile(formData);
-    setVendorFile(
-      vendorFile.map((q) =>
-        q.id === nextId.current
-          ? {
-              ...q,
-              origin_name: returnData[0].originFile,
-              save_name: returnData[0].saveFile,
-              size: returnData[0].size + "Bytes",
-              upload_date: returnData[0].uploadDate,
-              file_path: returnData[0].saveFolder,
-            }
-          : q,
-      ),
-    );
-    setIsAdd(!isAdd);
-  };
-  const handleInputChange2 = async (e) => {
-    const formData = new FormData();
-    e.target.files[0] && formData.append("file", e.target.files[0]);
 
-    const returnData = await uploadFile(formData);
-    setInnerFile(
-      innerFile.map((q) =>
-        q.id === nextId.current
-          ? {
-              ...q,
-              origin_name: returnData[0].originFile,
-              save_name: returnData[0].saveFile,
-              size: returnData[0].size + "Bytes",
-              upload_date: returnData[0].uploadDate,
-              file_path: returnData[0].saveFolder,
-            }
-          : q,
-      ),
-    );
-    setIsAdd2(!isAdd2);
+    let tempList = vendorFile;
+    let tempIdx = tempList.length - 1;
+    tempList.forEach((e, idx) => {
+      if(e.id === id) tempIdx = idx;
+    });
+
+    if(tempList[tempIdx].file_id) {
+      // 기존 파일 변경
+      tempList[tempIdx] = {
+        ...tempList[tempIdx],
+        origin_name : returnData[0].originFile,
+        save_name   : returnData[0].saveFile,
+        size        : returnData[0].size + "Bytes",
+        upload_date : returnData[0].uploadDate,
+        file_path   : returnData[0].saveFolder,
+        query_type  : "update",
+      }
+    } else {
+      // 새 파일 추가
+      tempList[tempIdx] = {
+        ...tempList[tempIdx],
+        origin_name : returnData[0].originFile,
+        save_name   : returnData[0].saveFile,
+        size        : returnData[0].size + "Bytes",
+        upload_date : returnData[0].uploadDate,
+        file_path   : returnData[0].saveFolder,
+        query_type  : "insert",
+      }
+    }
+    
+    setVendorFile([...tempList]);
+
+    // 마지막 행에 파일이 추가된 경우, 새 줄 추가
+    if(tempIdx === tempList.length - 1) {
+      setIsAdd(!isAdd);
+    }
+
   };
+  
 
   const handleRemoveList = (checked, id) => {
     if (checked) {
@@ -532,70 +587,54 @@ function RfqCreate() {
       setRemoveList(removeList.filter((r) => r !== id));
     }
   };
-  const handleRemoveList2 = (checked, id) => {
-    if (checked) {
-      setRemoveList2([...removeList2, id]);
-    } else {
-      setRemoveList2(removeList2.filter((r) => r !== id));
-    }
-  };
+  
 
   const onRemove = () => {
     let temp = vendorFile;
-    console.log("vendorFile", vendorFile);
+    let delTemp = [];
+
     removeList.map((r) => {
       temp = temp.filter((q, idx) => {
-        return q.id !== r || idx === temp.length - 1;
+        if(q.id !== r || idx === temp.length - 1) {
+        // 유지될 항목
+          return true;
+        } else {
+        // 삭제될 항목
+          if(q.file_id) delTemp.push(q.file_id);
+          return false;
+        }
       });
     });
     setVendorFile([...temp]);
     setRemoveList([]);
+
+    setDeleteFileIdList([ ...deleteFileIdList, ...delTemp ]);
+    
   };
-  const onRemove2 = () => {
-    let temp = innerFile;
-    removeList2.map((r) => {
-      temp = temp.filter((q, idx) => {
-        return q.id !== r || idx === temp.length - 1;
-      });
-    });
-    setInnerFile([...temp]);
-    setRemoveList2([]);
-  };
+  
 
   // fileTable row추가
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
-      id: nextId.current,
-      type: "",
-      origin_name: "",
-      save_name: "",
-      size: "",
-      upload_date: "",
-      file_path: "",
+      id          : nextId.current,
+      type        : "",
+      origin_name : "",
+      save_name   : "",
+      size        : "",
+      upload_date : "",
+      file_path   : "",
     };
     setVendorFile([...vendorFile, newFile]);
   };
-  // fileTable row추가
-  const onCreate2 = () => {
-    nextId2.current += 1;
-    const newFile = {
-      id: nextId2.current,
-      type: "",
-      origin_name: "",
-      save_name: "",
-      size: "",
-      upload_date: "",
-      file_path: "",
-    };
-    setInnerFile([...innerFile, newFile]);
-  };
+
 
   // file content 내용 등록
   const handleFileContent = (key, value) => {
     setVendorFile(
       vendorFile.map((q) =>
-        q.id === nextId.current
+        // q.id === nextId.current
+        q.id === key
           ? {
               ...q,
               type: value,
@@ -604,26 +643,21 @@ function RfqCreate() {
       ),
     );
   };
-  const handleFileContent2 = (key, value) => {
-    setInnerFile(
-      innerFile.map((q) =>
-        q.id === nextId2.current
-          ? {
-              ...q,
-              type: value,
-            }
-          : q,
-      ),
-    );
-  };
+  
+  // #endregion File Input 관련 이벤트
 
+  
+
+  // #region useEffect
   useDidMountEffect(() => {
     onCreate();
   }, [isAdd]);
-  useDidMountEffect(() => {
-    onCreate2();
-  }, [isAdd2]);
+
   useEffect(() => {}, [vendorFile]);
+  // #endregion useEffect
+
+
+
   return (
     <StyledRoot>
       <section>
@@ -761,25 +795,13 @@ function RfqCreate() {
         </ButtonWrapper>
         <RfqSelectVendorContainer>
           <QuotationSubmitTable
-            quotationFile={vendorFile}
-            handleFileContent={handleFileContent}
-            handleInputChange={handleInputChange}
-            handleRemoveList={handleRemoveList}
-          ></QuotationSubmitTable>
-        </RfqSelectVendorContainer>
-      </section>
-
-      <section>
-        <ButtonWrapper>
-          <SubTitle>🔹 RFQ첨부(내부결재)</SubTitle>
-          <DeleteButton onClick={onRemove2}>삭제</DeleteButton>
-        </ButtonWrapper>
-        <RfqSelectVendorContainer>
-          <QuotationSubmitTable
-            quotationFile={innerFile}
-            handleFileContent={handleFileContent2}
-            handleInputChange={handleInputChange2}
-            handleRemoveList={handleRemoveList2}
+            quotationFile     = {vendorFile}
+            handleFileContent = {handleFileContent}
+            handleInputChange = {handleInputChange}
+            handleRemoveList  = {handleRemoveList}
+            isCheckDisabled   = {disabled}
+            isSelectDisabled  = {disabled}
+            isBtnDisabled     = {disabled}
           ></QuotationSubmitTable>
         </RfqSelectVendorContainer>
       </section>
@@ -797,10 +819,10 @@ function RfqCreate() {
           </section>
         </ButtonWrapper>
         <AgProductInfo
-          gridRef={gridRef}
-          productInfoData={productInfoData}
-          columnDefs={columnDefs}
-          onRowDataChanged={onRowDataChanged}
+          gridRef          = {gridRef}
+          productInfoData  = {productInfoData}
+          columnDefs       = {columnDefs}
+          onRowDataChanged = {onRowDataChanged}
         />
       </section>
     </StyledRoot>

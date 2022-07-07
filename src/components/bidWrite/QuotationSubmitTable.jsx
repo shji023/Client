@@ -9,13 +9,16 @@ function QuotationSubmitTable({
   handleRemoveList,
   handleFileContent,
   handleInputChange,
+
+  isCheckDisabled,
+  isSelectDisabled,
+  isBtnDisabled,
 }) {
   const lov = ["기타"];
   const inputRef = useRef(null);
-  const handleButton = () => {
-    if (inputRef.current !== null) {
-      inputRef.current.click();
-    }
+  const handleButton = (id) => {
+    let myInput = document.getElementById("inputFile"+id);
+    myInput.click();
   };
   return (
     <Table>
@@ -37,27 +40,32 @@ function QuotationSubmitTable({
                 <CheckBox
                   type="checkbox"
                   className="ag-input-field-input ag-checkbox-input"
+                  disabled={isCheckDisabled}
                   onChange={(e) => handleRemoveList(e.currentTarget.checked, q.id)}
                 />
               </Td>
               <Td>
                 <QuotationSelect
-                  id="type"
+                  id={q.id}
+                  initValue={q.type}
                   handleFileContent={handleFileContent}
                   lov={lov}
-                  isDisabled={false}
+                  isDisabled={isSelectDisabled}
                 ></QuotationSelect>
               </Td>
               <Td>
                 <input
+                  id={"inputFile"+q.id}
                   hidden={true}
                   ref={(el) => {
                     inputRef.current = el;
                   }}
                   type="file"
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, q.id) }
                 />
-                <UploadButton onClick={handleButton}>업로드</UploadButton>
+                <UploadButton onClick={() => {handleButton(q.id)}} disabled={isBtnDisabled}>
+                  업로드
+                </UploadButton>
               </Td>
               <Td>{q.origin_name}</Td>
               <Td>{q.size}</Td>

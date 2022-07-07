@@ -35,6 +35,10 @@
   
 }
 
+.ag-cell-focus {
+  border : 0 solid transparent !important;
+}
+
 /* .ant-menu li:hover {
   background: #01446e !important;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 5px 5px rgba(0, 0, 0, 0.1);

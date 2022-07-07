@@ -18,8 +18,12 @@ export const uploadFiles = async (sendData) => {
 };
 
 // 파일 정보를 DB에 저장
-export const uploadContent = async (sendData) => {
+export const uploadContent = async (fileInfoList, deleteFileIdList) => {
   try {
+    const sendData = {
+      fileInfoList     : fileInfoList, 
+      deleteFileIdList : deleteFileIdList,
+    }
     const resvData = await serverAxios.post(`${PREFIX_URL}/content`, sendData).then((res) => {
       console.log("content data : ", res.data);
       return res.data;
@@ -39,21 +43,19 @@ export const uploadFile = async (formData) => {
   }
 };
 
-export const uploadFileContent = async (content) => {
+
+export const getVendorFileList = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/content`, content);
-    if (data === "success") {
-      return true;
-    }
-    return false;
+    const { data } = await serverAxios.get(`${PREFIX_URL}/vendor/${bidding_no}`);
+    return data;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getVendorFileList = async (bidding_no) => {
+export const getRfqFileList = async (rfq_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/vendor/${bidding_no}`);
+    const { data } = await serverAxios.get(`${PREFIX_URL}/getRfqFileList/${rfq_no}`);
     return data;
   } catch (err) {
     console.log(err);
