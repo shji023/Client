@@ -31,7 +31,7 @@ const StyledRoot = styled.div`
   border-radius: 0.5rem;
   border: 1px solid "#636363";
   background: linear-gradient(to right, #2b3254, #151928);
-  width: 40rem;
+  width: 32%;
   height: 17rem;
   padding: 2rem;
   margin-top: 2rem;

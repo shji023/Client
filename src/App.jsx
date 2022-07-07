@@ -8,6 +8,7 @@ import {
   ScheduleFilled,
   SoundFilled,
   ReconciliationFilled,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { GlobalStyle } from "assets/styles/GlobalStyles";
@@ -109,6 +110,21 @@ function App() {
           label: (
             <a href="/selectPoList" rel="noopener noreferrer">
               ⦁ &nbsp;구매계약조회
+            </a>
+          ),
+        },
+      ],
+    },
+    {
+      label: "DashBoard",
+      key: "DashBoardSubMenu",
+      icon: <BarChartOutlined />,
+      children: [
+        {
+          type: "group",
+          label: (
+            <a href="/dashboard" rel="noopener noreferrer">
+              ⦁ &nbsp;대시보드 조회
             </a>
           ),
         },

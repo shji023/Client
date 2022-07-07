@@ -32,6 +32,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.1",
+    "recharts": "^2.1.12",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.1",
     "styled-tools": "^1.7.2",

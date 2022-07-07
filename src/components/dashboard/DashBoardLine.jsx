@@ -24,7 +24,7 @@ const DashBoardLine = () => {
       },
     },
 
-    colors: [`#005386`, `${colors.themeBlue3}`],
+    colors: [`#2b3254`, `${colors.themeBlue3}`],
     fill: {
       type: "solid",
       opacity: 1,
@@ -123,17 +123,7 @@ const DashBoardLine = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <Typography
-              variant="h3"
-              sx={{
-                marginBottom: "0",
-              }}
-              gutterBottom
-            >
-              Sales Overview
-            </Typography>
-          </Box>
+          <Box></Box>
           <Box
             sx={{
               marginLeft: "auto",
@@ -159,14 +149,6 @@ const DashBoardLine = () => {
                   mr: 1,
                 }}
               />
-              {/* <Typography
-                variant="h6"
-                sx={{
-                  color: "secondary.main",
-                }}
-              >
-                Ample
-              </Typography> */}
             </Box>
             <Box
               sx={{
@@ -184,14 +166,6 @@ const DashBoardLine = () => {
                   mr: 1,
                 }}
               />
-              {/* <Typography
-                variant="h6"
-                sx={{
-                  color: "primary.main",
-                }}
-              >
-                Pixel Admin
-              </Typography> */}
             </Box>
           </Box>
         </Box>
