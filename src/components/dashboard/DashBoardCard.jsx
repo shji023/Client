@@ -40,52 +40,22 @@ const StyledRoot = styled.div`
 const Top = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* align-items: center; */
   height: 10rem;
   line-height: 1.3;
-  /* img {
-    width: 4rem;
-    height: 4rem;
-  } */
-  p:nth-of-type(1) {
-    font-size: 2.8rem;
-    /* color: "#636363"; */
-    color: white;
-    font-family: "Pretendard-SemiBold";
-  }
+  font-family: "Pretendard-SemiBold";
+  font-size: 2.8rem;
+  color: white;
+
   p:nth-of-type(2) {
     font-size: 1.4rem;
     color: ${colors.themeBlue2};
-    /* color: white; */
-    font-family: "Pretendard-SemiBold";
     margin-left: auto;
   }
   p:nth-of-type(3) {
-    font-size: 2.8rem;
-    color: white;
-    font-family: "Pretendard-SemiBold";
     margin-left: auto;
   }
 `;
 
-const TopText = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  line-height: 1.3;
-  p:nth-of-type(1) {
-    font-size: 1.4rem;
-    /* color: "#636363"; */
-    color: white;
-    font-family: "Pretendard-SemiBold";
-  }
-  p:nth-of-type(2) {
-    font-size: 2.8rem;
-    color: white;
-    font-family: "Pretendard-SemiBold";
-  }
-`;
 const Hr = styled.hr`
   color: white;
   width: 100%;
