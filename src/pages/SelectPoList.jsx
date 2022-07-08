@@ -188,8 +188,8 @@ function SelectPoList() {
           {
             id: e.po_num,
             title: e.comments,
-            start: new Date(e.need_by_date),
-            end: new Date(e.promised_date),
+            start: new Date(e.contract_date),
+            end: new Date(e.need_by_date > e.promised_date ? e.need_by_date : e.promised_date),
             style: TimeLineBuildStyle,
           }
         ],
