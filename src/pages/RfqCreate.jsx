@@ -776,7 +776,7 @@ function RfqCreate() {
 
       <section>
         <ButtonWrapper>
-          <SubTitle>🔹 RFQ첨부(공급사배포)</SubTitle>
+          <SubTitle>RFQ첨부(공급사배포)</SubTitle>
           <DeleteButton onClick={onRemove}>삭제</DeleteButton>
         </ButtonWrapper>
         <RfqSelectVendorContainer>
@@ -794,7 +794,7 @@ function RfqCreate() {
 
       <section>
         <ButtonWrapper>
-          <SubTitle>🔹 품목정보</SubTitle>
+          <SubTitle>품목정보</SubTitle>
           <section>
             <Button style={{ display: buttonDisplay }} onClick={onCopySelected}>
               행 복사
