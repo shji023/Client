@@ -99,3 +99,23 @@
   border: 1px solid gray;
   border-radius: 0.3rem;
 }
+/* 상단 헤더 */
+.rt-timebar-key {
+  font-size: 1.3rem;
+}
+/* 좌측 헤더 */
+.rt-timebar__cell {
+  font-size: 1.3rem;
+}
+/* 좌측 바디 */
+.rt-track-key__title{
+  font-size: 1.5rem;
+}
+/* build element 제목 */
+.rt-element__title {
+  font-size: 1.4rem;
+}
+/* 마우스 따라다니는 마커 */
+.rt-marker__content {
+  font-size: 1.5rem;
+}

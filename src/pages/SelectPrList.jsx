@@ -160,7 +160,7 @@ function selectPrList() {
           typeLookupCode: element.typeLookupCode,
           typeValue: element.typeValue,
           // purPctAgmRsn: element.purPctAgmRsn,
-          rfqNumber: element.rfqNumber,
+          rfq_no: element.rfq_no,
           requisitionNumber: element.requisitionNumber,
           currencyCode: element.currencyCode,
           description: element.description,
@@ -226,10 +226,10 @@ function selectPrList() {
     { field: "line", headerName: "순번", minWidth: 100 },
     { field: "typeValue", headerName: "Status", minWidth: 150 },
     {
-      field: "rfqNumber",
+      field: "rfq_no",
       headerName: "RFQ번호",
       minWidth: 150,
-      valueGetter: (params) => (!params.data.rfqNumber ? "-" : !params.data.rfqNumber),
+      valueGetter: (params) => (!params.data.rfq_no ? "-" : params.data.rfq_no),
     },
     {
       field: "dateInterval",
