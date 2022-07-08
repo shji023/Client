@@ -146,20 +146,20 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no                : rfqList.rfq_no,
-      simple_quotation_flag : rfqList.simple_quotation_flag,
-      rfq_detail_status     : rfqList.rfq_detail_status,
-      category_segment      : rfqList.category_segment,
-      rfq_description       : rfqList.rfq_description,
-      buyer_id              : rfqList.buyer_id,
-      po_payment_cycle      : po1.po_payment_cycle,
-      po_collabo_type       : po1.po_collabo_type,
-      end_date              : po1.end_date,
-      amount_limit          : po1.amount_limit,
-      rfq_ship_to           : rfqList.rfq_ship_to,
-      rfq_payment_terms     : rfqList.rfq_payment_terms,
+      rfq_no: rfqList.rfq_no,
+      simple_quotation_flag: rfqList.simple_quotation_flag,
+      rfq_detail_status: rfqList.rfq_detail_status,
+      category_segment: rfqList.category_segment,
+      rfq_description: rfqList.rfq_description,
+      buyer_id: rfqList.buyer_id,
+      po_payment_cycle: po1.po_payment_cycle,
+      po_collabo_type: po1.po_collabo_type,
+      end_date: po1.end_date,
+      amount_limit: po1.amount_limit,
+      rfq_ship_to: rfqList.rfq_ship_to,
+      rfq_payment_terms: rfqList.rfq_payment_terms,
       // bidding_fob        : bid1.bidding_fob,
-      bidding_fob           : rfqList.fob_lookup_code,
+      bidding_fob: rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
@@ -176,28 +176,26 @@ function RfqCreate() {
     setProductInfoData([...tempProductList]);
     // #endregion RFQ
 
-
     // #region File
     const fileData = await getRfqFileList(rfq_no);
     console.log("fileData", fileData);
-    fileData.forEach(element => {
+    fileData.forEach((element) => {
       element.id = nextId.current++;
       // element.query_type = "update";
     });
 
     const newFile = {
-      id          : nextId.current,
-      type        : "",
-      origin_name : "",
-      save_name   : "",
-      size        : "",
-      upload_date : "",
-      file_path   : "",
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
     };
-    setVendorFile([ ...fileData, newFile ]);
+    setVendorFile([...fileData, newFile]);
     console.log("nextId.current", nextId.current);
     // #endregion File
-
   };
 
   const selectProductInfo = async () => {
@@ -207,15 +205,15 @@ function RfqCreate() {
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept          : element.dept_name,
-        description           : element.description,
-        group_name            : element.group_name,
-        item_name             : element.item,
-        item_id               : element.item_id,
-        request_name          : element.name,
-        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
-        request_phone         : element.staff_contact_number,
-        unit_meas_lookup_code : element.uom,
+        request_dept: element.dept_name,
+        description: element.description,
+        group_name: element.group_name,
+        item_name: element.item,
+        item_id: element.item_id,
+        request_name: element.name,
+        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
+        request_phone: element.staff_contact_number,
+        unit_meas_lookup_code: element.uom,
       };
       tempList.push(temp);
     });
@@ -302,25 +300,25 @@ function RfqCreate() {
   };
   const columnDefs = [
     {
-      headerName               : "",
-      headerCheckboxSelection  : true,
-      checkboxSelection        : true,
-      floatingFilter           : false,
-      suppressMenu             : true,
-      minWidth                 : 10,
-      maxWidth                 : 100,
-      width                    : 50,
-      flex                     : 0,
-      resizable                : false,
-      sortable                 : false,
-      editable                 : false,
-      filter                   : false,
-      suppressColumnsToolPanel : true,
-      hide                     : hide,
+      headerName: "",
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
+      floatingFilter: false,
+      suppressMenu: true,
+      minWidth: 10,
+      maxWidth: 100,
+      width: 50,
+      flex: 0,
+      resizable: false,
+      sortable: false,
+      editable: false,
+      filter: false,
+      suppressColumnsToolPanel: true,
+      hide: hide,
     },
-    { field: "item_name",             headerName: "Item",        minWidth: 10 },
-    { field: "description",           headerName: "Description", minWidth: 10, maxWidth: 150 },
-    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 80 },
+    { field: "item_name", headerName: "Item", minWidth: 10 },
+    { field: "description", headerName: "Description", minWidth: 10, maxWidth: 150 },
+    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 10, maxWidth: 80 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
@@ -355,11 +353,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept",    headerName: "사용부서",     minWidth: 10, maxWidth: 120 },
-    { field: "group_name",      headerName: "그룹사",       minWidth: 10, maxWidth: 100 },
-    { field: "requisition_num", headerName: "PR번호-Line",  minWidth: 10, maxWidth: 140 },
-    { field: "request_name",    headerName: "신청자",       minWidth: 10, maxWidth: 100 },
-    { field: "request_phone",   headerName: "연락처",       minWidth: 10, maxWidth: 120 },
+    { field: "request_dept", headerName: "사용부서", minWidth: 10, maxWidth: 120 },
+    { field: "group_name", headerName: "그룹사", minWidth: 10, maxWidth: 100 },
+    { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
+    { field: "request_name", headerName: "신청자", minWidth: 10, maxWidth: 100 },
+    { field: "request_phone", headerName: "연락처", minWidth: 10, maxWidth: 120 },
   ];
 
   // #region 그리드 관련 이벤트
@@ -430,21 +428,21 @@ function RfqCreate() {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
       // const data2 = await uploadContent(innerFile);
       // console.log("data2", data2)
-      
+
       const data = await insertRfqInfo(
-        rfqListData, 
-        selectedVendorList, 
-        productInfoData
-        // vendorFile 
+        rfqListData,
+        selectedVendorList,
+        productInfoData,
+        // vendorFile
         // innerFile
-        );
+      );
 
       const rfqNum = data;
-        
+
       let temp = vendorFile;
       temp.forEach((t) => {
         t.rfq_no = rfqNum;
-      })
+      });
       setVendorFile([...temp]);
       const data1 = await uploadContent(vendorFile, deleteFileIdList);
 
@@ -491,7 +489,7 @@ function RfqCreate() {
       let temp = vendorFile;
       temp.forEach((t) => {
         t.rfq_no = rfqNum;
-      })
+      });
       setVendorFile([...temp]);
       const data1 = await uploadContent(vendorFile, deleteFileIdList);
 
@@ -531,8 +529,6 @@ function RfqCreate() {
   };
   // #endregion 버튼
 
- 
-
   // #region File Input 관련 이벤트
   const handleInputChange = async (e, id) => {
     const formData = new FormData();
@@ -543,42 +539,40 @@ function RfqCreate() {
     let tempList = vendorFile;
     let tempIdx = tempList.length - 1;
     tempList.forEach((e, idx) => {
-      if(e.id === id) tempIdx = idx;
+      if (e.id === id) tempIdx = idx;
     });
 
-    if(tempList[tempIdx].file_id) {
+    if (tempList[tempIdx].file_id) {
       // 기존 파일 변경
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "update",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "update",
+      };
     } else {
       // 새 파일 추가
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "insert",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "insert",
+      };
     }
-    
+
     setVendorFile([...tempList]);
 
     // 마지막 행에 파일이 추가된 경우, 새 줄 추가
-    if(tempIdx === tempList.length - 1) {
+    if (tempIdx === tempList.length - 1) {
       setIsAdd(!isAdd);
     }
-
   };
-  
 
   const handleRemoveList = (checked, id) => {
     if (checked) {
@@ -587,7 +581,6 @@ function RfqCreate() {
       setRemoveList(removeList.filter((r) => r !== id));
     }
   };
-  
 
   const onRemove = () => {
     let temp = vendorFile;
@@ -595,12 +588,12 @@ function RfqCreate() {
 
     removeList.map((r) => {
       temp = temp.filter((q, idx) => {
-        if(q.id !== r || idx === temp.length - 1) {
-        // 유지될 항목
+        if (q.id !== r || idx === temp.length - 1) {
+          // 유지될 항목
           return true;
         } else {
-        // 삭제될 항목
-          if(q.file_id) delTemp.push(q.file_id);
+          // 삭제될 항목
+          if (q.file_id) delTemp.push(q.file_id);
           return false;
         }
       });
@@ -608,26 +601,23 @@ function RfqCreate() {
     setVendorFile([...temp]);
     setRemoveList([]);
 
-    setDeleteFileIdList([ ...deleteFileIdList, ...delTemp ]);
-    
+    setDeleteFileIdList([...deleteFileIdList, ...delTemp]);
   };
-  
 
   // fileTable row추가
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
-      id          : nextId.current,
-      type        : "",
-      origin_name : "",
-      save_name   : "",
-      size        : "",
-      upload_date : "",
-      file_path   : "",
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
     };
     setVendorFile([...vendorFile, newFile]);
   };
-
 
   // file content 내용 등록
   const handleFileContent = (key, value) => {
@@ -643,10 +633,8 @@ function RfqCreate() {
       ),
     );
   };
-  
-  // #endregion File Input 관련 이벤트
 
-  
+  // #endregion File Input 관련 이벤트
 
   // #region useEffect
   useDidMountEffect(() => {
@@ -656,8 +644,6 @@ function RfqCreate() {
   useEffect(() => {}, [vendorFile]);
   // #endregion useEffect
 
-
-
   return (
     <StyledRoot>
       <section>
@@ -665,7 +651,7 @@ function RfqCreate() {
           <Title>RFQ 생성</Title>
           <ButtonSelector />
         </HeaderWrapper>
-        <SubTitle>🔹 RFQ 정보</SubTitle>
+        <SubTitle>RFQ 정보</SubTitle>
 
         <RfqInfoContainer>
           <InputInfo
@@ -775,7 +761,7 @@ function RfqCreate() {
           setVisible={setVisible}
         ></CustomModal>
         <ButtonWrapper>
-          <SubTitle>🔹 공급사선정</SubTitle>
+          <SubTitle>공급사선정</SubTitle>
           <Button
             style={{ display: buttonDisplay }}
             onClick={() => {
@@ -795,13 +781,13 @@ function RfqCreate() {
         </ButtonWrapper>
         <RfqSelectVendorContainer>
           <QuotationSubmitTable
-            quotationFile     = {vendorFile}
-            handleFileContent = {handleFileContent}
-            handleInputChange = {handleInputChange}
-            handleRemoveList  = {handleRemoveList}
-            isCheckDisabled   = {disabled}
-            isSelectDisabled  = {disabled}
-            isBtnDisabled     = {disabled}
+            quotationFile={vendorFile}
+            handleFileContent={handleFileContent}
+            handleInputChange={handleInputChange}
+            handleRemoveList={handleRemoveList}
+            isCheckDisabled={disabled}
+            isSelectDisabled={disabled}
+            isBtnDisabled={disabled}
           ></QuotationSubmitTable>
         </RfqSelectVendorContainer>
       </section>
@@ -819,10 +805,10 @@ function RfqCreate() {
           </section>
         </ButtonWrapper>
         <AgProductInfo
-          gridRef          = {gridRef}
-          productInfoData  = {productInfoData}
-          columnDefs       = {columnDefs}
-          onRowDataChanged = {onRowDataChanged}
+          gridRef={gridRef}
+          productInfoData={productInfoData}
+          columnDefs={columnDefs}
+          onRowDataChanged={onRowDataChanged}
         />
       </section>
     </StyledRoot>

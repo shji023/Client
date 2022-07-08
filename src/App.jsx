@@ -23,7 +23,7 @@ import RfqDetail from "pages/RfqDetail";
 import BidDetail from "pages/BidDetail";
 import RfqCreate from "pages/RfqCreate";
 import React, { useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BidWrite from "pages/BidWrite";
 import DashBoard from "pages/DashBoard";
@@ -152,9 +152,11 @@ function App() {
       <StyledRoot>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           {/* <div className="logo" /> */}
-          <Logo>
-            <img className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
-          </Logo>
+          <Link to="/">
+            <Logo>
+              <img className="logo" src={POSCO_ICT_CI_ENG} alt="POSCO_ICT_CI_ENG"></img>
+            </Logo>
+          </Link>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]} items={item2} />
         </Sider>
         <Layout className="site-layout">
@@ -199,7 +201,7 @@ function App() {
           >
             {/* <BrowserRouter> */}
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<DashBoard />} />
               {/* 사용부서 */}
               <Route
                 path="/createPr"
@@ -323,9 +325,9 @@ function App() {
               <Route
                 path="/dashboard"
                 element={
-                  <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
-                    <DashBoard />
-                  </PrivateRoute>
+                  // <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
+                  <DashBoard />
+                  // </PrivateRoute>
                 }
               />
               <Route path="/login" element={<Login />} />

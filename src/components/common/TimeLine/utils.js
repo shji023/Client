@@ -263,7 +263,7 @@ export const randomTitle = () =>
   `${ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]} ${NOUNS[Math.floor(Math.random() * NOUNS.length)]}`
 
 
-const elementStyle = {
+export const TimeLineBuildStyle = {
   backgroundColor: `#005386`,
   color: '#FFFFFF',
   borderRadius: '4px',
@@ -271,18 +271,3 @@ const elementStyle = {
   textTransform: 'capitalize',
 }
   
-export const tasks = [
-  {
-    id: "1",
-    title: "물품1",
-    elements: [
-      {
-        title: "물품1",
-        start: new Date("2021-08-31"),
-        end: new Date("2021-09-21"),
-        style: elementStyle,
-      }
-    ],
-    
-  }
-];

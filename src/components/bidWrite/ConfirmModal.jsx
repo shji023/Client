@@ -11,6 +11,7 @@ function ConfirmModal({ isModalOpen, setIsModalOpen, postVendorInfo }) {
     postVendorInfo();
     setIsModalOpen(false);
     document.body.style.overflow = "unset";
+    alert("응찰서 작성을 확정하였습니다.");
   };
   return isModalOpen ? (
     <>

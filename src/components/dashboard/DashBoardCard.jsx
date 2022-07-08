@@ -40,6 +40,7 @@ const StyledRoot = styled.div`
   height: 17rem;
   padding: 2rem;
   margin-top: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const Top = styled.div`
