@@ -1293,7 +1293,7 @@ function PoRegist() {
         />
       </section>
       <section>
-        <TimeLine title={"물품 타임라인"} trackData={trackData}/>
+        <TimeLine title={"물품 요청 및 납기"} trackData={trackData}/>
       </section>
     </StyledRoot>
   );

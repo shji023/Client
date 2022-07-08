@@ -15,6 +15,8 @@ import {
 } from "stores/colData";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
+import TimeLine from "components/common/TimeLine/timelines";
+import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
@@ -37,6 +39,25 @@ function SelectPoList() {
   const [sasoLov, setSasoLov] = useState([]);
   const [poTypeLov, setPoTypeLov] = useState([]);
   const [poListData, setPoListData] = useState([]);
+
+  const [trackData, setTrackData] = useState([
+    {
+      id: "1",
+      title: "",
+      // start: new Date("2021-08-31"),
+      // end: new Date("2021-09-21"),
+      style: TimeLineBuildStyle,
+      elements: [
+        // {
+        //   id: "1",
+        //   title: "",
+        //   start: new Date("2021-08-31"),
+        //   end: new Date("2021-09-21"),
+        //   style: TimeLineBuildStyle,
+        // }
+      ],
+    }
+  ]);
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
@@ -155,6 +176,33 @@ function SelectPoList() {
     getLov();
   }, []);
 
+  useEffect(()=>{
+
+    let tempList = [];
+    poListData.forEach((e)=>{
+      // console.log(e.id, e.item, e.need_by_date, e.promised_date);
+
+      let temp = {
+        id: e.po_num,
+        title: e.po_num,
+        elements: [
+          {
+            id: e.po_num,
+            title: e.comments,
+            start: new Date(e.need_by_date),
+            end: new Date(e.promised_date),
+            style: TimeLineBuildStyle,
+          }
+        ],
+      }
+      tempList.push(temp);
+    })
+    console.log(tempList);
+
+    setTrackData([...tempList]);
+
+  }, [poListData])
+
   return (
     <StyledRoot>
       <section>
@@ -259,6 +307,9 @@ function SelectPoList() {
       {/* <ListCount>건수: 2,164</ListCount> */}
       <section>
         <PoListAgGrid poListData={poListData} />
+      </section>
+      <section>
+        <TimeLine title={"구매계약 기간"} trackData={trackData}/>
       </section>
     </StyledRoot>
   );
