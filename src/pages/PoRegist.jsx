@@ -850,15 +850,14 @@ function PoRegist() {
   useEffect(()=>{
     let tempList = [];
     rowData.forEach((e)=>{
-      console.log(e.id, e.item, e.need_by_date, e.promised_date);
 
       let temp = {
         id: e.id,
-        title: e.item,
+        title: e.item ? e.item : "",
         elements: [
           {
             id: e.id,
-            title: e.item,
+            title: e.item ? e.item : "",
             start: new Date(e.need_by_date),
             end: new Date(e.promised_date),
             style: TimeLineBuildStyle,

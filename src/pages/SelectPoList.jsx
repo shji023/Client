@@ -180,7 +180,6 @@ function SelectPoList() {
 
     let tempList = [];
     poListData.forEach((e)=>{
-      // console.log(e.id, e.item, e.need_by_date, e.promised_date);
 
       let temp = {
         id: e.po_num,
