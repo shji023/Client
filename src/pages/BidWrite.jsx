@@ -346,6 +346,9 @@ const InputWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
+  & > div:nth-of-type(1) {
+    width: 40%;
+  }
   & > div:nth-child(n + 1):nth-child(-n + 2) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
