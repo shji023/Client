@@ -56,6 +56,8 @@ function RfqCreate() {
   const [buttonDisplay, setButtonDisplay] = useState("inline-block");
   const [buttonDisplayToggle, setButtonDisplayToggle] = useState("none");
 
+  // modal
+  const inputRef = useRef();
   const showDisplay = (isDisplay) => {
     isDisplay ? setButtonDisplay("inline-block") : setButtonDisplay("none");
   };
@@ -760,6 +762,7 @@ function RfqCreate() {
           }}
           visible={visible}
           setVisible={setVisible}
+          inputRef={inputRef}
         ></CustomModal>
         <ButtonWrapper>
           <SubTitle>공급사선정</SubTitle>
@@ -767,6 +770,14 @@ function RfqCreate() {
             style={{ display: buttonDisplay }}
             onClick={() => {
               setVisible(true);
+              // focus
+              try{
+                // * display visible 되는 시간이 있어서 시간차를 줌
+                setTimeout(()=> {inputRef.current.focus()}
+                , 200);
+              } catch(e) {
+                console.log(e);
+              }
             }}
           >
             공급사선정
