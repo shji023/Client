@@ -65,7 +65,7 @@ export const rfqColumn = [
     maxWidth: 130,
   },
   { colId: 4, field: "rfq_ship_to", headerName: "납품 지역", minWidth: 10, maxWidth: 180 },
-  { colId: 5, field: "buyer_id", headerName: "Buyer", minWidth: 10, maxWidth: 110 },
+  { colId: 5, field: "buyer_name", headerName: "Buyer", minWidth: 10, maxWidth: 110 },
   {
     colId: 6,
     field: "quote_effective_start_date",
