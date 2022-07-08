@@ -82,15 +82,17 @@ export const getProductInfoList = async (reqNumList) => {
     }
   };
 
-  export const insertRfqInfo = async (conditions, vendorList, productList) => {
+  export const insertRfqInfo = async (conditions, vendorList, productList, prNumList) => {
     try {
       // const sendData = conditions;
+      console.log("reqNumList", prNumList)
       const sendData = {
         conditions  : conditions,
         vendorList  : vendorList,
         productList : productList,
         // vendorFile  : vendorFile, 
-        // innerFile   : innerFile
+        // innerFile   : innerFile,
+        prNumList  : prNumList,
       }
       console.log("sendData", sendData);
 
