@@ -185,13 +185,13 @@ function RfqCreate() {
     });
 
     const newFile = {
-      id: nextId.current,
-      type: "",
-      origin_name: "",
-      save_name: "",
-      size: "",
-      upload_date: "",
-      file_path: "",
+      id          : nextId.current,
+      type        : "",
+      origin_name : "",
+      save_name   : "",
+      size        : "",
+      upload_date : "",
+      file_path   : "",
     };
     setVendorFile([...fileData, newFile]);
     console.log("nextId.current", nextId.current);
@@ -428,13 +428,14 @@ function RfqCreate() {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
       // const data2 = await uploadContent(innerFile);
       // console.log("data2", data2)
-
+      const reqNumList = pageData.getPrNumList();
       const data = await insertRfqInfo(
         rfqListData,
         selectedVendorList,
         productInfoData,
-        // vendorFile
-        // innerFile
+        // vendorFile,
+        // innerFile,
+        reqNumList,
       );
 
       const rfqNum = data;

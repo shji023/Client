@@ -850,27 +850,24 @@ function PoRegist() {
   useEffect(()=>{
     let tempList = [];
     rowData.forEach((e)=>{
-      console.log(e.id, e.item, e.need_by_date, e.promised_date);
-
       let temp = {
         id: e.id,
-        title: e.item,
+        title: e.item ? e.item : "",
         elements: [
           {
             id: e.id,
-            title: e.item,
-            start: new Date(e.need_by_date),
-            end: new Date(e.promised_date),
+            title: e.item ? e.item : "",
+            start: new Date(conditions.contract_date),
+            end: new Date(e.need_by_date > e.promised_date ? e.need_by_date : e.promised_date),
             style: TimeLineBuildStyle,
           }
         ],
       }
       tempList.push(temp);
     })
-    console.log(tempList);
 
     setTrackData([...tempList]);
-  }, [rowData])
+  }, [conditions, rowData])
 
   useEffect(() => {
     // * 헤더 총 금액 계산

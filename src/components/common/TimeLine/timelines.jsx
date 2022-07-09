@@ -101,7 +101,7 @@ function TimeLines ({title, trackData}) {
   return (
     <>
       <div style={{ width: "100%", height: "100%", padding: "2rem 0rem" }}>
-        <div style={{ width: "100%", height: "600px" }}>
+        <div style={{ width: "100%", /* height: "600px" */ }}>
           <div className="app">
             {/* <h1 className="title">{title}</h1> */}
             <Timeline
