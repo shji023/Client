@@ -169,6 +169,34 @@ export const insertOneBid = async (sendData) => {
   }
 };
 
+export const updateBidVendor = async (vendorComment, itemListData) => {
+  try {
+    const sendData = {
+      vendorComment : vendorComment,
+      itemListData : itemListData
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/updateBidVendor`, sendData);
+    console.log("updateBidVendor", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const getBidVendorId = async (bidding_no, site_id) => {
+  try {
+    const sendData = {
+      bidding_no    : bidding_no,
+      site_id       : site_id,
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getBidVendorId`, sendData);
+    console.log("getBidVendorId", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
 export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
   try {
     const sendData = {

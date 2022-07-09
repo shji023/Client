@@ -323,7 +323,7 @@ function App() {
                 }
               />
               <Route
-                path="/bidList/:id"
+                path="/bidList/:bidding_no"
                 element={
                   <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
                     <BidDetail />

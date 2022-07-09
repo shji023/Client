@@ -433,8 +433,6 @@ function RfqCreate() {
     let res = confirm("최종 저장 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
-      // const data2 = await uploadContent(innerFile);
-      // console.log("data2", data2)
       const reqNumList = pageData.getPrNumList();
       const data = await insertRfqInfo(
         rfqListData,

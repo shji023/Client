@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { getKoreanNumber } from "hooks/GetKoreanNumber";
-import { getQuotationItemInfo, updateQuotationInfo, insertVendorComment, getVendorComment, getItemInfo, getVendorItemList } from "apis/bid.api";
+import { getQuotationItemInfo, updateQuotationInfo, insertVendorComment, getVendorComment, getItemInfo, getVendorItemList, updateBidVendor } from "apis/bid.api";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
 import BidInputSelect from "components/bid/BidInputSelect";
@@ -287,7 +287,7 @@ function BidWrite() {
     else {
       const quotationItem = await getQuotationItemInfo(bidding_no);
       quotationItem && setItemListData(quotationItem);
-      console.log(quotationItem)
+      console.log("quotationItem", quotationItem)
       setUpdateItem({ ...updateItem, ["rfq_no"]: quotationItem[0].rfq_no });
       setVendorComment({ ...vendorComment, ["rfq_no"]: quotationItem[0].rfq_no, ["bidding_no"]: bidding_no });
 
@@ -298,11 +298,7 @@ function BidWrite() {
 
   const insertVendorInfo = async () => {
     // 공급사 의견 insert
-    
-    console.log("itemListData", itemListData);
-    console.log("vendorComment", vendorComment);
     const bid_vendor_id = await insertVendorComment(itemListData, vendorComment);
-    console.log("bid vendor id", bid_vendor_id);
 
     // 견적정보 update
     const data2 = await updateQuotationInfo(updateItem);
@@ -318,7 +314,7 @@ function BidWrite() {
     if(bid_vendor_id) {
       alert("작성이 완료되었습니다.");
       // 수정 페이지로 이동
-      navigate(`/bidWrite/${bidding_no}/${bid_vendor_id}` /* , { replace: true} */);
+      navigate(`/bidWrite/${bidding_no}/${bid_vendor_id}`);
       reload();
     } else {
       alert("작성이 완료되지 않았습니다.");
@@ -334,19 +330,12 @@ function BidWrite() {
     let res = confirm("수정 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 체크하기
-      // const data = await updateRfqInfo(
-      //   rfqListData,
-      //   selectedVendorList,
-      //   productInfoData,
-      //   deletedVendorIdList,
-      //   deletedProductIdList,
-      // );
 
-      // const rfqNum = data;
+      const data = await updateBidVendor(vendorComment, itemListData);
 
       await updateFileContent();
 
-      if (res) {
+      if (data) {
         alert("수정이 완료되었습니다.");
         reload();
       } else {
@@ -388,6 +377,8 @@ function BidWrite() {
   };
   // #endregion 버튼
 
+
+
   // #region useEffect
   useEffect(() => {
     initPage();
@@ -419,6 +410,8 @@ function BidWrite() {
   }, [itemListData]);
 
   // #endregion useEffect
+
+
 
   return (
     <StyledRoot>
