@@ -211,7 +211,7 @@ export const insertVendorComment = async (itemListData, vendorComment) => {
 
 export const updateQuotationInfo = async (quotationInfo) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/quotationInfo`, quotationInfo);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/updateQuotationInfo`, quotationInfo);
     if (data === "success") {
       return true;
     }

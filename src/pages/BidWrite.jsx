@@ -259,13 +259,27 @@ function BidWrite() {
       console.log("itemInfo", itemInfo);
       itemInfo && setItemListData([...itemInfo]);
 
+      let quotation_total_price = 0;
+      itemInfo.forEach((e)=>{
+        quotation_total_price += e.unit_price;
+      })
+
+      setUpdateItem({ 
+        vendor_site_id        : getCookie("site_id"),
+        rfq_no                : itemInfo[0].rfq_no,
+        quotation_total_price : quotation_total_price,
+        main_currency         : itemInfo[0].main_currency,
+      });
+
 
       // 파일 목록 가져오기
       const fileData = await getFileInfo(bid_vendor_id);
 
       // 코멘트 가져오기
       const vendorCommentData = await getVendorComment(bid_vendor_id);
-      setVendorComment({...vendorCommentData, /*vendor_site_id : getCookie("site_id")*/})
+      setVendorComment({ ...vendorCommentData, ["rfq_no"]: itemInfo[0].rfq_no, ["bidding_no"]: bidding_no });
+
+      
 
       setReadOnly(true);
     }
@@ -279,7 +293,6 @@ function BidWrite() {
 
       setReadOnly(false);
     }
-    
 
   };
 
