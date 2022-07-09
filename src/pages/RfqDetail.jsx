@@ -13,7 +13,6 @@ import styled from "styled-components";
 // import InputDate from "components/common/InputDate";
 import { useNavigate, useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
-import FileManager from "fileUpload/FileManager";
 import BidInsertTextArea from "components/bid/BidInsertTextArea";
 import RfqSelectVendor from "components/rfq/RfqSelectVendor";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
@@ -405,7 +404,6 @@ function RfqDetail() {
         </BidInfoContainer>
       </section>
       <RfqSelectVendorContainer>
-        {/* <FileManager content={content} handleFileCondition={handleFileCondition} fileInfoList={fileInfoList}/> */}
         <SubmitQuotationContainer>
           <ButtonWrapper>
             <DeleteButton onClick={onRemove}>삭제</DeleteButton>

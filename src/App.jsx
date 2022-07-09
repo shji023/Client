@@ -304,6 +304,14 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route
+                path="/bidWrite/:id/:bid_vendor_id"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="" role3="">
+                    <BidWrite />
+                  </PrivateRoute>
+                }
+              />
 
               {/* 공통 */}
               <Route
@@ -326,7 +334,7 @@ function App() {
                 path="/dashboard"
                 element={
                   // <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
-                  <DashBoard />
+                    <DashBoard />
                   // </PrivateRoute>
                 }
               />

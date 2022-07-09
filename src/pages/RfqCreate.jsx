@@ -148,20 +148,20 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no: rfqList.rfq_no,
-      simple_quotation_flag: rfqList.simple_quotation_flag,
-      rfq_detail_status: rfqList.rfq_detail_status,
-      category_segment: rfqList.category_segment,
-      rfq_description: rfqList.rfq_description,
-      buyer_id: rfqList.buyer_id,
-      po_payment_cycle: po1.po_payment_cycle,
-      po_collabo_type: po1.po_collabo_type,
-      end_date: po1.end_date,
-      amount_limit: po1.amount_limit,
-      rfq_ship_to: rfqList.rfq_ship_to,
-      rfq_payment_terms: rfqList.rfq_payment_terms,
+      rfq_no                : rfqList.rfq_no,
+      simple_quotation_flag : rfqList.simple_quotation_flag,
+      rfq_detail_status     : rfqList.rfq_detail_status,
+      category_segment      : rfqList.category_segment,
+      rfq_description       : rfqList.rfq_description,
+      buyer_id              : rfqList.buyer_id,
+      po_payment_cycle      : po1.po_payment_cycle,
+      po_collabo_type       : po1.po_collabo_type,
+      end_date              : po1.end_date,
+      amount_limit          : po1.amount_limit,
+      rfq_ship_to           : rfqList.rfq_ship_to,
+      rfq_payment_terms     : rfqList.rfq_payment_terms,
       // bidding_fob        : bid1.bidding_fob,
-      bidding_fob: rfqList.fob_lookup_code,
+      bidding_fob           : rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
@@ -179,13 +179,18 @@ function RfqCreate() {
     // #endregion RFQ
 
     // #region File
-    const fileData = await getRfqFileList(rfq_no);
+    let fileData = await getRfqFileList(rfq_no);
     console.log("fileData", fileData);
-    fileData.forEach((element) => {
-      element.id = nextId.current++;
-      // element.query_type = "update";
-    });
-
+    if(fileData) {
+      fileData.forEach((element) => {
+        element.id = nextId.current++;
+        // element.query_type = "update";
+      });
+  
+    } else {
+      fileData = [];
+    }
+    
     const newFile = {
       id          : nextId.current,
       type        : "",
@@ -207,15 +212,15 @@ function RfqCreate() {
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept: element.dept_name,
-        description: element.description,
-        group_name: element.group_name,
-        item_name: element.item,
-        item_id: element.item_id,
-        request_name: element.name,
-        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
-        request_phone: element.staff_contact_number,
-        unit_meas_lookup_code: element.uom,
+        request_dept          : element.dept_name,
+        description           : element.description,
+        group_name            : element.group_name,
+        item_name             : element.item,
+        item_id               : element.item_id,
+        request_name          : element.name,
+        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
+        request_phone         : element.staff_contact_number,
+        unit_meas_lookup_code : element.uom,
       };
       tempList.push(temp);
     });
@@ -442,6 +447,7 @@ function RfqCreate() {
 
       const rfqNum = data;
 
+      // 파일 정보 DB에 저장
       let temp = vendorFile;
       temp.forEach((t) => {
         t.rfq_no = rfqNum;

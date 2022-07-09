@@ -169,16 +169,32 @@ export const insertOneBid = async (sendData) => {
   }
 };
 
-export const postVendorComment = async (vendorComment) => {
+export const getVendorComment = async (bid_vendor_id) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorComment`, vendorComment);
+    const sendData = {bid_vendor_id : bid_vendor_id}
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorComment`, sendData);
+    console.log("getVendorComment", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const insertVendorComment = async (itemListData, vendorComment) => {
+  try {
+    const sendData = {
+      itemListData  : itemListData,
+      vendorComment : vendorComment
+    }
+    console.log("sendData", sendData);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorComment`, sendData);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
   }
 };
 
-export const postQuotationInfo = async (quotationInfo) => {
+export const updateQuotationInfo = async (quotationInfo) => {
   try {
     const { data } = await serverAxios.post(`${PREFIX_URL}/quotationInfo`, quotationInfo);
     if (data === "success") {

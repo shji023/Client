@@ -52,7 +52,6 @@ const BidDataGrid = ({ listData }) => {
                 field={data.field}
                 headerName={data.headerName}
                 minWidth={data.minWidth}
-                // onCellClicked={() => navigate(`/bidList/${data.colId}`)}
               />
             ))}
           </AgGridReact>
