@@ -10,9 +10,12 @@ import styled from "styled-components";
 function DashBoard() {
   const [bidListBuyerData, setBidListBuyerData] = useState([]);
   const [totalPr, setTotalPr] = useState(0);
+  const [totalRfq, setTotalRfq] = useState(0);
 
-  const [bidCount, setBidCount] = useState(0);
   const [prCount, setPrCount] = useState(0);
+  const [rfqCount, setRfqCount] = useState(0);
+  const [bidCount, setBidCount] = useState(0);
+
   const selectBidListBuyer = async () => {
     const bidData = await getBidListBuyer({
       rfq_no: "",
@@ -30,10 +33,18 @@ function DashBoard() {
       });
     setBidCount(tempCount);
     setBidListBuyerData(bidData);
+
     const prData = await getWaitingPr();
     const prTotalData = await getTotalPr();
+
+    const rfqData = await getWaitingRfq();
+    const rfqTotalData = await getTotalRfq();
+
     setPrCount(prData);
     setTotalPr(prTotalData);
+
+    setRfqCount(rfqData);
+    setTotalRfq(rfqTotalData);
   };
   useDidMountEffect(() => {
     selectBidListBuyer();
@@ -42,7 +53,7 @@ function DashBoard() {
     <StyledRoot>
       <Top>
         <DashBoardCard title="구매신청" total={totalPr} count={prCount}></DashBoardCard>
-        <DashBoardCard title="RFQ"></DashBoardCard>
+        <DashBoardCard title="RFQ" total={totalRfq} count={rfqCount}></DashBoardCard>
         <DashBoardCard
           title="입찰"
           total={bidListBuyerData.length}
