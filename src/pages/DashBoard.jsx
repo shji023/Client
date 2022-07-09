@@ -1,4 +1,5 @@
 import { getBidListBuyer } from "apis/bid.api";
+import { getTotalPr, getTotalRfq, getWaitingPr, getWaitingRfq } from "apis/dashboard.api";
 import DashBoardCard from "components/dashboard/DashBoardCard";
 import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import DashBoardLine from "components/dashboard/DashBoardLine";
@@ -8,9 +9,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 function DashBoard() {
   const [bidListBuyerData, setBidListBuyerData] = useState([]);
+  const [totalPr, setTotalPr] = useState(0);
+
+  const [bidCount, setBidCount] = useState(0);
   const [prCount, setPrCount] = useState(0);
   const selectBidListBuyer = async () => {
-    const data = await getBidListBuyer({
+    const bidData = await getBidListBuyer({
       rfq_no: "",
       bid_search_type: "",
       rfq_description: "",
@@ -18,14 +22,18 @@ function DashBoard() {
     });
 
     let tempCount = 0;
-    data &&
-      data.map((b) => {
+    bidData &&
+      bidData.map((b) => {
         if (b.bidding_end_date === "") {
           tempCount++;
         }
       });
-    setPrCount(tempCount);
-    setBidListBuyerData(data);
+    setBidCount(tempCount);
+    setBidListBuyerData(bidData);
+    const prData = await getWaitingPr();
+    const prTotalData = await getTotalPr();
+    setPrCount(prData);
+    setTotalPr(prTotalData);
   };
   useDidMountEffect(() => {
     selectBidListBuyer();
@@ -33,9 +41,13 @@ function DashBoard() {
   return (
     <StyledRoot>
       <Top>
-        <DashBoardCard title="구매신청" total={bidListBuyerData.length}></DashBoardCard>
-        <DashBoardCard title="RFQ" total={bidListBuyerData.length}></DashBoardCard>
-        <DashBoardCard title="입찰" total={bidListBuyerData.length} count={prCount}></DashBoardCard>
+        <DashBoardCard title="구매신청" total={totalPr} count={prCount}></DashBoardCard>
+        <DashBoardCard title="RFQ"></DashBoardCard>
+        <DashBoardCard
+          title="입찰"
+          total={bidListBuyerData.length}
+          count={bidCount}
+        ></DashBoardCard>
       </Top>
       <Middle>
         <Left>

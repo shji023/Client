@@ -82,5 +82,8 @@ const Bottom = styled.div`
     font-size: 1.2rem;
     color: "#636363";
     color: white;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
