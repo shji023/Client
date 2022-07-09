@@ -251,7 +251,9 @@ function selectPrList() {
     { field: "currencyCode", headerName: "단위", minWidth: 80 },
     { field: "needByDate", headerName: "요청납기일", minWidth: 200 },
     { field: "requestPersonId", headerName: "Requester", minWidth: 140 },
-    { field: "organizationCode", headerName: "사용부서", minWidth: 200 },
+    { field: "organizationCode", headerName: "사용부서", minWidth: 200,
+      valueGetter: (params) => (!params.data.organizationCode ? "-" : params.data.organizationCode),
+    },
   ];
   // #endregion 그리드
 
