@@ -169,6 +169,21 @@ export const insertOneBid = async (sendData) => {
   }
 };
 
+export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
+  try {
+    const sendData = {
+      bidding_no    : bidding_no,
+      bid_vendor_id : bid_vendor_id,
+      site_id       : site_id,
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorItemList`, sendData);
+    console.log("getVendorItemList", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
 export const getVendorComment = async (bid_vendor_id) => {
   try {
     const sendData = {bid_vendor_id : bid_vendor_id}

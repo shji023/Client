@@ -20,7 +20,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
     { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 80 },
     { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 80 },
     {
-      field: "quotation_total_price",
+      field: "unit_price",
       headerName: "견적가",
       minWidth: 100,
       cellRendererSelector: (params) => {
