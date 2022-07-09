@@ -121,57 +121,56 @@ function selectPrList() {
       data.forEach((element) => {
         // TODO: 나중에 DB에서 조인해서 가져와야됨
         // typeLookupCode
-        switch (element.typeLookupCode) {
+        switch (element.type_lookup_code) {
           case "PR":
-            element.typeValue = "구매신청";
+            element.type_lookup_code = "구매신청";
             break;
           case "NT":
-            element.typeValue = "엔투비이관";
+            element.type_lookup_code = "엔투비이관";
             break;
           case "MT":
-            element.typeValue = "발주방안검토";
+            element.type_lookup_code = "발주방안검토";
             break;
           case "RQ":
-            element.typeValue = "ITB";
+            element.type_lookup_code = "ITB";
             break;
           case "OP":
-            element.typeValue = "공개구매";
+            element.type_lookup_code = "공개구매";
             break;
           case "TP":
-            element.typeValue = "단순견적";
+            element.type_lookup_code = "단순견적";
             break;
           case "BD":
-            element.typeValue = "업체선정중";
+            element.type_lookup_code = "업체선정중";
             break;
           case "PO":
-            element.typeValue = "계약대기중";
+            element.type_lookup_code = "계약대기중";
             break;
           case "PA":
-            element.typeValue = "계약완료";
+            element.type_lookup_code = "계약완료";
             break;
           case "PC":
-            element.typeValue = "계약취소";
+            element.type_lookup_code = "계약취소";
             break;
         }
 
         let temp = {
           // Pr1
           line: element.line,
-          typeLookupCode: element.typeLookupCode,
-          typeValue: element.typeValue,
+          typeLookupCode: element.type_lookup_code,
           // purPctAgmRsn: element.purPctAgmRsn,
           rfq_no: element.rfq_no,
-          requisitionNumber: element.requisitionNumber,
-          currencyCode: element.currencyCode,
+          requisitionNumber: element.requisition_number,
+          currencyCode: element.currency_code,
           description: element.description,
-          requisitionHeaderId: element.requisitionHeaderId,
+          requisitionHeaderId: element.requisition_header_id,
 
           // Pr2
-          categoryId: element.pr2VoList[0].categoryId,
-          amount: element.pr2VoList[0].quantity * element.pr2VoList[0].unitPrice,
-          needByDate: element.pr2VoList[0].needByDate,
-          requestPersonId: element.pr2VoList[0].requestPersonId,
-          organizationCode: element.pr2VoList[0].organizationCode,
+          categoryId: element.category,
+          amount: element.quantity * element.unit_price,
+          needByDate: element.need_by_date,
+          requestPersonId: element.staff_name,
+          organizationCode: element.suggested_vendor_name,
         };
         tempList.push(temp);
       });
@@ -224,7 +223,7 @@ function selectPrList() {
       checkboxSelection: true,
     },
     { field: "line", headerName: "순번", minWidth: 100 },
-    { field: "typeValue", headerName: "Status", minWidth: 150 },
+    { field: "typeLookupCode", headerName: "Status", minWidth: 150 },
     {
       field: "rfq_no",
       headerName: "RFQ번호",
