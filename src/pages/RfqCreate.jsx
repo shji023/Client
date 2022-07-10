@@ -79,21 +79,7 @@ function RfqCreate() {
     }
   };
 
-  const testConditions = {
-    amount_limit: "1",
-    bidding_fob: "당사지정장소",
-    buyer_id: "17278",
-    category_segment: "Q",
-    end_date: "2022-06-01",
-    po_collabo_type: "Consignment",
-    po_payment_cycle: "15 Days",
-    rfq_description: "테스트1",
-    rfq_detail_status: "N",
-    rfq_no: "",
-    rfq_payment_terms: "10000",
-    rfq_ship_to: "837",
-    simple_quotation_flag: "null",
-  };
+  
   const defaultConditions = {
     rfq_no: "-",
     simple_quotation_flag: "null",
@@ -104,18 +90,19 @@ function RfqCreate() {
     category_segment: "Q", //자재
     // line_type_id :"",
 
-    rfq_description: "",
+    rfq_description: "RFQ 테스트",
     buyer_id: "17278",
 
-    po_payment_cycle: "",
-    po_collabo_type: "",
+    po_payment_cycle: "15 Days",
+    po_collabo_type: "계획없음",
 
-    end_date: "",
-    amount_limit: "",
+    end_date: "2022-08-29",
+    amount_limit: "50",
 
-    rfq_ship_to: "",
-    rfq_payment_terms: "",
-    bidding_fob: "",
+    rfq_ship_to: "(포)포항제철소",
+    rfq_payment_terms: "10002",
+    bidding_fob: "당사지정장소",
+
   };
 
   const [rfqListData, setRfqListData] = useState(
@@ -123,7 +110,35 @@ function RfqCreate() {
     defaultConditions,
   );
   // 공급사선정
-  const [selectedVendorList, setSelectedVendorList] = useState([]);
+  const [selectedVendorList, setSelectedVendorList] = useState([
+    {
+    contact_email_address: "dk213799@naver.com",
+    contact_mobile: "010-2378-0856",
+    contact_name: "임성림",
+    vendor_id: 574,
+    vendor_location: "본사",
+    vendor_name: "(주)엔비 / ENB",
+    vendor_site_id: 831,
+    },
+    {
+      contact_email_address: "bpc@bpctech.co.kr",
+    contact_mobile: "1036172685",
+    contact_name: "김명훈",
+    vendor_id: 592,
+    vendor_location: "본사",
+    vendor_name: "(주)포스코플랜텍 / POSCO Plant Engineering Co., Ltd.",
+    vendor_site_id: 836,
+    },
+    {
+      contact_email_address: "round0903@hanmail.net",
+    contact_mobile: "1086037515",
+    contact_name: "원우석",
+    vendor_id: 609,
+    vendor_location: "본사",
+    vendor_name: "(주)한컴라이프케어 / HANCOM LIFECARE Inc",
+    vendor_site_id: 861,
+    },
+  ]);
 
   // 품목정보
   const [productInfoData, setProductInfoData] = useState([]);
@@ -208,6 +223,7 @@ function RfqCreate() {
   const selectProductInfo = async () => {
     const reqNumList = pageData.getPrNumList();
     const data = await getProductInfoList(reqNumList);
+    console.log("ddd", data);
 
     const tempList = [];
     data.forEach((element) => {
@@ -219,6 +235,8 @@ function RfqCreate() {
         item_id               : element.item_id,
         request_name          : element.name,
         requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
+        pur_rfq_qt            : element.quantity,
+        need_by_date          : element.need_by_date,
         request_phone         : element.staff_contact_number,
         unit_meas_lookup_code : element.uom,
       };
@@ -430,11 +448,13 @@ function RfqCreate() {
   // #region 버튼
   // 저장 button
   const onClickSaveRfq = async () => {
+    
     let res = confirm("최종 저장 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
+
       const reqNumList = pageData.getPrNumList();
-      const data = await insertRfqInfo(
+      const rfqNum = await insertRfqInfo(
         rfqListData,
         selectedVendorList,
         productInfoData,
@@ -442,8 +462,6 @@ function RfqCreate() {
         // innerFile,
         reqNumList,
       );
-
-      const rfqNum = data;
 
       // 파일 정보 DB에 저장
       let temp = vendorFile;
@@ -456,7 +474,7 @@ function RfqCreate() {
       if (rfqNum) {
         alert("저장이 완료되었습니다.");
 
-        navigate(`/rfqCreate/${rfqNum}` /* , { replace: true} */);
+        navigate(`/rfqCreate/${rfqNum}`);
         reload();
         setReadOnly(true);
       } else {
