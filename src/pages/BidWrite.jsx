@@ -6,15 +6,14 @@ import { getKoreanNumber } from "hooks/GetKoreanNumber";
 import { getQuotationItemInfo, updateQuotationInfo, insertVendorComment, getVendorComment, getItemInfo, getVendorItemList, updateBidVendor } from "apis/bid.api";
 import { Button, DeleteButton } from "components/common/CustomButton";
 import BidWriteDataGrid from "components/bidWrite/BidWriteDataGrid";
-import BidInputSelect from "components/bid/BidInputSelect";
 import QuotationInput from "components/bidWrite/QuotationInput";
 import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
-import { downloadFile, getBidVendorFileList, uploadContent, uploadFile } from "apis/file.api";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
 import { reload } from "hooks/CommonFunction";
 import InputSelect from "components/common/InputSelect";
+import { getBidVendorFileList, uploadContent } from "apis/file.api";
 
 function BidWrite() {
   const { bidding_no, bid_vendor_id } = useParams();
@@ -127,28 +126,6 @@ function BidWrite() {
       setIsAdd(!isAdd);
     }
   };
-  // const handleInputChange = async (e) => {
-  //   const formData = new FormData();
-  //   e.target.files[0] && formData.append("file", e.target.files[0]);
-
-  //   const returnData = await uploadFile(formData);
-  //   setQuotationFile(
-  //     quotationFile.map((q) =>
-  //       q.id === nextId.current
-  //         ? {
-  //             ...q,
-  //             origin_name : returnData[0].originFile,
-  //             save_name   : returnData[0].saveFile,
-  //             size        : returnData[0].size + "Bytes",
-  //             upload_date : returnData[0].uploadDate,
-  //             file_path   : returnData[0].saveFolder,
-  //             query_type  : "insert",
-  //           }
-  //         : q,
-  //     ),
-  //   );
-  //   setIsAdd(!isAdd);
-  // };
 
   const handleRemoveList = (checked, id) => {
     if (checked) {
@@ -237,7 +214,7 @@ function BidWrite() {
 
     const newFile = {
       id          : nextId.current,
-      type        : "",
+      type        : "기타",
       origin_name : "",
       save_name   : "",
       size        : "",
@@ -268,18 +245,15 @@ function BidWrite() {
         vendor_site_id        : getCookie("site_id"),
         rfq_no                : itemInfo[0].rfq_no,
         quotation_total_price : quotation_total_price,
-        main_currency         : itemInfo[0].main_currency,
+        main_currency         : itemInfo[0].currency,
       });
-
 
       // 파일 목록 가져오기
       const fileData = await getFileInfo(bid_vendor_id);
 
       // 코멘트 가져오기
       const vendorCommentData = await getVendorComment(bid_vendor_id);
-      setVendorComment({ ...vendorCommentData, ["rfq_no"]: itemInfo[0].rfq_no, ["bidding_no"]: bidding_no });
-
-      
+      setVendorComment({ ...vendorCommentData, rfq_no: itemInfo[0].rfq_no, bidding_no: bidding_no });
 
       setReadOnly(true);
     }
@@ -288,8 +262,8 @@ function BidWrite() {
       const quotationItem = await getQuotationItemInfo(bidding_no);
       quotationItem && setItemListData(quotationItem);
       console.log("quotationItem", quotationItem)
-      setUpdateItem({ ...updateItem, ["rfq_no"]: quotationItem[0].rfq_no });
-      setVendorComment({ ...vendorComment, ["rfq_no"]: quotationItem[0].rfq_no, ["bidding_no"]: bidding_no });
+      setUpdateItem({ ...updateItem, rfq_no: quotationItem[0].rfq_no });
+      setVendorComment({ ...vendorComment, rfq_no: quotationItem[0].rfq_no, bidding_no: bidding_no });
 
       setReadOnly(false);
     }
@@ -298,6 +272,10 @@ function BidWrite() {
 
   const insertVendorInfo = async () => {
     // 공급사 의견 insert
+    // * bid4에 currency 넣기 위한 코드
+    let tempComment = vendorComment;
+    tempComment.currency = updateItem.main_currency;
+    setVendorComment({...tempComment});
     const bid_vendor_id = await insertVendorComment(itemListData, vendorComment);
 
     // 견적정보 update
@@ -330,7 +308,10 @@ function BidWrite() {
     let res = confirm("수정 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 체크하기
-
+      // * bid4에 currency 넣기 위한 코드
+      let tempComment = vendorComment;
+      tempComment.currency = updateItem.main_currency;
+      setVendorComment({...tempComment});
       const data = await updateBidVendor(vendorComment, itemListData);
 
       await updateFileContent();
@@ -344,6 +325,7 @@ function BidWrite() {
     }
   };
 
+  // 파일 정보 DB에 올리기
   const updateFileContent = async ()=> {
       let temp = quotationFile;
       temp.forEach((t) => {
