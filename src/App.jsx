@@ -262,7 +262,7 @@ function App() {
               />
 
               <Route
-                path="/successBid/:bidding_no"
+                path="/successBid/:rfq_no"
                 element={
                   <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
                     <SuccessBid />
