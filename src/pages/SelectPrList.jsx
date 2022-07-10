@@ -110,8 +110,6 @@ function selectPrList() {
   const selectPrList = async () => {
     showGridLoading(gridRef, true);
 
-    console.log("conditions : ", conditions);
-
     // !: axios 비동기
     const data = await getSearchPrList(conditions);
     console.log("getSearchPrList called : ", data);
@@ -122,36 +120,16 @@ function selectPrList() {
         // TODO: 나중에 DB에서 조인해서 가져와야됨
         // typeLookupCode
         switch (element.type_lookup_code) {
-          case "PR":
-            element.type_lookup_code = "구매신청";
-            break;
-          case "NT":
-            element.type_lookup_code = "엔투비이관";
-            break;
-          case "MT":
-            element.type_lookup_code = "발주방안검토";
-            break;
-          case "RQ":
-            element.type_lookup_code = "ITB";
-            break;
-          case "OP":
-            element.type_lookup_code = "공개구매";
-            break;
-          case "TP":
-            element.type_lookup_code = "단순견적";
-            break;
-          case "BD":
-            element.type_lookup_code = "업체선정중";
-            break;
-          case "PO":
-            element.type_lookup_code = "계약대기중";
-            break;
-          case "PA":
-            element.type_lookup_code = "계약완료";
-            break;
-          case "PC":
-            element.type_lookup_code = "계약취소";
-            break;
+          case "PR": element.type_lookup_code = "구매신청";     break;
+          case "NT": element.type_lookup_code = "엔투비이관";   break;
+          case "MT": element.type_lookup_code = "발주방안검토"; break;
+          case "RQ": element.type_lookup_code = "ITB";          break;
+          case "OP": element.type_lookup_code = "공개구매";     break;
+          case "TP": element.type_lookup_code = "단순견적";     break;
+          case "BD": element.type_lookup_code = "업체선정중";   break;
+          case "PO": element.type_lookup_code = "계약대기중";   break;
+          case "PA": element.type_lookup_code = "계약완료";     break;
+          case "PC": element.type_lookup_code = "계약취소";     break;
         }
 
         let temp = {
@@ -183,20 +161,29 @@ function selectPrList() {
     showGridLoading(gridRef, false);
   };
 
+  // RFQ 생성 버튼 이벤트
   const cerateRfq = async () => {
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
     const prNumList = [];
+    let rfq_no;
     selectedRowNodes.forEach((element) => {
       prNumList.push(element.data.requisitionNumber);
+      rfq_no = element.data.rfq_no;
     });
+    
     console.log("selected", prNumList);
 
     // ! MobX
     if (prNumList.length > 0) {
-      pageData.setPrNumList(prNumList);
-      confirm("선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?")
-        ? navigate(`/rfqCreate`)
-        : null;
+      if(rfq_no) {
+        alert("이미 생성된 RFQ가 있습니다.");
+      } else {
+        pageData.setPrNumList(prNumList);
+        confirm("선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?")
+          ? navigate(`/rfqCreate`)
+          : null;
+      }
+      
     } else {
       alert("구매신청을 선택해주세요.");
     }
@@ -344,15 +331,15 @@ function selectPrList() {
         <ButtonWrapperLine>
           <Button onClick={cerateRfq}>RFQ 생성</Button>
         </ButtonWrapperLine>
-        {/* <ListCount>건수: {dataGridCnt}</ListCount> */}
       </section>
       <section>
         <AgGrid
-          resvRef={gridRef}
-          resvRowData={selectedData}
-          resvDefaultColDef={prSelectColDef}
-          resvColumnDefs={prSelectColFields}
-          onRowClicked={(e) => {
+          resvRef           = {gridRef}
+          resvRowData       = {selectedData}
+          resvDefaultColDef = {prSelectColDef}
+          resvColumnDefs    = {prSelectColFields}
+          rowSelection      = {"single"}
+          onRowClicked      = {(e) => {
             confirm("구매 신청을 조회하시겠습니까?")
               ? navigate(`/createPr/${e.data.requisitionNumber}`)
               : null;

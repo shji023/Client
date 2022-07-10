@@ -11,8 +11,6 @@ import moment from "moment";
     fromDate = moment(fromDate);
     toDate = moment(toDate);
 
-    console.log("fromDate", fromDate, "toDate", toDate);
-
     switch(type) {
         case "day" : 
         console.log(`Difference is ${fromDate.diff(toDate, 'days')} day(s)`);

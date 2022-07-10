@@ -13,12 +13,13 @@ const getRowStyle  = params => {
 //     // logic to return the correct class
 //     return { background: '#EDF2F8' };
 //   }
-const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged, onRowClicked }) => {
+const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged, onRowClicked, rowSelection }) => {
     
     const ref = resvRef;
     const rowData = resvRowData;
     const columnDefs = resvColumnDefs;
     const defaultColDef = resvDefaultColDef;
+    const resvRowSelection = rowSelection ? rowSelection : "multiple";
 
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -68,7 +69,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                 ref={ref}
                 rowData={rowData}
                 columnDefs={columnDefs}
-                rowSelection={"multiple"}
+                rowSelection={resvRowSelection}
                 groupSelectsChildren={true}
                 suppressRowClickSelection={true}
                 pagination={true}
