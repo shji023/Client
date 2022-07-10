@@ -17,6 +17,7 @@ import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
+import InputInfoEmpty from "components/common/InputInfoEmpty";
 
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
@@ -301,6 +302,8 @@ function SelectPoList() {
             handlePoCondition={handlePoCondition}
             lov={poTypeLov}
           />
+          <InputInfoEmpty/>
+          <InputInfoEmpty/>
         </InputContainer>
       </section>
       {/* <ListCount>건수: 2,164</ListCount> */}
@@ -346,7 +349,7 @@ const InputContainer = styled.div`
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
+  & > div:nth-of-type(12) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
