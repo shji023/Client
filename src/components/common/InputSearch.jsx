@@ -112,7 +112,7 @@ function InputSearch({
             // value={searchedWord}
             value={initValue}
             onSearch={showModal} // modal
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "100%" }}
             allowClear={false}
             readOnly
           />

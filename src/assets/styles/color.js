@@ -13,4 +13,5 @@ export const colors = {
   themeBlue3: "#6888CE",
   themeBlue4: "#375699",
   themeBlue5: "#10285D",
+  poscoYellow: "#fcaf17",
 };

@@ -28,7 +28,7 @@ function InputOneDate({ id, inputLabel, initValue, handleCondition, spanCnt, dis
         value={value}
         disabled={disabled}
         onChange={(date) => handleCondition(id, date.format("YYYY-MM-DD"))}
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: "100%" }}
       />
     </StyledRoot>
   );

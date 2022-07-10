@@ -27,7 +27,7 @@ function InputSelect({ id, inputLabel, initValue, handlePoCondition, lov, spanCn
           onChange={(e) => {
             handlePoCondition(id, e);
           }}
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
         >
           <Select.Option value="">선택</Select.Option>
           {lov.map((option) => (
