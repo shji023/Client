@@ -10,7 +10,7 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useParams } from "react-router-dom";
 import { getNumberFormat } from "hooks/CommonFunction";
 
-function SuccessBid(props) {
+function SuccessBid() {
   const { rfq_no } = useParams();
 
   const [successBidCondition, setSuccessBidCondition] = useState({
@@ -36,6 +36,24 @@ function SuccessBid(props) {
     },
   ]);
 
+
+
+  // #region 버튼 이벤트
+  const nakchalButtonEvent = () => {
+    let nakchal = confirm("최종낙찰 하시겠습니까?");
+    if (nakchal) {
+      updateNakchal();
+    };
+  }
+  
+  const updateNakchal = ()=>{
+    // TODO: 낙찰처리 axios 만들기
+  }
+  // #endregion 버튼 이벤트
+
+
+
+  // #region useEffect
   const initPage = async () => {
     const bidding_no = await selectSuccessBid();
     await selectBidResult(bidding_no);
@@ -57,11 +75,13 @@ function SuccessBid(props) {
 
     setBidResultData([...temp]);
   };
-
+  
   useEffect(() => {
     initPage();
     
   }, []);
+  // #endregion useEffect
+  
 
   return (
     <StyledRoot>
@@ -69,11 +89,7 @@ function SuccessBid(props) {
         <HeaderWrapper>
           <Title>낙찰처리</Title>
           <Button
-            onClick={() => {
-              let nakchal = confirm("최종낙찰 하시겠습니까?");
-              if (nakchal == true) alert("낙찰 처리 되었습니다.");
-              else alert("취소 누름");
-            }}
+            onClick={nakchalButtonEvent}
           >
             낙찰확정
           </Button>

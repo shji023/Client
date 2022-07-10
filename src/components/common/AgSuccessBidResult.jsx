@@ -26,13 +26,12 @@ const AgGrid = ({ bidResultData }) => {
 
     const onSelectionChanged = () => {
         // const data = gridApi.getSelectedRows();
-
-        if (data.length > 0) {
-        setBtnDisabled(false);
-        } else {
-        setBtnDisabled(true);
-        }
-        setSelectedRows(gridApi.getSelectedRows());
+        // if (data.length > 0) {
+        // setBtnDisabled(false);
+        // } else {
+        // setBtnDisabled(true);
+        // }
+        // setSelectedRows(gridApi.getSelectedRows());
     };
 
     const onCellValueChanged = (e) => {
