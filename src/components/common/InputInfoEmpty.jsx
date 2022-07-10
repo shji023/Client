@@ -1,8 +1,6 @@
-import { Input } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "assets/styles/color";
-import { getReg } from "hooks/CommonFunction";
 
 function InputInfoEmpty({ spanCnt, }) {
 

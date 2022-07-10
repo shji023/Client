@@ -1308,7 +1308,7 @@ const StyledRoot = styled.main`
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(6, minmax(20.7rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
