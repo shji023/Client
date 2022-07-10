@@ -42,7 +42,6 @@ function selectPrList() {
 
   const [selectedData, setSelectedData] = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState("0");
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...conditions };
@@ -155,8 +154,6 @@ function selectPrList() {
     }
 
     setSelectedData([...tempList]);
-    // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
-    setDataGridCnt(getNumberFormat(data.length));
 
     showGridLoading(gridRef, false);
   };
