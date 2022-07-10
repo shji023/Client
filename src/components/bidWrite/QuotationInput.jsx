@@ -10,7 +10,7 @@ function QuotationInput({
   handleCondition,
   inputValue,
   isDisabled,
-  readOnly
+  readOnly,
 }) {
   return (
     <StyledRoot>
@@ -44,7 +44,7 @@ const StyledRoot = styled.div`
 
 const Label = styled.label`
   font-size: 1.6rem;
-  min-width: 50rem;
+  width: 80%;
   height: 3.5rem;
   border: 1px solid ${colors.tableLineGray};
   display: flex;

@@ -43,13 +43,17 @@ const Notice = styled.div`
 const NoticeIcon = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: -4rem;
+  margin-top: -3rem;
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
 `;
 
 const NoticeDetail = styled.div`
   text-align: center;
   color: "#0d0d0d";
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-family: "Pretendard-Bold";
   margin-top: 6rem;
 `;
@@ -65,7 +69,7 @@ const ButtonContainer = styled.div`
 const CancelButton = styled.button`
   font-family: "Pretendard-SemiBold";
   color: "#464646";
-  font-size: 2rem;
+  font-size: 1.8rem;
   :hover {
     cursor: pointer;
   }
@@ -74,7 +78,7 @@ const CancelButton = styled.button`
 const ConfirmButton = styled.button`
   font-family: "Pretendard-SemiBold";
   color: ${colors.mainBlue};
-  font-size: 2rem;
+  font-size: 1.8rem;
   :hover {
     cursor: pointer;
   }
@@ -91,8 +95,8 @@ const ModalWrapper = styled.div`
   border-radius: 1.6rem;
   border: solid 1px #8b8b8b;
   background-color: white;
-  width: 50rem;
-  height: 31.2rem;
+  width: 40rem;
+  height: 25rem;
 `;
 
 export const BackGround = styled.div`
