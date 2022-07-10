@@ -29,7 +29,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-import { reload } from "hooks/CommonFunction";
+import { getNumberFormat, reload } from "hooks/CommonFunction";
 
 function selectPrList() {
   const { id } = useParams();
@@ -513,7 +513,7 @@ function selectPrList() {
       headerName: "금액",
       minWidth: 110,
       editable: false,
-      valueGetter: (params) => params.data.cnt * params.data.unit_price,
+      valueGetter: (params) => getNumberFormat(params.data.cnt * params.data.unit_price),
     },
     {
       field: "tax_code",
