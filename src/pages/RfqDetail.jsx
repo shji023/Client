@@ -24,6 +24,9 @@ import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadContent, uploadFile } from "apis/file.api";
 import { DeleteButton } from "components/common/CustomButton";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
+import InputSelect from "components/common/InputSelect";
+import InputInfo from "components/common/InputInfo";
+import InputOneDate from "components/common/InputOneDate";
 
 function RfqDetail() {
   const { id } = useParams();
@@ -33,22 +36,23 @@ function RfqDetail() {
   const [bidCondition, setBidCondition] = useState({
     rfq_no: id,
 
-    bid_type_code: "",
-    bid_price_method: "",
-    bid_method_type: "",
-    max_round: 0,
+    bid_type_code: "BID",
+    bid_price_method: "Item by Item",
+    bid_method_type: "A",
+    max_round: 1,
 
-    main_currency: "",
-    side_conditions: "",
-    target_price: 0,
+    main_currency: "KRW",
+    side_conditions: "없음",
+    target_price: 100000000,
 
-    note_to_bidder: "",
-    bidding_rule_approval_comment: "",
+    note_to_bidder: "안내사항 입니다.",
+    bidding_rule_approval_comment: "내부보고 입니다.",
 
     simple_quotation_flag: "null",
     category_id: 0,
     bidding_fob: "",
-    side_conditions: "",
+
+    roundPeriod: "2022-07-102022-07-16"
   });
   const [rfqListData, setRfqListData] = useState({});
   const rfqNull = {
@@ -248,33 +252,27 @@ function RfqDetail() {
   // #endregion File Input 관련 이벤트
 
 
-
   const onSaveContents = () => {
+    console.log("bidCondition", bidCondition);
     confirm("입찰룰 작성을 완료하시겠습니까?") ? saveContents() : null;
   };
 
-
-
-  // #region useEffect
-
-  useDidMountEffect(() => {
-    onCreate();
-  }, [isAdd]);
-
-  useDidMountEffect(() => {}, [vendorFile]);
-  //--------------------------------------------------------------
   const saveContents = async () => {
+    
     const data = await insertOneBid(bidCondition);
     console.log("bidding no : ", data);
 
-    // 서버에 파일저장
+    
+    // #region DB에 파일 정보저장
     let temp = vendorFile;
     temp.forEach((t) => {
       t.bidding_no = data;
     })
     setVendorFile([...temp]);
     const returnData = await uploadContent(vendorFile, deleteFileIdList);
+    // #endregion DB에 파일 정보 저장
     
+
     if (data && returnData) {
       confirm("입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?")
         ? navigate(`/bidList`)
@@ -284,11 +282,17 @@ function RfqDetail() {
     }
   };
 
+  // #region useEffect
+  useDidMountEffect(() => {
+    onCreate();
+  }, [isAdd]);
+
+  useDidMountEffect(() => {}, [vendorFile]);
+
   useEffect(() => {
     selectRFQDetail(id);
     getLov();
   }, []);
-
   // #endregion useEffect
 
 
@@ -297,11 +301,7 @@ function RfqDetail() {
     <StyledRoot>
       <HeaderWrapper>
         <Title>입찰룰</Title>
-        <Button
-          onClick={() => {
-            onSaveContents();
-          }}
-        >
+        <Button onClick={() => {onSaveContents();}}>
           저장
         </Button>
       </HeaderWrapper>
@@ -342,51 +342,57 @@ function RfqDetail() {
       <SubTitle>입찰 룰</SubTitle>
       <section>
         <BidInfoContainer>
-          <RfqInputSelect
+          <InputSelect
             id="bid_type_code"
             inputLabel="입찰유형"
-            handleCondition={handleCondition}
+            initValue={bidCondition.bid_type_code}
+            handlePoCondition={handleCondition}
             lov={bidTypeLov}
           />
-          <RfqInputSelect
+          <InputSelect
             id="bid_price_method"
             inputLabel="단가입력방식"
-            handleCondition={handleCondition}
+            initValue={bidCondition.bid_price_method}
+            handlePoCondition={handleCondition}
             lov={bidPriceMethodLov}
           />
-          <RfqInputSelect
+          <InputSelect
             id="bid_method_type"
             inputLabel="낙찰제도"
-            handleCondition={handleCondition}
+            initValue={bidCondition.bid_method_type}
+            handlePoCondition={handleCondition}
             lov={bidMethodTypeLov}
           />
-          <RfqInputSelect
+          <InputSelect
             id="max_round"
             inputLabel="Max 라운드"
-            handleCondition={handleCondition}
+            initValue={bidCondition.max_round}
+            handlePoCondition={handleCondition}
             lov={bidMaxRoundLov}
           />
-          <RfqInputDate
+          <InputOneDate
             id="roundPeriod"
             inputLabel="라운드 시작/마감"
+            initValue={bidCondition.roundPeriod}
             handleCondition={handleCondition}
           />
-          <RfqInputSelect
+          <InputSelect
             id="main_currency"
             inputLabel="통화"
-            handleCondition={handleCondition}
+            initValue={bidCondition.main_currency}
+            handlePoCondition={handleCondition}
             lov={bidCurrencyCodeLov}
           />
-          <RfqInputInfo
+          <InputInfo
             id="side_conditions"
             inputLabel="부가조건"
-            handleCondition={handleCondition}
+            handlePoCondition={handleCondition}
             inputValue={bidCondition.side_conditions}
           />
-          <RfqInputInfo
+          <InputInfo
             id="target_price"
             inputLabel="Target Price"
-            handleCondition={handleCondition}
+            handlePoCondition={handleCondition}
             inputValue={bidCondition.target_price}
           />
           <BidInsertTextArea
