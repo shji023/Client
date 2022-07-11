@@ -237,7 +237,8 @@ function PoRegist() {
   // 팝업 그리드 행 정보
   const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
 
-  const [visibleFatFinger, setVisibleFatFinger] = useState(true);
+  const [onFatFinger, setOnFatFinger] = useState(true);
+  const [visibleFatFinger, setVisibleFatFinger] = useState(false);
 
   const gridRef = useRef();
   const itemGridRef = useRef();
@@ -252,22 +253,6 @@ function PoRegist() {
       avg_unit_price : "평균단가1",
       error_range : "오차범위1(%)",
     },
-    {
-      item: "test2",
-      description : "사양2",
-      category : "카테고리2",
-      uom : "단위2",
-      avg_unit_price : "평균단가2",
-      error_range : "오차범위2(%)",
-    },
-    {
-      item: "test3",
-      description : "사양3",
-      category : "카테고리3",
-      uom : "단위3",
-      avg_unit_price : "평균단가3",
-      error_range : "오차범위3(%)",
-    },
   ]);
   const [itemDetailGridRowData, setItemDetailGridRowData] = useState({});
 
@@ -278,115 +263,17 @@ function PoRegist() {
         {
           po_num      : "test1_1",
           description : "test1_1",
-          category    : "test1_1",
+          unit_price  : "test1_1",
           currency    : "test1_1",
           po_date     : "test1_1",
           vendor      : "test1_1",
         },
-        {
-          po_num      : "test1_2",
-          description : "test1_2",
-          category    : "test1_2",
-          currency    : "test1_2",
-          po_date     : "test1_2",
-          vendor      : "test1_2",
-        },
-        {
-          po_num      : "test1_3",
-          description : "test1_3",
-          category    : "test1_3",
-          currency    : "test1_3",
-          po_date     : "test1_3",
-          vendor      : "test1_3",
-        },
-        {
-          po_num      : "test1_4",
-          description : "test1_4",
-          category    : "test1_4",
-          currency    : "test1_4",
-          po_date     : "test1_4",
-          vendor      : "test1_4",
-        },
       ]
     },
-    {
-      item : "test2",
-      content: [
-        {
-          po_num      : "test2_1",
-          description : "test2_1",
-          category    : "test2_1",
-          currency    : "test2_1",
-          po_date     : "test2_1",
-          vendor      : "test2_1",
-        },
-        {
-          po_num      : "test2_2",
-          description : "test2_2",
-          category    : "test2_2",
-          currency    : "test2_2",
-          po_date     : "test2_2",
-          vendor      : "test2_2",
-        },
-        {
-          po_num      : "test2_3",
-          description : "test2_3",
-          category    : "test2_3",
-          currency    : "test2_3",
-          po_date     : "test2_3",
-          vendor      : "test2_3",
-        },
-        {
-          po_num      : "test2_4",
-          description : "test2_4",
-          category    : "test2_4",
-          currency    : "test2_4",
-          po_date     : "test2_4",
-          vendor      : "test2_4",
-        },
-      ]
-    },
-    {
-      item : "test3",
-      content: [
-        {
-          po_num      : "test3_1",
-          description : "test3_1",
-          category    : "test3_1",
-          currency    : "test3_1",
-          po_date     : "test3_1",
-          vendor      : "test3_1",
-        },
-        {
-          po_num      : "test3_2",
-          description : "test3_2",
-          category    : "test3_2",
-          currency    : "test3_2",
-          po_date     : "test3_2",
-          vendor      : "test3_2",
-        },
-        {
-          po_num      : "test3_3",
-          description : "test3_3",
-          category    : "test3_3",
-          currency    : "test3_3",
-          po_date     : "test3_3",
-          vendor      : "test3_3",
-        },
-        {
-          po_num      : "test3_4",
-          description : "test3_4",
-          category    : "test3_4",
-          currency    : "test3_4",
-          po_date     : "test3_4",
-          vendor      : "test3_4",
-        },
-      ]
-    },
+    
 
   ]);
   const [poDetailGridRowData, setPoDetailGridRowData] = useState([]);
-
 
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
@@ -395,67 +282,103 @@ function PoRegist() {
     setConditions({ ...tempCondition });
   };
 
-  // PO 저장 버튼 이벤트
-  const onSaveContents = () => {
-    // TODO: 저장 전에 FatFinger Error 체크하기
-    // setVisibleFatFinger();
-    
-    console.log("rowData", rowData);
+
+  // #region Fat Finger
+  const getFatFingerSendData = ()=>{
     let tempList = [];
     rowData.forEach((e)=>{
-      let temp = {
-        id         : e.id,
-        line       : e.line,
-        item_id    : e.item_id,
-        unit_price : e.unit_price,
-        
+      if(e.item_id) {
+        let temp = {
+          id         : e.id,
+          line       : e.line,
+          item_id    : e.item_id,
+          unit_price : e.unit_price,
+        }
+        tempList.push(temp);
       }
-      tempList.push(temp);
     })
-    console.log(tempList);
-    checkFatFinger(tempList);
+    return tempList;
+  }
+
+  const isFatFingerError = async () => {
+    if(!onFatFinger) {
+      return true;
+    }
+
+    const tempList = getFatFingerSendData();
+    if(!tempList.length) return true;
+
+    const data = await checkFatFinger(tempList);
+    if(data.itemList.length > 0) {
+      setItemGridRowData([...data.itemList]);
+      setPoGridRowData([...data.poList]);
+      setItemDetailGridRowData(data.itemList[0]);
+      setPoDetailGridRowData([...data.poList[0].content]);
+      setVisibleFatFinger(true);
+      return false;
+    } else {
+      return true;
+    }
+  }
+  // #endregion Fat Finger
 
 
-    // confirm("구매계약 등록을 완료 하시겠습니까?") ? saveContents() : null;
+  // PO 저장 버튼 이벤트
+  const onSaveContents = async () => {
+
+    const bool = await isFatFingerError();
+    if(bool) {
+      saveContents();
+    }
+
   };
 
   const saveContents = async () => {
     console.log("onSaveContents called!!!!!!!!!!!");
 
-    // !: axios 비동기
-    const data = await insertOnePo(conditions, rowData);
-    if (data) {
-      alert("구매계약 등록이 완료되었습니다.");
-      const temp = conditions;
-      temp.po_num = data;
-      setConditions({ ...temp });
-      navigate(`/poRegist/${temp.po_num}`);
-      reload();
-    } else {
-      alert("구매 계약 등록이 실패했습니다.");
+    if(confirm("구매계약 등록을 완료 하시겠습니까?")) {
+      // !: axios 비동기
+      const data = await insertOnePo(conditions, rowData);
+      if (data) {
+        alert("구매계약 등록이 완료되었습니다.");
+        const temp = conditions;
+        temp.po_num = data;
+        setConditions({ ...temp });
+        navigate(`/poRegist/${temp.po_num}`);
+        reload();
+      } else {
+        alert("구매 계약 등록이 실패했습니다.");
+      }
     }
+    
   };
 
   const onUpdateContents = async () => {
     console.log("rowData", rowData);
+    const bool = await isFatFingerError();
+    if(bool) {
+      updateContent();
+    }
 
-    // confirm("구매 계약서 수정을 완료하시겠습니까?") ? updateContent() : null;
   };
 
   const updateContent = async () => {
     console.log("onUpdateContents called");
 
-    // !: axios 비동기
-    const data = await updateOnePo(conditions, rowData, deletedIdList);
-    if (data) {
-      alert("구매 계약 수정이 완료되었습니다.");
-      const temp = conditions;
-      temp.po_num = data;
-      setConditions({ ...temp });
-      reload();
-    } else {
-      alert("구매 계약 수정이 실패했습니다.");
+    if(confirm("구매 계약서 수정을 완료하시겠습니까?")){
+      // !: axios 비동기
+      const data = await updateOnePo(conditions, rowData, deletedIdList);
+      if (data) {
+        alert("구매 계약 수정이 완료되었습니다.");
+        const temp = conditions;
+        temp.po_num = data;
+        setConditions({ ...temp });
+        reload();
+      } else {
+        alert("구매 계약 수정이 실패했습니다.");
+      }
     }
+    
   };
 
   // PR 삭제 버튼 이벤트
@@ -1174,8 +1097,6 @@ function PoRegist() {
 
       console.log("condididi ::: ", conditions);
 
-      // TODO : 불러온 데이터를 state에 넣어준다.
-      // setState([...]);
     }
   };
 
@@ -1259,7 +1180,6 @@ function PoRegist() {
       return e.item === item;
     });
     const temp = poInfo[0].content
-
     setPoDetailGridRowData([...temp]);
 
   }
@@ -1272,14 +1192,15 @@ function PoRegist() {
           <Title>구매계약</Title>
           <ButtonSelector />
           <FatFingerModal
-            visible           = {visibleFatFinger}
-            setVisible        = {setVisibleFatFinger}
-            itemInfoTableData = {itemDetailGridRowData}
-            itemGridRef       = {itemGridRef}
-            itemGridRowData   = {itemGridRowData}
-            onItemRowClicked  = {onItemRowClicked}
-            poGridRef         = {poGridRef}
-            poGridRowData     = {poDetailGridRowData}
+            visible             = {visibleFatFinger}
+            setVisible          = {setVisibleFatFinger}
+            continueButtonEvent = {id?updateContent:saveContents}
+            itemInfoTableData   = {itemDetailGridRowData}
+            itemGridRef         = {itemGridRef}
+            itemGridRowData     = {itemGridRowData}
+            onItemRowClicked    = {onItemRowClicked}
+            poGridRef           = {poGridRef}
+            poGridRowData       = {poDetailGridRowData}
           />
         </HeaderWrapper>
         <InputContainer>

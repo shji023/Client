@@ -82,7 +82,7 @@ export const checkFatFinger = async (itemList) => {
   try {
     const sendData = itemList;
     const { data } = await serverAxios.post(`${PREFIX_URL}/checkFatFinger`, sendData);
-
+    console.log("checkFatFinger", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load" + err);

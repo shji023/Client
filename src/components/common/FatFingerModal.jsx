@@ -33,6 +33,7 @@ function FatFingerModal({
   setVisible,
   inputRef,
 
+  continueButtonEvent,
   itemInfoTableData,
   itemGridRef,
   itemGridRowData,
@@ -56,12 +57,12 @@ function FatFingerModal({
 
   // #region 그리드(우측)
   const PoGridColFields = [
-    { field: "po_num",      headerName: "계약번호", minWidth: 150 },
-    { field: "description", headerName: "계약명",   minWidth: 150 },
-    { field: "category",    headerName: "단가",     minWidth: 150 },
-    { field: "currency",    headerName: "통화",     minWidth: 150 },
-    { field: "po_date",     headerName: "계약일",   minWidth: 150 },
-    { field: "vendor",      headerName: "공급사",   minWidth: 150 },
+    { field: "po_num",        headerName: "계약번호", minWidth: 150 },
+    { field: "comments",      headerName: "계약명",   minWidth: 150 },
+    { field: "unit_price",    headerName: "단가",     minWidth: 150 },
+    { field: "currency_code", headerName: "통화",     minWidth: 150 },
+    { field: "contract_date", headerName: "계약일",   minWidth: 150 },
+    { field: "vendor_name",   headerName: "공급사",   minWidth: 150 },
   ];
 
   const poGridOptions = {
@@ -219,16 +220,19 @@ function FatFingerModal({
       // #endregion 마우스 드래그
     >
       <ModalHeader>
-      <section>
-        <RfqInfoContainer>
-          <BidInfo label="품명"        value = {itemInfoTableData.item}/>
-          <BidInfo label="사양"        value = {itemInfoTableData.description}/>
-          <BidInfo label="카테고리"    value = {itemInfoTableData.category}/>
-          <BidInfo label="단위"        value = {itemInfoTableData.uom}/>
-          <BidInfo label="평균단가"    value = {itemInfoTableData.avg_unit_price}/>
-          <BidInfo label="오차범위(%)" value = {itemInfoTableData.error_range}/>
-        </RfqInfoContainer>
-      </section>
+        <section>
+          <Button onClick={continueButtonEvent}>반영</Button>
+        </section>
+        <section>
+          <RfqInfoContainer>
+            <BidInfo label="품명"        value = {itemInfoTableData.item}/>
+            <BidInfo label="사양"        value = {itemInfoTableData.description}/>
+            <BidInfo label="카테고리"    value = {itemInfoTableData.category}/>
+            <BidInfo label="단위"        value = {itemInfoTableData.uom}/>
+            <BidInfo label="평균단가"    value = {itemInfoTableData.avg_unit_price}/>
+            <BidInfo label="오차범위(%)" value = {itemInfoTableData.error_range}/>
+          </RfqInfoContainer>
+        </section>
       </ModalHeader>
 
       <GridWrapper>
