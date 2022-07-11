@@ -30,7 +30,7 @@ import { getBuyerList, getItemList, getStaffList, getVendorList } from "apis/pub
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import InputOneDate from "components/common/InputOneDate";
-import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
+import { checkFatFinger, deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { getNumberFormat, reload } from "hooks/CommonFunction";
@@ -237,7 +237,7 @@ function PoRegist() {
   // 팝업 그리드 행 정보
   const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
 
-  const [visibleFatFinger, setVisibleFatFinger] = useState(false);
+  const [visibleFatFinger, setVisibleFatFinger] = useState(true);
 
   const gridRef = useRef();
   const itemGridRef = useRef();
@@ -399,8 +399,24 @@ function PoRegist() {
   const onSaveContents = () => {
     // TODO: 저장 전에 FatFinger Error 체크하기
     // setVisibleFatFinger();
+    
+    console.log("rowData", rowData);
+    let tempList = [];
+    rowData.forEach((e)=>{
+      let temp = {
+        id         : e.id,
+        line       : e.line,
+        item_id    : e.item_id,
+        unit_price : e.unit_price,
+        
+      }
+      tempList.push(temp);
+    })
+    console.log(tempList);
+    checkFatFinger(tempList);
 
-    confirm("구매계약 등록을 완료 하시겠습니까?") ? saveContents() : null;
+
+    // confirm("구매계약 등록을 완료 하시겠습니까?") ? saveContents() : null;
   };
 
   const saveContents = async () => {
@@ -421,7 +437,9 @@ function PoRegist() {
   };
 
   const onUpdateContents = async () => {
-    confirm("구매 계약서 수정을 완료하시겠습니까?") ? updateContent() : null;
+    console.log("rowData", rowData);
+
+    // confirm("구매 계약서 수정을 완료하시겠습니까?") ? updateContent() : null;
   };
 
   const updateContent = async () => {
@@ -1041,27 +1059,27 @@ function PoRegist() {
   }, [rowData]);
 
   const getLov = async () => {
-    const resv1 = await getPoRegistLov("PO_ATTRIBUTE_CATEGORY");
-    const resv2 = await getPoRegistLov("PO_FOB");
-    const resv3 = await getPoRegistLov("PO_PAYMENT_TERM");
-    const resv4 = await getPoRegistLov("BID_METHOD_TYPE");
-    const resv5 = await getPoRegistLov("PAY_ON_Pay");
-    const resv6 = await getPoRegistLov("PO_PURCHASE_METHOD");
-    const resv7 = await getPoRegistLov("ACCEPTANCE_REQUIRED_FLAG");
-    const resv8 = await getPoRegistLov("SASO");
-    const resv9 = await getPoRegistLov("TAX_CODE");
+    const resv1  = await getPoRegistLov("PO_ATTRIBUTE_CATEGORY");
+    const resv2  = await getPoRegistLov("PO_FOB");
+    const resv3  = await getPoRegistLov("PO_PAYMENT_TERM");
+    const resv4  = await getPoRegistLov("BID_METHOD_TYPE");
+    const resv5  = await getPoRegistLov("PAY_ON_Pay");
+    const resv6  = await getPoRegistLov("PO_PURCHASE_METHOD");
+    const resv7  = await getPoRegistLov("ACCEPTANCE_REQUIRED_FLAG");
+    const resv8  = await getPoRegistLov("SASO");
+    const resv9  = await getPoRegistLov("TAX_CODE");
     const resv10 = await getPoRegistLov("MATCH_OPTION");
     const resv11 = await getPoRegistLov("ACTION_LOV");
 
-    resv1 && setAttributeCategory([...resv1]);
-    resv2 && setFobLookupCodeLov([...resv2]);
-    resv3 && setTermsIdLov([...resv3]);
-    resv4 && setBidMethodTypeLov([...resv4]);
-    resv5 && setInvoiceTypeLov([...resv5]);
-    resv6 && setReplyMethodLookupCode1Lov([...resv6]);
-    resv7 && setControlConfirmFlagLov([...resv7]);
-    resv8 && setOrganizationLov([...resv8]);
-    resv9 && setTaxCodeLov([...resv9]);
+    resv1  && setAttributeCategory([...resv1]);
+    resv2  && setFobLookupCodeLov([...resv2]);
+    resv3  && setTermsIdLov([...resv3]);
+    resv4  && setBidMethodTypeLov([...resv4]);
+    resv5  && setInvoiceTypeLov([...resv5]);
+    resv6  && setReplyMethodLookupCode1Lov([...resv6]);
+    resv7  && setControlConfirmFlagLov([...resv7]);
+    resv8  && setOrganizationLov([...resv8]);
+    resv9  && setTaxCodeLov([...resv9]);
     resv10 && setMatchOptionLov([...resv10]);
     resv11 && setActionLov([...resv11]);
   };
@@ -1069,39 +1087,37 @@ function PoRegist() {
   const getPoInit = async () => {
     if (id) {
       console.log("id : ", id);
-      // TODO : axios로 불러온다.
-      // const data = ...
       const data = await getPoSearch(id);
 
       console.log("resv Data ", data);
 
       // * Header 데이터 정리
       const temp_conditions = {
-        po_num: data[0].po_num,
-        revision_num: data[0].revision_num,
-        type_lookup_code: data[0].type_lookup_code,
-        attribute_category: data[0].attribute_category,
-        comments: data[0].comments,
-        vendor_id: data[0].vendor_id,
-        vendor_name: data[0].vendor_name,
-        vendor_location: data[0].vendor_location,
-        buyer_id: data[0].buyer_id,
-        buyer_name: data[0].buyer_name,
-        approved_date: data[0].approved_date,
-        authorization_status: data[0].authorization_status,
-        contract_date: data[0].contract_date,
-        acceptance_due_date: data[0].acceptance_due_date,
-        fob_lookup_code: data[0].fob_lookup_code,
-        vendor_location: data[0].vendor_location,
-        terms_id: data[0].terms_id,
-        blanket_total_amount: data[0].blanket_total_amount,
-        currency_code: data[0].currency_code,
-        bid_method_type: data[0].bid_method_type,
-        invoice_type: data[0].invoice_type,
-        reply_method_lookup_code1: data[0].reply_method_lookup_code1,
-        note_to_vendor: data[0].note_to_vendor,
-        note_to_receiver: data[0].note_to_receiver,
-        control_confirm_flag: data[0].control_confirm_flag,
+        po_num                    : data[0].po_num,
+        revision_num              : data[0].revision_num,
+        type_lookup_code          : data[0].type_lookup_code,
+        attribute_category        : data[0].attribute_category,
+        comments                  : data[0].comments,
+        vendor_id                 : data[0].vendor_id,
+        vendor_name               : data[0].vendor_name,
+        vendor_location           : data[0].vendor_location,
+        buyer_id                  : data[0].buyer_id,
+        buyer_name                : data[0].buyer_name,
+        approved_date             : data[0].approved_date,
+        authorization_status      : data[0].authorization_status,
+        contract_date             : data[0].contract_date,
+        acceptance_due_date       : data[0].acceptance_due_date,
+        fob_lookup_code           : data[0].fob_lookup_code,
+        vendor_location           : data[0].vendor_location,
+        terms_id                  : data[0].terms_id,
+        blanket_total_amount      : data[0].blanket_total_amount,
+        currency_code             : data[0].currency_code,
+        bid_method_type           : data[0].bid_method_type,
+        invoice_type              : data[0].invoice_type,
+        reply_method_lookup_code1 : data[0].reply_method_lookup_code1,
+        note_to_vendor            : data[0].note_to_vendor,
+        note_to_receiver          : data[0].note_to_receiver,
+        control_confirm_flag      : data[0].control_confirm_flag,
       };
       console.log("temp:", temp_conditions);
       setConditions({ ...conditions, ...temp_conditions });
@@ -1109,45 +1125,47 @@ function PoRegist() {
       // Line 데이터 정리
       const temp_lines = [];
       data.forEach((element) => {
+        console.log("e", element);
         let temp_line = {
           // TODO: id 가져오기
-          closed_code: element.closed_code,
-          line: element.po_line_num,
-          item: element.test,
-          //category : element.category_id,
-          category: element.category,
-          description: element.item_description,
-          uom: element.unit_meas_lookup_code,
-          quantity: element.mat_bpa_agree_qt,
-          unit_price: element.unit_price,
-          total_amount: element.contract_amount,
-          shipment: 1, //po_shipment_num,
-          ship_quantity: element.quantity,
-          ship_total_amount: element.amount,
-          need_by_date: element.need_by_date,
-          promised_date: element.promised_date,
-          organization: element.ship_to_organization_id,
-          tax_code: element.tax_code,
-          match_option: element.inspection_required_flag,
-          over_receipt_tol: element.qty_rcv_tolerance,
-          action: element.qty_rcv_exception_code,
-          quantity_recevied: element.quantity_received,
-          quantity_accepted: element.quantity_accepted,
-          quantity_rejected: element.quantity_rejected,
-          quantity_billed: element.quantity_billed,
-          quantity_cancelled: element.quantity_cancelled,
-          distribution: 1,
-          requisition: element.req_distribution_id,
-          req_line: 1,
-          requester: element.request,
-          requester_id: element.request_person_id,
-          deliver_to_location: element.deliver_to_location_id,
-          subinventory: element.destination_subinventory,
-          charge_account: element.account_nm,
-          query_type: "update",
-          po_line_id: element.po_line_id,
-          po_line_location_id: element.po_line_location_id,
-          po_distribution_id: element.po_distribution_id,
+          closed_code         : element.closed_code,
+          line                : element.po_line_num,
+          item                : element.test,
+          item_id             : element.item_id,
+          //category          : element.category_id,
+          category            : element.category,
+          description         : element.item_description,
+          uom                 : element.unit_meas_lookup_code,
+          quantity            : element.mat_bpa_agree_qt,
+          unit_price          : element.unit_price,
+          total_amount        : element.contract_amount,
+          shipment            : 1, //po_shipment_num,
+          ship_quantity       : element.quantity,
+          ship_total_amount   : element.amount,
+          need_by_date        : element.need_by_date,
+          promised_date       : element.promised_date,
+          organization        : element.ship_to_organization_id,
+          tax_code            : element.tax_code,
+          match_option        : element.inspection_required_flag,
+          over_receipt_tol    : element.qty_rcv_tolerance,
+          action              : element.qty_rcv_exception_code,
+          quantity_recevied   : element.quantity_received,
+          quantity_accepted   : element.quantity_accepted,
+          quantity_rejected   : element.quantity_rejected,
+          quantity_billed     : element.quantity_billed,
+          quantity_cancelled  : element.quantity_cancelled,
+          distribution        : 1,
+          requisition         : element.req_distribution_id,
+          req_line            : 1,
+          requester           : element.request,
+          requester_id        : element.request_person_id,
+          deliver_to_location : element.deliver_to_location_id,
+          subinventory        : element.destination_subinventory,
+          charge_account      : element.account_nm,
+          query_type          : "update",
+          po_line_id          : element.po_line_id,
+          po_line_location_id : element.po_line_location_id,
+          po_distribution_id  : element.po_distribution_id,
         };
         temp_lines.push(temp_line);
       });
