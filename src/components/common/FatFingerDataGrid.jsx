@@ -48,8 +48,8 @@ const FatFingerDataGrid = ({ width, height, gridOptions, gridRowData, gridRef, o
                     toolPanels: ["columns", "filters"],
                     defaultToolPanel: "",
                 }}
-                pagination={true}
-                paginationAutoPageSize={true}
+                // pagination={true}
+                // paginationAutoPageSize={true}
                 onRowClicked={onRowClicked}
             >
              
