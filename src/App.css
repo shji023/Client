@@ -76,6 +76,22 @@
   display: none !important;
 }
 
+/* selector */
+.ant-select-selector {
+  height: 100% !important;
+}
+/* inputSearch */
+.ant-input-search .ant-input-group {
+  height: 100% !important;
+}
+.ant-input-search .ant-input {
+  height: 100% !important;
+}
+.ant-input-search .ant-btn {
+  height: 100% !important;
+}
+
+
 /* 타임라인 */
 .rt {
   display: flex;
@@ -111,11 +127,24 @@
 .rt-track-key__title{
   font-size: 1.5rem;
 }
+.rt-element {
+  box-shadow: rgb(0 0 0 / 35%) 2px 2px 3px 1px !important
+}
 /* build element 제목 */
 .rt-element__title {
   font-size: 1.4rem;
 }
-/* 마우스 따라다니는 마커 */
+/* 마커 */
 .rt-marker__content {
-  font-size: 1.5rem;
+  font-size: 1.5rem;  
+}
+/* 마우스 따라다니는 마커 */
+.rt-marker--pointer {
+  color: #f26122 !important;
+  border-color: #f26122 !important;
+}
+/* 현재 날짜 가리키는 마커 */
+.rt-marker--now {
+  color: #fcaf17 !important;
+  border-color: #fcaf17 !important;
 }

@@ -57,7 +57,6 @@ export const getshipToLov = async () => {
 
 export const getProductInfoList = async (reqNumList) => {
     try {
-      console.log("000000000000000000000")
       const sendData = {"reqNum" : reqNumList}
       console.log("sendData", sendData);
       const { data } = await serverAxios.post(`${PREFIX_URL}/ProductInfoList`, sendData);
@@ -71,7 +70,6 @@ export const getProductInfoList = async (reqNumList) => {
 
   export const getBuyerInfo = async (buyer_id) => {
     try {
-      console.log("buyer_id   :" , buyer_id);
       const sendData = {"buyer_id": buyer_id};
       const { data } = await serverAxios.post(`${PREFIX_URL}/getBuyerInfo`,sendData);
       console.log("getBuyerInfo : ", data);

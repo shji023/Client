@@ -62,6 +62,15 @@ export const getRfqFileList = async (rfq_no) => {
   }
 };
 
+export const getBidVendorFileList = async (bid_vendor_id) => {
+  try {
+    const { data } = await serverAxios.get(`${PREFIX_URL}/getBidVendorFileList/${bid_vendor_id}`);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const downloadFile = async (fileId) => {
   try {
     const sendData = { file_id : fileId }

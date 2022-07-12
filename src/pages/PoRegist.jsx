@@ -33,9 +33,10 @@ import InputOneDate from "components/common/InputOneDate";
 import { deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-import { reload } from "hooks/CommonFunction";
+import { getNumberFormat, reload } from "hooks/CommonFunction";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
+import FatFingerModal from "components/common/FatFingerModal";
 
 function PoRegist() {
   const { id } = useParams();
@@ -236,7 +237,156 @@ function PoRegist() {
   // 팝업 그리드 행 정보
   const [popUpPreparerRowData, setPopUpPreparerRowData] = useState([]);
 
+  const [visibleFatFinger, setVisibleFatFinger] = useState(false);
+
   const gridRef = useRef();
+  const itemGridRef = useRef();
+  const poGridRef = useRef();
+
+  const [itemGridRowData, setItemGridRowData] = useState([
+    {
+      item: "test1",
+      description : "사양1",
+      category : "카테고리1",
+      uom : "단위1",
+      avg_unit_price : "평균단가1",
+      error_range : "오차범위1(%)",
+    },
+    {
+      item: "test2",
+      description : "사양2",
+      category : "카테고리2",
+      uom : "단위2",
+      avg_unit_price : "평균단가2",
+      error_range : "오차범위2(%)",
+    },
+    {
+      item: "test3",
+      description : "사양3",
+      category : "카테고리3",
+      uom : "단위3",
+      avg_unit_price : "평균단가3",
+      error_range : "오차범위3(%)",
+    },
+  ]);
+  const [itemDetailGridRowData, setItemDetailGridRowData] = useState({});
+
+  const [poGridRowData, setPoGridRowData] = useState([
+    {
+      item : "test1",
+      content: [
+        {
+          po_num      : "test1_1",
+          description : "test1_1",
+          category    : "test1_1",
+          currency    : "test1_1",
+          po_date     : "test1_1",
+          vendor      : "test1_1",
+        },
+        {
+          po_num      : "test1_2",
+          description : "test1_2",
+          category    : "test1_2",
+          currency    : "test1_2",
+          po_date     : "test1_2",
+          vendor      : "test1_2",
+        },
+        {
+          po_num      : "test1_3",
+          description : "test1_3",
+          category    : "test1_3",
+          currency    : "test1_3",
+          po_date     : "test1_3",
+          vendor      : "test1_3",
+        },
+        {
+          po_num      : "test1_4",
+          description : "test1_4",
+          category    : "test1_4",
+          currency    : "test1_4",
+          po_date     : "test1_4",
+          vendor      : "test1_4",
+        },
+      ]
+    },
+    {
+      item : "test2",
+      content: [
+        {
+          po_num      : "test2_1",
+          description : "test2_1",
+          category    : "test2_1",
+          currency    : "test2_1",
+          po_date     : "test2_1",
+          vendor      : "test2_1",
+        },
+        {
+          po_num      : "test2_2",
+          description : "test2_2",
+          category    : "test2_2",
+          currency    : "test2_2",
+          po_date     : "test2_2",
+          vendor      : "test2_2",
+        },
+        {
+          po_num      : "test2_3",
+          description : "test2_3",
+          category    : "test2_3",
+          currency    : "test2_3",
+          po_date     : "test2_3",
+          vendor      : "test2_3",
+        },
+        {
+          po_num      : "test2_4",
+          description : "test2_4",
+          category    : "test2_4",
+          currency    : "test2_4",
+          po_date     : "test2_4",
+          vendor      : "test2_4",
+        },
+      ]
+    },
+    {
+      item : "test3",
+      content: [
+        {
+          po_num      : "test3_1",
+          description : "test3_1",
+          category    : "test3_1",
+          currency    : "test3_1",
+          po_date     : "test3_1",
+          vendor      : "test3_1",
+        },
+        {
+          po_num      : "test3_2",
+          description : "test3_2",
+          category    : "test3_2",
+          currency    : "test3_2",
+          po_date     : "test3_2",
+          vendor      : "test3_2",
+        },
+        {
+          po_num      : "test3_3",
+          description : "test3_3",
+          category    : "test3_3",
+          currency    : "test3_3",
+          po_date     : "test3_3",
+          vendor      : "test3_3",
+        },
+        {
+          po_num      : "test3_4",
+          description : "test3_4",
+          category    : "test3_4",
+          currency    : "test3_4",
+          po_date     : "test3_4",
+          vendor      : "test3_4",
+        },
+      ]
+    },
+
+  ]);
+  const [poDetailGridRowData, setPoDetailGridRowData] = useState([]);
+
 
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
@@ -247,6 +397,9 @@ function PoRegist() {
 
   // PO 저장 버튼 이벤트
   const onSaveContents = () => {
+    // TODO: 저장 전에 FatFinger Error 체크하기
+    // setVisibleFatFinger();
+
     confirm("구매계약 등록을 완료 하시겠습니까?") ? saveContents() : null;
   };
 
@@ -567,7 +720,7 @@ function PoRegist() {
       headerName: "금액",
       minWidth: 100,
       editable: false,
-      valueGetter: (params) => params.data.quantity * params.data.unit_price,
+      valueGetter: (params) => getNumberFormat(params.data.quantity * params.data.unit_price),
     },
     {
       field: "shipment",
@@ -597,7 +750,7 @@ function PoRegist() {
       headerName: "금액",
       minWidth: 100,
       editable: false,
-      valueGetter: (params) => params.data.ship_quantity * params.data.unit_price,
+      valueGetter: (params) => getNumberFormat(params.data.ship_quantity * params.data.unit_price),
     },
     {
       field: "need_by_date",
@@ -1025,12 +1178,8 @@ function PoRegist() {
 
   // #region 팝업 이벤트
   const onHandleSearchVendor = async (value) => {
-    console.log("value : ", value);
-
     const sendData = { vendor_name: value };
     const resultList = await getVendorList(sendData);
-
-    console.log("resultList", resultList);
 
     return resultList;
   };
@@ -1075,6 +1224,27 @@ function PoRegist() {
     temp.buyer_name = "";
     setConditions({ ...temp });
   };
+
+  const onItemRowClicked = (e)=>{
+    // console.log("e", e, e.data.item, e.rowIndex)
+    const item = e.data.item;
+
+    // 상단 정보 갱신
+    const itemInfo = itemGridRowData.filter((e)=>{
+      return e.item === item;
+    })
+    setItemDetailGridRowData(itemInfo[0]);
+
+
+    // 우측 그리드 갱신
+    const poInfo = poGridRowData.filter((e)=>{
+      return e.item === item;
+    });
+    const temp = poInfo[0].content
+
+    setPoDetailGridRowData([...temp]);
+
+  }
   // #endregion 팝업 이벤트
 
   return (
@@ -1083,6 +1253,16 @@ function PoRegist() {
         <HeaderWrapper>
           <Title>구매계약</Title>
           <ButtonSelector />
+          <FatFingerModal
+            visible           = {visibleFatFinger}
+            setVisible        = {setVisibleFatFinger}
+            itemInfoTableData = {itemDetailGridRowData}
+            itemGridRef       = {itemGridRef}
+            itemGridRowData   = {itemGridRowData}
+            onItemRowClicked  = {onItemRowClicked}
+            poGridRef         = {poGridRef}
+            poGridRowData     = {poDetailGridRowData}
+          />
         </HeaderWrapper>
         <InputContainer>
           <InputInfo
@@ -1308,7 +1488,7 @@ const StyledRoot = styled.main`
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(6, minmax(20.7rem, 1fr));
-  padding: 2rem 2rem 2rem 0.5rem;
+  padding: 2rem 0rem;
   & > div:nth-of-type(4) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};

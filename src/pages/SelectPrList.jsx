@@ -42,7 +42,6 @@ function selectPrList() {
 
   const [selectedData, setSelectedData] = useState([]);
   const [prStatusLov, setPrStatusLov] = useState([]);
-  const [dataGridCnt, setDataGridCnt] = useState("0");
 
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...conditions };
@@ -110,8 +109,6 @@ function selectPrList() {
   const selectPrList = async () => {
     showGridLoading(gridRef, true);
 
-    console.log("conditions : ", conditions);
-
     // !: axios 비동기
     const data = await getSearchPrList(conditions);
     console.log("getSearchPrList called : ", data);
@@ -121,83 +118,69 @@ function selectPrList() {
       data.forEach((element) => {
         // TODO: 나중에 DB에서 조인해서 가져와야됨
         // typeLookupCode
-        switch (element.typeLookupCode) {
-          case "PR":
-            element.typeValue = "구매신청";
-            break;
-          case "NT":
-            element.typeValue = "엔투비이관";
-            break;
-          case "MT":
-            element.typeValue = "발주방안검토";
-            break;
-          case "RQ":
-            element.typeValue = "ITB";
-            break;
-          case "OP":
-            element.typeValue = "공개구매";
-            break;
-          case "TP":
-            element.typeValue = "단순견적";
-            break;
-          case "BD":
-            element.typeValue = "업체선정중";
-            break;
-          case "PO":
-            element.typeValue = "계약대기중";
-            break;
-          case "PA":
-            element.typeValue = "계약완료";
-            break;
-          case "PC":
-            element.typeValue = "계약취소";
-            break;
+        switch (element.type_lookup_code) {
+          case "PR": element.type_lookup_code = "구매신청";     break;
+          case "NT": element.type_lookup_code = "엔투비이관";   break;
+          case "MT": element.type_lookup_code = "발주방안검토"; break;
+          case "RQ": element.type_lookup_code = "ITB";          break;
+          case "OP": element.type_lookup_code = "공개구매";     break;
+          case "TP": element.type_lookup_code = "단순견적";     break;
+          case "BD": element.type_lookup_code = "업체선정중";   break;
+          case "PO": element.type_lookup_code = "계약대기중";   break;
+          case "PA": element.type_lookup_code = "계약완료";     break;
+          case "PC": element.type_lookup_code = "계약취소";     break;
         }
 
         let temp = {
           // Pr1
           line: element.line,
-          typeLookupCode: element.typeLookupCode,
-          typeValue: element.typeValue,
+          typeLookupCode: element.type_lookup_code,
           // purPctAgmRsn: element.purPctAgmRsn,
           rfq_no: element.rfq_no,
-          requisitionNumber: element.requisitionNumber,
-          currencyCode: element.currencyCode,
+          requisitionNumber: element.requisition_number,
+          currencyCode: element.currency_code,
           description: element.description,
-          requisitionHeaderId: element.requisitionHeaderId,
+          requisitionHeaderId: element.requisition_header_id,
 
           // Pr2
-          categoryId: element.pr2VoList[0].categoryId,
-          amount: element.pr2VoList[0].quantity * element.pr2VoList[0].unitPrice,
-          needByDate: element.pr2VoList[0].needByDate,
-          requestPersonId: element.pr2VoList[0].requestPersonId,
-          organizationCode: element.pr2VoList[0].organizationCode,
+          categoryId: element.category,
+          amount: element.quantity * element.unit_price,
+          needByDate: element.need_by_date,
+          requestPersonId: element.staff_name,
+          organizationCode: element.suggested_vendor_name,
         };
         tempList.push(temp);
       });
     }
 
     setSelectedData([...tempList]);
-    // ?: 서버에서 개수 가져올지, 아니면 클라이언트에서 계산할지 얘기해보기
-    setDataGridCnt(getNumberFormat(data.length));
 
     showGridLoading(gridRef, false);
   };
 
+  // RFQ 생성 버튼 이벤트
   const cerateRfq = async () => {
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
     const prNumList = [];
+    let rfq_no;
     selectedRowNodes.forEach((element) => {
       prNumList.push(element.data.requisitionNumber);
+      rfq_no = element.data.rfq_no;
     });
+    
     console.log("selected", prNumList);
 
     // ! MobX
     if (prNumList.length > 0) {
-      pageData.setPrNumList(prNumList);
-      confirm("선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?")
-        ? navigate(`/rfqCreate`)
-        : null;
+      if(rfq_no) {
+        alert("이미 생성된 RFQ가 있습니다.");
+      } else {
+        pageData.setPrNumList(prNumList);
+        confirm("선택하신 구매신청을 기준으로 RFQ를 생성하시겠습니까?")
+          ? navigate(`/rfqCreate`)
+          : null;
+      }
+      
     } else {
       alert("구매신청을 선택해주세요.");
     }
@@ -224,7 +207,7 @@ function selectPrList() {
       checkboxSelection: true,
     },
     { field: "line", headerName: "순번", minWidth: 100 },
-    { field: "typeValue", headerName: "Status", minWidth: 150 },
+    { field: "typeLookupCode", headerName: "Status", minWidth: 150 },
     {
       field: "rfq_no",
       headerName: "RFQ번호",
@@ -252,7 +235,9 @@ function selectPrList() {
     { field: "currencyCode", headerName: "단위", minWidth: 80 },
     { field: "needByDate", headerName: "요청납기일", minWidth: 200 },
     { field: "requestPersonId", headerName: "Requester", minWidth: 140 },
-    { field: "organizationCode", headerName: "사용부서", minWidth: 200 },
+    { field: "organizationCode", headerName: "사용부서", minWidth: 200,
+      valueGetter: (params) => (!params.data.organizationCode ? "-" : params.data.organizationCode),
+    },
   ];
   // #endregion 그리드
 
@@ -343,15 +328,15 @@ function selectPrList() {
         <ButtonWrapperLine>
           <Button onClick={cerateRfq}>RFQ 생성</Button>
         </ButtonWrapperLine>
-        {/* <ListCount>건수: {dataGridCnt}</ListCount> */}
       </section>
       <section>
         <AgGrid
-          resvRef={gridRef}
-          resvRowData={selectedData}
-          resvDefaultColDef={prSelectColDef}
-          resvColumnDefs={prSelectColFields}
-          onRowClicked={(e) => {
+          resvRef           = {gridRef}
+          resvRowData       = {selectedData}
+          resvDefaultColDef = {prSelectColDef}
+          resvColumnDefs    = {prSelectColFields}
+          rowSelection      = {"single"}
+          onRowClicked      = {(e) => {
             confirm("구매 신청을 조회하시겠습니까?")
               ? navigate(`/createPr/${e.data.requisitionNumber}`)
               : null;

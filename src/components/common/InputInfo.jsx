@@ -34,7 +34,7 @@ function InputInfo({ id, inputLabel, handlePoCondition, inputValue, spanCnt, dis
               return handlePoCondition(id, v);
             }
           }}
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           disabled={disabled}
           readOnly={readOnly}
         />

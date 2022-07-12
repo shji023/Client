@@ -8,9 +8,10 @@ import BidInfo from "components/common/BidInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useParams } from "react-router-dom";
+import { getNumberFormat } from "hooks/CommonFunction";
 
-function SuccessBid(props) {
-  const { bidding_no } = useParams(/* "6455407" */);
+function SuccessBid() {
+  const { rfq_no } = useParams();
 
   const [successBidCondition, setSuccessBidCondition] = useState({
     rfq_description: "",
@@ -25,22 +26,62 @@ function SuccessBid(props) {
   //   QUOTATION_TOTAL_PRICE1: "",
   //   QUOTATION_COMMENT: "",
   // });
-  const [bidResultData, setBidResultData] = useState([]);
+  const [bidResultData, setBidResultData] = useState([
+    {
+      id: 1,
+      main_currency: null,
+      quotation_comment: "",
+      quotation_total_price: "",
+      vendor_name: "",
+    },
+  ]);
+
+
+
+  // #region 버튼 이벤트
+  const nakchalButtonEvent = () => {
+    let nakchal = confirm("최종낙찰 하시겠습니까?");
+    if (nakchal) {
+      updateNakchal();
+    };
+  }
+  
+  const updateNakchal = ()=>{
+    // TODO: 낙찰처리 axios 만들기
+  }
+  // #endregion 버튼 이벤트
+
+
+
+  // #region useEffect
+  const initPage = async () => {
+    const bidding_no = await selectSuccessBid();
+    await selectBidResult(bidding_no);
+  }
 
   const selectSuccessBid = async () => {
-    const data = await getSuccessBid({ rfq_no: bidding_no });
-    setSuccessBidCondition(data);
+    const data = await getSuccessBid(rfq_no);
+    setSuccessBidCondition({...data});
+    return data.bidding_no
   };
-  const selectBidResult = async () => {
-    const data = await getBidResult({ rfq_no: bidding_no });
+  const selectBidResult = async (bidding_no) => { 
+    const data = await getBidResult(rfq_no, bidding_no);
 
-    setBidResultData(data);
+    // 표에 나타날 금액 단위 표시
+    let temp = data;
+    temp.forEach((e)=>{
+      e.quotation_total_price2 = getNumberFormat(e.quotation_total_price)
+    })
+
+    setBidResultData([...temp]);
   };
-
+  
   useEffect(() => {
-    selectSuccessBid();
-    selectBidResult();
+    initPage();
+    
   }, []);
+  // #endregion useEffect
+  
 
   return (
     <StyledRoot>
@@ -48,18 +89,17 @@ function SuccessBid(props) {
         <HeaderWrapper>
           <Title>낙찰처리</Title>
           <Button
-            onClick={() => {
-              let nakchal = confirm("최종낙찰 하시겠습니까?");
-              if (nakchal == true) alert("낙찰 처리 되었습니다.");
-              else alert("취소 누름");
-            }}
+            onClick={nakchalButtonEvent}
           >
             낙찰확정
           </Button>
         </HeaderWrapper>
 
         <InputContainer>
-          <BidInfo label="건명" value={successBidCondition.rfq_description} />
+          <BidInfo 
+            label="건명" 
+            value={successBidCondition.rfq_description} 
+          />
           <BidInfo
             //id="BIDDING_NO"
             label="입찰번호"
@@ -78,7 +118,7 @@ function SuccessBid(props) {
           <BidInfo
             //id="TARGET_PRICE"
             label="TargetPrice"
-            value={successBidCondition.target_price}
+            value={ getNumberFormat(successBidCondition.target_price) }
           />
         </InputContainer>
       </section>

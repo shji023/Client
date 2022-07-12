@@ -169,18 +169,77 @@ export const insertOneBid = async (sendData) => {
   }
 };
 
-export const postVendorComment = async (vendorComment) => {
+export const updateBidVendor = async (vendorComment, itemListData) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorComment`, vendorComment);
+    const sendData = {
+      vendorComment : vendorComment,
+      itemListData : itemListData
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/updateBidVendor`, sendData);
+    console.log("updateBidVendor", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const getBidVendorId = async (bidding_no, site_id) => {
+  try {
+    const sendData = {
+      bidding_no    : bidding_no,
+      site_id       : site_id,
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getBidVendorId`, sendData);
+    console.log("getBidVendorId", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
+  try {
+    const sendData = {
+      bidding_no    : bidding_no,
+      bid_vendor_id : bid_vendor_id,
+      site_id       : site_id,
+    }
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorItemList`, sendData);
+    console.log("getVendorItemList", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const getVendorComment = async (bid_vendor_id) => {
+  try {
+    const sendData = {bid_vendor_id : bid_vendor_id}
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorComment`, sendData);
+    console.log("getVendorComment", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const insertVendorComment = async (itemListData, vendorComment) => {
+  try {
+    const sendData = {
+      itemListData  : itemListData,
+      vendorComment : vendorComment
+    }
+    console.log("sendData", sendData);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorComment`, sendData);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
   }
 };
 
-export const postQuotationInfo = async (quotationInfo) => {
+export const updateQuotationInfo = async (quotationInfo) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/quotationInfo`, quotationInfo);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/updateQuotationInfo`, quotationInfo);
     if (data === "success") {
       return true;
     }

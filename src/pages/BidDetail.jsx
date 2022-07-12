@@ -1,4 +1,4 @@
-import { getItemInfo, getRfqInfo, getRuleInfo } from "apis/bid.api";
+import { getBidVendorId, getItemInfo, getRfqInfo, getRuleInfo } from "apis/bid.api";
 import { colors } from "assets/styles/color";
 import BidInfo from "components/bid/BidInfo";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import { getVendorFileList } from "apis/file.api";
 import { getCookie } from "util/cookie";
 
 function BidDetail() {
-  const { id } = useParams();
+  const { bidding_no } = useParams();
   const navigate = useNavigate();
   const [ruleInfoData, setRuleInfoData] = useState([]);
   const [rfqInfoData, setRfqInfoData] = useState([]);
@@ -25,10 +25,10 @@ function BidDetail() {
   const [user, setUser] = useState(0);
 
   const selectInfo = async () => {
-    const ruleInfo = await getRuleInfo(id);
-    const rfqInfo = await getRfqInfo(id);
-    const itemInfo = await getItemInfo(id);
-    //const fileInfo = await getVendorFileList(id);
+    const ruleInfo = await getRuleInfo(bidding_no);
+    const rfqInfo = await getRfqInfo(bidding_no);
+    const itemInfo = await getItemInfo(bidding_no);
+    //const fileInfo = await getVendorFileList(bidding_no);
     ruleInfo && setRuleInfoData(ruleInfo[0]);
     rfqInfo && setRfqInfoData(rfqInfo[0]);
     itemInfo && setItemInfoList(itemInfo);
@@ -53,8 +53,23 @@ function BidDetail() {
         : "시장가경쟁";
     setBidMethod(tempBidMethod);
   };
+
+
   const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
   const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
+
+  const onClickBidWriteButton = async () => {
+    
+    const site_id = getCookie("site_id");
+    const bid_vendor_id = await getBidVendorId(bidding_no, site_id);
+    if(bid_vendor_id) {
+      navigate(`/bidWrite/${bidding_no}/${bid_vendor_id}`);
+    } else {
+      navigate(`/bidWrite/${bidding_no}`);
+    }
+
+  }
+
   useEffect(() => {
     selectInfo();
     if (getCookie("authority") === "ROLE_VENDOR") {
@@ -123,7 +138,7 @@ function BidDetail() {
       </section>
       {user === 1 ? (
         <ButtonWrapper>
-          <Button onClick={() => navigate(`/bidWrite/${id}`)}>응찰서 작성</Button>
+          <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
         </ButtonWrapper>
       ) : user === 2 ? (
         <ButtonWrapper>

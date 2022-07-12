@@ -5,13 +5,13 @@ import moment from "moment";
  * @param {*} value 
  * @returns 
  */
- export const getNumberFormat = (value) => value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+ export const getNumberFormat = (value) => {
+   return value ? value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : "0";
+};
 
  export const getDiffDate = (fromDate, toDate, type) => {
     fromDate = moment(fromDate);
     toDate = moment(toDate);
-
-    console.log("fromDate", fromDate, "toDate", toDate);
 
     switch(type) {
         case "day" : 

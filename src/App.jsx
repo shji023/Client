@@ -262,7 +262,7 @@ function App() {
               />
 
               <Route
-                path="/successBid/:bidding_no"
+                path="/successBid/:rfq_no"
                 element={
                   <PrivateRoute role1="ROLE_BUYER" role2="" role3="">
                     <SuccessBid />
@@ -297,7 +297,15 @@ function App() {
 
               {/* 공급사 */}
               <Route
-                path="/bidWrite/:id"
+                path="/bidWrite/:bidding_no"
+                element={
+                  <PrivateRoute role1="ROLE_VENDOR" role2="" role3="">
+                    <BidWrite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/bidWrite/:bidding_no/:bid_vendor_id"
                 element={
                   <PrivateRoute role1="ROLE_VENDOR" role2="" role3="">
                     <BidWrite />
@@ -315,7 +323,7 @@ function App() {
                 }
               />
               <Route
-                path="/bidList/:id"
+                path="/bidList/:bidding_no"
                 element={
                   <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
                     <BidDetail />
@@ -326,7 +334,7 @@ function App() {
                 path="/dashboard"
                 element={
                   // <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
-                  <DashBoard />
+                    <DashBoard />
                   // </PrivateRoute>
                 }
               />
