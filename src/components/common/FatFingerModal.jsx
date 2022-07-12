@@ -231,7 +231,7 @@ function FatFingerModal({
           <RfqInfoContainer>
             <InputCell label="품명"        value = {itemInfoTableData.item}           />
             <InputCell label="단위"        value = {itemInfoTableData.uom}            />
-            <InputCell label="입력가"      value = {itemInfoTableData.unit_price} />
+            <InputCell label="입력단가"      value = {itemInfoTableData.unit_price} />
             <InputCell label="사양"        value = {itemInfoTableData.description}    spanCnt = {2}  />
             <InputCell label="평균단가"    value = {Math.floor(itemInfoTableData.avg_unit_price)} />
             <InputCell label="카테고리"    value = {itemInfoTableData.category}       spanCnt = {2}  />
