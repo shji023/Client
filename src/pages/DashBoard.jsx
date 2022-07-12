@@ -1,5 +1,6 @@
-import { getBidListBuyer } from "apis/bid.api";
+import { getBidList, getBidListBuyer } from "apis/bid.api";
 import { getTotalPr, getTotalRfq, getWaitingPr, getWaitingRfq } from "apis/dashboard.api";
+import { getSearchPoList } from "apis/po.api";
 import DashBoardCard from "components/dashboard/DashBoardCard";
 import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import DashBoardLine from "components/dashboard/DashBoardLine";
@@ -9,6 +10,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 function DashBoard() {
   const [bidListBuyerData, setBidListBuyerData] = useState([]);
+  const [bidListData, setBidListData] = useState([]);
   const [totalPr, setTotalPr] = useState(0);
   const [totalRfq, setTotalRfq] = useState(0);
 
@@ -16,7 +18,12 @@ function DashBoard() {
   const [rfqCount, setRfqCount] = useState(0);
   const [bidCount, setBidCount] = useState(0);
 
+  const [statusPieData, setStatusPieData] = useState([]);
+
+  const [poStatusData, setPoStatusData] = useState([]);
+
   const selectBidListBuyer = async () => {
+    // Card bidTotalCount, bidCount 구하기
     const bidData = await getBidListBuyer({
       rfq_no: "",
       bid_search_type: "",
@@ -34,6 +41,7 @@ function DashBoard() {
     setBidCount(tempCount);
     setBidListBuyerData(bidData);
 
+    // Card 1, 2
     const prData = await getWaitingPr();
     const prTotalData = await getTotalPr();
 
@@ -45,6 +53,120 @@ function DashBoard() {
 
     setRfqCount(rfqData);
     setTotalRfq(rfqTotalData);
+
+    // 마감 기한 임박 입찰 목록, 파이 차트
+    const bidList = await getBidList({
+      RFQ_NO: "",
+      BID_SEARCH_TYPE: "",
+      CATEGORY_SEGMENT1: "",
+      RFQ_DESCRIPTION: "",
+      BIDDING_START_DATE: "",
+      BIDDING_END_DATE: "",
+    });
+    let total = 0;
+    let writing = 0;
+    let progress = 0;
+    let successBid = 0;
+    let part = 0;
+    let failBid = 0;
+    let complete = 0;
+    let finish = 0;
+
+    bidList &&
+      bidList.map((b) => {
+        if (b.bid_search_type === "전체") {
+          total++;
+        } else if (b.bid_search_type === "작성중") {
+          writing++;
+        } else if (b.bid_search_type === "진행") {
+          progress++;
+        } else if (b.bid_search_type === "낙찰및계약대기") {
+          successBid++;
+        } else if (b.bid_search_type === "부분낙찰") {
+          part++;
+        } else if (b.bid_search_type === "유찰") {
+          failBid++;
+        } else if (b.bid_search_type === "완료") {
+          complete++;
+        } else if (b.bid_search_type === "종료") {
+          finish++;
+        }
+      });
+    setBidListData(bidList);
+    setStatusPieData([
+      ...statusPieData,
+
+      { name: "전체", value: total },
+      { name: "작성중", value: writing },
+      { name: "진행", value: progress },
+      { name: "낙찰및계약대기", value: successBid },
+      { name: "부분낙찰", value: part },
+      { name: "유찰", value: failBid },
+      { name: "완료", value: complete },
+      { name: "종료", value: finish },
+    ]);
+
+    // po 막대 그래프
+    const poList = await getSearchPoList({
+      COMMENTS: "",
+      VENDOR_ID: "",
+      VENDOR_NAME: "",
+      ATTRIBUTE_CATEGORY: "",
+      AUTHORIZATION_STATUS: "",
+      PO_NUM: "",
+      ITEM_ID: "",
+      ITEM_NAME: "",
+      RFQ_NO: "",
+      ORGANIZATION_CODE: "",
+      BUYER_ID: "",
+      BUYER_NAME: "",
+      TYPE_LOOKUP_CODE: "",
+    });
+
+    //setPoListData(poList);
+    let A_Raw = 0;
+    let mn = 0;
+    let my = 0;
+    let gong = 0;
+    let etc = 0;
+    let sn = 0;
+    let sy = 0;
+    let hyup = 0;
+    let jang = 0;
+    let con = 0;
+    let ha = 0;
+    let yong = 0;
+
+    poList &&
+      poList.map((b) => {
+        if (b.attribute_category === "A_Raw") {
+          A_Raw++;
+        } else if (b.attribute_category === "MRO내자") {
+          mn++;
+        } else if (b.attribute_category === "MRO외자") {
+          my++;
+        } else if (b.attribute_category === "공사") {
+          gong++;
+        } else if (b.attribute_category === "기타") {
+          etc++;
+        } else if (b.attribute_category === "설비(내자)") {
+          sn++;
+        } else if (b.attribute_category === "설비(외자)") {
+          sy++;
+        } else if (b.attribute_category === "협력") {
+          hyup++;
+        } else if (b.attribute_category === "장비성투자") {
+          jang++;
+        } else if (b.attribute_category === "컨소시엄") {
+          con++;
+        } else if (b.attribute_category === "하자관리") {
+          ha++;
+        } else if (b.attribute_category === "용도품") {
+          yong++;
+        }
+      });
+
+    setPoStatusData([...poStatusData, A_Raw, mn, my, gong, etc, sn, sy, hyup, jang, con, ha, yong]);
   };
   useDidMountEffect(() => {
     selectBidListBuyer();
@@ -63,15 +185,15 @@ function DashBoard() {
       <Middle>
         <Left>
           <Title>마감 기한 임박 입찰 목록</Title>
-          <DashBoardDataGrid></DashBoardDataGrid>
+          <DashBoardDataGrid listData={bidListData}></DashBoardDataGrid>
         </Left>
         <Right>
           <Title>입찰 Status</Title>
-          <DashBoardPieChart></DashBoardPieChart>
+          <DashBoardPieChart statusPieData={statusPieData}></DashBoardPieChart>
         </Right>
       </Middle>
       <Title>구매계약 종류 분포</Title>
-      <DashBoardLine></DashBoardLine>
+      <DashBoardLine poStatusData={poStatusData}></DashBoardLine>
     </StyledRoot>
   );
 }

@@ -36,7 +36,7 @@ const DashBoardDataGrid = ({ listData }) => {
               defaultToolPanel: "",
             }}
             pagination={true}
-            paginationPageSize={5}
+            paginationPageSize={6}
           >
             {dashboardColFields.map((data) => (
               <AgGridColumn
