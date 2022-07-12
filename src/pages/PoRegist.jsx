@@ -1120,7 +1120,7 @@ function PoRegist() {
         <ButtonSection>
           <SwitchWrapper>
             <Switch style={{marginRight : "1rem"}} checked={onFatFinger} onChange={onSwitchChange} />
-            <Label>적장가 오차 감지</Label>
+            <Label>적정가 오차 감지</Label>
           </SwitchWrapper>
           <Button onClick={onSaveContents}>저장</Button>
         </ButtonSection>
@@ -1511,4 +1511,5 @@ const Title = styled.p`
 const Label = styled.label`
   font-size: 1.6rem;
   text-align: center;
+  margin-right: 1rem;
 `;
