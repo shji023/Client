@@ -3,7 +3,9 @@ import { Card, CardContent, Box } from "@material-ui/core";
 import { colors } from "assets/styles/color";
 import Chart from "react-apexcharts";
 
-const DashBoardLine = () => {
+const DashBoardLine = ({ poStatusData }) => {
+  console.log(poStatusData);
+
   const optionssalesoverview = {
     grid: {
       show: true,
@@ -73,8 +75,8 @@ const DashBoardLine = () => {
     },
     yaxis: {
       show: true,
-      min: 100,
-      max: 400,
+      min: 0,
+      max: 30,
       tickAmount: 3,
       labels: {
         style: {
@@ -95,12 +97,12 @@ const DashBoardLine = () => {
   const seriessalesoverview = [
     {
       name: "Ample Admin",
-      data: [355, 390, 300, 350, 390, 180, 355, 390, 300, 350, 390, 180],
+      data: poStatusData,
     },
-    {
-      name: "Pixel Admin",
-      data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
-    },
+    // {
+    //   name: "Pixel Admin",
+    //   data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
+    // },
   ];
   return (
     <Card
@@ -176,7 +178,13 @@ const DashBoardLine = () => {
         >
           <Chart
             options={optionssalesoverview}
-            series={seriessalesoverview}
+            // series={seriessalesoverview}
+            series={[
+              {
+                name: "PO Status",
+                data: poStatusData,
+              },
+            ]}
             type="bar"
             height="295px"
           />
