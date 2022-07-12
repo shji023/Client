@@ -37,6 +37,7 @@ import { getNumberFormat, reload } from "hooks/CommonFunction";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 import FatFingerModal from "components/common/FatFingerModal";
+import { Switch } from "antd";
 
 function PoRegist() {
   const { id } = useParams();
@@ -1100,6 +1101,10 @@ function PoRegist() {
     }
   };
 
+  const onSwitchChange = (checked) => {
+    setOnFatFinger(checked);
+  }
+
   const ButtonSelector = () => {
     if (id) {
       // 수정 페이지
@@ -1111,7 +1116,16 @@ function PoRegist() {
       );
     } else {
       // 생성 페이지
-      return <Button onClick={onSaveContents}>저장</Button>;
+      return (
+        <ButtonSection>
+          <SwitchWrapper>
+            <Switch style={{marginRight : "1rem"}} checked={onFatFinger} onChange={onSwitchChange} />
+            <Label>적장가 오차 감지</Label>
+          </SwitchWrapper>
+          <Button onClick={onSaveContents}>저장</Button>
+        </ButtonSection>
+      )
+      
     }
   };
 
@@ -1468,6 +1482,19 @@ const ButtonWrapperLine = styled.div`
   justify-content: flex-end;
 `;
 
+const ButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  // align-items: flex-end;
+  align-items: baseline;
+`;
+
+const SwitchWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 const ListCount = styled.p`
   font-size: 1.4rem;
   margin-bottom: 1rem;
@@ -1479,4 +1506,9 @@ const Title = styled.p`
   margin-bottom: 1rem;
   margin-top: 1.5rem;
   font-family: "Pretendard-SemiBold";
+`;
+
+const Label = styled.label`
+  font-size: 1.6rem;
+  text-align: center;
 `;

@@ -1,11 +1,11 @@
 import { Input, Button, Modal } from "antd";
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import ModalSearch from "components/common/ModalSearch";
 import Draggable from "react-draggable";
 import FatFingerDataGrid from "./FatFingerDataGrid";
-import BidInfo from "components/bid/BidInfo";
 import { colors } from "assets/styles/color";
+import InputCell from "components/bid/InputCell";
+
 
 /**
  *
@@ -183,7 +183,7 @@ function FatFingerModal({
         onFocus={() => {}}
         onBlur={() => {}}
       >
-        {"FatFinger Checker"}
+        {"적정가 오차 감지"}
       </div>
     );
   };
@@ -197,8 +197,8 @@ function FatFingerModal({
       onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
-      // footer={null}
-      okButtonProps={{ style: { display: 'none' } }}
+      footer={null}
+      // okButtonProps={{ style: { display: 'none' } }}
       // #region 마우스 드래그
       modalRender={(modal) => (
         <Draggable
@@ -220,17 +220,22 @@ function FatFingerModal({
       // #endregion 마우스 드래그
     >
       <ModalHeader>
-        <section>
-          <Button onClick={continueButtonEvent}>반영</Button>
-        </section>
+        <TitleWrapper>
+          <Label>계속 진행하시겠습니까?</Label>
+          <ButtonWrapper>
+            <Button style={{marginRight:"1rem"}} onClick={handleCancel}>닫기</Button>
+            <Button type="primary" onClick={continueButtonEvent} danger>진행</Button>
+          </ButtonWrapper>
+        </TitleWrapper>
         <section>
           <RfqInfoContainer>
-            <BidInfo label="품명"        value = {itemInfoTableData.item}/>
-            <BidInfo label="사양"        value = {itemInfoTableData.description}/>
-            <BidInfo label="카테고리"    value = {itemInfoTableData.category}/>
-            <BidInfo label="단위"        value = {itemInfoTableData.uom}/>
-            <BidInfo label="평균단가"    value = {itemInfoTableData.avg_unit_price}/>
-            <BidInfo label="오차범위(%)" value = {itemInfoTableData.error_range}/>
+            <InputCell label="품명"        value = {itemInfoTableData.item}           />
+            <InputCell label="단위"        value = {itemInfoTableData.uom}            />
+            <InputCell label="입력가"      value = {itemInfoTableData.unit_price} />
+            <InputCell label="사양"        value = {itemInfoTableData.description}    spanCnt = {2}  />
+            <InputCell label="평균단가"    value = {Math.floor(itemInfoTableData.avg_unit_price)} />
+            <InputCell label="카테고리"    value = {itemInfoTableData.category}       spanCnt = {2}  />
+            <InputCell label="오차범위(%)" value = {itemInfoTableData.error_range * 100}    />
           </RfqInfoContainer>
         </section>
       </ModalHeader>
@@ -260,8 +265,8 @@ export default FatFingerModal;
 
 const ModalHeader = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  // justify-content: space-between;
   margin-bottom: 1rem;
 `;
 
@@ -274,27 +279,42 @@ const RfqInfoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(27rem, 1fr));
   padding: 2rem 0rem;
-  & > div:nth-of-type(4) {
+  & > div:nth-of-type(3) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(6) {
+  & > div:nth-of-type(5) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(10) {
+  & > div:nth-of-type(7) {
     & > div:nth-of-type(2) {
       border-right: 1px solid ${colors.tableLineGray};
     }
   }
-  & > div:nth-of-type(14) {
-    & > div:nth-of-type(2) {
-      border-right: 1px solid ${colors.tableLineGray};
-    }
-  }
-  & > div:nth-child(n + 11):nth-child(-n + 14) {
+  & > div:nth-child(n + 6):nth-child(-n + 7) {
     border-bottom: 1px solid ${colors.tableLineGray};
   }
+`;
+
+
+const Label = styled.label`
+  font-size: 1.6rem;
+  text-align: center;
+`;
+
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 `;
