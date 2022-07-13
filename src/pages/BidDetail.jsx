@@ -33,7 +33,7 @@ function BidDetail() {
     //const fileInfo = await getVendorFileList(bidding_no);
     ruleInfo && setRuleInfoData(ruleInfo[0]);
 
-    if (rfqInfo[0].cd_v_meaning_status === "진행") {
+    if (rfqInfo && rfqInfo[0].cd_v_meaning_status === "진행") {
       let tempRfqInfo = rfqInfo[0];
       const startDate = new Date(ruleInfo[0].round_start_date);
       const endDate = new Date(ruleInfo[0].round_end_date);
@@ -153,9 +153,9 @@ function BidDetail() {
         </ItemInfoContainer>
       </section>
       {user === 1 ? (
-        <ButtonWrapper hidden={isHidden}>
+        <ButtonWrapperVendor isHidden={isHidden}>
           <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
-        </ButtonWrapper>
+        </ButtonWrapperVendor>
       ) : user === 2 ? (
         <ButtonWrapper>
           <Button onClick={() => navigate(`/successBid/${rfqNo}`)}>낙찰 처리</Button>
@@ -246,9 +246,15 @@ const SubTitle = styled.p`
   margin-top: 1.5rem;
 `;
 
+const ButtonWrapperVendor = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  display: ${({ isHidden }) => (isHidden ? "none" : undefined)};
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  visibility: ${(props) => (props.isHidden ? hidden : undefined)};
 `;
