@@ -56,10 +56,13 @@ function SelectBidList() {
   };
 
   const getLov = async () => {
+    let userRole = "";
+    if (getCookie("authority") === "ROLE_BUYER") {
+      userRole = "buyer";
+    }
     const bidSearchType = await getStatusLov();
     const bidCategory = await getCategoryLov();
 
-    // bidSearchType && setBidSeacrhTypeLov(bidSearchType);
     // bidCategory && setBidCategoryLov(bidCategory);
 
     let bidStatusTemp = [];
@@ -69,7 +72,7 @@ function SelectBidList() {
     bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰긴급중지");
     bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰룰승인증");
     bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰룰반려");
-    if (user === 0) {
+    if (userRole === "") {
       bidStatusTemp = bidStatusTemp.filter((el) => el !== "작성중");
     }
     setBidSeacrhTypeLov(bidStatusTemp);
@@ -110,10 +113,10 @@ function SelectBidList() {
   };
 
   useEffect(() => {
-    getLov();
     if (getCookie("authority") === "ROLE_BUYER") {
       setUser(1);
     }
+    getLov();
   }, []);
 
   return (
