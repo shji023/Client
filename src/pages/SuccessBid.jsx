@@ -59,13 +59,21 @@ function SuccessBid() {
     await selectBidResult(bidding_no);
   }
 
+  // * 낙찰처리 헤더 값 넣는 곳
   const selectSuccessBid = async () => {
     const data = await getSuccessBid(rfq_no);
+
+    console.log("낙찰처리 헤더 데이터", data);
+
     setSuccessBidCondition({...data});
     return data.bidding_no
   };
+
+  // * 낙찰처리 바디 그리드 값 넣는 곳
   const selectBidResult = async (bidding_no) => { 
     const data = await getBidResult(rfq_no, bidding_no);
+
+    console.log("낙찰처리 바디 그리드 데이터", data);
 
     // 표에 나타날 금액 단위 표시
     let temp = data;
