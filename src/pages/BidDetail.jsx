@@ -23,6 +23,7 @@ function BidDetail() {
   const [rfqNo, setRfqNo] = useState("");
   // 사용부서:0, 공급사:1, 바이어:2
   const [user, setUser] = useState(0);
+  const [isHidden, setIsHidden] = useState(false);
   const date = new Date();
 
   const selectInfo = async () => {
@@ -46,7 +47,7 @@ function BidDetail() {
       }
       rfqInfo && setRfqInfoData(tempRfqInfo);
     } else {
-      console.log("으로 들어옴");
+      setIsHidden(true);
       rfqInfo && setRfqInfoData(rfqInfo[0]);
     }
     itemInfo && setItemInfoList(itemInfo);
@@ -152,7 +153,7 @@ function BidDetail() {
         </ItemInfoContainer>
       </section>
       {user === 1 ? (
-        <ButtonWrapper>
+        <ButtonWrapper hidden={isHidden}>
           <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
         </ButtonWrapper>
       ) : user === 2 ? (
@@ -249,4 +250,5 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  visibility: ${(props) => (props.isHidden ? hidden : undefined)};
 `;

@@ -5,7 +5,6 @@ const PREFIX_URL = "/bid";
 // 전체 불러오기 사용x
 export const getBidList = async (bidCondition) => {
   try {
-    console.log("sendData", bidCondition);
     const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`, bidCondition);
     // const { lectures, category, skill } = data.data;
 
@@ -172,9 +171,9 @@ export const insertOneBid = async (sendData) => {
 export const updateBidVendor = async (vendorComment, itemListData) => {
   try {
     const sendData = {
-      vendorComment : vendorComment,
-      itemListData : itemListData
-    }
+      vendorComment: vendorComment,
+      itemListData: itemListData,
+    };
     const { data } = await serverAxios.post(`${PREFIX_URL}/updateBidVendor`, sendData);
     console.log("updateBidVendor", data);
     return data;
@@ -186,9 +185,9 @@ export const updateBidVendor = async (vendorComment, itemListData) => {
 export const getBidVendorId = async (bidding_no, site_id) => {
   try {
     const sendData = {
-      bidding_no    : bidding_no,
-      site_id       : site_id,
-    }
+      bidding_no: bidding_no,
+      site_id: site_id,
+    };
     const { data } = await serverAxios.post(`${PREFIX_URL}/getBidVendorId`, sendData);
     console.log("getBidVendorId", data);
     return data;
@@ -200,10 +199,10 @@ export const getBidVendorId = async (bidding_no, site_id) => {
 export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
   try {
     const sendData = {
-      bidding_no    : bidding_no,
-      bid_vendor_id : bid_vendor_id,
-      site_id       : site_id,
-    }
+      bidding_no: bidding_no,
+      bid_vendor_id: bid_vendor_id,
+      site_id: site_id,
+    };
     const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorItemList`, sendData);
     console.log("getVendorItemList", data);
     return data;
@@ -214,7 +213,7 @@ export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
 
 export const getVendorComment = async (bid_vendor_id) => {
   try {
-    const sendData = {bid_vendor_id : bid_vendor_id}
+    const sendData = { bid_vendor_id: bid_vendor_id };
     const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorComment`, sendData);
     console.log("getVendorComment", data);
     return data;
@@ -226,9 +225,9 @@ export const getVendorComment = async (bid_vendor_id) => {
 export const insertVendorComment = async (itemListData, vendorComment) => {
   try {
     const sendData = {
-      itemListData  : itemListData,
-      vendorComment : vendorComment
-    }
+      itemListData: itemListData,
+      vendorComment: vendorComment,
+    };
     console.log("sendData", sendData);
     const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorComment`, sendData);
     return data;

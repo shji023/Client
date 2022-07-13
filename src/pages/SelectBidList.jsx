@@ -52,7 +52,6 @@ function SelectBidList() {
   const selectBidList = async () => {
     const data = await getBidList(bidCondition);
     setBidListData(data);
-    console.log(data);
   };
 
   const getLov = async () => {
