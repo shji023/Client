@@ -59,8 +59,20 @@ function SelectBidList() {
     const bidSearchType = await getStatusLov();
     const bidCategory = await getCategoryLov();
 
-    bidSearchType && setBidSeacrhTypeLov(bidSearchType);
-    bidCategory && setBidCategoryLov(bidCategory);
+    // bidSearchType && setBidSeacrhTypeLov(bidSearchType);
+    // bidCategory && setBidCategoryLov(bidCategory);
+
+    let bidStatusTemp = [];
+    bidStatusTemp = bidSearchType.filter((el) => el !== "입찰마감");
+    bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰진행");
+    bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰예정");
+    bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰긴급중지");
+    bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰룰승인증");
+    bidStatusTemp = bidStatusTemp.filter((el) => el !== "입찰룰반려");
+    if (user === 0) {
+      bidStatusTemp = bidStatusTemp.filter((el) => el !== "작성중");
+    }
+    setBidSeacrhTypeLov(bidStatusTemp);
   };
 
   // 바이어

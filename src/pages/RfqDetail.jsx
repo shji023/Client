@@ -42,7 +42,7 @@ function RfqDetail() {
     max_round: 1,
 
     main_currency: "KRW",
-    side_conditions: "없음",
+    side_conditions: "TP 105",
     target_price: 100000000,
 
     note_to_bidder: "안내사항 입니다.",
@@ -52,7 +52,7 @@ function RfqDetail() {
     category_id: 0,
     bidding_fob: "",
 
-    roundPeriod: "2022-07-102022-07-16"
+    roundPeriod: "2022-07-102022-07-16",
   });
   const [rfqListData, setRfqListData] = useState({});
   const rfqNull = {
@@ -128,7 +128,6 @@ function RfqDetail() {
   const nextId = useRef(0);
   const [deleteFileIdList, setDeleteFileIdList] = useState([]);
 
-
   // #region File Input 관련 이벤트
   // file 변경 내용 입력
   const handleInputChange = async (e, id) => {
@@ -140,42 +139,41 @@ function RfqDetail() {
     let tempList = vendorFile;
     let tempIdx = tempList.length - 1;
     tempList.forEach((e, idx) => {
-      if(e.id === id) tempIdx = idx;
+      if (e.id === id) tempIdx = idx;
     });
 
-    if(tempList[tempIdx].file_id) {
+    if (tempList[tempIdx].file_id) {
       // 기존 파일 변경
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "update",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "update",
+      };
     } else {
       // 새 파일 추가
       tempList[tempIdx] = {
         ...tempList[tempIdx],
-        origin_name : returnData[0].originFile,
-        save_name   : returnData[0].saveFile,
-        size        : returnData[0].size + "Bytes",
-        upload_date : returnData[0].uploadDate,
-        file_path   : returnData[0].saveFolder,
-        query_type  : "insert",
-      }
+        origin_name: returnData[0].originFile,
+        save_name: returnData[0].saveFile,
+        size: returnData[0].size + "Bytes",
+        upload_date: returnData[0].uploadDate,
+        file_path: returnData[0].saveFolder,
+        query_type: "insert",
+      };
     }
-    
+
     setVendorFile([...tempList]);
 
     // 마지막 행에 파일이 추가된 경우, 새 줄 추가
-    if(tempIdx === tempList.length - 1) {
+    if (tempIdx === tempList.length - 1) {
       setIsAdd(!isAdd);
     }
-
   };
-  
+
   // const handleInputChange = async (e) => {
   //   const formData = new FormData();
   //   e.target.files[0] && formData.append("file", e.target.files[0]);
@@ -214,7 +212,7 @@ function RfqDetail() {
     removeList.map((r) => {
       temp = temp.filter((q, idx) => {
         return q.id !== r || idx === temp.length - 1;
-      }); 
+      });
     });
     setVendorFile([...temp]);
     setRemoveList([]);
@@ -224,13 +222,13 @@ function RfqDetail() {
   const onCreate = () => {
     nextId.current += 1;
     const newFile = {
-      id          : nextId.current,
-      type        : "",
-      origin_name : "",
-      save_name   : "",
-      size        : "",
-      upload_date : "",
-      file_path   : "",
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
     };
     setVendorFile([...vendorFile, newFile]);
   };
@@ -251,27 +249,23 @@ function RfqDetail() {
   };
   // #endregion File Input 관련 이벤트
 
-
   const onSaveContents = () => {
     console.log("bidCondition", bidCondition);
     confirm("입찰룰 작성을 완료하시겠습니까?") ? saveContents() : null;
   };
 
   const saveContents = async () => {
-    
     const data = await insertOneBid(bidCondition);
     console.log("bidding no : ", data);
 
-    
     // #region DB에 파일 정보저장
     let temp = vendorFile;
     temp.forEach((t) => {
       t.bidding_no = data;
-    })
+    });
     setVendorFile([...temp]);
     const returnData = await uploadContent(vendorFile, deleteFileIdList);
     // #endregion DB에 파일 정보 저장
-    
 
     if (data && returnData) {
       confirm("입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?")
@@ -295,13 +289,15 @@ function RfqDetail() {
   }, []);
   // #endregion useEffect
 
-
-
   return (
     <StyledRoot>
       <HeaderWrapper>
         <Title>입찰룰</Title>
-        <Button onClick={() => {onSaveContents();}}>
+        <Button
+          onClick={() => {
+            onSaveContents();
+          }}
+        >
           저장
         </Button>
       </HeaderWrapper>
