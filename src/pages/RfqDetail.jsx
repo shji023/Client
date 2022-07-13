@@ -1,4 +1,4 @@
-import { getRfqInfo } from "apis/rfq.api";
+import { getRfqInfo, updateRfqStatus } from "apis/rfq.api";
 import {
   getBidTypeLov,
   getBidPriceMethodLov,
@@ -268,6 +268,7 @@ function RfqDetail() {
     // #endregion DB에 파일 정보 저장
 
     if (data && returnData) {
+      await updateRfqStatus(id);
       confirm("입찰룰이 완료되었습니다. 입찰진행현황조회 페이지로 이동하겠습니까?")
         ? navigate(`/bidList`)
         : null;
