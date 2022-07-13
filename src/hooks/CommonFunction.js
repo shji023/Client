@@ -9,6 +9,8 @@ import moment from "moment";
    return value ? value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : "0";
 };
 
+
+
  export const getDiffDate = (fromDate, toDate, type) => {
     fromDate = moment(fromDate);
     toDate = moment(toDate);
