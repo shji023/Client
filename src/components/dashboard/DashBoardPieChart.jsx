@@ -93,7 +93,7 @@ function DashBoardPieChart({ statusPieData }) {
         onMouseEnter={onPieEnter}
       >
         {statusPieData.map((entry, index) => (
-          <Cell fill={COLORS[index % COLORS.length]} />
+          <Cell key={index} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
     </PieChart>
