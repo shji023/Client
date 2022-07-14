@@ -488,6 +488,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            type: "number",
           },
         };
       },
@@ -504,6 +505,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            type: "number",
           },
         };
       },
@@ -693,6 +695,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            type: "number",
           },
         };
       },
@@ -854,7 +857,7 @@ function selectPrList() {
             id="amount"
             inputLabel="금액"
             handlePoCondition={handleCondition}
-            inputValue={conditions.amount}
+            inputValue={getNumberFormat(conditions.amount)}
             disabled={true}
           />
           {/* TODO: key value 따로 할 수 있게 */}

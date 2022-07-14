@@ -229,13 +229,13 @@ function FatFingerModal({
         </TitleWrapper>
         <section>
           <RfqInfoContainer>
-            <InputCell label="품명"        value = {itemInfoTableData.item}           />
-            <InputCell label="단위"        value = {itemInfoTableData.uom}            />
-            <InputCell label="입력단가"      value = {itemInfoTableData.unit_price} />
-            <InputCell label="사양"        value = {itemInfoTableData.description}    spanCnt = {2}  />
-            <InputCell label="평균단가"    value = {Math.floor(itemInfoTableData.avg_unit_price)} />
-            <InputCell label="카테고리"    value = {itemInfoTableData.category}       spanCnt = {2}  />
-            <InputCell label="오차범위(%)" value = {itemInfoTableData.error_range * 100}    />
+            <InputCell label="품명"            value = {itemInfoTableData.item}/>
+            <InputCell label="단위"            value = {itemInfoTableData.uom}/>
+            <InputCell label="입력단가"        value = {itemInfoTableData.unit_price} />
+            <InputCell label="사양"            value = {itemInfoTableData.description}    spanCnt = {2}  />
+            <InputCell label="평균단가"        value = {Math.floor(itemInfoTableData.avg_unit_price)} />
+            <InputCell label="카테고리"        value = {itemInfoTableData.category}       spanCnt = {2}  />
+            <InputCell label="설정오차범위(%)" value = {itemInfoTableData.error_range * 100}    />
           </RfqInfoContainer>
         </section>
       </ModalHeader>

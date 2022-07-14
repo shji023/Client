@@ -9,6 +9,7 @@ import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useParams } from "react-router-dom";
 import { getNumberFormat } from "hooks/CommonFunction";
+import { successbid } from "apis/bid.api";
 
 function SuccessBid() {
   const { rfq_no } = useParams();
@@ -40,14 +41,18 @@ function SuccessBid() {
 
   // #region 버튼 이벤트
   const nakchalButtonEvent = () => {
-    let nakchal = confirm("최종낙찰 하시겠습니까?");
-    if (nakchal) {
-      updateNakchal();
-    };
+    confirm("최종낙찰 하시겠습니까?") ? updateNakchal() : null;
   }
   
-  const updateNakchal = ()=>{
-    // TODO: 낙찰처리 axios 만들기
+  const updateNakchal = async ()=>{
+    const data = await successbid(successBidCondition, bidResultData);
+    if (data) {
+      alert("낙찰 처리가 완료 되었습니다..");
+      navigate(`/bidList`);
+      reload();
+    } else {
+      alert("구매 계약 등록이 실패했습니다.");
+    }
   }
   // #endregion 버튼 이벤트
 
@@ -59,13 +64,21 @@ function SuccessBid() {
     await selectBidResult(bidding_no);
   }
 
+  // * 낙찰처리 헤더 값 넣는 곳
   const selectSuccessBid = async () => {
     const data = await getSuccessBid(rfq_no);
+
+    console.log("낙찰처리 헤더 데이터", data);
+
     setSuccessBidCondition({...data});
     return data.bidding_no
   };
+
+  // * 낙찰처리 바디 그리드 값 넣는 곳
   const selectBidResult = async (bidding_no) => { 
     const data = await getBidResult(rfq_no, bidding_no);
+
+    console.log("낙찰처리 바디 그리드 데이터", data);
 
     // 표에 나타날 금액 단위 표시
     let temp = data;

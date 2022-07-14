@@ -21,8 +21,8 @@ function DashBoardCard({ title, total, count }) {
       </Top>
       <Hr />
       <Bottom>
-        <img src={Refresh} alt="refreshIcon" />
-        <p>Update Now</p>
+        {/* <img src={Refresh} alt="refreshIcon" />
+        <p>Update Now</p> */}
       </Bottom>
     </StyledRoot>
   );

@@ -1109,10 +1109,14 @@ function PoRegist() {
     if (id) {
       // 수정 페이지
       return (
-        <section>
+        <ButtonSection>
+          <SwitchWrapper>
+            <Switch style={{marginRight : "1rem"}} checked={onFatFinger} onChange={onSwitchChange} />
+            <Label>적정가 오차 감지</Label>
+          </SwitchWrapper>
           <Button onClick={onUpdateContents}>저장</Button>
           <Button onClick={onDeleteContents}>삭제</Button>
-        </section>
+        </ButtonSection>
       );
     } else {
       // 생성 페이지
