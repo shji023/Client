@@ -24,6 +24,7 @@ function BidDetail() {
   // 사용부서:0, 공급사:1, 바이어:2
   const [user, setUser] = useState(0);
   const [isHidden, setIsHidden] = useState(false);
+  const [isHiddenBuyer, setIsHiddenBuyer] = useState(false);
   const date = new Date();
 
   const selectInfo = async () => {
@@ -46,8 +47,10 @@ function BidDetail() {
         tempRfqInfo.cd_v_meaning_status = "진행(입찰완료)";
       }
       rfqInfo && setRfqInfoData(tempRfqInfo);
-      
     } else {
+      if (rfqInfo && rfqInfo[0].cd_v_meaning_status === "완료") {
+        setIsHiddenBuyer(true);
+      }
       setIsHidden(true);
       rfqInfo && setRfqInfoData(rfqInfo[0]);
     }
@@ -158,10 +161,9 @@ function BidDetail() {
         <ButtonWrapperVendor isHidden={isHidden}>
           <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
         </ButtonWrapperVendor>
-      )
-      // 바이어
-       : user === 2 ? (
-        <ButtonWrapper>
+      ) : // 바이어
+      user === 2 ? (
+        <ButtonWrapper isHiddenBuyer={isHiddenBuyer}>
           <Button onClick={() => navigate(`/successBid/${rfqNo}`)}>낙찰 처리</Button>
         </ButtonWrapper>
       ) : (
@@ -261,4 +263,5 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  display: ${({ isHiddenBuyer }) => (isHiddenBuyer ? "none" : undefined)};
 `;
