@@ -48,7 +48,7 @@ function RfqDetail() {
     note_to_bidder: "안내사항 입니다.",
     bidding_rule_approval_comment: "내부보고 입니다.",
 
-    simple_quotation_flag: "null",
+    simple_quotation_flag: null,
     category_id: 0,
     bidding_fob: "",
 
