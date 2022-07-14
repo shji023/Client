@@ -46,6 +46,7 @@ function BidDetail() {
         tempRfqInfo.cd_v_meaning_status = "진행(입찰완료)";
       }
       rfqInfo && setRfqInfoData(tempRfqInfo);
+      
     } else {
       setIsHidden(true);
       rfqInfo && setRfqInfoData(rfqInfo[0]);
@@ -152,11 +153,14 @@ function BidDetail() {
           <ItemInfoTable itemInfoList={itemInfoList}></ItemInfoTable>
         </ItemInfoContainer>
       </section>
+      {/* 공급사 */}
       {user === 1 ? (
         <ButtonWrapperVendor isHidden={isHidden}>
           <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
         </ButtonWrapperVendor>
-      ) : user === 2 ? (
+      )
+      // 바이어
+       : user === 2 ? (
         <ButtonWrapper>
           <Button onClick={() => navigate(`/successBid/${rfqNo}`)}>낙찰 처리</Button>
         </ButtonWrapper>

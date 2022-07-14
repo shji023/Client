@@ -1,6 +1,6 @@
 import { colors } from "assets/styles/color";
 import React, { useState } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, Cell } from "recharts";
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -65,6 +65,8 @@ const renderActiveShape = (props) => {
   );
 };
 
+const COLORS = ["#2b3254", "#A2BAF1", "#6888CE"];
+
 function DashBoardPieChart({ statusPieData }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -89,7 +91,11 @@ function DashBoardPieChart({ statusPieData }) {
         fill={colors.themeBlue2}
         dataKey="value"
         onMouseEnter={onPieEnter}
-      />
+      >
+        {statusPieData.map((entry, index) => (
+          <Cell fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
     </PieChart>
   );
 }
