@@ -261,7 +261,7 @@ export const successbid = async (successBidCondition, bidResultData) => {
   try {
     console.log(successBidCondition, bidResultData)
     const sendData = {
-      conditon : successBidCondition,
+      condition : successBidCondition,
       data : bidResultData
     }
     const { data } = await serverAxios.post(`${PREFIX_URL}/successbid`, sendData);
