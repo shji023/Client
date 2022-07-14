@@ -1,6 +1,6 @@
 import { colors } from "assets/styles/color";
 import LabelInfo from "components/common/LabelInfo";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { getBidResult, getSuccessBid } from "apis/SuccessBid.api";
 import AgSuccessBidResult from "components/common/AgSuccessBidResult";
@@ -12,6 +12,7 @@ import { getNumberFormat } from "hooks/CommonFunction";
 import { successbid } from "apis/bid.api";
 
 function SuccessBid() {
+  // #region state
   const { rfq_no } = useParams();
 
   const [successBidCondition, setSuccessBidCondition] = useState({
@@ -37,6 +38,10 @@ function SuccessBid() {
     },
   ]);
 
+  // #endregion state
+
+
+  const gridRef = useRef();
 
 
   // #region 버튼 이벤트
@@ -45,7 +50,16 @@ function SuccessBid() {
   }
   
   const updateNakchal = async ()=>{
-    const data = await successbid(successBidCondition, bidResultData);
+    console.log("1", successBidCondition)
+    console.log("2", bidResultData)
+
+    const selectedRowNodes = gridRef.current.api.getSelectedNodes();
+    let selectedIdx;
+    selectedRowNodes.forEach((e) => {
+      selectedIdx = e.rowIndex;
+    });
+
+    const data = await successbid(successBidCondition, bidResultData[selectedIdx]);
     if (data) {
       alert("낙찰 처리가 완료 되었습니다..");
       navigate(`/bidList`);
@@ -54,6 +68,7 @@ function SuccessBid() {
       alert("구매 계약 등록이 실패했습니다.");
     }
   }
+
   // #endregion 버튼 이벤트
 
 
@@ -93,6 +108,7 @@ function SuccessBid() {
     initPage();
     
   }, []);
+  
   // #endregion useEffect
   
 
@@ -139,7 +155,10 @@ function SuccessBid() {
       <SubTitle>공급사별 투찰결과</SubTitle>
 
       <section>
-        <AgSuccessBidResult bidResultData={bidResultData}></AgSuccessBidResult>
+        <AgSuccessBidResult 
+          resvGridRef   = {gridRef}
+          bidResultData = {bidResultData} 
+        />
       </section>
     </StyledRoot>
   );

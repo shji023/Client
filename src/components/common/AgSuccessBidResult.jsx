@@ -16,7 +16,7 @@ const getRowStyle  = params => {
 //     return { background: '#EDF2F8' };
 //   }
 
-const AgGrid = ({ bidResultData }) => {
+const AgGrid = ({ resvGridRef, bidResultData }) => {
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
     //   const [rowData, setRowData] = useState(null);
@@ -55,10 +55,10 @@ const AgGrid = ({ bidResultData }) => {
             >
             
             <AgGridReact        
-               
+                ref={resvGridRef}
                 rowData={rowData}
                 getRowStyle={getRowStyle}
-                rowSelection={"multiple"}
+                rowSelection={"single"}
                 suppressRowClickSelection={false}
                 defaultColDef={{
                     headerClass: { background: '#EDF2F8' },
