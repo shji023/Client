@@ -62,7 +62,7 @@ function SelectBidList() {
     const bidSearchType = await getStatusLov();
     const bidCategory = await getCategoryLov();
 
-    // bidCategory && setBidCategoryLov(bidCategory);
+    bidCategory && setBidCategoryLov(bidCategory);
 
     let bidStatusTemp = [];
     bidStatusTemp = bidSearchType.filter((el) => el !== "입찰마감");
