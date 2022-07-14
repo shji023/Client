@@ -10,18 +10,27 @@ export const getPoSearch = async (id) => {
     console.log(data);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
+  }
+};
+
+export const getPoAttributeCnt = async (sendData) => {
+  try {
+    const { data } = await serverAxios.post(`${PREFIX_URL}/getPoAttributeCnt`, sendData);
+    console.log("data", data);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load" + err);
   }
 };
 
 export const getSearchPoList = async (test) => {
   try {
-    // TODO: GET 시도해보기
     const { data } = await serverAxios.post(`${PREFIX_URL}/poSearch1`, test);
     console.log("data", data);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
   }
 };
 
@@ -30,7 +39,7 @@ export const getPoLov = async () => {
     const { data } = await serverAxios.get(`${PREFIX_URL}/poCategory`);
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
   }
 };
 
@@ -40,7 +49,7 @@ export const getPoApproveLov = async () => {
 
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
   }
 };
 
@@ -50,7 +59,7 @@ export const getSasoLov = async () => {
 
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
   }
 };
 
@@ -60,7 +69,7 @@ export const getPoTypeLov = async () => {
 
     return data;
   } catch (err) {
-    throw new Error("Failed to load");
+    throw new Error("Failed to load" + err);
   }
 };
 
