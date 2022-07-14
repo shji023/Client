@@ -1,6 +1,6 @@
 import { getBidList, getBidListBuyer } from "apis/bid.api";
 import { getTotalPr, getTotalRfq, getWaitingPr, getWaitingRfq } from "apis/dashboard.api";
-import { getSearchPoList } from "apis/po.api";
+import { getPoAttributeCnt, getSearchPoList } from "apis/po.api";
 import DashBoardCard from "components/dashboard/DashBoardCard";
 import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import DashBoardLine from "components/dashboard/DashBoardLine";
@@ -106,71 +106,35 @@ function DashBoard() {
       { name: "종료", value: finish },
     ]);
 
-    // po 막대 그래프
-    const poList = await getSearchPoList({
-      COMMENTS: "",
-      VENDOR_ID: "",
-      VENDOR_NAME: "",
-      ATTRIBUTE_CATEGORY: "",
-      AUTHORIZATION_STATUS: "",
-      PO_NUM: "",
-      ITEM_ID: "",
-      ITEM_NAME: "",
-      RFQ_NO: "",
-      ORGANIZATION_CODE: "",
-      BUYER_ID: "",
-      BUYER_NAME: "",
-      TYPE_LOOKUP_CODE: "",
+    // #region po 막대 그래프
+    const graphData = await getPoAttributeCnt({attributeArr: [
+      "A_Raw",
+      "MRO내자",
+      "MRO외자",
+      "공사",
+      "기타",
+      "설비(내자)",
+      "설비(외자)",
+      "협력",
+      "장비성투자",
+      "컨소시엄",
+      "하자관리",
+      "용도품"  
+    ]});
+    let graphRowData = [];
+    graphData.forEach(e => {
+      graphRowData.push(Object.values(e)[0]);
     });
+    setPoStatusData([...poStatusData, ...graphRowData]);
+    // #endregion po 막대 그래프
 
-    //setPoListData(poList);
-    let A_Raw = 0;
-    let mn = 0;
-    let my = 0;
-    let gong = 0;
-    let etc = 0;
-    let sn = 0;
-    let sy = 0;
-    let hyup = 0;
-    let jang = 0;
-    let con = 0;
-    let ha = 0;
-    let yong = 0;
 
-    poList &&
-      poList.map((b) => {
-        if (b.attribute_category === "A_Raw") {
-          A_Raw++;
-        } else if (b.attribute_category === "MRO내자") {
-          mn++;
-        } else if (b.attribute_category === "MRO외자") {
-          my++;
-        } else if (b.attribute_category === "공사") {
-          gong++;
-        } else if (b.attribute_category === "기타") {
-          etc++;
-        } else if (b.attribute_category === "설비(내자)") {
-          sn++;
-        } else if (b.attribute_category === "설비(외자)") {
-          sy++;
-        } else if (b.attribute_category === "협력") {
-          hyup++;
-        } else if (b.attribute_category === "장비성투자") {
-          jang++;
-        } else if (b.attribute_category === "컨소시엄") {
-          con++;
-        } else if (b.attribute_category === "하자관리") {
-          ha++;
-        } else if (b.attribute_category === "용도품") {
-          yong++;
-        }
-      });
-
-    setPoStatusData([...poStatusData, A_Raw, mn, my, gong, etc, sn, sy, hyup, jang, con, ha, yong]);
   };
+  
   useDidMountEffect(() => {
     selectBidListBuyer();
   }, []);
+
   return (
     <StyledRoot>
       <Top>
