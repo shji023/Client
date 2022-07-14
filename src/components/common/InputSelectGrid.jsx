@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import React from "react";
 import styled from "styled-components";
-function InputSelect({ params, stateValue, setStateValue, lov }) {
+function InputSelect({ params, stateValue, setStateValue, lov, disabled, }) {
   
   
   const field = params.colDef.field;
@@ -23,6 +23,7 @@ function InputSelect({ params, stateValue, setStateValue, lov }) {
           }
         }}
         style={{ width: "100%"   }}
+        disabled={disabled}
       >
         <Select.Option value="">선택</Select.Option>
         {lov.map((option) => (

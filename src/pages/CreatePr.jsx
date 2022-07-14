@@ -457,6 +457,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -491,6 +492,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -508,6 +510,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -532,6 +535,7 @@ function selectPrList() {
             lov: taxCodeLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -558,6 +562,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -574,6 +579,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -599,6 +605,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -615,6 +622,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -632,6 +640,7 @@ function selectPrList() {
             lov: destLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -649,6 +658,7 @@ function selectPrList() {
             lov: orgLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -665,6 +675,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -681,6 +692,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -698,6 +710,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -715,6 +728,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -863,6 +877,7 @@ function selectPrList() {
               rowSelection: "single", // single, multiple
               suppressRowClickSelection: false,
             }}
+            disabled={disabled}
           />
           <InputInfo
             id="auth_date"
@@ -876,6 +891,7 @@ function selectPrList() {
             inputLabel="PR 명"
             handlePoCondition={handleCondition}
             inputValue={conditions.description}
+            disabled={disabled}
           />
           {/* TODO: disabled */}
           <InputInfo
