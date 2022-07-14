@@ -259,11 +259,19 @@ export const getBidListBuyer = async (bidConditionBuyer) => {
 
 export const successbid = async (successBidCondition, bidResultData) => {
   try {
-    console.log(successBidCondition, bidResultData)
     const sendData = {
       condition : successBidCondition,
-      data : bidResultData
+      data : {
+        main_currency: bidResultData.main_currency,
+        quotation_comment: bidResultData.quotation_comment,
+        quotation_total_price: bidResultData.quotation_total_price,
+        quotation_total_price2: bidResultData.quotation_total_price2,
+        vendor_name: bidResultData.vendor_name,
+        vendor_site_id: bidResultData.vendor_site_id,
+      },
+      itemList : bidResultData.bid5List,
     }
+    console.log("sendData", sendData);
     const { data } = await serverAxios.post(`${PREFIX_URL}/successbid`, sendData);
     return data;
   } catch (err) {
