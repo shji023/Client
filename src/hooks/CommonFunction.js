@@ -17,13 +17,13 @@ import moment from "moment";
 
     switch(type) {
         case "day" : 
-        console.log(`Difference is ${fromDate.diff(toDate, 'days')} day(s)`);
+      //   console.log(`Difference is ${fromDate.diff(toDate, 'days')} day(s)`);
         return fromDate.diff(toDate, 'days')
         case "week" :
-        console.log(`Difference is ${fromDate.diff(toDate, 'weeks')} week(s)`);
+      //   console.log(`Difference is ${fromDate.diff(toDate, 'weeks')} week(s)`);
         return fromDate.diff(toDate, 'weeks')
         case "month" :
-        console.log(`Difference is ${fromDate.diff(toDate, 'months')} month(s)`);
+      //   console.log(`Difference is ${fromDate.diff(toDate, 'months')} month(s)`);
         return fromDate.diff(toDate, 'months');
     }
 
