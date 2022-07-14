@@ -9,6 +9,7 @@ import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { useParams } from "react-router-dom";
 import { getNumberFormat } from "hooks/CommonFunction";
+import { successbid } from "apis/bid.api";
 
 function SuccessBid() {
   const { rfq_no } = useParams();
@@ -40,14 +41,18 @@ function SuccessBid() {
 
   // #region 버튼 이벤트
   const nakchalButtonEvent = () => {
-    let nakchal = confirm("최종낙찰 하시겠습니까?");
-    if (nakchal) {
-      updateNakchal();
-    };
+    confirm("최종낙찰 하시겠습니까?") ? updateNakchal() : null;
   }
   
-  const updateNakchal = ()=>{
-    // TODO: 낙찰처리 axios 만들기
+  const updateNakchal = async ()=>{
+    const data = await successbid(successBidCondition, bidResultData);
+    if (data) {
+      alert("낙찰 처리가 완료 되었습니다..");
+      navigate(`/bidList`);
+      reload();
+    } else {
+      alert("구매 계약 등록이 실패했습니다.");
+    }
   }
   // #endregion 버튼 이벤트
 
