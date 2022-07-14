@@ -92,6 +92,16 @@ function DashBoard() {
           finish++;
         }
       });
+    //11
+    bidList &&
+      bidList.map((b) => {
+        if (b.bidding_start_date !== null) {
+          b.bidding_start_date = b.bidding_start_date.substr(0, 10);
+        }
+        if (b.bidding_end_date !== null) {
+          b.bidding_end_date = b.bidding_end_date.substr(0, 10);
+        }
+      });
     setBidListData(bidList);
     setStatusPieData([
       ...statusPieData,
@@ -107,30 +117,30 @@ function DashBoard() {
     ]);
 
     // #region po 막대 그래프
-    const graphData = await getPoAttributeCnt({attributeArr: [
-      "A_Raw",
-      "MRO내자",
-      "MRO외자",
-      "공사",
-      "기타",
-      "설비(내자)",
-      "설비(외자)",
-      "협력",
-      "장비성투자",
-      "컨소시엄",
-      "하자관리",
-      "용도품"  
-    ]});
+    const graphData = await getPoAttributeCnt({
+      attributeArr: [
+        "A_Raw",
+        "MRO내자",
+        "MRO외자",
+        "공사",
+        "기타",
+        "설비(내자)",
+        "설비(외자)",
+        "협력",
+        "장비성투자",
+        "컨소시엄",
+        "하자관리",
+        "용도품",
+      ],
+    });
     let graphRowData = [];
-    graphData.forEach(e => {
+    graphData.forEach((e) => {
       graphRowData.push(Object.values(e)[0]);
     });
     setPoStatusData([...poStatusData, ...graphRowData]);
     // #endregion po 막대 그래프
-
-
   };
-  
+
   useDidMountEffect(() => {
     selectBidListBuyer();
   }, []);
