@@ -257,3 +257,12 @@ export const getBidListBuyer = async (bidConditionBuyer) => {
     throw new Error("Failed to load");
   }
 };
+
+export const successbid = async (successBidCondition, bidResultData) => {
+  try {
+    const { data } = await serverAxios.post(`${PREFIX_URL}/successbid`, successBidCondition, bidResultData);
+    return data;
+  } catch (err) {
+    throw new Error("Failed to load");
+  }
+};
