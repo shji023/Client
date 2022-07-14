@@ -4,8 +4,6 @@ import { colors } from "assets/styles/color";
 import Chart from "react-apexcharts";
 
 const DashBoardLine = ({ poStatusData }) => {
-  console.log(poStatusData);
-
   const optionssalesoverview = {
     grid: {
       show: true,

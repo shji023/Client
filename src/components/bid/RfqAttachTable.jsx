@@ -5,8 +5,6 @@ import React from "react";
 import styled from "styled-components";
 
 function RfqAttachTable({ vendorFileList }) {
-  console.log(vendorFileList);
-  
   const handleButton = async (file_id) => {
     await downloadFile(file_id);
   };
@@ -28,7 +26,13 @@ function RfqAttachTable({ vendorFileList }) {
             <Tr key={index}>
               <Td>{v.type}</Td>
               <Td>
-                <UploadButton onClick={()=>{handleButton(v.file_id)}}>다운로드</UploadButton>
+                <UploadButton
+                  onClick={() => {
+                    handleButton(v.file_id);
+                  }}
+                >
+                  다운로드
+                </UploadButton>
               </Td>
               <Td>{v.origin_name}</Td>
               <Td>{v.size}</Td>

@@ -79,10 +79,9 @@ function RfqCreate() {
     }
   };
 
-  
   const defaultConditions = {
     rfq_no: "-",
-    simple_quotation_flag: "null",
+    simple_quotation_flag: null,
     rfq_detail_status: "N", //작성중
 
     // cd_v_meaning_status:"",
@@ -102,7 +101,6 @@ function RfqCreate() {
     rfq_ship_to: "(포)포항제철소",
     rfq_payment_terms: "10002",
     bidding_fob: "당사지정장소",
-
   };
 
   const [rfqListData, setRfqListData] = useState(
@@ -112,13 +110,13 @@ function RfqCreate() {
   // 공급사선정
   const [selectedVendorList, setSelectedVendorList] = useState([
     {
-    contact_email_address: "dk213799@naver.com",
-    contact_mobile: "010-2378-0856",
-    contact_name: "임성림",
-    vendor_id: 574,
-    vendor_location: "본사",
-    vendor_name: "(주)엔비 / ENB",
-    vendor_site_id: 831,
+      contact_email_address: "dk213799@naver.com",
+      contact_mobile: "010-2378-0856",
+      contact_name: "임성림",
+      vendor_id: 574,
+      vendor_location: "본사",
+      vendor_name: "(주)엔비 / ENB",
+      vendor_site_id: 831,
     },
     // {
     //   contact_email_address: "bpc@bpctech.co.kr",
@@ -131,12 +129,12 @@ function RfqCreate() {
     // },
     {
       contact_email_address: "round0903@hanmail.net",
-    contact_mobile: "1086037515",
-    contact_name: "원우석",
-    vendor_id: 609,
-    vendor_location: "본사",
-    vendor_name: "(주)한컴라이프케어 / HANCOM LIFECARE Inc",
-    vendor_site_id: 861,
+      contact_mobile: "1086037515",
+      contact_name: "원우석",
+      vendor_id: 609,
+      vendor_location: "본사",
+      vendor_name: "(주)한컴라이프케어 / HANCOM LIFECARE Inc",
+      vendor_site_id: 861,
     },
   ]);
 
@@ -163,20 +161,20 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no                : rfqList.rfq_no,
-      simple_quotation_flag : rfqList.simple_quotation_flag,
-      rfq_detail_status     : rfqList.rfq_detail_status,
-      category_segment      : rfqList.category_segment,
-      rfq_description       : rfqList.rfq_description,
-      buyer_id              : rfqList.buyer_id,
-      po_payment_cycle      : po1.po_payment_cycle,
-      po_collabo_type       : po1.po_collabo_type,
-      end_date              : po1.end_date,
-      amount_limit          : po1.amount_limit,
-      rfq_ship_to           : rfqList.rfq_ship_to,
-      rfq_payment_terms     : rfqList.rfq_payment_terms,
+      rfq_no: rfqList.rfq_no,
+      simple_quotation_flag: rfqList.simple_quotation_flag,
+      rfq_detail_status: rfqList.rfq_detail_status,
+      category_segment: rfqList.category_segment,
+      rfq_description: rfqList.rfq_description,
+      buyer_id: rfqList.buyer_id,
+      po_payment_cycle: po1.po_payment_cycle,
+      po_collabo_type: po1.po_collabo_type,
+      end_date: po1.end_date,
+      amount_limit: po1.amount_limit,
+      rfq_ship_to: rfqList.rfq_ship_to,
+      rfq_payment_terms: rfqList.rfq_payment_terms,
       // bidding_fob        : bid1.bidding_fob,
-      bidding_fob           : rfqList.fob_lookup_code,
+      bidding_fob: rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
@@ -196,24 +194,23 @@ function RfqCreate() {
     // #region File
     let fileData = await getRfqFileList(rfq_no);
     console.log("fileData", fileData);
-    if(fileData) {
+    if (fileData) {
       fileData.forEach((element) => {
         element.id = nextId.current++;
         // element.query_type = "update";
       });
-  
     } else {
       fileData = [];
     }
-    
+
     const newFile = {
-      id          : nextId.current,
-      type        : "",
-      origin_name : "",
-      save_name   : "",
-      size        : "",
-      upload_date : "",
-      file_path   : "",
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
     };
     setVendorFile([...fileData, newFile]);
     console.log("nextId.current", nextId.current);
@@ -228,17 +225,17 @@ function RfqCreate() {
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept          : element.dept_name,
-        description           : element.description,
-        group_name            : element.group_name,
-        item_name             : element.item,
-        item_id               : element.item_id,
-        request_name          : element.name,
-        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
-        pur_rfq_qt            : element.quantity,
-        need_by_date          : element.need_by_date,
-        request_phone         : element.staff_contact_number,
-        unit_meas_lookup_code : element.uom,
+        request_dept: element.dept_name,
+        description: element.description,
+        group_name: element.group_name,
+        item_name: element.item,
+        item_id: element.item_id,
+        request_name: element.name,
+        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
+        pur_rfq_qt: element.quantity,
+        need_by_date: element.need_by_date,
+        request_phone: element.staff_contact_number,
+        unit_meas_lookup_code: element.uom,
       };
       tempList.push(temp);
     });
@@ -448,7 +445,6 @@ function RfqCreate() {
   // #region 버튼
   // 저장 button
   const onClickSaveRfq = async () => {
-    
     let res = confirm("최종 저장 하시겠습니까?");
     if (res) {
       // TODO : 필수 입력사항 입력했는지 확인시키기(alert?)
@@ -793,11 +789,12 @@ function RfqCreate() {
             onClick={() => {
               setVisible(true);
               // focus
-              try{
+              try {
                 // * display visible 되는 시간이 있어서 시간차를 줌
-                setTimeout(()=> {inputRef.current.focus()}
-                , 200);
-              } catch(e) {
+                setTimeout(() => {
+                  inputRef.current.focus();
+                }, 200);
+              } catch (e) {
                 console.log(e);
               }
             }}

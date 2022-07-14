@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 
 function RuleTextArea({ label, value }) {
-
   return (
     <StyledRoot>
       <TitleWrapper>
@@ -27,7 +26,7 @@ const StyledRoot = styled.div`
 const TitleWrapper = styled.div`
   font-size: 1.4rem;
   min-width: 14rem;
-  height: 15rem;  
+  height: 15rem;
   border: 1px solid ${colors.tableLineGray};
   display: flex;
   justify-content: center;
@@ -52,9 +51,8 @@ const Data = styled.textarea`
   border: none;
   width: 100%;
   height: 100%;
-  padding: 0 2rem;
+  padding: 1.5rem;
   line-height: 2.3rem;
   outline: none;
   resize: none;
 `;
-

@@ -23,6 +23,8 @@ function BidDetail() {
   const [rfqNo, setRfqNo] = useState("");
   // 사용부서:0, 공급사:1, 바이어:2
   const [user, setUser] = useState(0);
+  const [isHidden, setIsHidden] = useState(false);
+  const date = new Date();
 
   const selectInfo = async () => {
     const ruleInfo = await getRuleInfo(bidding_no);
@@ -30,7 +32,24 @@ function BidDetail() {
     const itemInfo = await getItemInfo(bidding_no);
     //const fileInfo = await getVendorFileList(bidding_no);
     ruleInfo && setRuleInfoData(ruleInfo[0]);
-    rfqInfo && setRfqInfoData(rfqInfo[0]);
+
+    if (rfqInfo && rfqInfo[0].cd_v_meaning_status === "진행") {
+      let tempRfqInfo = rfqInfo[0];
+      const startDate = new Date(ruleInfo[0].round_start_date);
+      const endDate = new Date(ruleInfo[0].round_end_date);
+
+      if (startDate > date) {
+        tempRfqInfo.cd_v_meaning_status = "진행(입찰예정)";
+      } else if (endDate >= date && startDate <= date) {
+        tempRfqInfo.cd_v_meaning_status = "진행(입찰진행)";
+      } else if (endDate < date) {
+        tempRfqInfo.cd_v_meaning_status = "진행(입찰완료)";
+      }
+      rfqInfo && setRfqInfoData(tempRfqInfo);
+    } else {
+      setIsHidden(true);
+      rfqInfo && setRfqInfoData(rfqInfo[0]);
+    }
     itemInfo && setItemInfoList(itemInfo);
 
     const fileInfo = await getVendorFileList(rfqInfo[0].rfq_no);
@@ -54,21 +73,18 @@ function BidDetail() {
     setBidMethod(tempBidMethod);
   };
 
-
   const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
   const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
 
   const onClickBidWriteButton = async () => {
-    
     const site_id = getCookie("site_id");
     const bid_vendor_id = await getBidVendorId(bidding_no, site_id);
-    if(bid_vendor_id) {
+    if (bid_vendor_id) {
       navigate(`/bidWrite/${bidding_no}/${bid_vendor_id}`);
     } else {
       navigate(`/bidWrite/${bidding_no}`);
     }
-
-  }
+  };
 
   useEffect(() => {
     selectInfo();
@@ -137,9 +153,9 @@ function BidDetail() {
         </ItemInfoContainer>
       </section>
       {user === 1 ? (
-        <ButtonWrapper>
+        <ButtonWrapperVendor isHidden={isHidden}>
           <Button onClick={onClickBidWriteButton}>응찰서 작성</Button>
-        </ButtonWrapper>
+        </ButtonWrapperVendor>
       ) : user === 2 ? (
         <ButtonWrapper>
           <Button onClick={() => navigate(`/successBid/${rfqNo}`)}>낙찰 처리</Button>
@@ -228,6 +244,13 @@ const SubTitle = styled.p`
   font-size: 1.8rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+`;
+
+const ButtonWrapperVendor = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  display: ${({ isHidden }) => (isHidden ? "none" : undefined)};
 `;
 
 const ButtonWrapper = styled.div`
