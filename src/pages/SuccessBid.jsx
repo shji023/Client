@@ -7,14 +7,14 @@ import AgSuccessBidResult from "components/common/AgSuccessBidResult";
 import BidInfo from "components/common/BidInfo";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-import { useParams } from "react-router-dom";
-import { getNumberFormat } from "hooks/CommonFunction";
+import { useNavigate, useParams } from "react-router-dom";
+import { getNumberFormat, reload } from "hooks/CommonFunction";
 import { successbid } from "apis/bid.api";
 
 function SuccessBid() {
   // #region state
   const { rfq_no } = useParams();
-
+  const navigate = useNavigate();
   const [successBidCondition, setSuccessBidCondition] = useState({
     rfq_description: "",
     rfq_no: "",
@@ -40,44 +40,49 @@ function SuccessBid() {
 
   // #endregion state
 
-
   const gridRef = useRef();
-
 
   // #region 버튼 이벤트
   const nakchalButtonEvent = () => {
-    confirm("최종낙찰 하시겠습니까?") ? updateNakchal() : null;
-  }
-  
-  const updateNakchal = async ()=>{
-    console.log("1", successBidCondition)
-    console.log("2", bidResultData)
+    const selectedRowNodes = gridRef.current.api.getSelectedNodes();
+    let selectedIdx;
+    selectedRowNodes.forEach((e) => {
+      selectedIdx = e.rowIndex;
+    });
+    if (selectedIdx === undefined) {
+      alert("공급사가 선택되지 않았습니다.");
+    } else {
+      confirm("최종낙찰 하시겠습니까?") ? updateNakchal() : null;
+    }
+  };
+
+  const updateNakchal = async () => {
+    console.log("1", successBidCondition);
+    console.log("2", bidResultData);
 
     const selectedRowNodes = gridRef.current.api.getSelectedNodes();
     let selectedIdx;
     selectedRowNodes.forEach((e) => {
       selectedIdx = e.rowIndex;
     });
+    console.log(selectedRowNodes);
 
     const data = await successbid(successBidCondition, bidResultData[selectedIdx]);
     if (data) {
-      alert("낙찰 처리가 완료 되었습니다..");
+      alert("낙찰 처리가 완료 되었습니다.");
       navigate(`/bidList`);
-      reload();
     } else {
       alert("구매 계약 등록이 실패했습니다.");
     }
-  }
+  };
 
   // #endregion 버튼 이벤트
-
-
 
   // #region useEffect
   const initPage = async () => {
     const bidding_no = await selectSuccessBid();
     await selectBidResult(bidding_no);
-  }
+  };
 
   // * 낙찰처리 헤더 값 넣는 곳
   const selectSuccessBid = async () => {
@@ -85,50 +90,41 @@ function SuccessBid() {
 
     console.log("낙찰처리 헤더 데이터", data);
 
-    setSuccessBidCondition({...data});
-    return data.bidding_no
+    setSuccessBidCondition({ ...data });
+    return data.bidding_no;
   };
 
   // * 낙찰처리 바디 그리드 값 넣는 곳
-  const selectBidResult = async (bidding_no) => { 
+  const selectBidResult = async (bidding_no) => {
     const data = await getBidResult(rfq_no, bidding_no);
 
     console.log("낙찰처리 바디 그리드 데이터", data);
 
     // 표에 나타날 금액 단위 표시
     let temp = data;
-    temp.forEach((e)=>{
-      e.quotation_total_price2 = getNumberFormat(e.quotation_total_price)
-    })
+    temp.forEach((e) => {
+      e.quotation_total_price2 = getNumberFormat(e.quotation_total_price);
+    });
 
     setBidResultData([...temp]);
   };
-  
+
   useEffect(() => {
     initPage();
-    
   }, []);
-  
+
   // #endregion useEffect
-  
 
   return (
     <StyledRoot>
       <section>
         <HeaderWrapper>
           <Title>낙찰처리</Title>
-          <Button
-            onClick={nakchalButtonEvent}
-          >
-            낙찰확정
-          </Button>
+          <Button onClick={nakchalButtonEvent}>낙찰확정</Button>
         </HeaderWrapper>
 
         <InputContainer>
-          <BidInfo 
-            label="건명" 
-            value={successBidCondition.rfq_description} 
-          />
+          <BidInfo label="건명" value={successBidCondition.rfq_description} />
           <BidInfo
             //id="BIDDING_NO"
             label="입찰번호"
@@ -147,7 +143,7 @@ function SuccessBid() {
           <BidInfo
             //id="TARGET_PRICE"
             label="TargetPrice"
-            value={ getNumberFormat(successBidCondition.target_price) }
+            value={getNumberFormat(successBidCondition.target_price)}
           />
         </InputContainer>
       </section>
@@ -155,10 +151,7 @@ function SuccessBid() {
       <SubTitle>공급사별 투찰결과</SubTitle>
 
       <section>
-        <AgSuccessBidResult 
-          resvGridRef   = {gridRef}
-          bidResultData = {bidResultData} 
-        />
+        <AgSuccessBidResult resvGridRef={gridRef} bidResultData={bidResultData} />
       </section>
     </StyledRoot>
   );
