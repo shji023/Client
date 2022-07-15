@@ -180,7 +180,12 @@ function RfqCreate() {
 
     // Rfq Vendor
     const vendorList = data.rfq3List;
-    setSelectedVendorList([...vendorList]);
+    let tempVendorList = [];
+    vendorList.forEach((e)=>{
+      let tempVendor = {...e, vendor_id : e.rfq_vendor_id};
+      tempVendorList.push(tempVendor);
+    })
+    setSelectedVendorList([...tempVendorList]);
 
     // Rfq Product = Rfq 2
     const productList = data.rfq2List;
@@ -189,7 +194,10 @@ function RfqCreate() {
       tempProductList.push({ ...element, rfq_id: element.id, query_type: "update" });
     });
     setProductInfoData([...tempProductList]);
+    
     // #endregion RFQ
+
+
 
     // #region File
     let fileData = await getRfqFileList(rfq_no);
@@ -204,13 +212,13 @@ function RfqCreate() {
     }
 
     const newFile = {
-      id: nextId.current,
-      type: "",
-      origin_name: "",
-      save_name: "",
-      size: "",
-      upload_date: "",
-      file_path: "",
+      id          : nextId.current,
+      type        : "",
+      origin_name : "",
+      save_name   : "",
+      size        : "",
+      upload_date : "",
+      file_path   : "",
     };
     setVendorFile([...fileData, newFile]);
     console.log("nextId.current", nextId.current);
@@ -225,17 +233,17 @@ function RfqCreate() {
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept: element.dept_name,
-        description: element.description,
-        group_name: element.group_name,
-        item_name: element.item,
-        item_id: element.item_id,
-        request_name: element.name,
-        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
-        pur_rfq_qt: element.quantity,
-        need_by_date: element.need_by_date,
-        request_phone: element.staff_contact_number,
-        unit_meas_lookup_code: element.uom,
+        request_dept          : element.dept_name,
+        description           : element.description,
+        group_name            : element.group_name,
+        item_name             : element.item,
+        item_id               : element.item_id,
+        request_name          : element.name,
+        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
+        pur_rfq_qt            : element.quantity,
+        need_by_date          : element.need_by_date,
+        request_phone         : element.staff_contact_number,
+        unit_meas_lookup_code : element.uom,
       };
       tempList.push(temp);
     });
