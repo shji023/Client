@@ -21,7 +21,7 @@ import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
 import { reload } from "hooks/CommonFunction";
 import InputSelect from "components/common/InputSelect";
-import { getBidVendorFileList, uploadContent } from "apis/file.api";
+import { getBidVendorFileList, uploadContent, uploadFile } from "apis/file.api";
 
 function BidWrite() {
   const { bidding_no, bid_vendor_id } = useParams();
