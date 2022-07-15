@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const serverAxios = axios.create({
-  baseURL: "http://localhost:8081/",
+  baseURL: "http://54.251.209.237:8087/",
 });
 
 export const serverAxiosLogin = axios.create({
-  baseURL: "http://localhost:8086/",
+  baseURL: "http://54.251.209.237:8087/",
 });
