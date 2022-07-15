@@ -542,6 +542,7 @@ function PoRegist() {
     temp[idx].category = row.category;
     temp[idx].category_id = row.category_id;
     temp[idx].description = row.description;
+    temp[idx].uom = row.uom;
 
     setRowData([...temp]);
 

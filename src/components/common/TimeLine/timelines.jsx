@@ -116,7 +116,7 @@ function TimeLines ({title, trackData}) {
               // toggleOpen={handleToggleOpen}
               zoomIn={handleZoomIn}
               zoomOut={handleZoomOut}
-              clickElement={clickElement}
+              // clickElement={clickElement}
               clickTrackButton={track => {
                 // eslint-disable-next-line no-alert
                 alert(JSON.stringify(track))
