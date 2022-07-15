@@ -18,7 +18,6 @@ import RfqSelectVendor from "components/rfq/RfqSelectVendor";
 import RfqInputSelect from "components/rfq/RfqInputSelect";
 import RfqInputDate from "components/rfq/RfqInputDate";
 import RfqInputInfo from "components/rfq/RfqInputInfo";
-import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadContent, uploadFile } from "apis/file.api";
@@ -78,14 +77,16 @@ function RfqDetail() {
     fob_lookup_code: "",
   };
   const [ruleInfoData, setRuleInfoData] = useState([]);
-
+  const [isHidden, setIsHidden] = useState(false);
   const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
   // const stage = rfqListData?.simple_quotation_flag === 'Y'? '단순견적':'입찰';
   const stage = rfqListData?.simple_quotation_flag === "1" ? "단순견적" : "입찰";
 
   const selectRFQDetail = async (id) => {
     const data = await getRfqInfo(id);
-
+    if (data && data[0].cd_v_meaning_status === "완료") {
+      setIsHidden(true);
+    }
     if (data.length == 0) {
       setRfqListData(rfqNull);
     } else {
@@ -295,6 +296,7 @@ function RfqDetail() {
       <HeaderWrapper>
         <Title>입찰룰</Title>
         <Button
+          isHidden={isHidden}
           onClick={() => {
             onSaveContents();
           }}
@@ -497,39 +499,6 @@ const ButtonWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-const InputContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0rem;
-  gap: 1rem;
-`;
-
-const InfoContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(27rem, 1fr));
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 2rem 0rem;
-  gap: 1rem;
-`;
-
-const UploadContainer = styled.div`
-  display: grid;
-  grid-template-columns: 0.3fr 0.5fr 1fr 1.5fr 0.5fr 0.5fr;
-  border: 1px solid rgb(225 225 225 / 87%);
-  border-radius: 0.5rem;
-  padding: 0rem 0.5rem;
-  gap: 1rem;
-`;
-
-const ListCount = styled.p`
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
-`;
-
 const Title = styled.p`
   font-size: 2.4rem;
   margin-bottom: 1rem;
@@ -547,18 +516,20 @@ const SubTitle = styled.p`
   height: 100%;
 `;
 
-const Label = styled.label`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  width: 90%;
-  height: 100%;
-`;
-
-const InputFile = styled.input`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  // margin-top: 1rem;
-  width: 90%;
-  height: 100%;
+const Button = styled.button`
+  width: 10rem;
+  height: 4rem;
+  background-color: ${colors.mainBlue};
+  color: white;
+  font-size: 1.6rem;
+  font-family: "Pretendard-Regular";
+  border-radius: 0.5rem;
+  :hover {
+    cursor: pointer;
+    background-color: ${colors.subBlue};
+  }
+  margin-left: 1rem;
+  // margin-bottom: 1rem;
+  margin-right: 2rem;
+  display: ${({ isHidden }) => (isHidden ? "none" : undefined)};
 `;
