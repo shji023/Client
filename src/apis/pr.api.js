@@ -52,7 +52,7 @@ export const getPr = async (reqNum) => {
     
     // const sendData = reqNum;
     const sendData = {"requisitionNumber": reqNum};
-    console.log("sendData!!!!!! : ", sendData);
+    console.log("sendData", sendData);
 
     const resvData = await serverAxios.post(`${PREFIX_URL}/prSelect`, sendData)
     .then((res)=>{
@@ -68,15 +68,13 @@ export const getPr = async (reqNum) => {
         description : data.description,
         currency_code : data.currencyCode,
         pur_pct_agm_rsn : data.purPctAgmRsn,
+        rfq_no : data.rfq_no,
         
       }
-      console.log("pr1 ::: ", pr1);
 
       const dataList = res.data.pr2VoList;
-      console.log("dataList ", dataList);
       const pr2List = [];
       dataList && dataList.forEach(element => {
-        console.log("element :::", element);
         const pr2 = {
           requisition_line_id : element.requisitionLineId,
           // line: element.1, // !
@@ -108,9 +106,7 @@ export const getPr = async (reqNum) => {
         }
         pr2List.push(pr2);
       });
-      
     
-      console.log("ajfkasdjkfl!@!@!@", pr1, pr2List);
       const pr = {
         pr1 : pr1,
         pr2 : pr2List,

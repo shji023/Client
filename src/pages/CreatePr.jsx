@@ -157,6 +157,8 @@ function selectPrList() {
   const [rowData, setRowData] = useState([...testData]);
   const [deletedIdList, setDeletedIdList] = useState([]);
 
+  const [disabled, setDisabled] = useState(true);
+
   const [conditions, setConditions] = useState({
     req_num: id, // requisition_number : pr 번호
     preparer_name: "이동현", // preparer_name : Preparer
@@ -455,6 +457,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -489,6 +492,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -506,6 +510,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -530,6 +535,7 @@ function selectPrList() {
             lov: taxCodeLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -556,6 +562,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -572,6 +579,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -597,6 +605,7 @@ function selectPrList() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -613,6 +622,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -630,6 +640,7 @@ function selectPrList() {
             lov: destLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -647,6 +658,7 @@ function selectPrList() {
             lov: orgLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -663,6 +675,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -679,6 +692,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -696,6 +710,7 @@ function selectPrList() {
             stateValue: rowData,
             setStateValue: setRowData,
             type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -713,6 +728,7 @@ function selectPrList() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -750,16 +766,25 @@ function selectPrList() {
   };
 
   const getPrInit = async () => {
+    // PR 수정 페이지
     if (id) {
-      console.log("id : ", id);
       const data = await getPr(id);
       console.log("resvData : ", data);
-      console.log("data pr1:::::::::: : ", data.pr1);
+
+      // RFQ가 생성되지 않은 경우 활성화.
+      if(!data.pr1.rfq_no) {
+        setDisabled(false);
+      }
 
       setConditions({ ...data.pr1 });
       setRowData([...data.pr2]);
+
+    } 
+    // PR 생성 페이지
+    else {
+      setDisabled(false);
     }
-  };
+  } 
 
   // #region 팝업 이벤트
   const onHandleSearch = async (searchWord) => {
@@ -795,17 +820,31 @@ function selectPrList() {
   // #endregion 팝업 이벤트
 
   const ButtonSelector = () => {
-    if (id) {
+    if (id && !disabled) {
       return (
         <section>
           <Button onClick={onUpdateContents}>저장</Button>
           <Button onClick={onDeleteContents}>삭제</Button>
         </section>
       );
+    } else if(id && disabled) {
+      return <></>;
     } else {
       // 수정
       return <Button onClick={onSaveContents}>저장</Button>;
     }
+  };
+
+  const GridButtonSelector = () => {
+    if (!disabled) {
+      return (
+        <ButtonWrapperLine>
+          <Button onClick={onInsertOne}>Line 추가</Button>
+          <Button onClick={onCopySelected}>행 복사</Button>
+          <Button onClick={deleteRow}>행 삭제</Button>
+        </ButtonWrapperLine>
+      );
+    } 
   };
 
   return (
@@ -838,6 +877,7 @@ function selectPrList() {
               rowSelection: "single", // single, multiple
               suppressRowClickSelection: false,
             }}
+            disabled={disabled}
           />
           <InputInfo
             id="auth_date"
@@ -851,6 +891,7 @@ function selectPrList() {
             inputLabel="PR 명"
             handlePoCondition={handleCondition}
             inputValue={conditions.description}
+            disabled={disabled}
           />
           {/* TODO: disabled */}
           <InputInfo
@@ -867,16 +908,12 @@ function selectPrList() {
             initValue={conditions.pur_pct_agm_rsn}
             handlePoCondition={handleCondition}
             lov={prReasonLov}
+            disabled={disabled}
           />
         </InputContainer>
       </section>
       <section>
-        <ButtonWrapperLine>
-          {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
-          <Button onClick={onInsertOne}>Line 추가</Button>
-          <Button onClick={onCopySelected}>행 복사</Button>
-          <Button onClick={deleteRow}>행 삭제</Button>
-        </ButtonWrapperLine>
+        <GridButtonSelector/>
       </section>
       <section>
         <AgGrid

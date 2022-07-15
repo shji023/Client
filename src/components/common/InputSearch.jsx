@@ -38,6 +38,8 @@ function InputSearch({
 
   // DataGrid
   gridOptions,
+
+  disabled,
 }) {
   !onHandleSearch &&
     (onHandleSearch = (value) => {
@@ -114,6 +116,7 @@ function InputSearch({
             onSearch={showModal} // modal
             style={{ width: "100%", height: "100%" }}
             allowClear={false}
+            disabled={disabled}
             readOnly
           />
         </DataWrapper>

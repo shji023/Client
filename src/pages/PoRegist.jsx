@@ -666,14 +666,14 @@ function PoRegist() {
     },
     {
       field: "shipment",
-      headerName: "shipment",
+      headerName: "Shipment",
       minWidth: 120,
       editable: false,
       valueGetter: (params) => 1,
     },
     {
       field: "ship_quantity",
-      headerName: "수량",
+      headerName: "Quantity",
       minWidth: 100,
       editable: false,
       cellRendererSelector: (params) => {
