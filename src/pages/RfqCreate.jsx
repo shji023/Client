@@ -161,20 +161,20 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no: rfqList.rfq_no,
-      simple_quotation_flag: rfqList.simple_quotation_flag,
-      rfq_detail_status: rfqList.rfq_detail_status,
-      category_segment: rfqList.category_segment,
-      rfq_description: rfqList.rfq_description,
-      buyer_id: rfqList.buyer_id,
-      po_payment_cycle: po1.po_payment_cycle,
-      po_collabo_type: po1.po_collabo_type,
-      end_date: po1.end_date,
-      amount_limit: po1.amount_limit,
-      rfq_ship_to: rfqList.rfq_ship_to,
-      rfq_payment_terms: rfqList.rfq_payment_terms,
+      rfq_no                : rfqList.rfq_no,
+      simple_quotation_flag : rfqList.simple_quotation_flag,
+      rfq_detail_status     : rfqList.rfq_detail_status,
+      category_segment      : rfqList.category_segment,
+      rfq_description       : rfqList.rfq_description,
+      buyer_id              : rfqList.buyer_id,
+      po_payment_cycle      : po1.po_payment_cycle,
+      po_collabo_type       : po1.po_collabo_type,
+      end_date              : po1.end_date,
+      amount_limit          : po1.amount_limit,
+      rfq_ship_to           : rfqList.rfq_ship_to,
+      rfq_payment_terms     : rfqList.rfq_payment_terms,
       // bidding_fob        : bid1.bidding_fob,
-      bidding_fob: rfqList.fob_lookup_code,
+      bidding_fob           : rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
@@ -263,17 +263,17 @@ function RfqCreate() {
   };
 
   const getLov = async () => {
-    const Cycle = await getCycleLov();
+    const Cycle   = await getCycleLov();
     const Collabo = await getCollaboLov();
     const Payment = await getPaymentLov();
-    const Fob = await getFobLov();
-    const shipTo = await getshipToLov();
+    const Fob     = await getFobLov();
+    const shipTo  = await getshipToLov();
 
-    Cycle && setCycleLov(Cycle);
+    Cycle   && setCycleLov(Cycle);
     Collabo && setCollaboLov(Collabo);
     Payment && setPaymentLov(Payment);
-    Fob && setFobLov(Fob);
-    shipTo && setshipToLov(shipTo);
+    Fob     && setFobLov(Fob);
+    shipTo  && setshipToLov(shipTo);
   };
 
   const getInitRfq = () => {
@@ -338,9 +338,9 @@ function RfqCreate() {
       suppressColumnsToolPanel: true,
       hide: hide,
     },
-    { field: "item_name", headerName: "Item", minWidth: 10 },
-    { field: "description", headerName: "Description", minWidth: 10, maxWidth: 150 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 10, maxWidth: 80 },
+    { field: "item_name",             headerName: "Item",        minWidth: 10 },
+    { field: "description",           headerName: "Description", minWidth: 10, maxWidth: 150 },
+    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 80 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
@@ -375,11 +375,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept", headerName: "사용부서", minWidth: 10, maxWidth: 120 },
-    { field: "group_name", headerName: "그룹사", minWidth: 10, maxWidth: 100 },
+    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 120 },
+    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 100 },
     { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
-    { field: "request_name", headerName: "신청자", minWidth: 10, maxWidth: 100 },
-    { field: "request_phone", headerName: "연락처", minWidth: 10, maxWidth: 120 },
+    { field: "request_name",    headerName: "신청자",      minWidth: 10, maxWidth: 100 },
+    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 120 },
   ];
 
   // #region 그리드 관련 이벤트
