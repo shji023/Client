@@ -15,6 +15,8 @@ import styled from "styled-components";
 import { getCookie } from "util/cookie";
 import { showGridLoading } from "components/common/CustomGrid";
 import { getFormattedDate } from "hooks/CommonFunction";
+import InputSearch from "components/common/InputSearch";
+import InputInfo from "components/common/InputInfo";
 
 function SelectBidList() {
   // 공급사, 사용부서:0, 바이어:1
@@ -150,10 +152,10 @@ function SelectBidList() {
               <Button onClick={selectBidList}>조회</Button>
             </HeaderWrapper>
             <InputContainer>
-              <BidInputInfo
+              <InputInfo
                 id="RFQ_NO"
                 inputLabel="RFQ 번호"
-                handleCondition={handleBidCondition}
+                handlePoCondition={handleBidCondition}
                 inputValue={bidCondition.RFQ_NO}
               />
               <BidInputSelect
@@ -170,10 +172,10 @@ function SelectBidList() {
                 lov={bidCategoryLov}
                 isDisabled={false}
               />
-              <BidInputInfo
+              <InputInfo
                 id="RFQ_DESCRIPTION"
                 inputLabel="건명"
-                handleCondition={handleBidCondition}
+                handlePoCondition={handleBidCondition}
                 inputValue={bidCondition.RFQ_DESCRIPTION}
               />
               <InputDate
@@ -200,10 +202,10 @@ function SelectBidList() {
               <Button onClick={selectBidListBuyer}>조회</Button>
             </HeaderWrapper>
             <InputContainerBuyer>
-              <BidInputInfo
+              <InputInfo
                 id="rfq_no"
                 inputLabel="RFQ 번호"
-                handleCondition={handleBidConditionBuyer}
+                handlePoCondition={handleBidConditionBuyer}
                 inputValue={bidConditionBuyer.rfq_no}
               />
               <BidInputSelect
@@ -213,16 +215,17 @@ function SelectBidList() {
                 lov={bidSeacrhTypeLov}
                 isDisabled={false}
               />
-              <BidInputInfo
+              <InputInfo
                 id="rfq_description"
                 inputLabel="건명"
-                handleCondition={handleBidConditionBuyer}
+                handlePoCondition={handleBidConditionBuyer}
                 inputValue={bidConditionBuyer.rfq_description}
               />
-              <BuyerInputSearch
+              <InputSearch
                 id="buyer_id"
                 title="바이어선택"
                 inputLabel="Buyer"
+                initValue={bidConditionBuyer.buyer_name}
                 onHandleSearch={HandleSearch}
                 onHandleOk={onHandleOk}
                 onHandleCancel={null}
