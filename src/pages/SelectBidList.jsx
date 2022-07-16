@@ -10,9 +10,11 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import BuyerInputSearch from "components/rfq/BuyerInputSearch";
 import { popUpBuyerColFields } from "stores/colData";
 import InputDate from "components/common/InputDate";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { getCookie } from "util/cookie";
+import { showGridLoading } from "components/common/CustomGrid";
+import { getFormattedDate } from "hooks/CommonFunction";
 
 function SelectBidList() {
   // 공급사, 사용부서:0, 바이어:1
@@ -20,12 +22,12 @@ function SelectBidList() {
 
   // 공급사
   const [bidCondition, setBidCondition] = useState({
-    RFQ_NO: "",
-    BID_SEARCH_TYPE: "",
-    CATEGORY_SEGMENT1: "",
-    RFQ_DESCRIPTION: "",
-    BIDDING_START_DATE: "",
-    BIDDING_END_DATE: "",
+    RFQ_NO             : "",
+    BID_SEARCH_TYPE    : "",
+    CATEGORY_SEGMENT1  : "",
+    RFQ_DESCRIPTION    : "",
+    BIDDING_START_DATE : "",
+    BIDDING_END_DATE   : "",
   });
   const [bidSeacrhTypeLov, setBidSeacrhTypeLov] = useState([]);
   const [bidCategoryLov, setBidCategoryLov] = useState([]);
@@ -33,13 +35,15 @@ function SelectBidList() {
 
   // 바이어
   const [bidConditionBuyer, setBidConditionBuyer] = useState({
-    rfq_no: "",
-    bid_search_type: "",
-    rfq_description: "",
-    buyer_id: "",
+    rfq_no          : "",
+    bid_search_type : "",
+    rfq_description : "",
+    buyer_id        : "",
   });
   const [bidListBuyerData, setBidListBuyerData] = useState([]);
   const [buyerRowData, setBuyerRowData] = useState([]);
+
+  const gridRef = useRef();
 
   // 공급사
   const handleBidCondition = (key, value) => {
@@ -50,8 +54,18 @@ function SelectBidList() {
   };
 
   const selectBidList = async () => {
+    showGridLoading(gridRef, true);
+
     const data = await getBidList(bidCondition);
-    setBidListData(data);
+    let tempList = [];
+    data.forEach((e)=>{
+      e.bidding_start_date = getFormattedDate(e.bidding_start_date);
+      e.bidding_end_date   = getFormattedDate(e.bidding_end_date);
+      tempList.push(e);
+    })
+    setBidListData([...tempList]);
+
+    showGridLoading(gridRef, false);
   };
 
   const getLov = async () => {
@@ -88,8 +102,17 @@ function SelectBidList() {
 
   // 바이어 입찰진행현황 조회 데이터
   const selectBidListBuyer = async () => {
+    showGridLoading(gridRef, true);
+
     const data = await getBidListBuyer(bidConditionBuyer);
-    setBidListBuyerData(data);
+    let tempList = [];
+    data.forEach((e)=>{
+      e.need_by_date = getFormattedDate(e.need_by_date);
+      tempList.push(e);
+    })
+    setBidListBuyerData([...tempList]);
+
+    showGridLoading(gridRef, false);
   };
 
   // 바이어 검색 모달
@@ -166,7 +189,7 @@ function SelectBidList() {
             </InputContainer>
           </section>
           <section>
-            <BidDataGrid listData={bidListData} />
+            <BidDataGrid gridRef={gridRef} listData={bidListData} />
           </section>
         </StyledRoot>
       ) : (
@@ -213,7 +236,7 @@ function SelectBidList() {
             </InputContainerBuyer>
           </section>
           <section>
-            <BidDataGridBuyer listData={bidListBuyerData} />
+            <BidDataGridBuyer gridRef={gridRef} listData={bidListBuyerData} />
           </section>
         </StyledRoot>
       )}

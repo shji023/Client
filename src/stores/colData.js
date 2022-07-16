@@ -8,10 +8,10 @@ export const bidColFields = [
   { colId: 6, field: "bid_search_type", headerName: "Status", minWidth: 100 },
   { colId: 7, field: "reply_method_lookup_code", headerName: "입찰방법", minWidth: 150 },
   { colId: 8, field: "bid_price_method", headerName: "단가입력방법", minWidth: 150 },
-  { colId: 9, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 200 },
-  { colId: 10, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 200 },
+  { colId: 9, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 140 },
+  { colId: 10, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 140 },
   { colId: 11, field: "buyer_name", headerName: "담당자", minWidth: 100 },
-  { colId: 12, field: "buyer_contact", headerName: "전화번호", minWidth: 100 },
+  { colId: 12, field: "buyer_contact", headerName: "전화번호", minWidth: 200 },
 ];
 
 // #region PR
