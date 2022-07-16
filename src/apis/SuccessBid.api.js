@@ -8,7 +8,7 @@ export const getSuccessBid = async (rfq_no) => {
       rfq_no: rfq_no,
     };
 
-    const { data } = await axioss.post(`${PREFIX_URL}/successBidList`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/successBidList`, sendData);
 
     return data;
   } catch (err) {
