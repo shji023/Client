@@ -18,7 +18,7 @@ export const getSearchRfqList = async (test) => {
     // TODO: GET 시도해보기
     console.log("input data : ", test);
     const { data } = await axios.post(`${PREFIX_URL}/rfqSearch`, test);
-    console.log("~~~", data);
+    console.log("data", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
