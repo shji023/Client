@@ -33,7 +33,7 @@ import InputOneDate from "components/common/InputOneDate";
 import { checkFatFinger, deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-import { getNumberFormat, reload } from "hooks/CommonFunction";
+import { getFormattedDate, getNumberFormat, reload } from "hooks/CommonFunction";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 import FatFingerModal from "components/common/FatFingerModal";
@@ -600,7 +600,7 @@ function PoRegist() {
     {
       field: "item",
       headerName: "Item",
-      minWidth: 150,
+      minWidth: 180,
       editable: false,
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
@@ -623,7 +623,7 @@ function PoRegist() {
         };
       },
     },
-    { field: "category", headerName: "Category", minWidth: 150, editable: false },
+    { field: "category", headerName: "Category", minWidth: 200, editable: false },
     { field: "description", headerName: "사양", minWidth: 400, editable: false },
     { field: "uom", headerName: "단위", minWidth: 80, editable: false },
     {
@@ -661,7 +661,7 @@ function PoRegist() {
     {
       field: "total_amount",
       headerName: "금액",
-      minWidth: 100,
+      minWidth: 140,
       editable: false,
       valueGetter: (params) => getNumberFormat(params.data.quantity * params.data.unit_price),
     },
@@ -691,7 +691,7 @@ function PoRegist() {
     {
       field: "ship_total_amount",
       headerName: "금액",
-      minWidth: 100,
+      minWidth: 140,
       editable: false,
       valueGetter: (params) => getNumberFormat(params.data.ship_quantity * params.data.unit_price),
     },
@@ -1306,7 +1306,7 @@ function PoRegist() {
             id="approved_date"
             inputLabel="PO 승인일"
             handlePoCondition={handleCondition}
-            inputValue={conditions.approved_date}
+            inputValue={getFormattedDate(conditions.approved_date)}
             disabled={true}
           />
           <InputInfo
@@ -1326,7 +1326,7 @@ function PoRegist() {
             id="acceptance_due_date"
             inputLabel="PO 수용일"
             handlePoCondition={handleCondition}
-            inputValue={conditions.acceptance_due_date}
+            inputValue={getFormattedDate(conditions.acceptance_due_date)}
             disabled={true}
             spanCnt={2}
           />
