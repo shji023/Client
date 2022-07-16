@@ -5,36 +5,58 @@ import moment from "moment";
  * @param {*} value 
  * @returns 
  */
- export const getNumberFormat = (value) => {
+export const getNumberFormat = (value) => {
    return value ? value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : "0";
 };
 
+/**
+ * 전달받은 값을 형식화된 날짜 값으로 반환한다.
+ * @param {*} date 
+ * @returns 
+ */
+export const getFormattedDate = (date) => {
+   return moment(date).format("YYYY-MM-DD");
+};
 
+/**
+ * 두 날짜 사이의 간격을 반환하는 한다.
+ * @param {*} fromDate 
+ * @param {*} toDate 
+ * @param {*} type      day | week | month
+ * @returns 
+ */
+export const getDiffDate = (fromDate, toDate, type) => {
+   fromDate = moment(fromDate);
+   toDate = moment(toDate);
 
- export const getDiffDate = (fromDate, toDate, type) => {
-    fromDate = moment(fromDate);
-    toDate = moment(toDate);
+   switch(type) {
+      case "day" : 
+   //   console.log(`Difference is ${fromDate.diff(toDate, 'days')} day(s)`);
+      return fromDate.diff(toDate, 'days')
+      case "week" :
+   //   console.log(`Difference is ${fromDate.diff(toDate, 'weeks')} week(s)`);
+      return fromDate.diff(toDate, 'weeks')
+      case "month" :
+   //   console.log(`Difference is ${fromDate.diff(toDate, 'months')} month(s)`);
+      return fromDate.diff(toDate, 'months');
+   }
 
-    switch(type) {
-        case "day" : 
-      //   console.log(`Difference is ${fromDate.diff(toDate, 'days')} day(s)`);
-        return fromDate.diff(toDate, 'days')
-        case "week" :
-      //   console.log(`Difference is ${fromDate.diff(toDate, 'weeks')} week(s)`);
-        return fromDate.diff(toDate, 'weeks')
-        case "month" :
-      //   console.log(`Difference is ${fromDate.diff(toDate, 'months')} month(s)`);
-        return fromDate.diff(toDate, 'months');
-    }
+   // console.log(`Difference is ${fromDate.diff(toDate)} milliseconds`);
 
-    // console.log(`Difference is ${fromDate.diff(toDate)} milliseconds`);
+}
 
- }
-
+ /**
+  * 페이지 새로고침
+  */
 export const reload = () => {
    document.location.reload();
 }
 
+/**
+ * 입력값 정규표현식
+ * @param {*} type 
+ * @returns 
+ */
 export const getReg = (type) => {
    let reg = "";
    switch(type) {
