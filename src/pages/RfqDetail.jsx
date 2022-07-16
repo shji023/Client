@@ -14,10 +14,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import BidInfo from "components/bid/BidInfo";
 import BidInsertTextArea from "components/bid/BidInsertTextArea";
-import RfqSelectVendor from "components/rfq/RfqSelectVendor";
-import RfqInputSelect from "components/rfq/RfqInputSelect";
-import RfqInputDate from "components/rfq/RfqInputDate";
-import RfqInputInfo from "components/rfq/RfqInputInfo";
+import RfqVendorGrid from "components/rfq/RfqSelectVendor";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadContent, uploadFile } from "apis/file.api";
@@ -26,6 +23,7 @@ import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import InputSelect from "components/common/InputSelect";
 import InputInfo from "components/common/InputInfo";
 import InputOneDate from "components/common/InputOneDate";
+import { getFormattedDate } from "hooks/CommonFunction";
 
 function RfqDetail() {
   const { id } = useParams();
@@ -325,7 +323,7 @@ function RfqDetail() {
           />
           <BidInfo label="정산주기" value={rfqListData.po_payment_cycle} />
           <BidInfo label="협업 유형" value={rfqListData.po_collabo_type} />
-          <BidInfo label="계약 기간(BPA)" value={rfqListData.end_date} />
+          <BidInfo label="계약 기간(BPA)" value={getFormattedDate(rfqListData.end_date)} />
           <BidInfo label="Amount Limit" value={rfqListData.amount_limit} />
           <BidInfo label="납품 지역" value={rfqListData.rfq_ship_to} />
           <BidInfo label="지불 조건" value={rfqListData.rfq_payment_terms} />
@@ -336,7 +334,7 @@ function RfqDetail() {
       <SubTitle>공급사 선정</SubTitle>
       <br />
       <RfqSelectVendorContainer>
-        <RfqSelectVendor id={id}></RfqSelectVendor>
+        <RfqVendorGrid id={id} ></RfqVendorGrid>
       </RfqSelectVendorContainer>
       <SubTitle>입찰 룰</SubTitle>
       <section>
