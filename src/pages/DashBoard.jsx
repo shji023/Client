@@ -106,14 +106,14 @@ function DashBoard() {
     setStatusPieData([
       ...statusPieData,
 
-      { name: "전체", value: total },
+      // { name: "전체", value: total },
       { name: "작성중", value: writing },
       { name: "진행", value: progress },
-      { name: "낙찰및계약대기", value: successBid },
-      { name: "부분낙찰", value: part },
-      { name: "유찰", value: failBid },
+      // { name: "낙찰및계약대기", value: successBid },
+      // { name: "부분낙찰", value: part },
+      // { name: "유찰", value: failBid },
       { name: "완료", value: complete },
-      { name: "종료", value: finish },
+      // { name: "종료", value: finish },
     ]);
 
     // #region po 막대 그래프
