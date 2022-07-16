@@ -18,8 +18,8 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
     { field: "line", headerName: "순번", minWidth: 50, maxWidth: 80 },
     { field: "item", headerName: "ItemCode", minWidth: 70, maxWidth: 130 },
     { field: "description", headerName: "Description", minWidth: 150, maxWidth: 350 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 80 },
-    { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 80 },
+    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 100 },
+    { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 100 },
     {
       field: "unit_price",
       headerName: "견적가",
@@ -36,7 +36,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
         };
       },
     },
-    { field: "need_by_date", headerName: "납기", minWidth: 100, 
+    { field: "need_by_date", headerName: "납기", minWidth: 140, 
       valueGetter: (params) => getFormattedDate(params.data.needByDate)
     },
   ];
