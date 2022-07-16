@@ -242,6 +242,7 @@ function FatFingerModal({
 
       <GridWrapper>
         <FatFingerDataGrid 
+          id           = {"fatFingerItemGrid"}
           width        = {"20%"} 
           height       = {"80%"} 
           gridRef      = {itemGridRef} 
@@ -250,6 +251,7 @@ function FatFingerModal({
           onRowClicked = {onItemRowClicked}
         />
         <FatFingerDataGrid 
+          id           = {"fatFingerPoGrid"}
           width       = {"80%"} 
           height      = {"80%"} 
           gridRef     = {poGridRef} 

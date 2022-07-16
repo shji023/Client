@@ -8,7 +8,7 @@ const getRowStyle  = params => {
     
 };
 
-const FatFingerDataGrid = ({ width, height, gridOptions, gridRowData, gridRef, onRowClicked }) => {
+const FatFingerDataGrid = ({id, width, height, gridOptions, gridRowData, gridRef, onRowClicked }) => {
 
     let cnt = 1;
 
@@ -18,7 +18,7 @@ const FatFingerDataGrid = ({ width, height, gridOptions, gridRowData, gridRef, o
     
     return (
         <>
-        <div style={{ width: width, height: height }}>
+        <div id = {id} style={{ width: width, height: height }}>
             <div
                 id="agGrid"
                 style={{
