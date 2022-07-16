@@ -1,14 +1,18 @@
 import { getBidList, getBidListBuyer } from "apis/bid.api";
 import { getTotalPr, getTotalRfq, getWaitingPr, getWaitingRfq } from "apis/dashboard.api";
 import { getPoAttributeCnt, getSearchPoList } from "apis/po.api";
+import { showGridLoading } from "components/common/CustomGrid";
 import DashBoardCard from "components/dashboard/DashBoardCard";
 import DashBoardDataGrid from "components/dashboard/DashBoardDataGrid";
 import DashBoardLine from "components/dashboard/DashBoardLine";
 import DashBoardPieChart from "components/dashboard/DashBoardPieChart";
+import { getFormattedDate } from "hooks/CommonFunction";
 import useDidMountEffect from "hooks/useDidMountEffect";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+
 function DashBoard() {
+
   const [bidListBuyerData, setBidListBuyerData] = useState([]);
   const [bidListData, setBidListData] = useState([]);
   const [totalPr, setTotalPr] = useState(0);
@@ -22,7 +26,12 @@ function DashBoard() {
 
   const [poStatusData, setPoStatusData] = useState([]);
 
+  const gridRef = useRef();
+
+  // 대시보드 초기화 함수
   const selectBidListBuyer = async () => {
+    
+
     // Card bidTotalCount, bidCount 구하기
     const bidData = await getBidListBuyer({
       rfq_no: "",
@@ -38,8 +47,11 @@ function DashBoard() {
           tempCount++;
         }
       });
-    setBidCount(tempCount);
+    setBidCount(tempCount); 
     setBidListBuyerData(bidData);
+
+    // useEffect 첫 줄로 가면 gridRef undefined 에러나서 여기에 넣음
+    showGridLoading(gridRef, true);
 
     // Card 1, 2
     const prData = await getWaitingPr();
@@ -95,11 +107,11 @@ function DashBoard() {
     //11
     bidList &&
       bidList.map((b) => {
-        if (b.bidding_start_date !== null) {
-          b.bidding_start_date = b.bidding_start_date.substr(0, 10);
+        if (b.bidding_start_date) {
+          b.bidding_start_date = getFormattedDate(b.bidding_start_date);
         }
-        if (b.bidding_end_date !== null) {
-          b.bidding_end_date = b.bidding_end_date.substr(0, 10);
+        if (b.bidding_end_date) {
+          b.bidding_end_date = getFormattedDate(b.bidding_end_date);
         }
       });
     setBidListData(bidList);
@@ -118,6 +130,7 @@ function DashBoard() {
 
     // #region po 막대 그래프
     const graphData = await getPoAttributeCnt({
+      // 가져올 데이터 항목
       attributeArr: [
         "A_Raw",
         "MRO내자",
@@ -139,6 +152,9 @@ function DashBoard() {
     });
     setPoStatusData([...poStatusData, ...graphRowData]);
     // #endregion po 막대 그래프
+
+    showGridLoading(gridRef, false);
+
   };
 
   useDidMountEffect(() => {
@@ -148,22 +164,19 @@ function DashBoard() {
   return (
     <StyledRoot>
       <Top>
-        <DashBoardCard title="구매신청" total={totalPr} count={prCount}></DashBoardCard>
-        <DashBoardCard title="RFQ" total={totalRfq} count={rfqCount}></DashBoardCard>
-        <DashBoardCard
-          title="입찰"
-          total={bidListBuyerData.length}
-          count={bidCount}
-        ></DashBoardCard>
+        <DashBoardCard title="구매신청" total={totalPr} count={prCount}/>
+        <DashBoardCard title="RFQ"      total={totalRfq} count={rfqCount}/>
+        <DashBoardCard title="입찰"     total={bidListBuyerData.length} count={bidCount}
+        />
       </Top>
       <Middle>
         <Left>
           <Title>마감 기한 임박 입찰 목록</Title>
-          <DashBoardDataGrid listData={bidListData}></DashBoardDataGrid>
+          <DashBoardDataGrid gridRef={gridRef} listData={bidListData}/>
         </Left>
         <Right>
           <Title>입찰 Status</Title>
-          <DashBoardPieChart statusPieData={statusPieData}></DashBoardPieChart>
+          <DashBoardPieChart statusPieData={statusPieData}/>
         </Right>
       </Middle>
       <Title>구매계약 종류 분포</Title>

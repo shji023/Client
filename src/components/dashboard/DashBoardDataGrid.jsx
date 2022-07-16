@@ -5,8 +5,10 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { dashboardColFields } from "stores/colData";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-const DashBoardDataGrid = ({ listData }) => {
-  const navigate = useNavigate();
+import { gridLoadingMsg } from "components/common/CustomGrid";
+
+const DashBoardDataGrid = ({ gridRef, listData }) => {
+
   return (
     <StyledRoot>
       <div style={{ width: "100%", height: "100%" }}>
@@ -19,11 +21,12 @@ const DashBoardDataGrid = ({ listData }) => {
           className="ag-theme-alpine"
         >
           <AgGridReact
+            ref={gridRef}
             rowData={listData}
             rowSelection={"multiple"}
             suppressRowClickSelection={false}
             defaultColDef={{
-              editable: true,
+              editable: false,
               sortable: true,
               minWidth: 100,
               filter: true,
@@ -37,6 +40,9 @@ const DashBoardDataGrid = ({ listData }) => {
             }}
             pagination={true}
             paginationPageSize={6}
+            overlayLoadingTemplate={
+              gridLoadingMsg
+            }
           >
             {dashboardColFields.map((data) => (
               <AgGridColumn

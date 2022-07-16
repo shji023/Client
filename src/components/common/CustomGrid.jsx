@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 
 export const gridLoadingMsg = 
     '<span class="ag-overlay-loading-center">'
