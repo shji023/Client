@@ -699,7 +699,7 @@ function selectPrList() {
     },
     {
       field: "cnt_dept",
-      headerName: "수량",
+      headerName: "Quantity",
       minWidth: 110,
       editable: false,
       cellRendererSelector: (params) => {

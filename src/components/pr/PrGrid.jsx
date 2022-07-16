@@ -9,10 +9,6 @@ const getRowStyle  = params => {
     
 };
 
-// const headerClass= params => {
-//     // logic to return the correct class
-//     return { background: '#EDF2F8' };
-//   }
 const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRowDataChanged, onRowClicked, rowSelection }) => {
     
     const ref = resvRef;
