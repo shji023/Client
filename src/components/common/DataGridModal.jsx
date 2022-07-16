@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { gridLoadingMsg } from "./CustomGrid";
 
 
 const getRowStyle  = params => {
@@ -56,6 +57,9 @@ const DataGridModal = ({ gridOptions, gridRowData, gridRef }) => {
                 }}
                 pagination={true}
                 paginationAutoPageSize={true}
+                overlayLoadingTemplate={
+                    gridLoadingMsg
+                }
                 // onGridReady={onGridReady}
                 // onSelectionChanged={onSelectionChanged}
                 // onCellEditingStopped={(e) => {
