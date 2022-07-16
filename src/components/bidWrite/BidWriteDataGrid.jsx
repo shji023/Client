@@ -5,6 +5,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import InputInfoGrid from "components/common/InputInfoGrid";
+import { getFormattedDate } from "hooks/CommonFunction";
 const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
   const navigate = useNavigate();
   let cnt = 1;
@@ -35,7 +36,9 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
         };
       },
     },
-    { field: "need_by_date", headerName: "납기", minWidth: 100 },
+    { field: "need_by_date", headerName: "납기", minWidth: 100, 
+      valueGetter: (params) => getFormattedDate(params.data.needByDate)
+    },
   ];
   return (
     <StyledRoot>
