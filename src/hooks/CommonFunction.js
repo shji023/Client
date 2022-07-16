@@ -15,7 +15,8 @@ export const getNumberFormat = (value) => {
  * @returns 
  */
 export const getFormattedDate = (date) => {
-   return moment(date).format("YYYY-MM-DD");
+   const formattedDate = moment(date).format("YYYY-MM-DD");
+   return formattedDate === "Invalid date" ? "" : formattedDate;
 };
 
 /**

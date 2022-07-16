@@ -37,8 +37,7 @@ function SelectRfqList() {
     const data = await getSearchRfqList(rfqCondition);
     let tempList = [];
     data.forEach((e)=>{
-      let date = getFormattedDate(e.quote_effective_start_date);
-      e.quote_effective_start_date = (date === "Invalid date" ? "" : date);
+      e.quote_effective_start_date = getFormattedDate(e.quote_effective_start_date);
       tempList.push(e);
     })
     setRfqListData([...tempList]);
