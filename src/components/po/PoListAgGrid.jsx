@@ -4,6 +4,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useNavigate } from 'react-router-dom';
 import { gridLoadingMsg } from "components/common/CustomGrid";
+import { getFormattedDate, getNumberFormat } from "hooks/CommonFunction";
 
 
 const AgGrid = ({ gridRef, poListData }) => {
@@ -80,14 +81,18 @@ const AgGrid = ({ gridRef, poListData }) => {
                
             >
                 <AgGridColumn field="authorization_status" headerName="Status" maxWidth={110} pinned="left" />
-                <AgGridColumn field="start_date" headerName="Order Date" maxWidth={120} pinned="left" />
+                <AgGridColumn field="start_date" headerName="Order Date" maxWidth={120} pinned="left" 
+                    valueGetter={(params) => getFormattedDate(params.data.start_date)}
+                />
                 <AgGridColumn field="po_num" headerName="PO" maxWidth={110} pinned="left"/>
                 <AgGridColumn field="revision_num" headerName="Rev" minWidth={100}/>
                 <AgGridColumn field="attribute_category" headerName="유형" minWidth={110} />
                 <AgGridColumn field="comments" headerName="Description" minWidth={300} />
                 <AgGridColumn field="attribute9" headerName="Supplier" minWidth={110} />
                 <AgGridColumn field="currency_code" headerName="Currency" minWidth={110} />
-                <AgGridColumn field="blanket_total_amount" headerName="Amount" minWidth={130} />
+                <AgGridColumn field="blanket_total_amount" headerName="Amount" minWidth={130} 
+                    valueGetter={(params) => getNumberFormat(params.data.blanket_total_amount)}
+                />
                 <AgGridColumn field="type_lookup_code" headerName="Type" minWidth={110} />
                 <AgGridColumn field="attribute10" headerName="Buyer" minWidth={110} />
                 <AgGridColumn field="closed_code" headerName="Closure Status" minWidth={100} />
