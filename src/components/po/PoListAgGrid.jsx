@@ -3,9 +3,10 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useNavigate } from 'react-router-dom';
+import { gridLoadingMsg } from "components/common/CustomGrid";
 
 
-const AgGrid = ({ poListData }) => {
+const AgGrid = ({ gridRef, poListData }) => {
     const navigate = useNavigate();
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -13,7 +14,6 @@ const AgGrid = ({ poListData }) => {
     const rowData = poListData;
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
-    const gridRef = useRef();
 
     const onSelectionChanged = () => {
         // const data = gridApi.getSelectedRows();
@@ -72,6 +72,10 @@ const AgGrid = ({ poListData }) => {
                 }}
                 pagination={true}
                 paginationAutoPageSize={true}
+
+                overlayLoadingTemplate={
+                    gridLoadingMsg
+                }
                 // onGridReady={onGridReady}
                
             >
