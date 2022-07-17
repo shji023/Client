@@ -595,13 +595,13 @@ function PoRegist() {
       pinned: "left",
       checkboxSelection: true,
     },
-    { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", editable: false },
-    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", editable: false },
+    { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", },
+    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", },
     {
       field: "item",
       headerName: "Item",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].item : "";
@@ -623,14 +623,14 @@ function PoRegist() {
         };
       },
     },
-    { field: "category", headerName: "Category", minWidth: 200, editable: false },
-    { field: "description", headerName: "사양", minWidth: 400, editable: false },
-    { field: "uom", headerName: "단위", minWidth: 80, editable: false },
+    { field: "category", headerName: "Category", minWidth: 200, },
+    { field: "description", headerName: "사양", minWidth: 400, },
+    { field: "uom", headerName: "단위", minWidth: 80, },
     {
       field: "quantity",
       headerName: "수량",
       minWidth: 120,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -647,7 +647,7 @@ function PoRegist() {
       field: "unit_price",
       headerName: "단가",
       minWidth: 120,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -664,21 +664,21 @@ function PoRegist() {
       field: "total_amount",
       headerName: "금액",
       minWidth: 140,
-      editable: false,
+      
       valueGetter: (params) => getNumberFormat(params.data.quantity * params.data.unit_price),
     },
     {
       field: "shipment",
       headerName: "Shipment",
       minWidth: 120,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
     {
       field: "ship_quantity",
       headerName: "Quantity",
       minWidth: 120,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -695,14 +695,14 @@ function PoRegist() {
       field: "ship_total_amount",
       headerName: "금액",
       minWidth: 140,
-      editable: false,
+      
       valueGetter: (params) => getNumberFormat(params.data.ship_quantity * params.data.unit_price),
     },
     {
       field: "need_by_date",
       headerName: "Need By Date",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
@@ -718,7 +718,7 @@ function PoRegist() {
       field: "promised_date",
       headerName: "Promised Date",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
@@ -734,7 +734,7 @@ function PoRegist() {
       field: "organization",
       headerName: "Organization",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -751,7 +751,7 @@ function PoRegist() {
       field: "tax_code",
       headerName: "Tax Code",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -768,7 +768,7 @@ function PoRegist() {
       field: "match_option",
       headerName: "Match Option",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -785,7 +785,7 @@ function PoRegist() {
       field: "over_receipt_tol", // Integer
       headerName: "Over Receipt Tolerance",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -802,7 +802,7 @@ function PoRegist() {
       field: "action",
       headerName: "Action",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -819,57 +819,57 @@ function PoRegist() {
       field: "quantity_recevied",
       headerName: "Quantity Recevied",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_accepted",
       headerName: "Quantity Accepted",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_rejected",
       headerName: "Quantity Rejected",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_billed",
       headerName: "Quantity Billed",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_cancelled",
       headerName: "Quantity Cancelled",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "distribution",
       headerName: "Distribution",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
-    { field: "requisition", headerName: "Requisition", minWidth: 180, editable: false },
+    { field: "requisition", headerName: "Requisition", minWidth: 180, },
     {
       field: "req_line",
       headerName: "Req Line",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
     {
       field: "requester",
       headerName: "Requester",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].requester : "";
@@ -895,7 +895,7 @@ function PoRegist() {
       field: "deliver_to_location",
       headerName: "Deliver To Location",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -911,7 +911,7 @@ function PoRegist() {
       field: "subinventory",
       headerName: "Subinventory",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -927,7 +927,7 @@ function PoRegist() {
       field: "charge_account",
       headerName: "Charge Account",
       minWidth: 250,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
