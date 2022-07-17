@@ -98,7 +98,8 @@ const AgGridRFQ = ({ gridRef, listData, colData }) => {
                         defaultToolPanel: "",
                     }}
                     pagination={true}
-                    paginationAutoPageSize={true}
+                    paginationPageSize={10}
+                    // paginationAutoPageSize={true}
                     onRowClicked={(e) => navigate(`/selectRFQList/${e.data.rfq_no}`)}
                     // onGridReady={onGridReady}
                     // onSelectionChanged={onSelectionChanged}
