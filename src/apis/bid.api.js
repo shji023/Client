@@ -265,7 +265,6 @@ export const successbid = async (successBidCondition, bidResultData) => {
         main_currency: bidResultData.main_currency,
         quotation_comment: bidResultData.quotation_comment,
         quotation_total_price: bidResultData.quotation_total_price,
-        quotation_total_price2: bidResultData.quotation_total_price2,
         vendor_name: bidResultData.vendor_name,
         vendor_site_id: bidResultData.vendor_site_id,
         vendor_id: bidResultData.vendor_id,

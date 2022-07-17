@@ -334,7 +334,7 @@ function RfqDetail() {
       <SubTitle>공급사 선정</SubTitle>
       <br />
       <RfqSelectVendorContainer>
-        <RfqVendorGrid id={id} ></RfqVendorGrid>
+        <RfqVendorGrid id={id} ></RfqVendorGrid>  
       </RfqSelectVendorContainer>
       <SubTitle>입찰 룰</SubTitle>
       <section>
@@ -390,6 +390,7 @@ function RfqDetail() {
             id="target_price"
             inputLabel="Target Price"
             handlePoCondition={handleCondition}
+            type={"number"}
             inputValue={bidCondition.target_price}
           />
           <BidInsertTextArea

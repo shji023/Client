@@ -31,6 +31,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             params: params,
             stateValue: itemListData,
             setStateValue: setItemListData,
+            type: "number",
             disabled: isDisabled,
           },
         };

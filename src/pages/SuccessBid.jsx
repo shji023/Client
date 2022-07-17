@@ -100,13 +100,7 @@ function SuccessBid() {
 
     console.log("낙찰처리 바디 그리드 데이터", data);
 
-    // 표에 나타날 금액 단위 표시
-    let temp = data;
-    temp.forEach((e) => {
-      e.quotation_total_price2 = getNumberFormat(e.quotation_total_price);
-    });
-
-    setBidResultData([...temp]);
+    setBidResultData([...data]);
   };
 
   useEffect(() => {

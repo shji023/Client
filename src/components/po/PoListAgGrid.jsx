@@ -88,16 +88,16 @@ const AgGrid = ({ gridRef, poListData }) => {
                 <AgGridColumn field="revision_num" headerName="Rev" minWidth={100}/>
                 <AgGridColumn field="attribute_category" headerName="유형" minWidth={110} />
                 <AgGridColumn field="comments" headerName="Description" minWidth={300} />
-                <AgGridColumn field="attribute9" headerName="Supplier" minWidth={110} />
+                <AgGridColumn field="attribute9" headerName="Supplier" minWidth={200} />
                 <AgGridColumn field="currency_code" headerName="Currency" minWidth={110} />
                 <AgGridColumn field="blanket_total_amount" headerName="Amount" minWidth={130} 
                     valueGetter={(params) => getNumberFormat(params.data.blanket_total_amount)}
                 />
                 <AgGridColumn field="type_lookup_code" headerName="Type" minWidth={110} />
                 <AgGridColumn field="attribute10" headerName="Buyer" minWidth={110} />
-                <AgGridColumn field="closed_code" headerName="Closure Status" minWidth={100} />
-                <AgGridColumn field="cancel_flag" headerName="Cancelled" minWidth={100} />
-                <AgGridColumn field="line_count" headerName="품목수" minWidth={100} />
+                <AgGridColumn field="closed_code" headerName="Closure Status" minWidth={160} />
+                <AgGridColumn field="cancel_flag" headerName="Cancelled" minWidth={140} />
+                <AgGridColumn field="line_count" headerName="품목수" minWidth={120} />
             </AgGridReact>
             </div>
         </div>

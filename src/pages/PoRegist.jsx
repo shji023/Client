@@ -629,7 +629,7 @@ function PoRegist() {
     {
       field: "quantity",
       headerName: "수량",
-      minWidth: 100,
+      minWidth: 120,
       editable: false,
       cellRendererSelector: (params) => {
         return {
@@ -637,6 +637,7 @@ function PoRegist() {
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -645,7 +646,7 @@ function PoRegist() {
     {
       field: "unit_price",
       headerName: "단가",
-      minWidth: 100,
+      minWidth: 120,
       editable: false,
       cellRendererSelector: (params) => {
         return {
@@ -653,6 +654,7 @@ function PoRegist() {
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -675,7 +677,7 @@ function PoRegist() {
     {
       field: "ship_quantity",
       headerName: "Quantity",
-      minWidth: 100,
+      minWidth: 120,
       editable: false,
       cellRendererSelector: (params) => {
         return {
@@ -683,6 +685,7 @@ function PoRegist() {
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -779,9 +782,9 @@ function PoRegist() {
       },
     },
     {
-      field: "over_receipt_tol",
+      field: "over_receipt_tol", // Integer
       headerName: "Over Receipt Tolerance",
-      minWidth: 110,
+      minWidth: 200,
       editable: false,
       cellRendererSelector: (params) => {
         return {
@@ -790,13 +793,14 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            type: "number",
           },
         };
       },
     },
     {
       field: "action",
-      headerName: "action",
+      headerName: "Action",
       minWidth: 180,
       editable: false,
       cellRendererSelector: (params) => {

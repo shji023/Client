@@ -60,7 +60,7 @@ function RfqSelectVendor({ id }) {
             suppressRowClickSelection={false}
             defaultColDef={{
               headerClass: { background: "#EDF2F8" },
-              editable: true,
+              editable: false,
               sortable: true,
               minWidth: 100,
               filter: true,

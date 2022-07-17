@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { getNumberFormat } from "hooks/CommonFunction";
 
 const AgGrid = ({ resvGridRef, bidResultData }) => {
   const [gridApi, setGridApi] = useState(null);
@@ -47,7 +48,7 @@ const AgGrid = ({ resvGridRef, bidResultData }) => {
             suppressRowClickSelection={false}
             defaultColDef={{
               headerClass: { background: "#EDF2F8" },
-              editable: true,
+              editable: false,
               sortable: true,
               minWidth: 100,
               filter: true,
@@ -89,10 +90,11 @@ const AgGrid = ({ resvGridRef, bidResultData }) => {
             <AgGridColumn field="vendor_name" headerName="입찰사/제작사" minWidth={300} />
             <AgGridColumn field="currency" headerName="입력통화" minWidth={10} maxWidth={120} />
             <AgGridColumn
-              field="quotation_total_price2"
+              field="quotation_total_price"
               headerName="응찰가격"
               minWidth={10}
               maxWidth={120}
+              valueGetter={(params) => getNumberFormat(params.data.quotation_total_price)}
             />
             <AgGridColumn field="quotation_comment" headerName="공급사의견" minWidth={110} />
           </AgGridReact>

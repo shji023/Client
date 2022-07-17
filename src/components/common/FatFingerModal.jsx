@@ -63,7 +63,7 @@ function FatFingerModal({
     { field: "unit_price",    headerName: "단가",     minWidth: 150, valueGetter: (params) => getNumberFormat(params.data.unit_price) },
     { field: "currency_code", headerName: "통화",     minWidth: 80 },
     { field: "contract_date", headerName: "계약일",   minWidth: 150, valueGetter: (params) => getFormattedDate(params.data.contract_date) },
-    { field: "vendor_name",   headerName: "공급사",   minWidth: 200 },
+    // { field: "vendor_name",   headerName: "공급사",   minWidth: 200 },
   ];
 
   const poGridOptions = {
