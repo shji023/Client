@@ -63,6 +63,7 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
                 overlayLoadingTemplate={
                     gridLoadingMsg
                 }
+                suppressKeyboardEvent={()=>true}    
             >
             </AgGridReact>
             

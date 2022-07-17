@@ -73,6 +73,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             }}
             pagination={true}
             paginationPageSize={5}
+            suppressKeyboardEvent={()=>true}
           >
             {/* {bidWriteColFields.map((data) => (
               <AgGridColumn

@@ -92,6 +92,7 @@ const AgGrid = ({ resvRef, resvRowData, resvDefaultColDef, resvColumnDefs, onRow
                 overlayLoadingTemplate={
                     gridLoadingMsg
                 }
+                suppressKeyboardEvent={()=>true}
             >
              
             </AgGridReact>
