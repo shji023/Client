@@ -358,14 +358,14 @@ function RfqCreate() {
       suppressColumnsToolPanel: true,
       hide: hide,
     },
-    { field: "item_name",             headerName: "Item",        minWidth: 10 },
-    { field: "description",           headerName: "Description", minWidth: 10, maxWidth: 150 },
-    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 80 },
+    { field: "item_name",             headerName: "Item",        minWidth: 10, maxWidth: 160},
+    { field: "description",           headerName: "Description", minWidth: 10  },
+    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 130 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
       minWidth: 10,
-      maxWidth: 80,
+      maxWidth: 110,
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -373,6 +373,7 @@ function RfqCreate() {
             params: params,
             stateValue: productInfoData,
             setStateValue: setProductInfoData,
+            type: "number",
             disabled: disabled,
           },
         };
@@ -395,11 +396,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 120 },
-    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 100 },
+    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 140 },
+    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 140 },
     { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
     { field: "request_name",    headerName: "신청자",      minWidth: 10, maxWidth: 100 },
-    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 120 },
+    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 160 },
   ];
 
   // #region 그리드 관련 이벤트
@@ -756,6 +757,7 @@ function RfqCreate() {
             inputLabel="Amount Limit(%)"
             handlePoCondition={handleRfqInfoCondition}
             inputValue={rfqListData.amount_limit}
+            type={"number"}
             disabled={disabled}
           />
           <InputSelect
