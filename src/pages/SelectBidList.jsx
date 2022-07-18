@@ -128,6 +128,15 @@ function SelectBidList() {
     return temp.buyer_name;
   };
 
+  const onHandleCancelBuyer = ({}) => {
+    const temp = bidConditionBuyer;
+    temp.buyer_id = "";
+    temp.buyer_name = "";
+    console.log("buyer_id ::" + temp.buyer_id);
+    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp.buyer_id });
+    return temp.buyer_name;
+  };
+
   // 바이어 검색 버튼 이벤트
   const HandleSearch = async (searchWord) => {
     const data = await getSearchBuyerList(searchWord);
@@ -228,7 +237,7 @@ function SelectBidList() {
                 initValue={bidConditionBuyer.buyer_name}
                 onHandleSearch={HandleSearch}
                 onHandleOk={onHandleOk}
-                onHandleCancel={null}
+                onHandleCancel={onHandleCancelBuyer}
                 gridOptions={{
                   columnDefs: popUpBuyerColFields,
                   rowData: buyerRowData,

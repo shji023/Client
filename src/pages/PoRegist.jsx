@@ -549,12 +549,18 @@ function PoRegist() {
     return temp[idx].item;
   };
 
-  const onHandleCancelItem = ({}) => {
-    const temp = conditions;
-    temp.item_id = "";
-    temp.item = "";
-    temp.category = "";
-    setConditions(temp);
+  const onHandleCancelItem = ({idx}) => {
+    const temp = rowData;
+    temp[idx].item_id = "";
+    temp[idx].item = "";
+    temp[idx].category = "";
+    temp[idx].category_id = "";
+    temp[idx].description = "";
+    temp[idx].uom = "";
+
+    setRowData([...temp]);
+
+    return temp[idx].item;
   };
   // #endregion Line 아이템 이벤트
 
@@ -577,12 +583,14 @@ function PoRegist() {
     return temp[idx].requester;
   };
 
-  const onHandleCanceRequester = ({}) => {
-    const temp = conditions;
-    temp.item_id = "";
-    temp.item = "";
-    temp.category = "";
-    setConditions(temp);
+  const onHandleCanceRequester = ({idx}) => {
+    const temp = rowData;
+    temp[idx].requester = "";
+    temp[idx].requester_id = "";
+
+    setRowData([...temp]);
+
+    return temp[idx].requester;;
   };
   // #endregion Line Requester 이벤트
 
