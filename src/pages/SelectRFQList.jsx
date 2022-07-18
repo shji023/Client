@@ -11,6 +11,8 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
 import InputInfo from "components/common/InputInfo";
+import { getStatusLov } from "apis/bid.api";
+import BidInputSelect from "components/bid/BidInputSelect";
 
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({});
@@ -27,6 +29,7 @@ function SelectRfqList() {
   };
 
   const selectRFQList = async () => {
+    console.log(rfqCondition);
     const data = await getSearchRfqList(rfqCondition);
     console.log(data);
     setRfqListData(data);
@@ -34,11 +37,18 @@ function SelectRfqList() {
 
   const getLov = async () => {
     // const rfqBuyer = await getRfqBuyer();
-    const rfqStatusLov = await getRfqStatusLov();
+    const rfqStatusLov = await getStatusLov();
+    let rfqStatusTemp = [];
+    rfqStatusTemp = rfqStatusLov.filter((el) => el !== "입찰마감");
+    rfqStatusTemp = rfqStatusTemp.filter((el) => el !== "입찰진행");
+    rfqStatusTemp = rfqStatusTemp.filter((el) => el !== "입찰예정");
+    rfqStatusTemp = rfqStatusTemp.filter((el) => el !== "입찰긴급중지");
+    rfqStatusTemp = rfqStatusTemp.filter((el) => el !== "입찰룰승인증");
+    rfqStatusTemp = rfqStatusTemp.filter((el) => el !== "입찰룰반려");
     const rfqCategoryLov = await getRfqCategoryLov();
 
     // rfqBuyer && setRfqBuyerLov(rfqBuyer);
-    rfqStatusLov && setRfqStatusLov(rfqStatusLov);
+    rfqStatusLov && setRfqStatusLov(rfqStatusTemp);
     rfqCategoryLov && setRfqCategoryLov(rfqCategoryLov);
   };
 
@@ -103,12 +113,13 @@ function SelectRfqList() {
               suppressRowClickSelection: false, // 선택 방지
             }}
           />
-          <InputSelect
+          <BidInputSelect
             id="rfq_status"
             inputLabel="Status"
-            initValue={rfqCondition.rfq_status}
-            handlePoCondition={handleRFQCondition}
+            //initValue={rfqCondition.rfq_status}
+            handleCondition={handleRFQCondition}
             lov={rfqStatusLov}
+            isDisabled={false}
           />
           <InputSelect
             id="category_id"
