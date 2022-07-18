@@ -115,10 +115,11 @@ function selectPrList() {
     const data = await deleteOnePr(conditions.req_num);
     if (data) {
       alert("구매 신청 삭제가 완료되었습니다.");
+      navigate(`/selectPrList`);
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
     }
-    navigate(`/createPr`);
+    
   };
 
   // #region 그리드 관련 이벤트
