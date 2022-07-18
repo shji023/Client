@@ -44,7 +44,7 @@ function RfqDetail() {
 
       main_currency: "KRW",
       side_conditions: "TP 105",
-      target_price: 100000000,
+      target_price: 50000000,
 
       note_to_bidder: "안내사항 입니다.",
       bidding_rule_approval_comment: "내부보고 입니다.",
