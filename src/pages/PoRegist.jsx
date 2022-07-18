@@ -276,6 +276,8 @@ function PoRegist() {
   ]);
   const [poDetailGridRowData, setPoDetailGridRowData] = useState([]);
 
+  const [disabled, setDisabled] = useState(true);
+
   // Input 컴포넌트 onChange 이벤트
   const handleCondition = (key, value) => {
     const tempCondition = { ...conditions };
@@ -594,6 +596,7 @@ function PoRegist() {
       maxWidth: 50,
       pinned: "left",
       checkboxSelection: true,
+      hide: disabled,
     },
     { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", },
     { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", },
@@ -619,6 +622,7 @@ function PoRegist() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -636,9 +640,10 @@ function PoRegist() {
           component: InputInfoGrid,
           params: {
             params: params,
-            stateValue: rowData,
             type: "number",
+            stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -653,9 +658,10 @@ function PoRegist() {
           component: InputInfoGrid,
           params: {
             params: params,
-            stateValue: rowData,
             type: "number",
+            stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -684,9 +690,10 @@ function PoRegist() {
           component: InputInfoGrid,
           params: {
             params: params,
-            stateValue: rowData,
             type: "number",
+            stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -710,6 +717,7 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -726,6 +734,7 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -743,6 +752,7 @@ function PoRegist() {
             lov: organizationLov,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -760,6 +770,7 @@ function PoRegist() {
             lov: taxCodeLov, // TODO : 바꾸기
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -777,6 +788,7 @@ function PoRegist() {
             lov: matchOptionLov, // TODO : 바꾸기
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -791,9 +803,10 @@ function PoRegist() {
           component: InputInfoGrid,
           params: {
             params: params,
+            type: "number",
             stateValue: rowData,
             setStateValue: setRowData,
-            type: "number",
+            disabled: disabled,
           },
         };
       },
@@ -811,6 +824,7 @@ function PoRegist() {
             lov: actionLov, // TODO : 바꾸기
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -887,6 +901,7 @@ function PoRegist() {
               rowSelection: "single",
               suppressRowClickSelection: false,
             },
+            disabled: disabled,
           },
         };
       },
@@ -903,6 +918,7 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -919,6 +935,7 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -935,6 +952,7 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            disabled: disabled,
           },
         };
       },
@@ -1017,9 +1035,10 @@ function PoRegist() {
     if (id) {
       console.log("id : ", id);
       const data = await getPoSearch(id);
-
+      
       console.log("resv Data ", data);
 
+      // #region 데이터 정리
       // * Header 데이터 정리
       const temp_conditions = {
         po_num                    : data[0].po_num,
@@ -1047,6 +1066,7 @@ function PoRegist() {
         note_to_vendor            : data[0].note_to_vendor,
         note_to_receiver          : data[0].note_to_receiver,
         control_confirm_flag      : data[0].control_confirm_flag,
+        scc_flag                  : data[0].scc_flag,
       };
       console.log("temp:", temp_conditions);
       setConditions({ ...conditions, ...temp_conditions });
@@ -1102,6 +1122,13 @@ function PoRegist() {
       setRowData([...temp_lines]);
 
       console.log("condididi ::: ", conditions);
+      // #endregion 데이터 정리
+
+      // 납품 여부에 따라서 readOnly 적용
+
+      if(!temp_conditions.scc_flag) {
+        setDisabled(false);
+      }
 
     }
   };
@@ -1114,7 +1141,8 @@ function PoRegist() {
     if (id) {
       // 수정 페이지
       return (
-        <ButtonSection>
+        // 
+        !disabled ? <ButtonSection>
           <SwitchWrapper>
             <Switch style={{marginRight : "1rem"}} checked={onFatFinger} onChange={onSwitchChange} />
             <Label>적정가 오차 감지</Label>
@@ -1122,6 +1150,7 @@ function PoRegist() {
           <Button onClick={onUpdateContents}>저장</Button>
           <Button onClick={onDeleteContents}>삭제</Button>
         </ButtonSection>
+        : <></>
       );
     } else {
       // 생성 페이지
@@ -1208,6 +1237,20 @@ function PoRegist() {
   }
   // #endregion 팝업 이벤트
 
+  // 그리드 관련 버튼 컴포넌트
+  const GridButtonSelector = () => {
+    // readOnly가 아닌 경우 나타낸다.
+    if (!disabled) {
+      return (
+        <ButtonWrapperLine>
+          <Button onClick={onInsertOne}>Line 추가</Button>
+          <Button onClick={onCopySelected}>행 복사</Button>
+          <Button onClick={deleteRow}>행 삭제</Button>
+        </ButtonWrapperLine>
+      );
+    } 
+  };
+
   return (
     <StyledRoot>
       <section>
@@ -1255,6 +1298,7 @@ function PoRegist() {
             initValue={conditions.attribute_category}
             handlePoCondition={handleCondition}
             lov={attributeCategory}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1262,6 +1306,7 @@ function PoRegist() {
             inputLabel="계약명"
             handlePoCondition={handleCondition}
             inputValue={conditions.comments}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1284,6 +1329,7 @@ function PoRegist() {
               rowSelection: "single", // single, multiple
               suppressRowClickSelection: false,
             }}
+            disabled={disabled}
           />
           <InputSearch
             id="buyer_name"
@@ -1299,6 +1345,7 @@ function PoRegist() {
               rowSelection: "single", // single, multiple
               suppressRowClickSelection: false,
             }}
+            disabled={disabled}
           />
           <InputInfo
             id="buyer_id"
@@ -1324,6 +1371,7 @@ function PoRegist() {
             inputLabel="PO 계약일"
             initValue={conditions.contract_date}
             handleCondition={handleCondition}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1340,6 +1388,7 @@ function PoRegist() {
             initValue={conditions.fob_lookup_code}
             handlePoCondition={handleCondition}
             lov={fobLookupCodeLov}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputSelect
@@ -1348,6 +1397,7 @@ function PoRegist() {
             initValue={conditions.terms_id}
             handlePoCondition={handleCondition}
             lov={termsIdLov}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1370,6 +1420,7 @@ function PoRegist() {
             initValue={conditions.bid_method_type}
             handlePoCondition={handleCondition}
             lov={bidMethodTypeLov}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputSelect
@@ -1378,6 +1429,7 @@ function PoRegist() {
             initValue={conditions.invoice_type}
             handlePoCondition={handleCondition}
             lov={invoiceTypeLov}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputSelect
@@ -1386,6 +1438,7 @@ function PoRegist() {
             initValue={conditions.reply_method_lookup_code1}
             handlePoCondition={handleCondition}
             lov={replyMethodLookupCode1Lov}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1393,7 +1446,7 @@ function PoRegist() {
             inputLabel="Note to Supplier"
             handlePoCondition={handleCondition}
             inputValue={conditions.note_to_vendor}
-            disabled={false}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputInfo
@@ -1401,7 +1454,7 @@ function PoRegist() {
             inputLabel="Note to Receiver"
             handlePoCondition={handleCondition}
             inputValue={conditions.note_to_receiver}
-            disabled={false}
+            disabled={disabled}
             spanCnt={2}
           />
           <InputSelect
@@ -1410,17 +1463,13 @@ function PoRegist() {
             initValue={conditions.control_confirm_flag}
             handlePoCondition={handleCondition}
             lov={controlConfirmFlagLov}
+            disabled={disabled}
             spanCnt={2}
           />
         </InputContainer>
       </section>
       <section>
-        <ButtonWrapperLine>
-          {/* <Button onClick={handleAddRow}>Line 추가</Button> */}
-          <Button onClick={onInsertOne}>Line 추가</Button>
-          <Button onClick={onCopySelected}>행 복사</Button>
-          <Button onClick={deleteRow}>행 삭제</Button>
-        </ButtonWrapperLine>
+        <GridButtonSelector/>
       </section>
       <section>
         <AgGrid
