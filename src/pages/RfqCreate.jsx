@@ -28,7 +28,7 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, DeleteButton } from "components/common/CustomButton";
+import { Button, DeleteButton, GetDataButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
 import { reload } from "hooks/CommonFunction";
@@ -80,64 +80,11 @@ function RfqCreate() {
     }
   };
 
-  const defaultConditions = {
-    rfq_no: "-",
-    simple_quotation_flag: null,
-    rfq_detail_status: "N", //작성중
+  
 
-    // cd_v_meaning_status:"",
-    // cd_v_meaning_type:"",
-    category_segment: "Q", //자재
-    // line_type_id :"",
-
-    rfq_description: "RFQ 테스트",
-    buyer_id: "17278",
-
-    po_payment_cycle: "15 Days",
-    po_collabo_type: "계획없음",
-
-    end_date: "2022-08-29",
-    amount_limit: "50",
-
-    rfq_ship_to: "(포)포항제철소",
-    rfq_payment_terms: "10002",
-    bidding_fob: "당사지정장소",
-  };
-
-  const [rfqListData, setRfqListData] = useState(
-    // testConditions
-    defaultConditions,
-  );
+  const [rfqListData, setRfqListData] = useState({});
   // 공급사선정
-  const [selectedVendorList, setSelectedVendorList] = useState([
-    {
-      contact_email_address: "dk213799@naver.com",
-      contact_mobile: "010-2378-0856",
-      contact_name: "임성림",
-      vendor_id: 574,
-      vendor_location: "본사",
-      vendor_name: "(주)엔비 / ENB",
-      vendor_site_id: 831,
-    },
-    // {
-    //   contact_email_address: "bpc@bpctech.co.kr",
-    // contact_mobile: "1036172685",
-    // contact_name: "김명훈",
-    // vendor_id: 592,
-    // vendor_location: "본사",
-    // vendor_name: "(주)포스코플랜텍 / POSCO Plant Engineering Co., Ltd.",
-    // vendor_site_id: 836,
-    // },
-    {
-      contact_email_address: "round0903@hanmail.net",
-      contact_mobile: "1086037515",
-      contact_name: "원우석",
-      vendor_id: 609,
-      vendor_location: "본사",
-      vendor_name: "(주)한컴라이프케어 / HANCOM LIFECARE Inc",
-      vendor_site_id: 861,
-    },
-  ]);
+  const [selectedVendorList, setSelectedVendorList] = useState([]);
 
   // 품목정보
   const [productInfoData, setProductInfoData] = useState([]);
@@ -548,6 +495,56 @@ function RfqCreate() {
     setReadOnly(false);
   };
 
+  const onDataButton = () => {
+
+    const testConditions = {
+      rfq_no: "-",
+      simple_quotation_flag: null,
+      rfq_detail_status: "N", //작성중
+  
+      // cd_v_meaning_status:"",
+      // cd_v_meaning_type:"",
+      category_segment: "Q", //자재
+      // line_type_id :"",
+  
+      rfq_description: "RFQ 테스트",
+      buyer_id: "17278",
+  
+      po_payment_cycle: "15 Days",
+      po_collabo_type: "계획없음",
+  
+      end_date: "2022-08-29",
+      amount_limit: "50",
+  
+      rfq_ship_to: "(포)포항제철소",
+      rfq_payment_terms: "10002",
+      bidding_fob: "당사지정장소",
+    };
+    setRfqListData({...testConditions});
+
+    const testVendorList = [
+      {
+        contact_email_address: "dk213799@naver.com",
+        contact_mobile: "010-2378-0856",
+        contact_name: "임성림",
+        vendor_id: 574,
+        vendor_location: "본사",
+        vendor_name: "(주)엔비 / ENB",
+        vendor_site_id: 831,
+      },
+      {
+        contact_email_address: "round0903@hanmail.net",
+        contact_mobile: "1086037515",
+        contact_name: "원우석",
+        vendor_id: 609,
+        vendor_location: "본사",
+        vendor_name: "(주)한컴라이프케어 / HANCOM LIFECARE Inc",
+        vendor_site_id: 861,
+      },
+    ]
+    setSelectedVendorList([...testVendorList]);                                                                                                            
+  }
+
   const ButtonSelector = () => {
     if (rfq_no) {
       // 수정
@@ -566,7 +563,12 @@ function RfqCreate() {
       );
     } else {
       // 생성
-      return <Button onClick={onClickSaveRfq}>저장</Button>;
+      return (
+        <section>
+          <GetDataButton onClick={onDataButton}>AUTO</GetDataButton>
+          <Button onClick={onClickSaveRfq}>저장</Button>
+        </section>
+      );
     }
   };
   // #endregion 버튼
