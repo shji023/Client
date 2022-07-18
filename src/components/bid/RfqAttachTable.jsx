@@ -1,6 +1,7 @@
 import { downloadFile } from "apis/file.api";
 import { colors } from "assets/styles/color";
 import { UploadButton } from "components/common/CustomButton";
+import { getFormattedDate } from "hooks/CommonFunction";
 import React from "react";
 import styled from "styled-components";
 
@@ -36,7 +37,7 @@ function RfqAttachTable({ vendorFileList }) {
               </Td>
               <Td>{v.origin_name}</Td>
               <Td>{v.size}</Td>
-              <Td>{v.upload_date}</Td>
+              <Td>{getFormattedDate(v.upload_date)}</Td>
             </Tr>
           ))
         ) : (
