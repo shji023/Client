@@ -1,5 +1,6 @@
 import { colors } from "assets/styles/color";
 import { UploadButton } from "components/common/CustomButton";
+import { getFormattedDate } from "hooks/CommonFunction";
 import React, { useRef } from "react";
 import styled from "styled-components";
 import QuotationSelect from "./QuotationSelect";
@@ -69,7 +70,7 @@ function QuotationSubmitTable({
               </Td>
               <Td>{q.origin_name}</Td>
               <Td>{q.size}</Td>
-              <Td>{q.upload_date}</Td>
+              <Td>{getFormattedDate(q.upload_date)}</Td>
             </Tr>
           ))
         ) : (

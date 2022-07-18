@@ -51,3 +51,21 @@ export const UploadButton = styled.button`
     background-color: ${colors.mildBlack};
   }
 `;
+
+export const GetDataButton = styled.button`
+  width: 10rem;
+  height: 4rem;
+  background-color: white;
+  color: ${colors.mainBlue};
+  font-size: 1.6rem;
+  font-family: "Pretendard-Regular";
+  border-radius: 0.5rem;
+  border: 2px solid ${colors.mainBlue};
+  :hover {
+    cursor: pointer;
+    background-color: ${colors.mainBlue};
+    color: white;
+  }
+  margin-left: 1rem;
+  // margin-bottom: 1rem;
+`;

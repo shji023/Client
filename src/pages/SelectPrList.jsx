@@ -237,9 +237,9 @@ function selectPrList() {
       valueGetter: (params) => getFormattedDate(params.data.needByDate)
     },
     { field: "requestPersonId", headerName: "Requester", minWidth: 140 },
-    { field: "organizationCode", headerName: "사용부서", minWidth: 200,
-      valueGetter: (params) => (!params.data.organizationCode ? "-" : params.data.organizationCode),
-    },
+    // { field: "organizationCode", headerName: "사용부서", minWidth: 200,
+    //   valueGetter: (params) => (!params.data.organizationCode ? "-" : params.data.organizationCode),
+    // },
   ];
   // #endregion 그리드
 
