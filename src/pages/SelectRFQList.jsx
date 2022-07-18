@@ -85,6 +85,16 @@ function SelectRfqList() {
     return temp.buyer_name;
   };
 
+  const onHandleCancelBuyer = ({selectedRows}) => {
+    const temp = rfqCondition;
+    temp.buyer_id = "";
+    temp.buyer_name = "";
+    // temp.buyer_dept_name = row.buyer_dept_name;
+    setRfqCondition({ ...temp });
+
+    return temp.buyer_name;
+  };
+
   useEffect(() => {
     getLov();
   }, []);
@@ -110,7 +120,7 @@ function SelectRfqList() {
             initValue={rfqCondition.buyer_name}
             onHandleSearch={HandleSearch} // 검색 버튼 이벤트
             onHandleOk={onHandleOk}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCancelBuyer}
             gridOptions={{
               columnDefs: popUpBuyerColFields, // 컬럼
               rowData: buyerRowData, // 검색 결과 State

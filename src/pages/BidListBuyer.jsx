@@ -52,7 +52,16 @@ function BidListBuyer() {
     const temp = bidConditionBuyer;
     temp.buyer_id = row.buyer_id;
     temp.buyer_name = row.buyer_name;
-    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp });
+    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp.buyer_id });
+    return temp.buyer_name;
+  };
+
+  const onHandleCancelBuyer = ({}) => {
+    const temp = bidConditionBuyer;
+    temp.buyer_id = "";
+    temp.buyer_name = "";
+    console.log("buyer_id ::" + temp.buyer_id);
+    setBidConditionBuyer({ ...bidConditionBuyer, buyer_id: temp.buyer_id });
     return temp.buyer_name;
   };
 
@@ -100,7 +109,7 @@ function BidListBuyer() {
             inputLabel="Buyer"
             onHandleSearch={HandleSearch}
             onHandleOk={onHandleOk}
-            onHandleCancel={null}
+            onHandleCancel={onHandleCancelBuyer}
             gridOptions={{
               columnDefs: popUpBuyerColFields,
               rowData: buyerRowData,

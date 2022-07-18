@@ -373,6 +373,17 @@ function selectPrList() {
 
     return temp[idx].item;
   };
+
+  const onHandleCancelItem = ({idx}) => {
+    const temp = rowData;
+    temp[idx].item_id = "";
+    temp[idx].item = "";
+    temp[idx].category = "";
+    temp[idx].category_id = "";
+    temp[idx].description = "";
+    temp[idx].uom = "";
+    setRowData([...temp]);
+  };
   // #endregion Line 아이템 이벤트
 
   // #region Line 바이어 이벤트
@@ -423,6 +434,13 @@ function selectPrList() {
 
     return temp[idx].requester_name;
   };
+
+  const onHandleCancelRequester = ({idx}) => {
+    const temp = rowData;
+    temp[idx].requester_id = "";
+    temp[idx].requester_name = "";
+    setRowData([...temp]);
+  };
   // #endregion Line Requester 이벤트
 
   // 그리드 컬럼
@@ -452,6 +470,7 @@ function selectPrList() {
             initValue: initValue,
             onHandleSearch: onHandleSearchItem,
             onHandleOk: onHandleOkItem,
+            onHandleCancel : onHandleCancelItem,
             gridOptions: {
               columnDefs: popUpItemColFields,
               rowSelection: "single",
@@ -600,6 +619,7 @@ function selectPrList() {
             initValue: initValue,
             onHandleSearch: onHandleSearchRequester,
             onHandleOk: onHandleOkRequester,
+            onHandleCancel: onHandleCancelRequester,
             gridOptions: {
               columnDefs: popUpStaffColFields,
               rowSelection: "single",
