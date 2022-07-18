@@ -582,7 +582,12 @@ function RfqCreate() {
       );
     } else {
       // 생성
-      return <Button onClick={onClickSaveRfq}>저장</Button>;
+      return (
+        <section>
+          <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
+          <Button onClick={onClickSaveRfq}>저장</Button>
+        </section>
+      );
     }
   };
   // #endregion 버튼
@@ -706,7 +711,6 @@ function RfqCreate() {
     <StyledRoot>
       <HeaderWrapper>
         <Title>RFQ 생성</Title>
-        <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
         <ButtonSelector />
       </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>

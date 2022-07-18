@@ -27,7 +27,7 @@ import { getBuyerList, getItemList, getStaffList } from "apis/public.api";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Button } from "components/common/CustomButton";
+import { Button, GetDataButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import { getNumberFormat, reload } from "hooks/CommonFunction";
 
@@ -35,140 +35,12 @@ function selectPrList() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const testData = [  
-    {
-      buyer_id: 26833,
-      buyer_name: "김성웅",
-      category: "Q.Electrical & Electron...",
-      category_id: 19103,
-      charge_account: "110-328-279900",
-      cnt: 50,
-      cnt_dept: 50,
-      description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
-      destination_type: "EXPENSE",
-      dist_num: 1,
-      id: 1,
-      item: "Q1051234",
-      item_id: 242339,
-      line: 1,
-      location: "POSCO 포항",
-      need_to_date: "2022-08-30",
-      note_to_buyer: "바이어에게 남길 메세지",
-      organization: "PM",
-      query_type: "update",
-      requester_id: 3228,
-      requester_name: "이윤성",
-      requisition_line_id: 0,
-      tax_code: "P영세율매입",
-      total_amount: 0,
-      unit_price: 20000,
-      uom: "each",
-      warehouse: "물류 창고",
-    },
-    {
-      buyer_id: 42181,
-      buyer_name: "김재환",
-      category: "Q.Flexible Hose...",
-      category_id: 19118,
-      charge_account: "110-328-279900",
-      cnt: "60",
-      cnt_dept: "60",
-      description: "Flexible Hose 2\"x1000L,140kg/cm2,1NON-AS + 1W/B,SAE100R12,*SAFETY MANAGEMENT",
-      destination_type: "EXPENSE",
-      dist_num: 1,
-      id: 2,
-      item: "Q1303957",
-      item_id: 312691,
-      line: 2,
-      location: "POSCO 포항",
-      need_to_date: "2022-08-30",
-      note_to_buyer: "바이어에게 남길 메세지",
-      organization: "PM",
-      query_type: "insert",
-      requester_id: 3451,
-      requester_name: "임지연",
-      requisition_line_id: 0,
-      tax_code: "P영세율매입",
-      total_amount: 0,
-      unit_price: "100000",
-      uom: "meter",
-      warehouse: "물류 창고",
-    },
-    {
-      buyer_id: 339473,
-      buyer_name: "이동욱",
-      category: "Q.Water Pump...",
-      category_id: 19389,
-      charge_account: "110-328-279900",
-      cnt: "70",
-      cnt_dept: "70",
-      description: "Vacuum Pump CENTRIFUGAL,[SP-VF50/SHINPOONG],15M3/HR,Head:25M,WITH MOTOR,OR EQUIVALENT",
-      destination_type: "EXPENSE",
-      dist_num: 1,
-      id: 3,
-      item: "Q1201045",
-      item_id: 276887,
-      line: 3,
-      location: "POSCO 포항",
-      need_to_date: "2022-08-30",
-      note_to_buyer: "바이어에게 남길 메세지",
-      organization: "PM",
-      query_type: "insert",
-      requester_id: 3630,
-      requester_name: "장정우",
-      requisition_line_id: 0,
-      tax_code: "P영세율매입",
-      total_amount: 0,
-      unit_price: 20000,
-      uom: "set",
-      warehouse: "물류 창고",
-    },
-    {
-      buyer_id: 339473,
-      buyer_name: "이동욱",
-      category: "Q.Tool...",
-      category_id: 19383,
-      charge_account: "110-328-279900",
-      cnt: "40",
-      cnt_dept: "40",
-      description: "Jack HYDRAULIC,30ton,71Hx117Dx58H,13ST,[RSM-300/ENERPAC] OR[RLS300/POWER TEAM],STEEL,FOR 1PCM WRINGER ROLL CHANGE CAR",
-      destination_type: "EXPENSE",
-      dist_num: 1,
-      id: 4,
-      item: "Q1105797",
-      item_id: 344131,
-      line: 4,
-      location: "POSCO 포항",
-      need_to_date: "2022-08-30",
-      note_to_buyer: "바이어에게 남길 메세지",
-      organization: "PM",
-      query_type: "insert",
-      requester_id: 3821,
-      requester_name: "현지영",
-      requisition_line_id: 0,
-      tax_code: "P영세율매입",
-      total_amount: 0,
-      unit_price: "30000",
-      uom: "set",
-      warehouse: "물류 창고",
-    }
-    
-  ];
-  const [rowData, setRowData] = useState([...testData]);
+  const [rowData, setRowData] = useState([]);
   const [deletedIdList, setDeletedIdList] = useState([]);
 
   const [disabled, setDisabled] = useState(true);
 
-  const [conditions, setConditions] = useState({
-    req_num: id, // requisition_number : pr 번호
-    preparer_name: "이동현", // preparer_name : Preparer
-    preparer_id: 1685, // preparer_id : Preparer
-    auth_date: "", // date : PR 승인일
-    description: "구매 신청 테스트", // PR명
-    amount: 0, // 금액 (Line들의 amount 합)
-    currency_code: "KRW", // currencyCode : 단위
-    pur_pct_agm_rsn: "calculated", // pur_pct_agm_rsn : 수의사유
-  });
+  const [conditions, setConditions] = useState({});
 
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -243,10 +115,11 @@ function selectPrList() {
     const data = await deleteOnePr(conditions.req_num);
     if (data) {
       alert("구매 신청 삭제가 완료되었습니다.");
+      navigate(`/selectPrList`);
     } else {
       alert("구매 신청 삭제가 실패했습니다.");
     }
-    navigate(`/createPr`);
+    
   };
 
   // #region 그리드 관련 이벤트
@@ -850,8 +723,12 @@ function selectPrList() {
     } else if(id && disabled) {
       return <></>;
     } else {
-      // 수정
-      return <Button onClick={onSaveContents}>저장</Button>;
+      return (
+        <section>
+          <GetDataButton onClick={onDataButton}>AUTO</GetDataButton>
+          <Button onClick={onSaveContents}>저장</Button>
+        </section>
+      );
     }
   };
 
@@ -866,6 +743,144 @@ function selectPrList() {
       );
     } 
   };
+
+  const onDataButton = () => {
+
+    const testConditions = {
+      req_num         : id, // requisition_number : pr 번호
+      preparer_name   : "이동현", // preparer_name : Preparer
+      preparer_id     : 1685, // preparer_id : Preparer
+      auth_date       : "", // date : PR 승인일
+      description     : "구매 신청 테스트", // PR명
+      amount          : 0, // 금액 (Line들의 amount 합)
+      currency_code   : "KRW", // currencyCode : 단위
+      pur_pct_agm_rsn : "calculated", // pur_pct_agm_rsn : 수의사유
+    }
+
+    setConditions({...testConditions});
+    
+    const testData = [  
+      {
+        buyer_id: 26833,
+        buyer_name: "김성웅",
+        category: "Q.Electrical & Electron...",
+        category_id: 19103,
+        charge_account: "110-328-279900",
+        cnt: 50,
+        cnt_dept: 50,
+        description: "Circuit Breaker ELCB,[EBN103C/LS] OR[HGE100E/HYUNDAI ELECTRIC],AC 220/460V,100A,18kA,3P,100AF,30mA,100/200/500MA",
+        destination_type: "EXPENSE",
+        dist_num: 1,
+        id: 1,
+        item: "Q1051234",
+        item_id: 242339,
+        line: 1,
+        location: "POSCO 포항",
+        need_to_date: "2022-08-30",
+        note_to_buyer: "바이어에게 남길 메세지",
+        organization: "PM",
+        query_type: "update",
+        requester_id: 3228,
+        requester_name: "이윤성",
+        requisition_line_id: 0,
+        tax_code: "P영세율매입",
+        total_amount: 0,
+        unit_price: 20000,
+        uom: "each",
+        warehouse: "물류 창고",
+      },
+      {
+        buyer_id: 42181,
+        buyer_name: "김재환",
+        category: "Q.Flexible Hose...",
+        category_id: 19118,
+        charge_account: "110-328-279900",
+        cnt: "60",
+        cnt_dept: "60",
+        description: "Flexible Hose 2\"x1000L,140kg/cm2,1NON-AS + 1W/B,SAE100R12,*SAFETY MANAGEMENT",
+        destination_type: "EXPENSE",
+        dist_num: 1,
+        id: 2,
+        item: "Q1303957",
+        item_id: 312691,
+        line: 2,
+        location: "POSCO 포항",
+        need_to_date: "2022-08-30",
+        note_to_buyer: "바이어에게 남길 메세지",
+        organization: "PM",
+        query_type: "insert",
+        requester_id: 3451,
+        requester_name: "임지연",
+        requisition_line_id: 0,
+        tax_code: "P영세율매입",
+        total_amount: 0,
+        unit_price: "100000",
+        uom: "meter",
+        warehouse: "물류 창고",
+      },
+      {
+        buyer_id: 339473,
+        buyer_name: "이동욱",
+        category: "Q.Water Pump...",
+        category_id: 19389,
+        charge_account: "110-328-279900",
+        cnt: "70",
+        cnt_dept: "70",
+        description: "Vacuum Pump CENTRIFUGAL,[SP-VF50/SHINPOONG],15M3/HR,Head:25M,WITH MOTOR,OR EQUIVALENT",
+        destination_type: "EXPENSE",
+        dist_num: 1,
+        id: 3,
+        item: "Q1201045",
+        item_id: 276887,
+        line: 3,
+        location: "POSCO 포항",
+        need_to_date: "2022-08-30",
+        note_to_buyer: "바이어에게 남길 메세지",
+        organization: "PM",
+        query_type: "insert",
+        requester_id: 3630,
+        requester_name: "장정우",
+        requisition_line_id: 0,
+        tax_code: "P영세율매입",
+        total_amount: 0,
+        unit_price: 20000,
+        uom: "set",
+        warehouse: "물류 창고",
+      },
+      {
+        buyer_id: 339473,
+        buyer_name: "이동욱",
+        category: "Q.Tool...",
+        category_id: 19383,
+        charge_account: "110-328-279900",
+        cnt: "40",
+        cnt_dept: "40",
+        description: "Jack HYDRAULIC,30ton,71Hx117Dx58H,13ST,[RSM-300/ENERPAC] OR[RLS300/POWER TEAM],STEEL,FOR 1PCM WRINGER ROLL CHANGE CAR",
+        destination_type: "EXPENSE",
+        dist_num: 1,
+        id: 4,
+        item: "Q1105797",
+        item_id: 344131,
+        line: 4,
+        location: "POSCO 포항",
+        need_to_date: "2022-08-30",
+        note_to_buyer: "바이어에게 남길 메세지",
+        organization: "PM",
+        query_type: "insert",
+        requester_id: 3821,
+        requester_name: "현지영",
+        requisition_line_id: 0,
+        tax_code: "P영세율매입",
+        total_amount: 0,
+        unit_price: "30000",
+        uom: "set",
+        warehouse: "물류 창고",
+      }
+      
+    ];
+
+    setRowData([...testData]);
+  }
 
   return (
     <StyledRoot>
