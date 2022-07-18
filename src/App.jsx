@@ -135,7 +135,7 @@ function App() {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       removeCookie("loginToken");
       removeCookie("authority");
-      removeCookie("email");
+      removeCookie("userName");
       removeCookie("site_id");
       navigate("/");
     }
@@ -172,12 +172,10 @@ function App() {
               onClick: () => setCollapsed(!collapsed),
             })}
             <IconWrapper>
-              <img src={SearchIcon} alt="search"></img>
-              <img src={NoticeIcon} alt="notice"></img>
               {getCookie("loginToken") ? (
                 <>
                   <p>
-                    {getCookie("email")}&#40;{userRole}&#41;님, 안녕하세요
+                    {getCookie("userName")}&#40;{userRole}&#41;님, 안녕하세요
                   </p>
                   <img src={ProfileIcon} alt="profile" onClick={handleLogout}></img>
                   <p onClick={handleLogout}>Logout</p>
@@ -334,7 +332,7 @@ function App() {
                 path="/dashboard"
                 element={
                   // <PrivateRoute role1="ROLE_VENDOR" role2="ROLE_BUYER" role3="ROLE_USER">
-                    <DashBoard />
+                  <DashBoard />
                   // </PrivateRoute>
                 }
               />

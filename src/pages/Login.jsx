@@ -42,7 +42,7 @@ function Login() {
         secure: true,
         sameSite: "Lax",
       });
-      setCookie("email", userAuthority.email, {
+      setCookie("userName", userAuthority.name, {
         path: "/",
         secure: true,
         sameSite: "Lax",
@@ -88,7 +88,7 @@ function Login() {
           secure: true,
           sameSite: "Lax",
         });
-        setCookie("email", userAuthority.email, {
+        setCookie("userName", userAuthority.name, {
           path: "/",
           secure: true,
           sameSite: "Lax",
