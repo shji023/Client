@@ -18,7 +18,7 @@ import RfqVendorGrid from "components/rfq/RfqSelectVendor";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadContent, uploadFile } from "apis/file.api";
-import { DeleteButton } from "components/common/CustomButton";
+import { DeleteButton, GetDataButton } from "components/common/CustomButton";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import InputSelect from "components/common/InputSelect";
 import InputInfo from "components/common/InputInfo";
@@ -30,27 +30,32 @@ function RfqDetail() {
 
   const navigate = useNavigate();
 
-  const [bidCondition, setBidCondition] = useState({
-    rfq_no: id,
+  const [bidCondition, setBidCondition] = useState({});
 
-    bid_type_code: "BID",
-    bid_price_method: "Item by Item",
-    bid_method_type: "A",
-    max_round: 1,
+  const handleAuto = () => {
+    setBidCondition({
+      ...bidCondition,
+      rfq_no: id,
 
-    main_currency: "KRW",
-    side_conditions: "TP 105",
-    target_price: 100000000,
+      bid_type_code: "BID",
+      bid_price_method: "Item by Item",
+      bid_method_type: "A",
+      max_round: 1,
 
-    note_to_bidder: "안내사항 입니다.",
-    bidding_rule_approval_comment: "내부보고 입니다.",
+      main_currency: "KRW",
+      side_conditions: "TP 105",
+      target_price: 100000000,
 
-    simple_quotation_flag: null,
-    category_id: 0,
-    bidding_fob: "",
+      note_to_bidder: "안내사항 입니다.",
+      bidding_rule_approval_comment: "내부보고 입니다.",
 
-    roundPeriod: "2022-07-102022-07-16",
-  });
+      simple_quotation_flag: null,
+      category_id: 0,
+      bidding_fob: "",
+
+      roundPeriod: "2022-07-102022-07-16",
+    });
+  };
   const [rfqListData, setRfqListData] = useState({});
   const rfqNull = {
     rfq_no: "",
@@ -293,6 +298,7 @@ function RfqDetail() {
     <StyledRoot>
       <HeaderWrapper>
         <Title>입찰룰</Title>
+        <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
         <Button
           isHidden={isHidden}
           onClick={() => {
@@ -334,7 +340,7 @@ function RfqDetail() {
       <SubTitle>공급사 선정</SubTitle>
       <br />
       <RfqSelectVendorContainer>
-        <RfqVendorGrid id={id} ></RfqVendorGrid>  
+        <RfqVendorGrid id={id}></RfqVendorGrid>
       </RfqSelectVendorContainer>
       <SubTitle>입찰 룰</SubTitle>
       <section>
