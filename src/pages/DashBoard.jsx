@@ -43,7 +43,7 @@ function DashBoard() {
     let tempCount = 0;
     bidData &&
       bidData.map((b) => {
-        if (b.bidding_end_date === "") {
+        if (b.bidding_end_date === "-") {
           tempCount++;
         }
       });
