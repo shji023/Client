@@ -243,10 +243,10 @@ function BidWrite() {
 
       setUpdateItem({
         ...updateItem,
-        vendor_site_id: getCookie("site_id"),
-        rfq_no: itemInfo[0].rfq_no,
-        quotation_total_price: quotation_total_price,
-        main_currency: itemInfo[0].currency,
+        vendor_site_id        : getCookie("site_id"),
+        rfq_no                : itemInfo[0].rfq_no,
+        quotation_total_price : quotation_total_price,
+        main_currency         : itemInfo[0].currency,
       });
 
       // 파일 목록 가져오기
@@ -266,11 +266,14 @@ function BidWrite() {
     else {
       const quotationItem = await getQuotationItemInfo(bidding_no);
       quotationItem && setItemListData(quotationItem);
-      setUpdateItem({ ...updateItem, rfq_no: quotationItem[0].rfq_no });
+      setUpdateItem({ 
+        ...updateItem, 
+        rfq_no     : quotationItem[0].rfq_no 
+      });
       setVendorComment({
         ...vendorComment,
-        rfq_no: quotationItem[0].rfq_no,
-        bidding_no: bidding_no,
+        rfq_no     : quotationItem[0].rfq_no,
+        bidding_no : bidding_no,
       });
 
       setReadOnly(false);
@@ -292,25 +295,33 @@ function BidWrite() {
     ) {
       alert("입력되지 않은 항목이 있습니다.");
     } else {
-      const bid_vendor_id = await insertVendorComment(itemListData, vendorComment);
-      await updateQuotationInfo(updateItem);
-      if (bid_vendor_id) {
+      // 공급사 의견
+      const bid4_vendor_id = await insertVendorComment(itemListData, vendorComment);
+      console.log("bid_vendor_id", bid4_vendor_id);
+
+      // 견적서 입력
+      if(bid4_vendor_id) await updateQuotationInfo(updateItem);
+
+      if (bid4_vendor_id) {
         alert("작성이 완료되었습니다.");
+
+        // 파일 정보 DB에 저장
+        let temp = quotationFile;
+        temp.forEach((t) => {
+          t.bid_vendor_id = bid4_vendor_id;
+        });
+        setQuotationFile([...temp]);
+        await uploadContent(quotationFile, deleteFileIdList);
+
         // 수정 페이지로 이동
-        navigate(`/bidWrite/${bidding_no}/${bid_vendor_id}`);
+        navigate(`/bidWrite/${bidding_no}/${bid4_vendor_id}`);
         reload();
       } else {
         alert("작성이 완료되지 않았습니다.");
       }
     }
 
-    // 파일 정보 DB에 저장
-    let temp = quotationFile;
-    temp.forEach((t) => {
-      t.bid_vendor_id = bid_vendor_id;
-    });
-    setQuotationFile([...temp]);
-    await uploadContent(quotationFile, deleteFileIdList);
+  
   };
 
   // #region 버튼
@@ -327,7 +338,7 @@ function BidWrite() {
       setVendorComment({ ...tempComment });
       const data = await updateBidVendor(vendorComment, itemListData);
 
-      await updateFileContent();
+      if(data) await updateFileContent();
 
       if (data) {
         alert("수정이 완료되었습니다.");
@@ -340,6 +351,7 @@ function BidWrite() {
 
   // 파일 정보 DB에 올리기
   const updateFileContent = async () => {
+    console.log("bid_vendor_id :::: ", bid_vendor_id);
     let temp = quotationFile;
     temp.forEach((t) => {
       t.bid_vendor_id = bid_vendor_id;
