@@ -298,15 +298,10 @@ function RfqDetail() {
     <StyledRoot>
       <HeaderWrapper>
         <Title>입찰룰</Title>
-        <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
-        <Button
-          isHidden={isHidden}
-          onClick={() => {
-            onSaveContents();
-          }}
-        >
-          저장
-        </Button>
+        <section>
+          <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
+          <Button isHidden={isHidden} onClick={() => { onSaveContents(); }}>저장</Button>
+        </section>
       </HeaderWrapper>
       <SubTitle>RFQ 정보</SubTitle>
       <section>
