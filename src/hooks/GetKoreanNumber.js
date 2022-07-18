@@ -13,7 +13,7 @@ export const getKoreanNumber = (num) => {
     var hanValue = _makeHan(array[i]); //한글로 변환된 숫자
     if (hanValue == "")
       //값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
-      continue;
+      contin;
     result.unshift(hanValue + unit[unitCnt]); //unshift는 항상 배열의 앞에 넣는다.
   } //여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
   function _makeHan(text) {
