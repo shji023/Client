@@ -3,6 +3,7 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import InputInfo from "./InputInfo";
+import { gridLoadingMsg } from "./CustomGrid";
 
 const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}) => {
     const [gridApi, setGridApi] = useState(null);
@@ -59,6 +60,10 @@ const AgVendorSelect = ({productInfoData, columnDefs, onRowDataChanged, gridRef}
                 onCellValueChanged(e);
                 }}
                 onRowDataChanged={onRowDataChanged}
+                overlayLoadingTemplate={
+                    gridLoadingMsg
+                }
+                suppressKeyboardEvent={()=>true}    
             >
             </AgGridReact>
             

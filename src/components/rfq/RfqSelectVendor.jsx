@@ -6,6 +6,7 @@ import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
 import { RfqSelectVendorColFields } from "stores/colData";
 import "./rfqAgGrid.css";
+import { gridLoadingMsg } from "components/common/CustomGrid";
 
 function RfqSelectVendor({ id }) {
   const [colData, setColData] = useState(RfqSelectVendorColFields);
@@ -22,15 +23,14 @@ function RfqSelectVendor({ id }) {
   // // const [gridColumnApi, setGridColumnApi] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
   const [btndisabled, setBtnDisabled] = useState(true);
-  const gridRef = useRef();
 
   const onCellValueChanged = (e) => {};
 
   // 행마다 색
   const getRowStyle = (params) => {
-    if (params.node.rowIndex % 2 === 1) {
-      return { background: "#F5F5F5" };
-    }
+    // if (params.node.rowIndex % 2 === 1) {
+    //   return { background: "#F5F5F5" };
+    // }
     // EDF2F8
   };
 
@@ -50,7 +50,7 @@ function RfqSelectVendor({ id }) {
           className="ag-theme-alpine"
         >
           <AgGridReact
-            ref={gridRef}
+            // ref={gridRef}
             rowData={vendorListData}
             columnDefs={colData}
             defcol
@@ -60,7 +60,7 @@ function RfqSelectVendor({ id }) {
             suppressRowClickSelection={false}
             defaultColDef={{
               headerClass: { background: "#EDF2F8" },
-              editable: true,
+              editable: false,
               sortable: true,
               minWidth: 100,
               filter: true,
@@ -74,12 +74,12 @@ function RfqSelectVendor({ id }) {
             }}
             pagination={true}
             paginationAutoPageSize={true}
-            // onRowClicked={(e) => navigate(`/selectRFQList/${e.data.rfq_no}`)}
-            // onGridReady={onGridReady}
-            // onSelectionChanged={onSelectionChanged}
             onCellEditingStopped={(e) => {
               onCellValueChanged(e);
             }}
+            overlayLoadingTemplate={
+              gridLoadingMsg
+            }
           ></AgGridReact>
         </div>
       </div>

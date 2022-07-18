@@ -4,7 +4,7 @@ import PoListAgGrid from "components/po/PoListAgGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { getBuyerList, getItemList, getVendorList } from "apis/public.api";
 import {
@@ -18,6 +18,7 @@ import { HeaderWrapper } from "components/common/CustomWrapper";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 import InputInfoEmpty from "components/common/InputInfoEmpty";
+import { showGridLoading } from "components/common/CustomGrid";
 
 function SelectPoList() {
   const [poCondition, setPoCondition] = useState({
@@ -60,6 +61,8 @@ function SelectPoList() {
     }
   ]);
 
+  const gridRef = useRef();
+
   const handlePoCondition = (key, value) => {
     const tempPoCondition = { ...poCondition };
 
@@ -68,9 +71,12 @@ function SelectPoList() {
   };
 
   const selectPoList = async () => {
+    showGridLoading(gridRef, true);
+    
     const data = await getSearchPoList(poCondition);
-
     setPoListData(data);
+
+    showGridLoading(gridRef, false);
   };
 
   const getLov = async () => {
@@ -308,7 +314,7 @@ function SelectPoList() {
       </section>
       {/* <ListCount>건수: 2,164</ListCount> */}
       <section>
-        <PoListAgGrid poListData={poListData} />
+        <PoListAgGrid gridRef={gridRef} poListData={poListData} />
       </section>
       <section>
         <TimeLine title={"구매계약 기간"} trackData={trackData}/>

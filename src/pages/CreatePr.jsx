@@ -613,7 +613,7 @@ function selectPrList() {
     {
       field: "need_to_date",
       headerName: "요청납기일",
-      minWidth: 150,
+      minWidth: 160,
       editable: false,
       cellRendererSelector: (params) => {
         return {
@@ -699,7 +699,7 @@ function selectPrList() {
     },
     {
       field: "cnt_dept",
-      headerName: "수량",
+      headerName: "Quantity",
       minWidth: 110,
       editable: false,
       cellRendererSelector: (params) => {

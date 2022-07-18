@@ -3,13 +3,18 @@ import React from "react";
 import styled from "styled-components";
 
 function InputCell({ label, value, spanCnt }) {
+
+  const thisValue = value ? value : null;
+
   return (
     <StyledRoot spanCnt={spanCnt}>
       <TitleWrapper>
         <Title>{label}</Title>
       </TitleWrapper>
       <DataWrapper>
-        <Data>{value?value:null}</Data>
+        <Data style={{width: (!spanCnt || (spanCnt < 2)) ? "100%" : "40rem"}}
+              title={thisValue}
+        >{thisValue}</Data>
       </DataWrapper>
     </StyledRoot>
   );
@@ -54,5 +59,9 @@ const Title = styled.p`
 const Data = styled.p`
   font-size: 1.4rem;
   text-align: center;
+  // 글자 생략 사용하려면 width나 height가 고정이어야 함
+  text-overflow: ellipsis; // 넘치는 글자 생략
+  white-space: nowrap; // 단줄처리
+  overflow: hidden; // 영역 감추기
 `;
 

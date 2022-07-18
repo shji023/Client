@@ -5,6 +5,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import InputInfoGrid from "components/common/InputInfoGrid";
+import { getFormattedDate } from "hooks/CommonFunction";
 const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
   const navigate = useNavigate();
   let cnt = 1;
@@ -17,8 +18,8 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
     { field: "line", headerName: "순번", minWidth: 50, maxWidth: 80 },
     { field: "item", headerName: "ItemCode", minWidth: 70, maxWidth: 130 },
     { field: "description", headerName: "Description", minWidth: 150, maxWidth: 350 },
-    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 80 },
-    { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 80 },
+    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 50, maxWidth: 100 },
+    { field: "pur_rfq_qt", headerName: "수량", minWidth: 50, maxWidth: 100 },
     {
       field: "unit_price",
       headerName: "견적가",
@@ -30,12 +31,15 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             params: params,
             stateValue: itemListData,
             setStateValue: setItemListData,
+            type: "number",
             disabled: isDisabled,
           },
         };
       },
     },
-    { field: "need_by_date", headerName: "납기", minWidth: 100 },
+    { field: "need_by_date", headerName: "납기", minWidth: 140, 
+      valueGetter: (params) => getFormattedDate(params.data.needByDate)
+    },
   ];
   return (
     <StyledRoot>
@@ -69,6 +73,7 @@ const BidWriteDataGrid = ({ itemListData, setItemListData, isDisabled }) => {
             }}
             pagination={true}
             paginationPageSize={5}
+            suppressKeyboardEvent={()=>true}
           >
             {/* {bidWriteColFields.map((data) => (
               <AgGridColumn

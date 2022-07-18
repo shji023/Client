@@ -2,7 +2,7 @@ import { getRfqStatusLov, getRfqCategoryLov, getSearchRfqList } from "apis/rfq.a
 import { getSearchBuyerList } from "apis/buyer.api";
 import { colors } from "assets/styles/color";
 import AgGridRFQ from "components/rfq/RFQAgGrid";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { rfqColumn, popUpBuyerColFields } from "stores/colData";
 import RfqInputDate from "components/rfq/RfqInputDate";
@@ -13,6 +13,8 @@ import InputSelect from "components/common/InputSelect";
 import InputInfo from "components/common/InputInfo";
 import { getStatusLov } from "apis/bid.api";
 import BidInputSelect from "components/bid/BidInputSelect";
+import { showGridLoading } from "components/common/CustomGrid";
+import { getFormattedDate } from "hooks/CommonFunction";
 
 function SelectRfqList() {
   const [rfqCondition, setRfqCondition] = useState({});
@@ -22,17 +24,29 @@ function SelectRfqList() {
   const [rfqListData, setRfqListData] = useState([]);
   const [buyerRowData, setBuyerRowData] = useState([]);
 
+  const gridRef = useRef();
+
   const handleRFQCondition = (key, value) => {
     const tempRfqCondition = { ...rfqCondition };
     tempRfqCondition[key] = value;
     setRfqCondition(tempRfqCondition);
   };
 
+  // 조회 버튼
   const selectRFQList = async () => {
-    console.log(rfqCondition);
+    showGridLoading(gridRef, true);
+    
     const data = await getSearchRfqList(rfqCondition);
-    console.log(data);
-    setRfqListData(data);
+    let tempList = [];
+    data.forEach((e)=>{
+      e.quote_effective_start_date = getFormattedDate(e.quote_effective_start_date);
+      tempList.push(e);
+    })
+    setRfqListData([...tempList]);
+    console.log("tempList", tempList)
+
+    showGridLoading(gridRef, false);
+
   };
 
   const getLov = async () => {
@@ -141,7 +155,7 @@ function SelectRfqList() {
           />
         </InputContainer>
       </section>
-      <AgGridRFQ listData={rfqListData} colData={rfqColumn} />
+      <AgGridRFQ gridRef={gridRef} listData={rfqListData} colData={rfqColumn} />
     </StyledRoot>
   );
 }

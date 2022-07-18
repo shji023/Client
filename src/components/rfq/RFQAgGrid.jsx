@@ -6,8 +6,9 @@ import { colors } from "assets/styles/color";
 import { useNavigate } from "react-router-dom";
 import "./rfqAgGrid.css";
 import { Button } from "components/common/CustomButton";
+import { gridLoadingMsg } from "components/common/CustomGrid";
 
-const AgGridRFQ = ({ listData, colData }) => {
+const AgGridRFQ = ({ gridRef, listData, colData }) => {
     console.log("listData", listData);
 
     const rfqDetail = (listData) => {
@@ -19,7 +20,6 @@ const AgGridRFQ = ({ listData, colData }) => {
     // const [gridColumnApi, setGridColumnApi] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const [btndisabled, setBtnDisabled] = useState(true);
-    const gridRef = useRef();
 
     // const onSelectionChanged = () => {
     //     if (data.length > 0) {
@@ -58,20 +58,6 @@ const AgGridRFQ = ({ listData, colData }) => {
         excelExport(column, listData);
     };
 
-    // const gridOptions = {
-    //   columnDefs: [
-    //       {
-    //           headerName: colData,
-    //           field: colData,
-    //           columnStyle: {color: 'red', 'background-color': 'green'}
-    //       }
-    //     ]
-    //   };
-
-    useEffect(() => {
-        // rfqDetail();
-      }, []);
-
     return (
         <>
             <ButtonWrapper>
@@ -99,7 +85,7 @@ const AgGridRFQ = ({ listData, colData }) => {
                     
                     defaultColDef={{
                         headerClass: { background: '#EDF2F8' },
-                        editable: true,
+                        editable: false,
                         sortable: true,
                         minWidth: 100,
                         filter: true,
@@ -112,13 +98,18 @@ const AgGridRFQ = ({ listData, colData }) => {
                         defaultToolPanel: "",
                     }}
                     pagination={true}
-                    paginationAutoPageSize={true}
+                    paginationPageSize={10}
+                    // paginationAutoPageSize={true}
                     onRowClicked={(e) => navigate(`/selectRFQList/${e.data.rfq_no}`)}
                     // onGridReady={onGridReady}
                     // onSelectionChanged={onSelectionChanged}
                     onCellEditingStopped={(e) => {
                         onCellValueChanged(e);
-                    }}>
+                    }}
+                    overlayLoadingTemplate={
+                        gridLoadingMsg
+                    }
+                    >
 
                 </StyleDatagrid>
                 </div>

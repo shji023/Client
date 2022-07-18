@@ -5,6 +5,7 @@ import Draggable from "react-draggable";
 import FatFingerDataGrid from "./FatFingerDataGrid";
 import { colors } from "assets/styles/color";
 import InputCell from "components/bid/InputCell";
+import { getFormattedDate, getNumberFormat } from "hooks/CommonFunction";
 
 
 /**
@@ -57,12 +58,12 @@ function FatFingerModal({
 
   // #region 그리드(우측)
   const PoGridColFields = [
-    { field: "po_num",        headerName: "계약번호", minWidth: 150 },
-    { field: "comments",      headerName: "계약명",   minWidth: 150 },
-    { field: "unit_price",    headerName: "단가",     minWidth: 150 },
-    { field: "currency_code", headerName: "통화",     minWidth: 150 },
-    { field: "contract_date", headerName: "계약일",   minWidth: 150 },
-    { field: "vendor_name",   headerName: "공급사",   minWidth: 150 },
+    { field: "po_num",        headerName: "계약번호", minWidth: 120 },
+    { field: "comments",      headerName: "계약명",   minWidth: 240 },
+    { field: "unit_price",    headerName: "단가",     minWidth: 150, valueGetter: (params) => getNumberFormat(params.data.unit_price) },
+    { field: "currency_code", headerName: "통화",     minWidth: 80 },
+    { field: "contract_date", headerName: "계약일",   minWidth: 150, valueGetter: (params) => getFormattedDate(params.data.contract_date) },
+    // { field: "vendor_name",   headerName: "공급사",   minWidth: 200 },
   ];
 
   const poGridOptions = {
@@ -231,10 +232,10 @@ function FatFingerModal({
           <RfqInfoContainer>
             <InputCell label="품명"            value = {itemInfoTableData.item}/>
             <InputCell label="단위"            value = {itemInfoTableData.uom}/>
-            <InputCell label="입력단가"        value = {itemInfoTableData.unit_price} />
-            <InputCell label="사양"            value = {itemInfoTableData.description}    spanCnt = {2}  />
-            <InputCell label="평균단가"        value = {Math.floor(itemInfoTableData.avg_unit_price)} />
-            <InputCell label="카테고리"        value = {itemInfoTableData.category}       spanCnt = {2}  />
+            <InputCell label="입력단가"        value = {getNumberFormat(itemInfoTableData.unit_price)} />
+            <InputCell label="사양"            value = {itemInfoTableData.description} spanCnt = {2}  />
+            <InputCell label="평균단가"        value = {getNumberFormat(Math.floor(itemInfoTableData.avg_unit_price))} />
+            <InputCell label="카테고리"        value = {itemInfoTableData.category} spanCnt = {2}  />
             <InputCell label="설정오차범위(%)" value = {itemInfoTableData.error_range * 100}    />
           </RfqInfoContainer>
         </section>
@@ -242,6 +243,7 @@ function FatFingerModal({
 
       <GridWrapper>
         <FatFingerDataGrid 
+          id           = {"fatFingerItemGrid"}
           width        = {"20%"} 
           height       = {"80%"} 
           gridRef      = {itemGridRef} 
@@ -250,6 +252,7 @@ function FatFingerModal({
           onRowClicked = {onItemRowClicked}
         />
         <FatFingerDataGrid 
+          id           = {"fatFingerPoGrid"}
           width       = {"80%"} 
           height      = {"80%"} 
           gridRef     = {poGridRef} 

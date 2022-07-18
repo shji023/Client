@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ModalSearch from "components/common/ModalSearch";
 import DataGridModal from "components/common/DataGridModal";
 import Draggable from "react-draggable";
+import { showGridLoading } from "./CustomGrid";
 
 /**
  *
@@ -91,8 +92,10 @@ function CustomModal({
 
   // 팝업 검색 버튼 이벤트
   const handleSearch = async () => {
+    showGridLoading(gridRef, true);
     const resultList = await onHandleSearch(searchWord);
     setGridRowData([...resultList]);
+    showGridLoading(gridRef, false);
   };
 
   // 팝업 OK 버튼 이벤트

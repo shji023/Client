@@ -33,7 +33,7 @@ import InputOneDate from "components/common/InputOneDate";
 import { checkFatFinger, deleteOnePo, getPoRegistLov, getPoSearch, insertOnePo, updateOnePo } from "apis/po.api";
 import { Button } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
-import { getNumberFormat, reload } from "hooks/CommonFunction";
+import { getFormattedDate, getNumberFormat, reload } from "hooks/CommonFunction";
 import TimeLine from "components/common/TimeLine/timelines";
 import { TimeLineBuildStyle } from "components/common/TimeLine/utils";
 import FatFingerModal from "components/common/FatFingerModal";
@@ -595,13 +595,13 @@ function PoRegist() {
       pinned: "left",
       checkboxSelection: true,
     },
-    { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", editable: false },
-    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", editable: false },
+    { field: "closed_code", headerName: "상태", maxWidth: 100, pinned: "left", },
+    { field: "line", headerName: "Line", maxWidth: 80, pinned: "left", },
     {
       field: "item",
       headerName: "Item",
-      minWidth: 150,
-      editable: false,
+      minWidth: 180,
+      
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].item : "";
@@ -623,20 +623,21 @@ function PoRegist() {
         };
       },
     },
-    { field: "category", headerName: "Category", minWidth: 150, editable: false },
-    { field: "description", headerName: "사양", minWidth: 400, editable: false },
-    { field: "uom", headerName: "단위", minWidth: 80, editable: false },
+    { field: "category", headerName: "Category", minWidth: 200, },
+    { field: "description", headerName: "사양", minWidth: 400, },
+    { field: "uom", headerName: "단위", minWidth: 80, },
     {
       field: "quantity",
       headerName: "수량",
-      minWidth: 100,
-      editable: false,
+      minWidth: 120,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -645,14 +646,15 @@ function PoRegist() {
     {
       field: "unit_price",
       headerName: "단가",
-      minWidth: 100,
-      editable: false,
+      minWidth: 120,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -661,28 +663,29 @@ function PoRegist() {
     {
       field: "total_amount",
       headerName: "금액",
-      minWidth: 100,
-      editable: false,
+      minWidth: 140,
+      
       valueGetter: (params) => getNumberFormat(params.data.quantity * params.data.unit_price),
     },
     {
       field: "shipment",
       headerName: "Shipment",
       minWidth: 120,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
     {
       field: "ship_quantity",
       headerName: "Quantity",
-      minWidth: 100,
-      editable: false,
+      minWidth: 120,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
           params: {
             params: params,
             stateValue: rowData,
+            type: "number",
             setStateValue: setRowData,
           },
         };
@@ -691,15 +694,15 @@ function PoRegist() {
     {
       field: "ship_total_amount",
       headerName: "금액",
-      minWidth: 100,
-      editable: false,
+      minWidth: 140,
+      
       valueGetter: (params) => getNumberFormat(params.data.ship_quantity * params.data.unit_price),
     },
     {
       field: "need_by_date",
       headerName: "Need By Date",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
@@ -715,7 +718,7 @@ function PoRegist() {
       field: "promised_date",
       headerName: "Promised Date",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
@@ -731,7 +734,7 @@ function PoRegist() {
       field: "organization",
       headerName: "Organization",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -748,7 +751,7 @@ function PoRegist() {
       field: "tax_code",
       headerName: "Tax Code",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -765,7 +768,7 @@ function PoRegist() {
       field: "match_option",
       headerName: "Match Option",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -779,10 +782,10 @@ function PoRegist() {
       },
     },
     {
-      field: "over_receipt_tol",
+      field: "over_receipt_tol", // Integer
       headerName: "Over Receipt Tolerance",
-      minWidth: 110,
-      editable: false,
+      minWidth: 200,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -790,15 +793,16 @@ function PoRegist() {
             params: params,
             stateValue: rowData,
             setStateValue: setRowData,
+            type: "number",
           },
         };
       },
     },
     {
       field: "action",
-      headerName: "action",
+      headerName: "Action",
       minWidth: 180,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputSelectGrid,
@@ -815,57 +819,57 @@ function PoRegist() {
       field: "quantity_recevied",
       headerName: "Quantity Recevied",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_accepted",
       headerName: "Quantity Accepted",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_rejected",
       headerName: "Quantity Rejected",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_billed",
       headerName: "Quantity Billed",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "quantity_cancelled",
       headerName: "Quantity Cancelled",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 0,
     },
     {
       field: "distribution",
       headerName: "Distribution",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
-    { field: "requisition", headerName: "Requisition", minWidth: 180, editable: false },
+    { field: "requisition", headerName: "Requisition", minWidth: 180, },
     {
       field: "req_line",
       headerName: "Req Line",
       minWidth: 180,
-      editable: false,
+      
       valueGetter: (params) => 1,
     },
     {
       field: "requester",
       headerName: "Requester",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         const idx = params.node.rowIndex;
         const initValue = rowData[idx] ? rowData[idx].requester : "";
@@ -891,7 +895,7 @@ function PoRegist() {
       field: "deliver_to_location",
       headerName: "Deliver To Location",
       minWidth: 200,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -907,7 +911,7 @@ function PoRegist() {
       field: "subinventory",
       headerName: "Subinventory",
       minWidth: 150,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -923,7 +927,7 @@ function PoRegist() {
       field: "charge_account",
       headerName: "Charge Account",
       minWidth: 250,
-      editable: false,
+      
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -1306,7 +1310,7 @@ function PoRegist() {
             id="approved_date"
             inputLabel="PO 승인일"
             handlePoCondition={handleCondition}
-            inputValue={conditions.approved_date}
+            inputValue={getFormattedDate(conditions.approved_date)}
             disabled={true}
           />
           <InputInfo
@@ -1326,7 +1330,7 @@ function PoRegist() {
             id="acceptance_due_date"
             inputLabel="PO 수용일"
             handlePoCondition={handleCondition}
-            inputValue={conditions.acceptance_due_date}
+            inputValue={getFormattedDate(conditions.acceptance_due_date)}
             disabled={true}
             spanCnt={2}
           />

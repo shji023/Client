@@ -19,7 +19,7 @@ import ConfirmModal from "components/bidWrite/ConfirmModal";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { getCookie } from "util/cookie";
-import { reload } from "hooks/CommonFunction";
+import { getNumberFormat, reload } from "hooks/CommonFunction";
 import InputSelect from "components/common/InputSelect";
 import { getBidVendorFileList, uploadContent, uploadFile } from "apis/file.api";
 
@@ -35,6 +35,7 @@ function BidWrite() {
   const [updateItem, setUpdateItem] = useState({
     vendor_site_id: getCookie("site_id"),
     quotation_total_price: "",
+    display_total_price: "0",
     rfq_no: "",
     main_currency: "",
   });
@@ -241,6 +242,7 @@ function BidWrite() {
       });
 
       setUpdateItem({
+        ...updateItem,
         vendor_site_id: getCookie("site_id"),
         rfq_no: itemInfo[0].rfq_no,
         quotation_total_price: quotation_total_price,
@@ -396,6 +398,7 @@ function BidWrite() {
       }
     });
     tempConditions.quotation_total_price = total;
+    tempConditions.display_total_price = getNumberFormat(total);
 
     setUpdateItem({ ...tempConditions });
   }, [itemListData]);
@@ -418,11 +421,11 @@ function BidWrite() {
               disabled={disabled}
             />
             <QuotationInput
-              id="quotation_total_price"
+              id="display_total_price"
               priceLabel={result}
               currencyLabel={updateItem.main_currency}
               handleCondition={handleCondition}
-              inputValue={updateItem.quotation_total_price}
+              inputValue={updateItem.display_total_price}
               isDisabled={true}
               readOnly={true}
             />

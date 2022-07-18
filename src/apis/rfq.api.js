@@ -1,4 +1,4 @@
-import { serverAxios } from "apis/axios";
+import axios from "axios";
 
 const PREFIX_URL = "/rfq";
 
@@ -17,8 +17,8 @@ export const getSearchRfqList = async (test) => {
   try {
     // TODO: GET 시도해보기
     console.log("input data : ", test);
-    const { data } = await serverAxios.post(`${PREFIX_URL}/rfqSearch`, test);
-    console.log("~~~", data);
+    const { data } = await axios.post(`${PREFIX_URL}/rfqSearch`, test);
+    console.log("data", data);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -28,7 +28,7 @@ export const getSearchRfqList = async (test) => {
 // Status lov
 export const getRfqStatusLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/rfqStatus`);
+    const { data } = await axios.get(`${PREFIX_URL}/rfqStatus`);
 
     return data;
   } catch (err) {
@@ -39,7 +39,7 @@ export const getRfqStatusLov = async () => {
 // Category lov
 export const getRfqCategoryLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/rfqCategory`);
+    const { data } = await axios.get(`${PREFIX_URL}/rfqCategory`);
 
     return data;
   } catch (err) {
@@ -52,7 +52,7 @@ export const getRfqInfo = async (id) => {
   try {
     // console.log("id!!!",id);
     const sendData = { id: id };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/rfqInfo`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/rfqInfo`, sendData);
     console.log("!!!", data);
     return data;
   } catch (err) {
@@ -65,7 +65,7 @@ export const getSearchVendorList = async (id) => {
   try {
     // console.log("id!!!",id);
     const sendData = { rfq_no: id };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/vendorInfo`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/vendorInfo`, sendData);
     // console.log("vendor result", data);
     return data;
   } catch (err) {
@@ -76,8 +76,8 @@ export const getSearchVendorList = async (id) => {
 export const updateRfqStatus = async (rfq_no) => {
   try {
     console.log(rfq_no);
-    const sendData = {rfq_no : rfq_no}
-    const { data } = await serverAxios.post(`${PREFIX_URL}/rfqStatusT`, sendData);
+    const sendData = { rfq_no: rfq_no };
+    const { data } = await axios.post(`${PREFIX_URL}/rfqStatusT`, sendData);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

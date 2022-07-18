@@ -1,4 +1,5 @@
 import { colors } from "assets/styles/color";
+import { getFormattedDate } from "hooks/CommonFunction";
 import React from "react";
 import styled from "styled-components";
 
@@ -27,7 +28,7 @@ function ItemInfoTable({ itemInfoList }) {
               <Td>{itemInfo.description}</Td>
               <Td>{itemInfo.unit_meas_lookup_code}</Td>
               <Td>{itemInfo.pur_rfq_qt}</Td>
-              <Td>{itemInfo.need_by_date}</Td>
+              <Td>{getFormattedDate(itemInfo.need_by_date)}</Td>
               <Td>{itemInfo.request_name}</Td>
             </Tr>
           ))

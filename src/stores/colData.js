@@ -8,17 +8,17 @@ export const bidColFields = [
   { colId: 6, field: "bid_search_type", headerName: "Status", minWidth: 100 },
   { colId: 7, field: "reply_method_lookup_code", headerName: "입찰방법", minWidth: 150 },
   { colId: 8, field: "bid_price_method", headerName: "단가입력방법", minWidth: 150 },
-  { colId: 9, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 200 },
-  { colId: 10, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 200 },
+  { colId: 9, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 140 },
+  { colId: 10, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 140 },
   { colId: 11, field: "buyer_name", headerName: "담당자", minWidth: 100 },
-  { colId: 12, field: "buyer_contact", headerName: "전화번호", minWidth: 100 },
+  { colId: 12, field: "buyer_contact", headerName: "전화번호", minWidth: 200 },
 ];
 
 // #region PR
 
 export const prSelectColDef = {
   headerClass: { background: "#EDF2F8" },
-  editable: true,
+  editable: false,
   sortable: true,
   minWidth: 100,
   filter: true,
@@ -43,7 +43,7 @@ export const prSelectColFields = [
 ];
 
 export const prCreateColDef = {
-  editable: true,
+  editable: false,
   sortable: true,
   flex: 1,
   minWidth: 100,
@@ -56,7 +56,7 @@ export const prCreateColDef = {
 
 export const rfqColumn = [
   { colId: 1, field: "rfq_no", headerName: "RFQ번호", minWidth: 10, maxWidth: 110 },
-  { colId: 2, field: "rfq_description", headerName: "건 명", minWidth: 10, maxWidth: 850 },
+  { colId: 2, field: "rfq_description", headerName: "건 명", minWidth: 10 },
   {
     colId: 3,
     field: "reply_method_lookup_code",
@@ -64,7 +64,7 @@ export const rfqColumn = [
     minWidth: 10,
     maxWidth: 130,
   },
-  { colId: 4, field: "rfq_ship_to", headerName: "납품 지역", minWidth: 10, maxWidth: 180 },
+  { colId: 4, field: "rfq_ship_to", headerName: "납품 지역", minWidth: 10, maxWidth: 220 },
   { colId: 5, field: "buyer_name", headerName: "Buyer", minWidth: 10, maxWidth: 110 },
   {
     colId: 6,
@@ -73,7 +73,7 @@ export const rfqColumn = [
     minWidth: 10,
     maxWidth: 140,
   },
-  { colId: 7, field: "rfq_detail_status", headerName: "Status", minWidth: 10, maxWidth: 100 },
+  { colId: 7, field: "rfq_detail_status", headerName: "Status", minWidth: 10, maxWidth: 160 },
 ];
 
 // #endregion
@@ -162,6 +162,6 @@ export const dashboardColFields = [
   { colId: 1, field: "rfq_no", headerName: "RFQ번호", minWidth: 120 },
   { colId: 2, field: "bidding_no", headerName: "입찰번호", minWidth: 120 },
   { colId: 3, field: "rfq_description", headerName: "건명", minWidth: 300 },
-  { colId: 4, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 200 },
-  { colId: 5, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 200 },
+  { colId: 4, field: "bidding_start_date", headerName: "입찰개시일시", minWidth: 140 },
+  { colId: 5, field: "bidding_end_date", headerName: "입찰마감일시", minWidth: 140 },
 ];

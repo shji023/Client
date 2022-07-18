@@ -1,11 +1,11 @@
-import { serverAxios } from "apis/axios";
+import axios from "axios";
 
 const PREFIX_URL = "/bid";
 
 // 전체 불러오기 사용x
 export const getBidList = async (bidCondition) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/bidSearch`, bidCondition);
+    const { data } = await axios.post(`${PREFIX_URL}/bidSearch`, bidCondition);
     // const { lectures, category, skill } = data.data;
 
     // const result = lectures.map((response) => {
@@ -35,7 +35,7 @@ export const getBidList = async (bidCondition) => {
 
 export const getStatusLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/statusLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/statusLov`);
 
     return data;
   } catch (err) {
@@ -45,7 +45,7 @@ export const getStatusLov = async () => {
 
 export const getCategoryLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/categoryLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/categoryLov`);
 
     return data;
   } catch (err) {
@@ -55,7 +55,7 @@ export const getCategoryLov = async () => {
 
 export const getRfqInfo = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/rfqInfo/${bidding_no}`);
+    const { data } = await axios.get(`${PREFIX_URL}/rfqInfo/${bidding_no}`);
 
     return data;
   } catch (err) {
@@ -65,7 +65,7 @@ export const getRfqInfo = async (bidding_no) => {
 
 export const getRuleInfo = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/ruleInfo/${bidding_no}`);
+    const { data } = await axios.get(`${PREFIX_URL}/ruleInfo/${bidding_no}`);
 
     return data;
   } catch (err) {
@@ -75,7 +75,7 @@ export const getRuleInfo = async (bidding_no) => {
 
 export const getItemInfo = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/itemInfo/${bidding_no}`);
+    const { data } = await axios.get(`${PREFIX_URL}/itemInfo/${bidding_no}`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -84,7 +84,7 @@ export const getItemInfo = async (bidding_no) => {
 
 export const getQuotationItemInfo = async (bidding_no) => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/quotationItem/${bidding_no}`);
+    const { data } = await axios.get(`${PREFIX_URL}/quotationItem/${bidding_no}`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -94,7 +94,7 @@ export const getQuotationItemInfo = async (bidding_no) => {
 // 입찰유형
 export const getBidTypeLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/bidTypeLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/bidTypeLov`);
     // console.log("data!!!", data);
     return data;
   } catch (err) {
@@ -105,7 +105,7 @@ export const getBidTypeLov = async () => {
 // 단가입력방식
 export const getBidPriceMethodLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/bidPriceMethodLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/bidPriceMethodLov`);
     console.log("getBidPriceMethodLov", data);
     return data;
   } catch (err) {
@@ -116,7 +116,7 @@ export const getBidPriceMethodLov = async () => {
 // 낙찰제도
 export const getBidMethodTypeLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/bidMethodTypeLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/bidMethodTypeLov`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -126,7 +126,7 @@ export const getBidMethodTypeLov = async () => {
 // Max 라운드
 export const getBidMaxRoundLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/bidMaxRoundLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/bidMaxRoundLov`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -136,7 +136,7 @@ export const getBidMaxRoundLov = async () => {
 // 통화코드
 export const getBidCurrencyCodeLov = async () => {
   try {
-    const { data } = await serverAxios.get(`${PREFIX_URL}/bidCurrencyCodeLov`);
+    const { data } = await axios.get(`${PREFIX_URL}/bidCurrencyCodeLov`);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -155,7 +155,7 @@ export const insertOneBid = async (sendData) => {
     // console.log("resvData ", resvData);
     // return resvData;
 
-    const resvData = await serverAxios.post(`${PREFIX_URL}/bidCreate`, sendData).then((res) => {
+    const resvData = await axios.post(`${PREFIX_URL}/bidCreate`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -174,7 +174,7 @@ export const updateBidVendor = async (vendorComment, itemListData) => {
       vendorComment: vendorComment,
       itemListData: itemListData,
     };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/updateBidVendor`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/updateBidVendor`, sendData);
     console.log("updateBidVendor", data);
     return data;
   } catch (err) {
@@ -188,7 +188,7 @@ export const getBidVendorId = async (bidding_no, site_id) => {
       bidding_no: bidding_no,
       site_id: site_id,
     };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/getBidVendorId`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/getBidVendorId`, sendData);
     console.log("getBidVendorId", data);
     return data;
   } catch (err) {
@@ -203,7 +203,7 @@ export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
       bid_vendor_id: bid_vendor_id,
       site_id: site_id,
     };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorItemList`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/getVendorItemList`, sendData);
     console.log("getVendorItemList", data);
     return data;
   } catch (err) {
@@ -214,7 +214,7 @@ export const getVendorItemList = async (bidding_no, bid_vendor_id, site_id) => {
 export const getVendorComment = async (bid_vendor_id) => {
   try {
     const sendData = { bid_vendor_id: bid_vendor_id };
-    const { data } = await serverAxios.post(`${PREFIX_URL}/getVendorComment`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/getVendorComment`, sendData);
     console.log("getVendorComment", data);
     return data;
   } catch (err) {
@@ -229,7 +229,7 @@ export const insertVendorComment = async (itemListData, vendorComment) => {
       vendorComment: vendorComment,
     };
     console.log("sendData", sendData);
-    const { data } = await serverAxios.post(`${PREFIX_URL}/insertVendorComment`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/insertVendorComment`, sendData);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -238,7 +238,7 @@ export const insertVendorComment = async (itemListData, vendorComment) => {
 
 export const updateQuotationInfo = async (quotationInfo) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/updateQuotationInfo`, quotationInfo);
+    const { data } = await axios.post(`${PREFIX_URL}/updateQuotationInfo`, quotationInfo);
     if (data === "success") {
       return true;
     }
@@ -250,7 +250,7 @@ export const updateQuotationInfo = async (quotationInfo) => {
 
 export const getBidListBuyer = async (bidConditionBuyer) => {
   try {
-    const { data } = await serverAxios.post(`${PREFIX_URL}/bidBuyerSearch`, bidConditionBuyer);
+    const { data } = await axios.post(`${PREFIX_URL}/bidBuyerSearch`, bidConditionBuyer);
     return data;
   } catch (err) {
     throw new Error("Failed to load");
@@ -260,20 +260,19 @@ export const getBidListBuyer = async (bidConditionBuyer) => {
 export const successbid = async (successBidCondition, bidResultData) => {
   try {
     const sendData = {
-      condition : successBidCondition,
-      data : {
+      condition: successBidCondition,
+      data: {
         main_currency: bidResultData.main_currency,
         quotation_comment: bidResultData.quotation_comment,
         quotation_total_price: bidResultData.quotation_total_price,
-        quotation_total_price2: bidResultData.quotation_total_price2,
         vendor_name: bidResultData.vendor_name,
         vendor_site_id: bidResultData.vendor_site_id,
-        vendor_id : bidResultData.vendor_id,
+        vendor_id: bidResultData.vendor_id,
       },
-      itemList : bidResultData.bid5List,
-    }
+      itemList: bidResultData.bid5List,
+    };
     console.log("sendData", sendData);
-    const { data } = await serverAxios.post(`${PREFIX_URL}/successbid`, sendData);
+    const { data } = await axios.post(`${PREFIX_URL}/successbid`, sendData);
     return data;
   } catch (err) {
     throw new Error("Failed to load");

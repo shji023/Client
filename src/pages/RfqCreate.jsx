@@ -35,6 +35,7 @@ import { reload } from "hooks/CommonFunction";
 import useDidMountEffect from "hooks/useDidMountEffect";
 import { uploadFile, uploadContent, getRfqFileList } from "apis/file.api";
 import QuotationSubmitTable from "components/bidWrite/QuotationSubmitTable";
+import { showGridLoading } from "components/common/CustomGrid";
 
 function RfqCreate() {
   const { rfq_no } = useParams();
@@ -155,6 +156,7 @@ function RfqCreate() {
   const getRfqInfo = async (rfq_no) => {
     // #region RFQ
     const data = await selectRfq(rfq_no);
+
     // Rfq Header
     const rfqList = data;
     const po1 = data.po1List[0];
@@ -227,8 +229,10 @@ function RfqCreate() {
 
   const selectProductInfo = async () => {
     const reqNumList = pageData.getPrNumList();
+
     const data = await getProductInfoList(reqNumList);
     console.log("ddd", data);
+
 
     const tempList = [];
     data.forEach((element) => {
@@ -290,17 +294,25 @@ function RfqCreate() {
     if (rfq_no) {
       // * RFQ 수정
       // RFQ Create로 넘어온 경우
+
       selectBuyerInfo("17278");
+
       getRfqInfo(rfq_no);
       setReadOnly(true);
+
+
     } else {
       // * RFQ 생성
+
       // Pr에서 넘어온 경우
       // TODO: Buyer id 넣어주기
       selectBuyerInfo("17278");
+      
       selectProductInfo();
       setRfqListData({ ...rfqListData, rfq_no: rfq_no });
       setReadOnly(false);
+
+
     }
   };
 
@@ -346,14 +358,14 @@ function RfqCreate() {
       suppressColumnsToolPanel: true,
       hide: hide,
     },
-    { field: "item_name",             headerName: "Item",        minWidth: 10 },
-    { field: "description",           headerName: "Description", minWidth: 10, maxWidth: 150 },
-    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 80 },
+    { field: "item_name",             headerName: "Item",        minWidth: 10, maxWidth: 160},
+    { field: "description",           headerName: "Description", minWidth: 10  },
+    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 130 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
       minWidth: 10,
-      maxWidth: 80,
+      maxWidth: 110,
       cellRendererSelector: (params) => {
         return {
           component: InputInfoGrid,
@@ -361,6 +373,7 @@ function RfqCreate() {
             params: params,
             stateValue: productInfoData,
             setStateValue: setProductInfoData,
+            type: "number",
             disabled: disabled,
           },
         };
@@ -370,7 +383,7 @@ function RfqCreate() {
       field: "need_by_date",
       headerName: "납기",
       minWidth: 10,
-      maxWidth: 120,
+      maxWidth: 160,
       cellRendererSelector: (params) => {
         return {
           component: InputOneDateGrid,
@@ -383,11 +396,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 120 },
-    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 100 },
+    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 140 },
+    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 140 },
     { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
     { field: "request_name",    headerName: "신청자",      minWidth: 10, maxWidth: 100 },
-    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 120 },
+    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 160 },
   ];
 
   // #region 그리드 관련 이벤트
@@ -744,6 +757,7 @@ function RfqCreate() {
             inputLabel="Amount Limit(%)"
             handlePoCondition={handleRfqInfoCondition}
             inputValue={rfqListData.amount_limit}
+            type={"number"}
             disabled={disabled}
           />
           <InputSelect

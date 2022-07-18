@@ -5,8 +5,10 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { bidBuyerColFields } from "stores/colData";
-const BidDataGridBuyer = ({ listData }) => {
+import { gridLoadingMsg } from "components/common/CustomGrid";
+const BidDataGridBuyer = ({ gridRef, listData }) => {
   const navigate = useNavigate();
+
   return (
     <StyledRoot>
       <div style={{ width: "100%", height: "100%" }}>
@@ -19,11 +21,12 @@ const BidDataGridBuyer = ({ listData }) => {
           className="ag-theme-alpine"
         >
           <AgGridReact
+            ref={gridRef}
             rowData={listData}
             rowSelection={"multiple"}
             suppressRowClickSelection={false}
             defaultColDef={{
-              editable: true,
+              editable: false,
               sortable: true,
               minWidth: 100,
               filter: true,
@@ -41,6 +44,9 @@ const BidDataGridBuyer = ({ listData }) => {
               console.log(e);
               navigate(`/bidList/${e.data.bidding_no}`);
             }}
+            overlayLoadingTemplate={
+                gridLoadingMsg
+            }
           >
             {bidBuyerColFields.map((data) => (
               <AgGridColumn

@@ -10,6 +10,7 @@ import ItemInfoTable from "components/bid/ItemInfoTable";
 import { Button } from "components/common/CustomButton";
 import { getVendorFileList } from "apis/file.api";
 import { getCookie } from "util/cookie";
+import { getFormattedDate } from "hooks/CommonFunction";
 
 function BidDetail() {
   const { bidding_no } = useParams();
@@ -77,7 +78,8 @@ function BidDetail() {
     setBidMethod(tempBidMethod);
   };
 
-  const roundPeriod = ruleInfoData.round_start_date + " - " + ruleInfoData.round_end_date;
+  const roundPeriod = getFormattedDate(ruleInfoData.round_start_date)
+                    + " - " + getFormattedDate(ruleInfoData.round_end_date);
   const stage = rfqInfoData?.simple_quotation_flag === "Y" ? "단순견적" : "입찰";
 
   const onClickBidWriteButton = async () => {
@@ -105,11 +107,11 @@ function BidDetail() {
       <section>
         <SubTitle>RFQ정보</SubTitle>
         <RfqInfoContainer>
-          <BidInfo label="RFQ번호" value={rfqInfoData.rfq_no}></BidInfo>
-          <BidInfo label="단계" value={stage}></BidInfo>
-          <BidInfo label="Status" value={rfqInfoData.cd_v_meaning_status}></BidInfo>
-          <BidInfo label="Type" value={rfqInfoData.cd_v_meaning_type}></BidInfo>
-          <BidInfo label="건명" value={rfqInfoData.rfq_description}></BidInfo>
+          <BidInfo label="RFQ번호"  value={rfqInfoData.rfq_no}></BidInfo>
+          <BidInfo label="단계"     value={stage}></BidInfo>
+          <BidInfo label="Status"   value={rfqInfoData.cd_v_meaning_status}></BidInfo>
+          <BidInfo label="Type"     value={rfqInfoData.cd_v_meaning_type}></BidInfo>
+          <BidInfo label="건명"     value={rfqInfoData.rfq_description}></BidInfo>
           <BidInfo
             label="담당자"
             value={
@@ -122,7 +124,7 @@ function BidDetail() {
           ></BidInfo>
           <BidInfo label="정산주기" value={rfqInfoData.po_payment_cycle}></BidInfo>
           <BidInfo label="협업유형" value={rfqInfoData.po_collabo_type}></BidInfo>
-          <BidInfo label="계약기간(BPA)" value={rfqInfoData.end_date}></BidInfo>
+          <BidInfo label="계약기간(BPA)" value={getFormattedDate(rfqInfoData.end_date)}></BidInfo>
           <BidInfo label="Amount Limit" value={rfqInfoData.amount_limit}></BidInfo>
           <BidInfo label="납품지역" value={rfqInfoData.rfq_ship_to}></BidInfo>
           <BidInfo label="지불조건" value={rfqInfoData.rfq_payment_terms}></BidInfo>

@@ -4,7 +4,7 @@ import AgGrid from "components/pr/PrGrid";
 import InputInfo from "components/common/InputInfo";
 import InputSearch from "components/common/InputSearch";
 import InputSelect from "components/common/InputSelect";
-import { getDiffDate, getNumberFormat } from "hooks/CommonFunction";
+import { getDiffDate, getFormattedDate, getNumberFormat } from "hooks/CommonFunction";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
@@ -104,7 +104,7 @@ function selectPrList() {
 
     return temp.buyer_name;
   };
-  // #endregion 팝업 이벤트
+  // #endregion 팝업 이벤트 
 
   const selectPrList = async () => {
     showGridLoading(gridRef, true);
@@ -233,7 +233,9 @@ function selectPrList() {
       valueGetter: (params) => getNumberFormat(params.data.amount),
     },
     { field: "currencyCode", headerName: "단위", minWidth: 80 },
-    { field: "needByDate", headerName: "요청납기일", minWidth: 200 },
+    { field: "needByDate", headerName: "요청납기일", minWidth: 140,
+      valueGetter: (params) => getFormattedDate(params.data.needByDate)
+    },
     { field: "requestPersonId", headerName: "Requester", minWidth: 140 },
     { field: "organizationCode", headerName: "사용부서", minWidth: 200,
       valueGetter: (params) => (!params.data.organizationCode ? "-" : params.data.organizationCode),
