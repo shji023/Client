@@ -64,6 +64,5 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0"
-  },
-  "proxy": "http://54.251.209.237:8087/"
+  }
 }

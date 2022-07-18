@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serverAxios } from "./axios";
 
 const PREFIX_URL = "/pr";
 
@@ -19,7 +20,7 @@ export const getSearchPrList = async (sendData) => {
     // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
     // console.log("resvData ", resvData);
     // return resvData;
-    const resvData = await axios.post(`${PREFIX_URL}/prSearch`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -37,7 +38,7 @@ export const getSearchPrList = async (sendData) => {
 // TODO: uri 철자 틀린 거 바꾸기
 export const getPrStatusLov = async () => {
   try {
-    const { data } = await axios.get(`${PREFIX_URL}/prStatusLov`);
+    const { data } = await serverAxios.get(`${PREFIX_URL}/prStatusLov`);
     console.log("getPrStatusLov", data);
     return data;
   } catch (err) {
@@ -51,7 +52,7 @@ export const getPr = async (reqNum) => {
     const sendData = { requisitionNumber: reqNum };
     console.log("sendData", sendData);
 
-    const resvData = await axios.post(`${PREFIX_URL}/prSelect`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prSelect`, sendData).then((res) => {
       console.log("axios data : ", res.data);
 
       const data = res.data;
@@ -122,7 +123,7 @@ export const insertOnePr = async (conditions, lines) => {
     const sendData = { conditions, lines };
     console.log("sendData : ", sendData);
 
-    const resvData = await axios.post(`${PREFIX_URL}/prCreate`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prCreate`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -137,7 +138,7 @@ export const updateOnePr = async (conditions, lines, deletedIdList) => {
     const sendData = { conditions, lines, deletedIdList };
     console.log("sendData : ", sendData);
 
-    const resvData = await axios.post(`${PREFIX_URL}/prUpdate`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prUpdate`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -152,7 +153,7 @@ export const deleteOnePr = async (reqNum) => {
     const sendData = { requisitionNumber: reqNum };
     console.log("sendData : ", sendData);
 
-    const resvData = await axios.post(`${PREFIX_URL}/prDelete`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/prDelete`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -170,7 +171,7 @@ export const deleteOnePr = async (reqNum) => {
  */
 export const getPrReasonLov = async () => {
   try {
-    const { data } = await axios.get(`${PREFIX_URL}/prReasonLov`);
+    const { data } = await serverAxios.get(`${PREFIX_URL}/prReasonLov`);
     console.log("getPrReasonLov", data);
     return data;
   } catch (err) {

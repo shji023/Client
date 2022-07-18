@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serverAxios } from "./axios";
 
 const PREFIX_URL = "/public";
 
@@ -12,7 +13,7 @@ export const getStaffList = async (value) => {
     // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
     // console.log("resvData ", resvData);
     // return resvData;
-    const resvData = await axios.post(`${PREFIX_URL}/staffSearch`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/staffSearch`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -32,7 +33,7 @@ export const getBuyerList = async (value) => {
     // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
     // console.log("resvData ", resvData);
     // return resvData;
-    const resvData = await axios.post(`${PREFIX_URL}/getBuyerList`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/getBuyerList`, sendData).then((res) => {
       // console.log("data : " , res.data);
       return res.data;
     });
@@ -53,7 +54,7 @@ export const getItemList = async (value) => {
     // const { resvData } = await serverAxios.post(`${PREFIX_URL}/prSearch`, sendData)
     // console.log("resvData ", resvData);
     // return resvData;
-    const resvData = await axios.post(`${PREFIX_URL}/getItemList`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/getItemList`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });
@@ -66,7 +67,7 @@ export const getItemList = async (value) => {
 export const getVendorList = async (sendData) => {
   try {
     console.log("sendData : ", sendData);
-    const resvData = await axios.post(`${PREFIX_URL}/vendorSearch`, sendData).then((res) => {
+    const resvData = await serverAxios.post(`${PREFIX_URL}/vendorSearch`, sendData).then((res) => {
       console.log("data : ", res.data);
       return res.data;
     });

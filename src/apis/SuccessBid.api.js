@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serverAxios } from "./axios";
 
 const PREFIX_URL = "/successBid";
 
@@ -8,7 +9,7 @@ export const getSuccessBid = async (rfq_no) => {
       rfq_no: rfq_no,
     };
 
-    const { data } = await axios.post(`${PREFIX_URL}/successBidList`, sendData);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/successBidList`, sendData);
 
     return data;
   } catch (err) {
@@ -22,7 +23,7 @@ export const getBidResult = async (rfqNo, biddingNo) => {
       rfq_no: rfqNo,
       bidding_no: biddingNo,
     };
-    const { data } = await axios.post(`${PREFIX_URL}/BidResultList`, sendData);
+    const { data } = await serverAxios.post(`${PREFIX_URL}/BidResultList`, sendData);
     console.log("data", data);
 
     return data;
