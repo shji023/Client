@@ -28,7 +28,7 @@ import InputOneDate from "components/common/InputOneDate";
 import InputOneDateGrid from "components/common/InputOneDateGrid";
 import InputInfoGrid from "components/common/InputInfoGrid";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, DeleteButton } from "components/common/CustomButton";
+import { Button, DeleteButton, GetDataButton } from "components/common/CustomButton";
 import { HeaderWrapper } from "components/common/CustomWrapper";
 import pageData from "stores/PageData";
 import { reload } from "hooks/CommonFunction";
@@ -104,10 +104,33 @@ function RfqCreate() {
     bidding_fob: "당사지정장소",
   };
 
-  const [rfqListData, setRfqListData] = useState(
-    // testConditions
-    defaultConditions,
-  );
+  const [rfqListData, setRfqListData] = useState({});
+  const handleAuto = () => {
+    setRfqListData({
+      ...rfqListData,
+      rfq_no: "-",
+      simple_quotation_flag: null,
+      rfq_detail_status: "N", //작성중
+
+      // cd_v_meaning_status:"",
+      // cd_v_meaning_type:"",
+      category_segment: "Q", //자재
+      // line_type_id :"",
+
+      rfq_description: "RFQ 테스트",
+      buyer_id: "17278",
+
+      po_payment_cycle: "15 Days",
+      po_collabo_type: "계획없음",
+
+      end_date: "2022-08-29",
+      amount_limit: "50",
+
+      rfq_ship_to: "(포)포항제철소",
+      rfq_payment_terms: "10002",
+      bidding_fob: "당사지정장소",
+    });
+  };
   // 공급사선정
   const [selectedVendorList, setSelectedVendorList] = useState([
     {
@@ -163,30 +186,30 @@ function RfqCreate() {
     const bid1 = data.bid1List[0];
 
     const temp = {
-      rfq_no                : rfqList.rfq_no,
-      simple_quotation_flag : rfqList.simple_quotation_flag,
-      rfq_detail_status     : rfqList.rfq_detail_status,
-      category_segment      : rfqList.category_segment,
-      rfq_description       : rfqList.rfq_description,
-      buyer_id              : rfqList.buyer_id,
-      po_payment_cycle      : po1.po_payment_cycle,
-      po_collabo_type       : po1.po_collabo_type,
-      end_date              : po1.end_date,
-      amount_limit          : po1.amount_limit,
-      rfq_ship_to           : rfqList.rfq_ship_to,
-      rfq_payment_terms     : rfqList.rfq_payment_terms,
+      rfq_no: rfqList.rfq_no,
+      simple_quotation_flag: rfqList.simple_quotation_flag,
+      rfq_detail_status: rfqList.rfq_detail_status,
+      category_segment: rfqList.category_segment,
+      rfq_description: rfqList.rfq_description,
+      buyer_id: rfqList.buyer_id,
+      po_payment_cycle: po1.po_payment_cycle,
+      po_collabo_type: po1.po_collabo_type,
+      end_date: po1.end_date,
+      amount_limit: po1.amount_limit,
+      rfq_ship_to: rfqList.rfq_ship_to,
+      rfq_payment_terms: rfqList.rfq_payment_terms,
       // bidding_fob        : bid1.bidding_fob,
-      bidding_fob           : rfqList.fob_lookup_code,
+      bidding_fob: rfqList.fob_lookup_code,
     };
     setRfqListData({ ...temp });
 
     // Rfq Vendor
     const vendorList = data.rfq3List;
     let tempVendorList = [];
-    vendorList.forEach((e)=>{
-      let tempVendor = {...e, vendor_id : e.rfq_vendor_id};
+    vendorList.forEach((e) => {
+      let tempVendor = { ...e, vendor_id: e.rfq_vendor_id };
       tempVendorList.push(tempVendor);
-    })
+    });
     setSelectedVendorList([...tempVendorList]);
 
     // Rfq Product = Rfq 2
@@ -196,10 +219,8 @@ function RfqCreate() {
       tempProductList.push({ ...element, rfq_id: element.id, query_type: "update" });
     });
     setProductInfoData([...tempProductList]);
-    
+
     // #endregion RFQ
-
-
 
     // #region File
     let fileData = await getRfqFileList(rfq_no);
@@ -214,13 +235,13 @@ function RfqCreate() {
     }
 
     const newFile = {
-      id          : nextId.current,
-      type        : "",
-      origin_name : "",
-      save_name   : "",
-      size        : "",
-      upload_date : "",
-      file_path   : "",
+      id: nextId.current,
+      type: "",
+      origin_name: "",
+      save_name: "",
+      size: "",
+      upload_date: "",
+      file_path: "",
     };
     setVendorFile([...fileData, newFile]);
     console.log("nextId.current", nextId.current);
@@ -233,21 +254,20 @@ function RfqCreate() {
     const data = await getProductInfoList(reqNumList);
     console.log("ddd", data);
 
-
     const tempList = [];
     data.forEach((element) => {
       let temp = {
-        request_dept          : element.dept_name,
-        description           : element.description,
-        group_name            : element.group_name,
-        item_name             : element.item,
-        item_id               : element.item_id,
-        request_name          : element.name,
-        requisition_num       : element.requisition_num + "-" + element.requisition_line_number,
-        pur_rfq_qt            : element.quantity,
-        need_by_date          : element.need_by_date,
-        request_phone         : element.staff_contact_number,
-        unit_meas_lookup_code : element.uom,
+        request_dept: element.dept_name,
+        description: element.description,
+        group_name: element.group_name,
+        item_name: element.item,
+        item_id: element.item_id,
+        request_name: element.name,
+        requisition_num: element.requisition_num + "-" + element.requisition_line_number,
+        pur_rfq_qt: element.quantity,
+        need_by_date: element.need_by_date,
+        request_phone: element.staff_contact_number,
+        unit_meas_lookup_code: element.uom,
       };
       tempList.push(temp);
     });
@@ -275,17 +295,17 @@ function RfqCreate() {
   };
 
   const getLov = async () => {
-    const Cycle   = await getCycleLov();
+    const Cycle = await getCycleLov();
     const Collabo = await getCollaboLov();
     const Payment = await getPaymentLov();
-    const Fob     = await getFobLov();
-    const shipTo  = await getshipToLov();
+    const Fob = await getFobLov();
+    const shipTo = await getshipToLov();
 
-    Cycle   && setCycleLov(Cycle);
+    Cycle && setCycleLov(Cycle);
     Collabo && setCollaboLov(Collabo);
     Payment && setPaymentLov(Payment);
-    Fob     && setFobLov(Fob);
-    shipTo  && setshipToLov(shipTo);
+    Fob && setFobLov(Fob);
+    shipTo && setshipToLov(shipTo);
   };
 
   const getInitRfq = () => {
@@ -299,20 +319,16 @@ function RfqCreate() {
 
       getRfqInfo(rfq_no);
       setReadOnly(true);
-
-
     } else {
       // * RFQ 생성
 
       // Pr에서 넘어온 경우
       // TODO: Buyer id 넣어주기
       selectBuyerInfo("17278");
-      
+
       selectProductInfo();
       setRfqListData({ ...rfqListData, rfq_no: rfq_no });
       setReadOnly(false);
-
-
     }
   };
 
@@ -358,9 +374,9 @@ function RfqCreate() {
       suppressColumnsToolPanel: true,
       hide: hide,
     },
-    { field: "item_name",             headerName: "Item",        minWidth: 10, maxWidth: 160},
-    { field: "description",           headerName: "Description", minWidth: 10  },
-    { field: "unit_meas_lookup_code", headerName: "단위",        minWidth: 10, maxWidth: 130 },
+    { field: "item_name", headerName: "Item", minWidth: 10, maxWidth: 160 },
+    { field: "description", headerName: "Description", minWidth: 10 },
+    { field: "unit_meas_lookup_code", headerName: "단위", minWidth: 10, maxWidth: 130 },
     {
       field: "pur_rfq_qt",
       headerName: "수량",
@@ -396,11 +412,11 @@ function RfqCreate() {
         };
       },
     },
-    { field: "request_dept",    headerName: "사용부서",    minWidth: 10, maxWidth: 140 },
-    { field: "group_name",      headerName: "그룹사",      minWidth: 10, maxWidth: 140 },
+    { field: "request_dept", headerName: "사용부서", minWidth: 10, maxWidth: 140 },
+    { field: "group_name", headerName: "그룹사", minWidth: 10, maxWidth: 140 },
     { field: "requisition_num", headerName: "PR번호-Line", minWidth: 10, maxWidth: 140 },
-    { field: "request_name",    headerName: "신청자",      minWidth: 10, maxWidth: 100 },
-    { field: "request_phone",   headerName: "연락처",      minWidth: 10, maxWidth: 160 },
+    { field: "request_name", headerName: "신청자", minWidth: 10, maxWidth: 100 },
+    { field: "request_phone", headerName: "연락처", minWidth: 10, maxWidth: 160 },
   ];
 
   // #region 그리드 관련 이벤트
@@ -688,13 +704,13 @@ function RfqCreate() {
 
   return (
     <StyledRoot>
+      <HeaderWrapper>
+        <Title>RFQ 생성</Title>
+        <GetDataButton onClick={handleAuto}>AUTO</GetDataButton>
+        <ButtonSelector />
+      </HeaderWrapper>
+      <SubTitle>RFQ 정보</SubTitle>
       <section>
-        <HeaderWrapper>
-          <Title>RFQ 생성</Title>
-          <ButtonSelector />
-        </HeaderWrapper>
-        <SubTitle>RFQ 정보</SubTitle>
-
         <RfqInfoContainer>
           <InputInfo
             id="rfq_no"
@@ -884,9 +900,15 @@ const ButtonWrapper = styled.div`
 `;
 
 const Title = styled.p`
+  /* font-size: 2.4rem;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  font-family: "Pretendard-SemiBold"; */
   font-size: 2.4rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  width: 80%;
+  height: 100%;
   font-family: "Pretendard-SemiBold";
 `;
 // const SmallTitle = styled.p`
